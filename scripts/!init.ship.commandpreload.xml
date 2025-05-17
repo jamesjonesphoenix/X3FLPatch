@@ -1,0 +1,597 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!init.ship.commandpreload</name>
+<version>9</version>
+<engineversion>67</engineversion>
+<description>Preload argument scripts for commands</description>
+<arguments>
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  set ship command preload script: command=COMMAND_JUMP_SECTOR script=!ship.cmd.jump.pl
+  set ship command preload script: command=COMMAND_RESUPPLY script=!ship.cmd.resupply.group.preload
+  set ship command preload script: command=COMMAND_ATTACK_BOARDSHIP script=!ship.cmd.boardship.preload
+  set ship command preload script: command=COMMAND_DEPLOY_FIGHTERS script=!ship.cmd.deployfighters.pl
+  set ship command preload script: command=COMMAND_RETREAT script=!ship.cmd.retreat.pl
+  set ship command preload script: command=COMMAND_LAUNCH_ALLMARINES script=!ship.cmd.launchmarines.pre
+  set ship command preload script: command=COMMAND_MISSILE_ATTACK script=!ship.cmd.missile.attack.pre
+  set ship command preload script: command=COMMAND_FLEET_ATTACK script=!ship.cmd.fleet.attack.pre
+  set ship command preload script: command=COMMAND_FLEET_DEFENDSECTOR script=!ship.cmd.fleet.defendsector.pre
+  set ship command preload script: command=COMMAND_FLEET_INVADESECTOR script=!ship.cmd.fleet.invade.pre
+  
+  * Menus
+  set command menu script: command=COMMAND_MOVE_POS, script=!ship.cmd.moveposition.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_RECON_MAPSECTOR, script=!ship.cmd.mapsector.drones.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_DEPLOY_SATS, script=!ship.cmd.deploysats.menu, cmdcheck=[TRUE]
+  set command menu script: command=COMMAND_JUMP_STATION, script=!ship.cmd.jumpstation.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_JUMP_POSITION, script=!ship.cmd.jumpposition.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_KILL_ENEMIES_RANGE, script=!ship.cmd.basic.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_ATTACK_SHIELDS, script=!ship.cmd.attackshields.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_DEFEND_SECTOR, script=!ship.cmd.defendsector.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_DEFEND_STATION, script=!ship.cmd.defend.station.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_PATROL_MULTI, script=!ship.cmd.patrol.multi.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_FLEET_PATROL, script=!ship.cmd.patrol.multi.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_MANUAL_TRADE_BUY, script=!ship.cmd.mtc.buy.pre, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_MANUAL_TRADE_SELL, script=!ship.cmd.mtc.sell.pre, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_MANUAL_TRADE_RUN, script=!ship.cmd.mtc.trade.run.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_TRADE_FETCH, script=!ship.cmd.trade.fetch.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_TRADE_DELIVER, script=!ship.cmd.trade.deliver.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_TRADE_DISTRIBUTE, script=!ship.cmd.trade.dist.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_GET_WARE, script=!ship.cmd.getware.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_SELL_WARE, script=!ship.cmd.sellware.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_FREIGHT_TRANSFER, script=!ship.cmd.freighttransfer.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_FREIGHT_DROP, script=!ship.cmd.freightdrop.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_FREIGHT_FETCH, script=!ship.cmd.freightfetch.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_MINING_DEBRIS, script=!ship.cmd.mineminerals.pre, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_MINE_AUTO, script=!ship.cmd.mine.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_TRADE_MINE, script=!ship.cmd.minetrade.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_BUILD_COMPLEX, script=!ship.cmd.buildcomplex.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_COLLECT_ASTRONAUT, script=!ship.cmd.collectastronaut.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_COLLECT_FLYINGWARES, script=!ship.cmd.collect.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_COLLECT_DEPLOYED, script=!ship.cmd.collectdeployed.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_PACK_STATION, script=!ship.cmd.packstation.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_REVERSE_SHIP, script=!ship.cmd.headquarters.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_REPAIR_SHIP, script=!ship.cmd.headquarters.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_RECYCLE_SHIP, script=!ship.cmd.headquarters.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_SHIP_LOADOUT, script=!ship.cmd.loadout.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_SCAN_ASTEROID, script=!ship.cmd.scan.roid.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_REPAIR_TARGET, script=!ship.cmd.repairtarget.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_DRONE_REPAIR_STATION, script=!ship.cmd.repairstation.menu, cmdcheck=[FALSE]
+  set command menu script: command=COMMAND_DRONE_MARINES, script=!ship.cmd.drone.marines.menu, cmdcheck=[FALSE]
+  
+  set command menu script: command=COMMAND_FLEET_DEFENDSTATION, script=!ship.cmd.defend.station.menu, cmdcheck=[FALSE]
+  
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_JUMP_SECTOR</var><text>&#160;script=</text><call>!ship.cmd.jump.pl</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_RESUPPLY</var><text>&#160;script=</text><call>!ship.cmd.resupply.group.preload</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_ATTACK_BOARDSHIP</var><text>&#160;script=</text><call>!ship.cmd.boardship.preload</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_DEPLOY_FIGHTERS</var><text>&#160;script=</text><call>!ship.cmd.deployfighters.pl</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_RETREAT</var><text>&#160;script=</text><call>!ship.cmd.retreat.pl</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_LAUNCH_ALLMARINES</var><text>&#160;script=</text><call>!ship.cmd.launchmarines.pre</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_MISSILE_ATTACK</var><text>&#160;script=</text><call>!ship.cmd.missile.attack.pre</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_FLEET_ATTACK</var><text>&#160;script=</text><call>!ship.cmd.fleet.attack.pre</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_FLEET_DEFENDSECTOR</var><text>&#160;script=</text><call>!ship.cmd.fleet.defendsector.pre</call></line>
+<line indent=""><text>set&#160;ship&#160;command&#160;preload&#160;script:&#160;command=</text><var>COMMAND_FLEET_INVADESECTOR</var><text>&#160;script=</text><call>!ship.cmd.fleet.invade.pre</call></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Menus</var></comment></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_MOVE_POS</var><text>,&#160;script=</text><call>!ship.cmd.moveposition.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_RECON_MAPSECTOR</var><text>,&#160;script=</text><call>!ship.cmd.mapsector.drones.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_DEPLOY_SATS</var><text>,&#160;script=</text><call>!ship.cmd.deploysats.menu</call><text>,&#160;cmdcheck=</text><var>[TRUE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_JUMP_STATION</var><text>,&#160;script=</text><call>!ship.cmd.jumpstation.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_JUMP_POSITION</var><text>,&#160;script=</text><call>!ship.cmd.jumpposition.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_KILL_ENEMIES_RANGE</var><text>,&#160;script=</text><call>!ship.cmd.basic.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_ATTACK_SHIELDS</var><text>,&#160;script=</text><call>!ship.cmd.attackshields.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_DEFEND_SECTOR</var><text>,&#160;script=</text><call>!ship.cmd.defendsector.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_DEFEND_STATION</var><text>,&#160;script=</text><call>!ship.cmd.defend.station.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_PATROL_MULTI</var><text>,&#160;script=</text><call>!ship.cmd.patrol.multi.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_FLEET_PATROL</var><text>,&#160;script=</text><call>!ship.cmd.patrol.multi.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_MANUAL_TRADE_BUY</var><text>,&#160;script=</text><call>!ship.cmd.mtc.buy.pre</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_MANUAL_TRADE_SELL</var><text>,&#160;script=</text><call>!ship.cmd.mtc.sell.pre</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_MANUAL_TRADE_RUN</var><text>,&#160;script=</text><call>!ship.cmd.mtc.trade.run.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_TRADE_FETCH</var><text>,&#160;script=</text><call>!ship.cmd.trade.fetch.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_TRADE_DELIVER</var><text>,&#160;script=</text><call>!ship.cmd.trade.deliver.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_TRADE_DISTRIBUTE</var><text>,&#160;script=</text><call>!ship.cmd.trade.dist.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_GET_WARE</var><text>,&#160;script=</text><call>!ship.cmd.getware.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_SELL_WARE</var><text>,&#160;script=</text><call>!ship.cmd.sellware.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_FREIGHT_TRANSFER</var><text>,&#160;script=</text><call>!ship.cmd.freighttransfer.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_FREIGHT_DROP</var><text>,&#160;script=</text><call>!ship.cmd.freightdrop.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_FREIGHT_FETCH</var><text>,&#160;script=</text><call>!ship.cmd.freightfetch.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_MINING_DEBRIS</var><text>,&#160;script=</text><call>!ship.cmd.mineminerals.pre</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_MINE_AUTO</var><text>,&#160;script=</text><call>!ship.cmd.mine.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_TRADE_MINE</var><text>,&#160;script=</text><call>!ship.cmd.minetrade.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_BUILD_COMPLEX</var><text>,&#160;script=</text><call>!ship.cmd.buildcomplex.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_COLLECT_ASTRONAUT</var><text>,&#160;script=</text><call>!ship.cmd.collectastronaut.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_COLLECT_FLYINGWARES</var><text>,&#160;script=</text><call>!ship.cmd.collect.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_COLLECT_DEPLOYED</var><text>,&#160;script=</text><call>!ship.cmd.collectdeployed.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_PACK_STATION</var><text>,&#160;script=</text><call>!ship.cmd.packstation.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_REVERSE_SHIP</var><text>,&#160;script=</text><call>!ship.cmd.headquarters.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_REPAIR_SHIP</var><text>,&#160;script=</text><call>!ship.cmd.headquarters.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_RECYCLE_SHIP</var><text>,&#160;script=</text><call>!ship.cmd.headquarters.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_SHIP_LOADOUT</var><text>,&#160;script=</text><call>!ship.cmd.loadout.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_SCAN_ASTEROID</var><text>,&#160;script=</text><call>!ship.cmd.scan.roid.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_REPAIR_TARGET</var><text>,&#160;script=</text><call>!ship.cmd.repairtarget.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_DRONE_REPAIR_STATION</var><text>,&#160;script=</text><call>!ship.cmd.repairstation.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_DRONE_MARINES</var><text>,&#160;script=</text><call>!ship.cmd.drone.marines.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;command&#160;menu&#160;script:&#160;command=</text><var>COMMAND_FLEET_DEFENDSTATION</var><text>,&#160;script=</text><call>!ship.cmd.defend.station.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!init.ship.commandpreload"/>
+  <sval type="int" val="67"/>
+  <sval type="string" val="Preload argument scripts for commands"/>
+  <sval type="int" val="9"/>
+  <sval type="int" val="0"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="50">
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="37"/>
+      <sval type="string" val="!ship.cmd.jump.pl"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="42"/>
+      <sval type="string" val="!ship.cmd.resupply.group.preload"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="58"/>
+      <sval type="string" val="!ship.cmd.boardship.preload"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="69"/>
+      <sval type="string" val="!ship.cmd.deployfighters.pl"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="70"/>
+      <sval type="string" val="!ship.cmd.retreat.pl"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="80"/>
+      <sval type="string" val="!ship.cmd.launchmarines.pre"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="64"/>
+      <sval type="string" val="!ship.cmd.missile.attack.pre"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="85"/>
+      <sval type="string" val="!ship.cmd.fleet.attack.pre"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="87"/>
+      <sval type="string" val="!ship.cmd.fleet.defendsector.pre"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1466"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="89"/>
+      <sval type="string" val="!ship.cmd.fleet.invade.pre"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="19"/>
+      <sval type="string" val="!ship.cmd.moveposition.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100027"/>
+      <sval type="string" val="!ship.cmd.mapsector.drones.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="48"/>
+      <sval type="string" val="!ship.cmd.deploysats.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="38"/>
+      <sval type="string" val="!ship.cmd.jumpstation.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="39"/>
+      <sval type="string" val="!ship.cmd.jumpposition.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="26"/>
+      <sval type="string" val="!ship.cmd.basic.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="73"/>
+      <sval type="string" val="!ship.cmd.attackshields.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="74"/>
+      <sval type="string" val="!ship.cmd.defendsector.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="67"/>
+      <sval type="string" val="!ship.cmd.defend.station.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="51"/>
+      <sval type="string" val="!ship.cmd.patrol.multi.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="93"/>
+      <sval type="string" val="!ship.cmd.patrol.multi.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="81"/>
+      <sval type="string" val="!ship.cmd.mtc.buy.pre"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="82"/>
+      <sval type="string" val="!ship.cmd.mtc.sell.pre"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="60"/>
+      <sval type="string" val="!ship.cmd.mtc.trade.run.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100028"/>
+      <sval type="string" val="!ship.cmd.trade.fetch.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100029"/>
+      <sval type="string" val="!ship.cmd.trade.deliver.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100030"/>
+      <sval type="string" val="!ship.cmd.trade.dist.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="9"/>
+      <sval type="string" val="!ship.cmd.getware.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="28"/>
+      <sval type="string" val="!ship.cmd.sellware.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="77"/>
+      <sval type="string" val="!ship.cmd.freighttransfer.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="78"/>
+      <sval type="string" val="!ship.cmd.freightdrop.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="79"/>
+      <sval type="string" val="!ship.cmd.freightfetch.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="41"/>
+      <sval type="string" val="!ship.cmd.mineminerals.pre"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="53"/>
+      <sval type="string" val="!ship.cmd.mine.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="49"/>
+      <sval type="string" val="!ship.cmd.minetrade.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100036"/>
+      <sval type="string" val="!ship.cmd.buildcomplex.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="59"/>
+      <sval type="string" val="!ship.cmd.collectastronaut.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="30"/>
+      <sval type="string" val="!ship.cmd.collect.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100038"/>
+      <sval type="string" val="!ship.cmd.collectdeployed.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="94"/>
+      <sval type="string" val="!ship.cmd.packstation.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="97"/>
+      <sval type="string" val="!ship.cmd.headquarters.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="95"/>
+      <sval type="string" val="!ship.cmd.headquarters.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="96"/>
+      <sval type="string" val="!ship.cmd.headquarters.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100000"/>
+      <sval type="string" val="!ship.cmd.loadout.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="76"/>
+      <sval type="string" val="!ship.cmd.scan.roid.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100012"/>
+      <sval type="string" val="!ship.cmd.repairtarget.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100013"/>
+      <sval type="string" val="!ship.cmd.repairstation.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100023"/>
+      <sval type="string" val="!ship.cmd.drone.marines.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1698"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="88"/>
+      <sval type="string" val="!ship.cmd.defend.station.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="array" size="14">
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="10"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Menus"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="15"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="16"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="21"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="30"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="32"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="36"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="39"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="44"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="45"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="48"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="49"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>7887</nosignature>
+</script>

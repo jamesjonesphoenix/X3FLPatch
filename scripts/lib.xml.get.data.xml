@@ -1,0 +1,1594 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>lib.xml.get.data</name>
+<version>1</version>
+<engineversion>61</engineversion>
+<description>XML Data, read data type</description>
+<arguments>
+<argument index="1" name="a.xmlData" type="Var/XMLData" desc="XML Data" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  if $a.xmlData
+@   $lookup.types = [THIS] -> call script lib.xml.getdatatypes :  Type='all'
+@   $int.types = [THIS] -> call script lib.xml.getdatatypes :  Type='int'
+@   $obj.types = [THIS] -> call script lib.xml.getdatatypes :  Type='obj'
+    
+    $node.name = xml get node string: $a.xmlData
+    
+    $name.type = xml get attribute: data=$a.xmlData, attribute='nametype'
+    if $node.name == 'sector' OR $name.type == 'DATATYPE_SECTOR'
+      $x = xml get attribute: data=$a.xmlData, attribute='name.x'
+      $y = xml get attribute: data=$a.xmlData, attribute='name.y'
+      $name = get sector from universe index: x=$x, y=$y
+    else if $node.name == 'ware' OR $name.type == 'DATATYPE_WARE'
+      $x = xml get attribute: data=$a.xmlData, attribute='name.main'
+      $y = xml get attribute: data=$a.xmlData, attribute='name.sub'
+      $name = get ware from maintype $x and subtype $y
+    else if $node.name == 'race' OR $name.type == 'DATATYPE_RACE'
+      $name = xml get attribute: data=$a.xmlData, attribute='name'
+      skip if $name
+        $name = 0
+      $name = get race from id=$name
+    else if $obj.types[$node.name]
+  *else if $node.name == 'object' OR $name.type == 'DATATYPE_OBJECT' OR $name.type == 'DATATYPE_SHIP' OR $name.type == 'DATATYPE_STATION' OR $name.type == 'DATATYPE_AGENT' OR $name.type == 'DATATYPE_DEALER' OR $name.type == 'DATATYPE_PASSENGER' OR $name.type == 'DATATYPE_MERCHANT'
+      $name = xml get attribute: data=$a.xmlData, attribute='name'
+      $name = convert serialised string to object: string=$name
+    else
+      $name = xml get attribute: data=$a.xmlData, attribute='name'
+      skip if $name
+        $name = 0
+      $convert.type = $int.types[$name.type]
+      do if $convert.type
+        $name = change datatype[$name] to $convert.type
+    end
+    
+    if $node.name == 'table'
+      $return.data = table alloc
+      $children.count = xml get number of children: $a.xmlData
+      $i = 0
+      while $i < $children.count
+        $child = xml get child: $a.xmlData, id=$i
+        if is datatype[ $child ] == DATATYPE_XMLDATA
+          if xml has attribute: data=$child, attribute='name'
+            $child.name = xml get attribute: data=$child, attribute='name'
+@           $ret = [THIS] -> call script lib.xml.get.data :  XML Data=$child
+            if is datatype[ $ret ] == DATATYPE_ARRAY
+              $child.name = $ret[0]
+              $ret = $ret[1]
+            end
+            do if $child.name
+              $return.data[$child.name] = $ret
+          end
+        end
+        inc $i = 
+      end
+      $return.data = create new array, arguments=$name, $return.data, null, null, null
+      
+    else if $node.name == 'array'
+      $array.size = xml get attribute: data=$a.xmlData, attribute='size'
+      $children.count = xml get number of children: $a.xmlData
+      skip if $array.size
+        $array.size = $children.count
+      $return.data = array alloc: size=$array.size
+      $i = 0
+      while $i < $children.count
+        $child = xml get child: $a.xmlData, id=$i
+        $child.name = xml get attribute: data=$child, attribute='name'
+@       $ret = [THIS] -> call script lib.xml.get.data :  XML Data=$child
+        if is datatype[ $ret ] == DATATYPE_ARRAY
+          $child.name = $ret[0]
+          $ret = $ret[1]
+        end
+        do if is datatype[ $child.name ] == DATATYPE_STRING
+          $child.name = string $child.name to integer
+        skip if $child.name
+          $child.name = 0
+        $return.data[$child.name] = $ret
+        inc $i = 
+      end
+      $return.data = create new array, arguments=$name, $return.data, null, null, null
+      
+    else
+      if xml has attribute: data=$a.xmlData, attribute='type'
+        $datatype = xml get attribute: data=$a.xmlData, attribute='type'
+        if $datatype == 'DATATYPE_SECTOR'
+          $x = xml get attribute: data=$a.xmlData, attribute='data.x'
+          skip if $x
+            $x = 0
+          $y = xml get attribute: data=$a.xmlData, attribute='data.y'
+          skip if $y
+            $y = 0
+          $data = get sector from universe index: x=$x, y=$y
+        else if $datatype == 'DATATYPE_INT'
+          $data = xml get attribute: data=$a.xmlData, attribute='data'
+          skip if $data
+            $data = 0
+        else if $datatype == 'DATATYPE_RACE'
+          $data = xml get attribute: data=$a.xmlData, attribute='data'
+          skip if $data
+            $data = 0
+          $data = get race from id=$data
+        else if $datatype == 'DATATYPE_WARE'
+          $x = xml get attribute: data=$a.xmlData, attribute='data.main'
+          skip if $x
+            $x = 0
+          $y = xml get attribute: data=$a.xmlData, attribute='data.sub'
+          skip if $y
+            $y = 0
+          $data = get ware from maintype $x and subtype $y
+        else if $datatype == 'DATATYPE_OBJECT' OR $datatype == 'DATATYPE_SHIP' OR $datatype == 'DATATYPE_PASSENGER' OR $datatype == 'DATATYPE_AGENT' OR $datatype == 'DATATYPE_STATION' OR $datatype == 'DATATYPE_DEALER' OR $datatype == 'DATATYPE_MERCHANT'
+          $data = xml get attribute: data=$a.xmlData, attribute='data'
+          $data = convert serialised string to object: string=$data
+          
+        else if $int.types[$datatype]
+          $data = xml get attribute: data=$a.xmlData, attribute='data'
+          skip if $data
+            $data = 0
+          $type = $int.types[$datatype]
+          $data = change datatype[$data] to $type
+        else
+          $data = xml get attribute: data=$a.xmlData, attribute='data'
+        end
+        $ret = create new array, arguments=$name, $data, null, null, null
+        return $ret
+      end
+    end
+    
+  end
+  
+  return $return.data
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>if&#160;</var><var>$a.xmlData</var></line>
+<line interruptable="@" indent="&#160;"><var>$lookup.types&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>lib.xml.getdatatypes</call><text>&#160;:&#160;</text><text>&#160;Type=</text><var>'all'</var></line>
+<line interruptable="@" indent="&#160;"><var>$int.types&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>lib.xml.getdatatypes</call><text>&#160;:&#160;</text><text>&#160;Type=</text><var>'int'</var></line>
+<line interruptable="@" indent="&#160;"><var>$obj.types&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>lib.xml.getdatatypes</call><text>&#160;:&#160;</text><text>&#160;Type=</text><var>'obj'</var></line>
+<line indent="&#160;"></line>
+<line indent="&#160;"><var>$node.name&#160;=&#160;</var><text>xml&#160;get&#160;node&#160;string:&#160;</text><var>$a.xmlData</var></line>
+<line indent="&#160;"></line>
+<line indent="&#160;"><var>$name.type&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'nametype'</var></line>
+<line indent="&#160;"><var>if&#160;</var><var>$node.name</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'sector'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$name.type</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_SECTOR'</var></line>
+<line indent="&#160;&#160;"><var>$x&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'name.x'</var></line>
+<line indent="&#160;&#160;"><var>$y&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'name.y'</var></line>
+<line indent="&#160;&#160;"><var>$name&#160;=&#160;</var><text>get&#160;sector&#160;from&#160;universe&#160;index:&#160;x=</text><var>$x</var><text>,&#160;y=</text><var>$y</var></line>
+<line indent="&#160;"><var>else&#160;if&#160;</var><var>$node.name</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'ware'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$name.type</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_WARE'</var></line>
+<line indent="&#160;&#160;"><var>$x&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'name.main'</var></line>
+<line indent="&#160;&#160;"><var>$y&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'name.sub'</var></line>
+<line indent="&#160;&#160;"><var>$name&#160;=&#160;</var><text>get&#160;ware&#160;from&#160;maintype&#160;</text><var>$x</var><text>&#160;and&#160;subtype&#160;</text><var>$y</var></line>
+<line indent="&#160;"><var>else&#160;if&#160;</var><var>$node.name</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'race'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$name.type</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_RACE'</var></line>
+<line indent="&#160;&#160;"><var>$name&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'name'</var></line>
+<line indent="&#160;&#160;"><var>skip&#160;if&#160;</var><var>$name</var></line>
+<line indent="&#160;&#160;&#160;"><var>$name&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;"><var>$name&#160;=&#160;</var><text>get&#160;race&#160;from&#160;id=</text><var>$name</var></line>
+<line indent="&#160;"><var>else&#160;if&#160;</var><var>$obj.types</var><text>[</text><var>$node.name</var><text>]</text></line>
+<line indent=""><comment>*else&#160;if&#160;$node.name&#160;==&#160;'object'&#160;OR&#160;$name.type&#160;==&#160;'DATATYPE_OBJECT'&#160;OR&#160;$name.type&#160;==&#160;'DATATYPE_SHIP'&#160;OR&#160;$name.type&#160;==&#160;'DATATYPE_STATION'&#160;OR&#160;$name.type&#160;==&#160;'DATATYPE_AGENT'&#160;OR&#160;$name.type&#160;==&#160;'DATATYPE_DEALER'&#160;OR&#160;$name.type&#160;==&#160;'DATATYPE_PASSENGER'&#160;OR&#160;$name.type&#160;==&#160;'DATATYPE_MERCHANT'</comment></line>
+<line indent="&#160;&#160;"><var>$name&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'name'</var></line>
+<line indent="&#160;&#160;"><var>$name&#160;=&#160;</var><text>convert&#160;serialised&#160;string&#160;to&#160;object:&#160;string=</text><var>$name</var></line>
+<line indent="&#160;"><text>else</text></line>
+<line indent="&#160;&#160;"><var>$name&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'name'</var></line>
+<line indent="&#160;&#160;"><var>skip&#160;if&#160;</var><var>$name</var></line>
+<line indent="&#160;&#160;&#160;"><var>$name&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;"><var>$convert.type&#160;=&#160;</var><var>$int.types</var><text>[</text><var>$name.type</var><text>]</text></line>
+<line indent="&#160;&#160;"><var>do&#160;if&#160;</var><var>$convert.type</var></line>
+<line indent="&#160;&#160;&#160;"><var>$name&#160;=&#160;</var><text>change&#160;datatype[</text><var>$name</var><text>]&#160;to&#160;</text><var>$convert.type</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"></line>
+<line indent="&#160;"><var>if&#160;</var><var>$node.name</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'table'</var></line>
+<line indent="&#160;&#160;"><var>$return.data&#160;=&#160;</var><text>table&#160;alloc</text></line>
+<line indent="&#160;&#160;"><var>$children.count&#160;=&#160;</var><text>xml&#160;get&#160;number&#160;of&#160;children:&#160;</text><var>$a.xmlData</var></line>
+<line indent="&#160;&#160;"><var>$i&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;"><var>while&#160;</var><var>$i</var><text>&#160;</text><var>&lt;</var><text>&#160;</text><var>$children.count</var></line>
+<line indent="&#160;&#160;&#160;"><var>$child&#160;=&#160;</var><text>xml&#160;get&#160;child:&#160;</text><var>$a.xmlData</var><text>,&#160;id=</text><var>$i</var></line>
+<line indent="&#160;&#160;&#160;"><var>if&#160;</var><text>is&#160;datatype[&#160;</text><var>$child</var><text>&#160;]&#160;==&#160;</text><var>DATATYPE_XMLDATA</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>if&#160;</var><text>xml&#160;has&#160;attribute:&#160;data=</text><var>$child</var><text>,&#160;attribute=</text><var>'name'</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$child.name&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$child</var><text>,&#160;attribute=</text><var>'name'</var></line>
+<line interruptable="@" indent="&#160;&#160;&#160;&#160;&#160;"><var>$ret&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>lib.xml.get.data</call><text>&#160;:&#160;</text><text>&#160;XML&#160;Data=</text><var>$child</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>if&#160;</var><text>is&#160;datatype[&#160;</text><var>$ret</var><text>&#160;]&#160;==&#160;</text><var>DATATYPE_ARRAY</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;&#160;"><var>$child.name&#160;=&#160;</var><var>$ret</var><text>[</text><var>0</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;&#160;"><var>$ret&#160;=&#160;</var><var>$ret</var><text>[</text><var>1</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>do&#160;if&#160;</var><var>$child.name</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;&#160;"><var>$return.data</var><text>[</text><var>$child.name</var><text>]&#160;=&#160;</text><var>$ret</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;&#160;"><text>inc&#160;</text><var>$i&#160;=&#160;</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><var>$return.data&#160;=&#160;</var><text>create&#160;new&#160;array,&#160;arguments=</text><var>$name</var><text>,&#160;</text><var>$return.data</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var></line>
+<line indent="&#160;&#160;"></line>
+<line indent="&#160;"><var>else&#160;if&#160;</var><var>$node.name</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'array'</var></line>
+<line indent="&#160;&#160;"><var>$array.size&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'size'</var></line>
+<line indent="&#160;&#160;"><var>$children.count&#160;=&#160;</var><text>xml&#160;get&#160;number&#160;of&#160;children:&#160;</text><var>$a.xmlData</var></line>
+<line indent="&#160;&#160;"><var>skip&#160;if&#160;</var><var>$array.size</var></line>
+<line indent="&#160;&#160;&#160;"><var>$array.size&#160;=&#160;</var><var>$children.count</var></line>
+<line indent="&#160;&#160;"><var>$return.data&#160;=&#160;</var><text>array&#160;alloc:&#160;size=</text><var>$array.size</var></line>
+<line indent="&#160;&#160;"><var>$i&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;"><var>while&#160;</var><var>$i</var><text>&#160;</text><var>&lt;</var><text>&#160;</text><var>$children.count</var></line>
+<line indent="&#160;&#160;&#160;"><var>$child&#160;=&#160;</var><text>xml&#160;get&#160;child:&#160;</text><var>$a.xmlData</var><text>,&#160;id=</text><var>$i</var></line>
+<line indent="&#160;&#160;&#160;"><var>$child.name&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$child</var><text>,&#160;attribute=</text><var>'name'</var></line>
+<line interruptable="@" indent="&#160;&#160;&#160;"><var>$ret&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>lib.xml.get.data</call><text>&#160;:&#160;</text><text>&#160;XML&#160;Data=</text><var>$child</var></line>
+<line indent="&#160;&#160;&#160;"><var>if&#160;</var><text>is&#160;datatype[&#160;</text><var>$ret</var><text>&#160;]&#160;==&#160;</text><var>DATATYPE_ARRAY</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$child.name&#160;=&#160;</var><var>$ret</var><text>[</text><var>0</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$ret&#160;=&#160;</var><var>$ret</var><text>[</text><var>1</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;&#160;"><var>do&#160;if&#160;</var><text>is&#160;datatype[&#160;</text><var>$child.name</var><text>&#160;]&#160;==&#160;</text><var>DATATYPE_STRING</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$child.name&#160;=&#160;</var><text>string&#160;</text><var>$child.name</var><text>&#160;to&#160;integer</text></line>
+<line indent="&#160;&#160;&#160;"><var>skip&#160;if&#160;</var><var>$child.name</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$child.name&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;"><var>$return.data</var><text>[</text><var>$child.name</var><text>]&#160;=&#160;</text><var>$ret</var></line>
+<line indent="&#160;&#160;&#160;"><text>inc&#160;</text><var>$i&#160;=&#160;</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><var>$return.data&#160;=&#160;</var><text>create&#160;new&#160;array,&#160;arguments=</text><var>$name</var><text>,&#160;</text><var>$return.data</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var></line>
+<line indent="&#160;&#160;"></line>
+<line indent="&#160;"><text>else</text></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><text>xml&#160;has&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'type'</var></line>
+<line indent="&#160;&#160;&#160;"><var>$datatype&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'type'</var></line>
+<line indent="&#160;&#160;&#160;"><var>if&#160;</var><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_SECTOR'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$x&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data.x'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>skip&#160;if&#160;</var><var>$x</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$x&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$y&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data.y'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>skip&#160;if&#160;</var><var>$y</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$y&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>get&#160;sector&#160;from&#160;universe&#160;index:&#160;x=</text><var>$x</var><text>,&#160;y=</text><var>$y</var></line>
+<line indent="&#160;&#160;&#160;"><var>else&#160;if&#160;</var><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_INT'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>skip&#160;if&#160;</var><var>$data</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;"><var>else&#160;if&#160;</var><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_RACE'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>skip&#160;if&#160;</var><var>$data</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>get&#160;race&#160;from&#160;id=</text><var>$data</var></line>
+<line indent="&#160;&#160;&#160;"><var>else&#160;if&#160;</var><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_WARE'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$x&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data.main'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>skip&#160;if&#160;</var><var>$x</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$x&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$y&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data.sub'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>skip&#160;if&#160;</var><var>$y</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$y&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>get&#160;ware&#160;from&#160;maintype&#160;</text><var>$x</var><text>&#160;and&#160;subtype&#160;</text><var>$y</var></line>
+<line indent="&#160;&#160;&#160;"><var>else&#160;if&#160;</var><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_OBJECT'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_SHIP'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_PASSENGER'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_AGENT'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_STATION'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_DEALER'</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$datatype</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'DATATYPE_MERCHANT'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>convert&#160;serialised&#160;string&#160;to&#160;object:&#160;string=</text><var>$data</var></line>
+<line indent="&#160;&#160;&#160;&#160;"></line>
+<line indent="&#160;&#160;&#160;"><var>else&#160;if&#160;</var><var>$int.types</var><text>[</text><var>$datatype</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>skip&#160;if&#160;</var><var>$data</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$type&#160;=&#160;</var><var>$int.types</var><text>[</text><var>$datatype</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>change&#160;datatype[</text><var>$data</var><text>]&#160;to&#160;</text><var>$type</var></line>
+<line indent="&#160;&#160;&#160;"><text>else</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$data&#160;=&#160;</var><text>xml&#160;get&#160;attribute:&#160;data=</text><var>$a.xmlData</var><text>,&#160;attribute=</text><var>'data'</var></line>
+<line indent="&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;&#160;"><var>$ret&#160;=&#160;</var><text>create&#160;new&#160;array,&#160;arguments=</text><var>$name</var><text>,&#160;</text><var>$data</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var></line>
+<line indent="&#160;&#160;&#160;"><text>return&#160;</text><var>$ret</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><text>return&#160;</text><var>$return.data</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="lib.xml.get.data"/>
+  <sval type="int" val="61"/>
+  <sval type="string" val="XML Data, read data type"/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="20">
+    <sval type="string" val="a.xmlData"/>
+    <sval type="string" val="lookup.types"/>
+    <sval type="string" val="int.types"/>
+    <sval type="string" val="obj.types"/>
+    <sval type="string" val="node.name"/>
+    <sval type="string" val="name.type"/>
+    <sval type="string" val="x"/>
+    <sval type="string" val="y"/>
+    <sval type="string" val="name"/>
+    <sval type="string" val="convert.type"/>
+    <sval type="string" val="return.data"/>
+    <sval type="string" val="children.count"/>
+    <sval type="string" val="i"/>
+    <sval type="string" val="child"/>
+    <sval type="string" val="child.name"/>
+    <sval type="string" val="ret"/>
+    <sval type="string" val="array.size"/>
+    <sval type="string" val="datatype"/>
+    <sval type="string" val="data"/>
+    <sval type="string" val="type"/>
+  </sval>
+  <sval type="array" size="120">
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610582269"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="lib.xml.getdatatypes"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="all"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="lib.xml.getdatatypes"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="int"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="lib.xml.getdatatypes"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="obj"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2951"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="nametype"/>
+    </sval>
+    <sval type="array" size="25">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610609917"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="sector"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_SECTOR"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-5"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name.x"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name.y"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="800"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="32"/>
+    </sval>
+    <sval type="array" size="25">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608635"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="ware"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_WARE"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-5"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name.main"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name.sub"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="657"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="32"/>
+    </sval>
+    <sval type="array" size="25">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610607099"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="race"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_RACE"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-5"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536865785"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2144"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="32"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="-1610606075"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1873"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="32"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536863481"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610604536"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1891"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610599677"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="table"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="1733"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2949"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610600183"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2950"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="125"/>
+      <sval type="int" val="-1610600701"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="38"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2952"/>
+      <sval type="int" val="-1610600701"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="lib.xml.get.data"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="125"/>
+      <sval type="int" val="-1610601213"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="21"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610600696"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="142"/>
+      <sval type="int" val="12"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="36"/>
+    </sval>
+    <sval type="array" size="12">
+      <sval type="int" val="1415"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="119"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610593787"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="array"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="16"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="size"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2949"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536856569"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="16"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="16"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="128"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="16"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610594295"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2950"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="name"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="lib.xml.get.data"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="125"/>
+      <sval type="int" val="-1610596093"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="21"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="125"/>
+      <sval type="int" val="-1610595576"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1078"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="14"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536853241"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="142"/>
+      <sval type="int" val="12"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="58"/>
+    </sval>
+    <sval type="array" size="12">
+      <sval type="int" val="1415"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="119"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2952"/>
+      <sval type="int" val="-1610582269"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="type"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="type"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610590973"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_SECTOR"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data.x"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536850425"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data.y"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536849657"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="800"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="117"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610589691"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_INT"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536848121"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="117"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610588155"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_RACE"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536846841"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="18"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="117"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610585851"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_WARE"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data.main"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536845305"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data.sub"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536844537"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="657"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="117"/>
+    </sval>
+    <sval type="array" size="85">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610584827"/>
+      <sval type="int" val="27"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_OBJECT"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_SHIP"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_PASSENGER"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_AGENT"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_STATION"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_DEALER"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_MERCHANT"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="27"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-5"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-8"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-9"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-12"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-13"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-16"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-17"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-20"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-21"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-24"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-25"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1873"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="18"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="117"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="-1610583035"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536841977"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="19"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="17"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1891"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="19"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="117"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2953"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="data"/>
+    </sval>
+    <sval type="array" size="12">
+      <sval type="int" val="1415"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+    </sval>
+  </sval>
+  <sval type="array" size="1">
+    <sval type="array" size="2">
+      <sval type="int" val="98"/>
+      <sval type="string" val="XML Data"/>
+    </sval>
+  </sval>
+  <sval type="array" size="23">
+    <sval type="array" size="2">
+      <sval type="int" val="4"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="5"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="67">
+      <sval type="int" val="23"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610612731"/>
+      <sval type="int" val="31"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="node.name"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="object"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="name.type"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_OBJECT"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="name.type"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_SHIP"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="name.type"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_STATION"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="name.type"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_AGENT"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="name.type"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_DEALER"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="name.type"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_PASSENGER"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="name.type"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="DATATYPE_MERCHANT"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="26"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="32"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="32"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="45"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="47"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="47"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="49"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="50"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="65"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="72"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="73"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="74"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="108"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="116"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="117"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="119"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="119"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="119"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="119"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="119"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>5826</nosignature>
+</script>

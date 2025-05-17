@@ -1,0 +1,370 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!move.movethroughgate</name>
+<version>6</version>
+<engineversion>61</engineversion>
+<description>Fly through a specified gate</description>
+<arguments>
+<argument index="1" name="Gate" type="Var/Warpgate" desc="Select the gate" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  * Xai Corporation
+  * 
+  * 
+  
+  $Destination = $Gate -> get gate destination: return sector=[TRUE]
+  
+  if [OWNER] == Player
+@   if not [THIS] -> call script !lib.player.saferoute :  Destination=$Destination  Ignore Jump=[FALSE]  Always Jump=[FALSE]  Additional Blacklist=null  Ignore Fuel=[FALSE]
+      return FLRET_NOPATH
+    end
+  end
+  
+  if [DOCKEDAT]
+@   = [THIS] -> call script !move.undock : 
+  end
+  
+  [THIS] ->set destination to $Destination
+  $Gate.Sector = $Gate -> get sector
+  while [SECTOR] != $Gate.Sector
+  * Halt if destination is unreachable
+    skip if get jumps from sector [SECTOR] to sector $Gate.Sector
+      return FLRET_OK
+    
+  * Orders the ship to the sector the gate is located first.
+  * This happens even if the ships current destination is the end destination.
+@   $ret = [THIS] -> call script !move.movetosector :  sector=$Gate.Sector
+    do if $ret == FLRET_NOPATH
+      return $ret
+@   = wait 500 ms
+  end
+  
+@ = [THIS] ->fly through gate $Gate
+@ = [THIS] -> move around 15000 ms
+  * stop's the ship
+@ = wait 1 ms
+  
+  return FLRET_OK
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><comment><text>*&#160;</text><var>Xai&#160;Corporation</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var></var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var></var></comment></line>
+<line indent=""></line>
+<line indent=""><var>$Destination&#160;=&#160;</var><var>$Gate&#160;-&gt;</var><text>&#160;get&#160;gate&#160;destination:&#160;return&#160;sector=</text><var>[TRUE]</var></line>
+<line indent=""></line>
+<line indent=""><var>if&#160;</var><var>[OWNER]</var><text>&#160;</text><var>==</var><text>&#160;</text><var>Player</var></line>
+<line interruptable="@" indent="&#160;"><var>if&#160;not&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!lib.player.saferoute</call><text>&#160;:&#160;</text><text>&#160;Destination=</text><var>$Destination</var><text>&#160;</text><text>&#160;Ignore&#160;Jump=</text><var>[FALSE]</var><text>&#160;</text><text>&#160;Always&#160;Jump=</text><var>[FALSE]</var><text>&#160;</text><text>&#160;Additional&#160;Blacklist=</text><var>null</var><text>&#160;</text><text>&#160;Ignore&#160;Fuel=</text><var>[FALSE]</var></line>
+<line indent="&#160;&#160;"><text>return&#160;</text><var>FLRET_NOPATH</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><var>if&#160;</var><var>[DOCKEDAT]</var></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!move.undock</call><text>&#160;:&#160;</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><var>[THIS]&#160;-&gt;</var><text>set&#160;destination&#160;to&#160;</text><var>$Destination</var></line>
+<line indent=""><var>$Gate.Sector&#160;=&#160;</var><var>$Gate&#160;-&gt;</var><text>&#160;get&#160;sector</text></line>
+<line indent=""><var>while&#160;</var><var>[SECTOR]</var><text>&#160;</text><var>!=</var><text>&#160;</text><var>$Gate.Sector</var></line>
+<line indent=""><comment><text>*&#160;</text><var>Halt&#160;if&#160;destination&#160;is&#160;unreachable</var></comment></line>
+<line indent="&#160;"><var>skip&#160;if&#160;</var><text>get&#160;jumps&#160;from&#160;sector&#160;</text><var>[SECTOR]</var><text>&#160;to&#160;sector&#160;</text><var>$Gate.Sector</var></line>
+<line indent="&#160;&#160;"><text>return&#160;</text><var>FLRET_OK</var></line>
+<line indent="&#160;"></line>
+<line indent=""><comment><text>*&#160;</text><var>Orders&#160;the&#160;ship&#160;to&#160;the&#160;sector&#160;the&#160;gate&#160;is&#160;located&#160;first.</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>This&#160;happens&#160;even&#160;if&#160;the&#160;ships&#160;current&#160;destination&#160;is&#160;the&#160;end&#160;destination.</var></comment></line>
+<line interruptable="@" indent="&#160;"><var>$ret&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!move.movetosector</call><text>&#160;:&#160;</text><text>&#160;sector=</text><var>$Gate.Sector</var></line>
+<line indent="&#160;"><var>do&#160;if&#160;</var><var>$ret</var><text>&#160;</text><var>==</var><text>&#160;</text><var>FLRET_NOPATH</var></line>
+<line indent="&#160;&#160;"><text>return&#160;</text><var>$ret</var></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><text>wait&#160;</text><var>500</var><text>&#160;ms</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line interruptable="@" indent=""><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>fly&#160;through&#160;gate&#160;</text><var>$Gate</var></line>
+<line interruptable="@" indent=""><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;move&#160;around&#160;</text><var>15000</var><text>&#160;ms</text></line>
+<line indent=""><comment><text>*&#160;</text><var>stop's&#160;the&#160;ship</var></comment></line>
+<line interruptable="@" indent=""><var>=&#160;</var><text>wait&#160;</text><var>1</var><text>&#160;ms</text></line>
+<line indent=""></line>
+<line indent=""><text>return&#160;</text><var>FLRET_OK</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!move.movethroughgate"/>
+  <sval type="int" val="61"/>
+  <sval type="string" val="Fly through a specified gate"/>
+  <sval type="int" val="6"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="4">
+    <sval type="string" val="Gate"/>
+    <sval type="string" val="Destination"/>
+    <sval type="string" val="Gate.Sector"/>
+    <sval type="string" val="ret"/>
+  </sval>
+  <sval type="array" size="20">
+    <sval type="array" size="6">
+      <sval type="int" val="1057"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610611709"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="16">
+      <sval type="int" val="102"/>
+      <sval type="string" val="!lib.player.saferoute"/>
+      <sval type="int" val="-536869884"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="19"/>
+      <sval type="int" val="13"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610611197"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="102"/>
+      <sval type="string" val="!move.undock"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="519"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="703"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608631"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="711"/>
+      <sval type="int" val="-536868089"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="19"/>
+      <sval type="int" val="14"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="!move.movetosector"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610609144"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="19"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="105"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="500"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1912"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="507"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="15000"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="105"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="19"/>
+      <sval type="int" val="14"/>
+    </sval>
+  </sval>
+  <sval type="array" size="1">
+    <sval type="array" size="2">
+      <sval type="int" val="39"/>
+      <sval type="string" val="Select the gate"/>
+    </sval>
+  </sval>
+  <sval type="array" size="18">
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Xai Corporation"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val=""/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val=""/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="0"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="1"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="4"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="6"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="6"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="9"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Halt if destination is unreachable"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="11"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Orders the ship to the sector the gate is located first."/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="11"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="This happens even if the ships current destination is the end destination."/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="16"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="16"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="18"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="stop's the ship"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="19"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>6804</nosignature>
+</script>

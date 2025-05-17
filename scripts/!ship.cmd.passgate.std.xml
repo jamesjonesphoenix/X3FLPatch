@@ -1,0 +1,141 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!ship.cmd.passgate.std</name>
+<version>1</version>
+<engineversion>70</engineversion>
+<description>Ship Standard COMMAND FLYTHROUGH GATE</description>
+<arguments>
+<argument index="1" name="gate" type="Var/Warpgate" desc="Select warpgate" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  write to player logbook: printf: type=[Log.Debug], fmt='%s: Flying throgh gate: %s', [THIS], $gate, null, null, null
+  
+  * Xai Corporation
+  * 
+  [THIS] ->set command: COMMAND_FLYTHROUGH_GATE  target=$gate target2=null par1=null par2=null
+  
+  * Fly through gate
+  [THIS] ->set destination to $gate
+@ $ret = [THIS] -> call script !move.movethroughgate :  Select the gate=$gate
+  return $ret
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><text>write&#160;to&#160;player&#160;logbook:&#160;printf:&#160;type=</text><var>[Log.Debug]</var><text>,&#160;fmt=</text><var>'%s:&#160;Flying&#160;throgh&#160;gate:&#160;%s'</var><text>,&#160;</text><var>[THIS]</var><text>,&#160;</text><var>$gate</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Xai&#160;Corporation</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var></var></comment></line>
+<line indent=""><var>[THIS]&#160;-&gt;</var><text>set&#160;command:&#160;</text><var>COMMAND_FLYTHROUGH_GATE</var><text>&#160;&#160;target=</text><var>$gate</var><text>&#160;target2=</text><var>null</var><text>&#160;par1=</text><var>null</var><text>&#160;par2=</text><var>null</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Fly&#160;through&#160;gate</var></comment></line>
+<line indent=""><var>[THIS]&#160;-&gt;</var><text>set&#160;destination&#160;to&#160;</text><var>$gate</var></line>
+<line interruptable="@" indent=""><var>$ret&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!move.movethroughgate</call><text>&#160;:&#160;</text><text>&#160;Select&#160;the&#160;gate=</text><var>$gate</var></line>
+<line indent=""><text>return&#160;</text><var>$ret</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!ship.cmd.passgate.std"/>
+  <sval type="int" val="70"/>
+  <sval type="string" val="Ship Standard COMMAND FLYTHROUGH GATE"/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="2">
+    <sval type="string" val="gate"/>
+    <sval type="string" val="ret"/>
+  </sval>
+  <sval type="array" size="5">
+    <sval type="array" size="15">
+      <sval type="int" val="402"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="365"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="%s: Flying throgh gate: %s"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="538"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="47"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="519"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="!move.movethroughgate"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+    </sval>
+  </sval>
+  <sval type="array" size="1">
+    <sval type="array" size="2">
+      <sval type="int" val="39"/>
+      <sval type="string" val="Select warpgate"/>
+    </sval>
+  </sval>
+  <sval type="array" size="5">
+    <sval type="array" size="2">
+      <sval type="int" val="1"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Xai Corporation"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val=""/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="2"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="2"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Fly through gate"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>2855</nosignature>
+</script>

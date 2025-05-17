@@ -1,0 +1,785 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>lib.xml.getdatatypes</name>
+<version>1</version>
+<engineversion>61</engineversion>
+<description>XML Data, get datatypes lookup table</description>
+<arguments>
+<argument index="1" name="a.type" type="Var/String" desc="Type" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  $all = array alloc: size=0
+  append DATATYPE_AGENT to array $all
+  append DATATYPE_AGENTCOMMAND to array $all
+  append DATATYPE_ARRAY to array $all
+  append DATATYPE_CARRIERROLE to array $all
+  append DATATYPE_COMMANDMENU to array $all
+  append DATATYPE_CONST to array $all
+  append DATATYPE_DATATYPE to array $all
+  append DATATYPE_DEALER to array $all
+  append DATATYPE_FLRET to array $all
+  append DATATYPE_GSUBTYPE to array $all
+  append DATATYPE_INT to array $all
+  append DATATYPE_LOADOUTRET to array $all
+  append DATATYPE_MAINTYPE to array $all
+  append DATATYPE_MERCHANT to array $all
+  append DATATYPE_OBJCLASS to array $all
+  append DATATYPE_OBJCOMMAND to array $all
+  append DATATYPE_OBJECT to array $all
+  append DATATYPE_PASSENGER to array $all
+  append DATATYPE_RACE to array $all
+  append DATATYPE_RELATION to array $all
+  append DATATYPE_SCRIPTDEF to array $all
+  append DATATYPE_SECTOR to array $all
+  append DATATYPE_SHIP to array $all
+  append DATATYPE_STATION to array $all
+  append DATATYPE_STATIONSERIAL to array $all
+  append DATATYPE_STRING to array $all
+  append DATATYPE_TABLE to array $all
+  append DATATYPE_TIME to array $all
+  append DATATYPE_TRANSPORTCLASS to array $all
+  append DATATYPE_VAR to array $all
+  append DATATYPE_WARE to array $all
+  append DATATYPE_WING to array $all
+  append DATATYPE_WINGCMD to array $all
+  
+  $filter = table alloc
+  if $a.type == 'int'
+    $filter[DATATYPE_AGENTCOMMAND] = [TRUE]
+    $filter[DATATYPE_CARRIERROLE] = [TRUE]
+    $filter[DATATYPE_COMMANDMENU] = [TRUE]
+    $filter[DATATYPE_DATATYPE] = [TRUE]
+    $filter[DATATYPE_FLRET] = [TRUE]
+    $filter[DATATYPE_GSUBTYPE] = [TRUE]
+    $filter[DATATYPE_LOADOUTRET] = [TRUE]
+    $filter[DATATYPE_MAINTYPE] = [TRUE]
+    $filter[DATATYPE_OBJCOMMAND] = [TRUE]
+    $filter[DATATYPE_RELATION] = [TRUE]
+    $filter[DATATYPE_SCRIPTDEF] = [TRUE]
+    $filter[DATATYPE_STATIONSERIAL] = [TRUE]
+    $filter[DATATYPE_TRANSPORTCLASS] = [TRUE]
+    $filter[DATATYPE_WINGCMD] = [TRUE]
+  else if $a.type == 'obj'
+    $filter[DATATYPE_OBJECT] = [TRUE]
+    $filter[DATATYPE_AGENT] = [TRUE]
+    $filter[DATATYPE_DEALER] = [TRUE]
+    $filter[DATATYPE_MERCHANT] = [TRUE]
+    $filter[DATATYPE_SHIP] = [TRUE]
+    $filter[DATATYPE_STATION] = [TRUE]
+    $filter[DATATYPE_PASSENGER] = [TRUE]
+  end
+  
+  $table = table alloc
+  $i = size of array $all
+  while $i
+    dec $i = 
+    $value = $all[$i]
+    if size of table $filter
+      skip if $filter[$value]
+        continue
+    end
+    $str = sprintf: fmt='%s', $value, null, null, null, null
+    $table[$value] = $str
+    $table[$str] = $value
+  end
+  
+  return $table
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>$all&#160;=&#160;</var><text>array&#160;alloc:&#160;size=</text><var>0</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_AGENT</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_AGENTCOMMAND</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_ARRAY</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_CARRIERROLE</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_COMMANDMENU</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_CONST</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_DATATYPE</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_DEALER</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_FLRET</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_GSUBTYPE</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_INT</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_LOADOUTRET</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_MAINTYPE</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_MERCHANT</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_OBJCLASS</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_OBJCOMMAND</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_OBJECT</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_PASSENGER</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_RACE</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_RELATION</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_SCRIPTDEF</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_SECTOR</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_SHIP</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_STATION</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_STATIONSERIAL</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_STRING</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_TABLE</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_TIME</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_TRANSPORTCLASS</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_VAR</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_WARE</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_WING</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><text>append&#160;</text><var>DATATYPE_WINGCMD</var><text>&#160;to&#160;array&#160;</text><var>$all</var></line>
+<line indent=""></line>
+<line indent=""><var>$filter&#160;=&#160;</var><text>table&#160;alloc</text></line>
+<line indent=""><var>if&#160;</var><var>$a.type</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'int'</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_AGENTCOMMAND</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_CARRIERROLE</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_COMMANDMENU</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_DATATYPE</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_FLRET</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_GSUBTYPE</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_LOADOUTRET</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_MAINTYPE</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_OBJCOMMAND</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_RELATION</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_SCRIPTDEF</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_STATIONSERIAL</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_TRANSPORTCLASS</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_WINGCMD</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent=""><var>else&#160;if&#160;</var><var>$a.type</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'obj'</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_OBJECT</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_AGENT</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_DEALER</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_MERCHANT</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_SHIP</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_STATION</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>$filter</var><text>[</text><var>DATATYPE_PASSENGER</var><text>]&#160;=&#160;</text><var>[TRUE]</var></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><var>$table&#160;=&#160;</var><text>table&#160;alloc</text></line>
+<line indent=""><var>$i&#160;=&#160;</var><text>size&#160;of&#160;array&#160;</text><var>$all</var></line>
+<line indent=""><var>while&#160;</var><var>$i</var></line>
+<line indent="&#160;"><text>dec&#160;</text><var>$i&#160;=&#160;</var></line>
+<line indent="&#160;"><var>$value&#160;=&#160;</var><var>$all</var><text>[</text><var>$i</var><text>]</text></line>
+<line indent="&#160;"><var>if&#160;</var><text>size&#160;of&#160;table&#160;</text><var>$filter</var></line>
+<line indent="&#160;&#160;"><var>skip&#160;if&#160;</var><var>$filter</var><text>[</text><var>$value</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;"><text>continue</text></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"><var>$str&#160;=&#160;</var><text>sprintf:&#160;fmt=</text><var>'%s'</var><text>,&#160;</text><var>$value</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var><text>,&#160;</text><var>null</var></line>
+<line indent="&#160;"><var>$table</var><text>[</text><var>$value</var><text>]&#160;=&#160;</text><var>$str</var></line>
+<line indent="&#160;"><var>$table</var><text>[</text><var>$str</var><text>]&#160;=&#160;</text><var>$value</var></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><text>return&#160;</text><var>$table</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="lib.xml.getdatatypes"/>
+  <sval type="int" val="61"/>
+  <sval type="string" val="XML Data, get datatypes lookup table"/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="7">
+    <sval type="string" val="a.type"/>
+    <sval type="string" val="all"/>
+    <sval type="string" val="filter"/>
+    <sval type="string" val="table"/>
+    <sval type="string" val="i"/>
+    <sval type="string" val="value"/>
+    <sval type="string" val="str"/>
+  </sval>
+  <sval type="array" size="72">
+    <sval type="array" size="4">
+      <sval type="int" val="128"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65563"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="28"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="21"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="33"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="34"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="131075"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="20"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="32"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="19"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="35"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="30"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="36"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="31"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="12"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="18"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65553"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65562"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="14"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="24"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65544"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65542"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65543"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="11"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="29"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="37"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="13"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="131074"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65559"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="25"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="1733"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610599677"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="int"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="28"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="33"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="34"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="19"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="35"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="30"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="36"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="24"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="59"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610597627"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="obj"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65553"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65563"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="32"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="31"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65542"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65543"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="65562"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="1733"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="131"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610594551"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="143"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1734"/>
+      <sval type="int" val="-1610595581"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="-536853753"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="61"/>
+    </sval>
+    <sval type="array" size="14">
+      <sval type="int" val="149"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="%s"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="61"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+    </sval>
+  </sval>
+  <sval type="array" size="1">
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="string" val="Type"/>
+    </sval>
+  </sval>
+  <sval type="array" size="7">
+    <sval type="array" size="2">
+      <sval type="int" val="34"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="59"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="59"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="67"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="67"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="71"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="71"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>9080</nosignature>
+</script>

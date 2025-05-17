@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<language id="49">
+
+<page id="390007" title="Sector Names" descr="0" voice="yes">
+ <t id="30065">{1000,118} {7,1020000}</t>
+</page>
+
+<page id="390013" title="Boardcomp. Misc" descr="Miscellaneous X3.9 boardcomp lines" voice="yes">
+ <t id="9020">OTAS(sprich Oh-Tas)</t>
+</page>
+
+<page id="390017" title="Boardcomp. objects" descr="0" voice="yes">
+ <t id="5961">Mobile Piratenstation(TL)</t>
+ <t id="10801">Baldric(sprich Boaldrick)</t>
+ <t id="17081">Darkspace-Artefakt(2001 stone)</t>
+ <t id="17091">Darkspace-Installation</t>
+ <t id="17092">Darkspace ist eine mafiaähnliche Organisation, die in den äußeren Terranischen Sektoren aktiv ist. Sie haben einen starken Einfluss im United Space Command, der es zusammen mit ihrem vordergründig legalen Erscheinungsbild ihnen erlaubt, ihre Basen ohne allzu große behördliche Intervention zu betreiben.</t>
+ <t id="40913">Pandora-Tunings</t>
+ <t id="40914">Das "Pandora"-Projekt war eine Terranische Initiative, um die Eigenschaften ihrer eigenen Schiffe zu verbessern und so einen Vorteil im Terraner-Konflikt zu erzielen. Das Projekt wurde zwar eingestellt, die Tunings lassen sich aber verteilt über das gesamte Universum immer noch finden.</t>
+</page>
+
+<page id="390035" title="Menu strings misc" descr="0" voice="no">
+ <t id="670">Kommando</t>
+ <t id="676">Keine</t>
+ <t id="686">Zugehörige Schiffe</t>
+ <t id="689">-- Keine --</t>
+ <t id="829">Zugehörige Schiffe</t>
+ <t id="3580">Greife Großkampfschiffe an  \(M6 und ähnlich\)</t>
+ <t id="3583">Schwere Raketenverteidigung</t>
+ <t id="3586">Raketensalvenverteidigung</t>
+ <t id="4034">Automatisches Speichern auf Stationen</t>
+ <t id="4641">Monitor Links</t>
+ <t id="4642">Monitor Rechts</t>
+ <t id="4653">Numerische Schild/Rumpf-Anzeige</t>
+ <t id="4657">Unfokussierter Sprung</t>
+ <t id="4658">Verlasse unf. Sprungsektor</t>
+ <t id="4697">Auf Sektorkarte Anzeigen</t>
+ <t id="4741">Börsenzugangsvoraussetzungen</t>
+ <t id="4770">Fabrikfarbgebung deaktivieren</t>
+ <t id="5470">Anzahl der Spielspeicherungen</t>
+ <t id="9212">Frachtraum:</t>
+ <t id="80801">Fracht-Transfer</t>
+ <t id="1102427">Globale Freund-Feind-Kennung übermitteln an</t>
+ <t id="1102472">Anzahl der Geschütze:</t>
+ <t id="1104110">Verborgene Schiffe/Stationen nicht anzeigen</t>
+ <t id="1104297">Ausrüstungsplan auswählen</t>
+ <t id="1104305">Berichte</t>
+ <t id="1104406">Erweiterter Frachtraum:</t>
+ <t id="1104444">Zeige Stationen vom Typ: </t>
+ <t id="1104482">Veränderung</t>
+ <t id="1104487">Gesamtsumme \(Schiffe\)</t>
+ <t id="1104490">Gesamtsumme \(Stationen\)</t>
+ <t id="1104543">[author]%s[/author]\033RWARNUNG:\033X Spiel wurde als modifiziert eingestuft.\n\nGrund: %s\nZeit: %s\nZeit im Spiel: %s\n</t>
+ <t id="1104544">\033RWARNUNG:\033X Spiel modifiziert!</t>
+ <t id="1104547">Zusammenpacken</t>
+ <t id="1104687">Gekauft: %s %s @ \033B%s\033X Cr \(%s - %s\)</t>
+ <t id="1104688">Verkauft: %s %s @ \033B%s\033X Cr \(%s - %s\)</t>
+ <t id="1104781">Ihr Frachtraum ist voll</t>
+ <t id="1104782">Schiff wird angegriffen</t>
+ <t id="1104783">Schiff zerstört</t>
+ <t id="1104784">Station wird angegriffen</t>
+ <t id="1104785">Station zerstört</t>
+ <t id="1104786">Ausrüstung entfernen</t>
+ <t id="1104787">\t</t>
+ <t id="1104788">Anzahl Nachrichten</t>
+ <t id="1104789">Verberge von der Heimatbasis gesteuerte Schiffe</t>
+ <t id="1104790">Anforderungen</t>
+ <t id="1104791">Freier Laderaum</t>
+ <t id="1104792">Sensorenausfall</t>
+ <t id="1104793">Verkaufbar</t>
+ <t id="1104794">Ausrüstbar</t>
+ <t id="1104795">Gespeicherte Starteinstellungen</t>
+ <t id="1104796">Wähle Starteinstellung aus, die geladen werden soll</t>
+ <t id="1104797">Haupt Sektoren</t>
+ <t id="1104798">Zusätzliche Sektorinformationen</t>
+ <t id="1104799">Das befehlsgebende Schiff kann nicht als Ziel verwendet werden.</t>
+ <t id="1104800">Produktionsauswirkungen</t>
+ <t id="1104801">Verfügbarkeit</t>
+ <t id="1104802">Gekaufte Ausrüstung: %s</t>
+</page>
+
+<page id="390037" title="Encyclopedia Texts" descr="0" voice="no">
+ <t id="135">Haupt Sektoren</t>
+ <t id="136">Verarbeitet</t>
+ <t id="137">Luxus</t>
+ <t id="138">Schaden an Ausrüstung erhöhen</t>
+ <t id="10271">Darkspace ist eine kaum bekannte und zwielichtige Terranische Organisation. Sie haben sich auf Bergbau-Operationen in den dunklen Bereichen des hinteren Sonnensystems spezialisiert. Es wird zudem angenommen, dass sie Verbindungen zu verschiedenen Piratenfraktionen aufrechterhalten und auf diverse illegale Aktivitäten zurückgreifen.</t>
+ <t id="1030142">Piloten, die sich zur Erkundung der Systeme der Galaxie aufmachen, werden für ihre Bemühungen normalerweise gut entlohnt. Abgesehen von der Genugtuung durch die Entdeckung selbst besteht die Möglichkeit, greifbarere Belohnungen zu verdienen. Es werden Entdeckungspunkte vergeben für Aktivitäten wie: Besuch neuer Systeme, Scannen von Asteroiden, Verwendung des Niederfrequenz-Lokalisators \(NFL\) zum Erkennen entfernter Systemstandorte, treibender Container oder aufgegebener Schiffe. Je seltener die Funde, desto mehr Punkte werden vergeben.\n\nAkkumulierte Entdeckungspunkte werden auf dem Piloteninformationsbildschirm angezeigt. Sobald genügend Punkte gesammelt wurden, können sie bei der Entdeckergilde gegen wertvolle Belohnungen eingetauscht werden. Entdeckerpunkte können bei den Repräsentanten der Entdeckergilde eingetauscht werden, die sich im gesamten Universum aufhalten. Zu erreichen sind die Repräsentanten der Entdeckergilde über die Kommunikationskanäle größerer Stationen, auf denen Sie sich aufhalten. Da Sie geschäftlich auf verschiedenen Routen unterwegs sind, wird man Sie nicht immer an der gleichen Station antreffen. Jedoch kommen Sie vermehrt auf Stationen der Haupt Sektoren einzelner Völker zugegen.</t>
+</page>
+
+<page id="390038" title="Custom Start Texts" descr="0" voice="no">
+ <t id="8">Ausrüstungsstufe</t>
+ <t id="31">Zufällige Ränge</t>
+ <t id="59">Speichere aktuelle Starteinstellung</t>
+ <t id="60">Lade eine gespeicherte Starteinstellung</t>
+ <t id="107">Keine</t>
+ <t id="108">Alle</t>
+ <t id="203">Schiffs-Ausrüstungsstufe wählen</t>
+ <t id="213">Eingabe einer Bezeichnung für die Starteinstellung</t>
+ <t id="214">Wähle eine Starteinstellung aus</t>
+</page>
+
+<page id="390840" title="Darkspace Ranks" descr="0" voice="no">
+ <t id="95">Feind von Darkspace</t>
+ <t id="96">Feindlicher Kommandant</t>
+ <t id="97">Bestätigter Widersacher</t>
+ <t id="98">Fremder Agent</t>
+ <t id="99">Verdächtiger Ermittler</t>
+ <t id="100">Bürger</t>
+ <t id="101">Potenzieller Kontakt</t>
+ <t id="102">Aushelfender Lockvogel</t>
+ <t id="103">Mitarbeiter</t>
+ <t id="104">Vermittler</t>
+ <t id="105">Agent</t>
+ <t id="106">Fachmann</t>
+ <t id="107">Spezialist</t>
+ <t id="108">Geheimdienstoffizier</t>
+ <t id="109">Kommandant</t>
+ <t id="110">Mitglied des inneren Kreises</t>
+</page>
+
+<page id="390054" title="Best sell upgrade" descr="" voice="no">
+ <t id="31">Ank.Cr</t>
+ <t id="32">Norm.Cr</t>
+</page>
+
+<page id="390058" title="Best buy upgrade" descr="0" voice="no">
+ <t id="31">Verk.Cr</t>
+ <t id="32">Norm.Cr</t>
+</page>
+
+<page id="391000" title="Job names" descr="Races and job names" voice="yes">
+ <t id="150">Darkspace</t>
+</page>
+
+<page id="391265" title="Script Editor" descr="0" voice="no">
+ <t id="5">Zahl eingeben</t>
+ <t id="17">Zeichenfolge\(String\) eingeben</t>
+ <t id="28">Ware wählen</t>
+ <t id="39">Schiffstyp wählen</t>
+ <t id="109">Ausrüstungsplan wählen</t>
+</page>
+
+<page id="391900" title="Intro Menus" descr="0" voice="no">
+ <t id="5138">M5\053 M8\053 TS\053 M3\053</t>
+</page>
+
+<page id="391903" title="Input Mapping Menu" descr="Input Mapping Menu: Description of functions for which keys are assigned." voice="no">
+ <t id="10773">Registerseite wechseln</t>
+ <t id="10832">Cue Ausführung erzwingen</t>
+ <t id="10833">Cue Status Umschalten</t>
+ <t id="1000003">Turbo-Booster anhaltend aktivieren</t>
+</page>
+
+<page id="391904" title="Quickmenu strings" descr="0" voice="no">
+ <t id="1031">Autopilot: Fliege zu</t>
+ <t id="71001">Kommunikation</t>
+ <t id="80801">Fracht-Transfer</t>
+</page>
+
+<page id="391907" title="Stock Exchange Text" descr="0" voice="no">
+ <t id="701">\033CBörse\033X</t>
+ <t id="703">\033CLokale Waren\033X</t>
+ <t id="704">\033CLagerstand\033X</t>
+ <t id="706">\033CMin Cr\033X</t>
+ <t id="707">\033CMax Cr\033X</t>
+ <t id="708">\033CGehandelt\033X</t>
+ <t id="710">\033CEigene Aktien\033X</t>
+ <t id="711">\033CGekauft bei\033X</t>
+ <t id="729">\033CAngebot\033X</t>
+ <t id="730">\033CNachfrage\033X</t>
+ <t id="731">\033CKaufb. Aktien\033X</t>
+ <t id="732">\033CNettogewinn\033X</t>
+ <t id="735">\033RBezahlt\033X\033C/\033X\033GErhalten\033X\033C\033X</t>
+ <t id="738">\033CTrend\033X</t>
+ <t id="754">\033CBesitz\033X</t>
+ <t id="755">\033CVerfügbar\033X</t>
+ <t id="757">Aktienbesitz</t>
+ <t id="758">Gruppieren nach</t>
+ <t id="803">\033CAktien kaufen\033X</t>
+ <t id="805">\033CAktien verkaufen\033X</t>
+ <t id="816">%s Aktien kosten Sie %s Credits. Möchten Sie fortfahren?</t>
+ <t id="818">%s Credits werden ihrem Konto gutgeschrieben. Möchten Sie fortfahren?</t>
+ <t id="905">\033CPrivatunternehmen\033X</t>
+ <t id="909">Ansichtseinstellungen für dieses Menü</t>
+ <t id="1202">Sortieren nach</t>
+ <t id="1210">\033CAktion\033X</t>
+ <t id="1211">\033CSpielzeit\033X</t>
+ <t id="1212">\033CBörse\033X</t>
+ <t id="1214">\033CCr/Aktie\033X</t>
+ <t id="1217">\033CGebühren\033X</t>
+ <t id="1219">\033CAktien\033X</t>
+ <t id="1568">Bericht über Aktien-\033GKauf \033C/ \033RVerkauf\033X</t>
+ <t id="1570">Anzeigeeinstellung für Erweiterte Ansicht</t>
+ <t id="1575">Untertitel bei Aktienbesitzänderung</t>
+</page>
+
+<page id="392002" title="Script Constants" descr="0" voice="no">
+ <t id="608">MEvent.TradeFull</t>
+ <t id="609">MEvent.TradeEmpty</t>
+ <t id="635">WareType.NoPrice</t>
+ <t id="636">WareType.Luxury</t>
+ <t id="637">WareType.NoEject</t>
+ <t id="638">WareType.Permanent</t>
+ <t id="805">JumpFlg.NoEnergyUse</t>
+ <t id="837">Blacklist.GlobalFF</t>
+ <t id="838">Blacklist.AutoSingle</t>
+ <t id="1041">RaceFlg.Inactive</t>
+ <t id="3029">Missile.Damage</t>
+ <t id="4150">Plot Flags</t>
+ <t id="4151">PlotFlg.Xenon1</t>
+ <t id="4152">PlotFlg.Xenon2</t>
+ <t id="4153">PlotFlg.Xenon3</t>
+ <t id="4154">PlotFlg.Xenon4</t>
+ <t id="4155">PlotFlg.Xenon5</t>
+ <t id="4156">PlotFlg.HSAP.K1</t>
+ <t id="4157">PlotFlg.HSAP.K2</t>
+ <t id="4158">PlotFlg.HSAP.X1</t>
+ <t id="4159">PlotFlg.HSAP.X2</t>
+ <t id="4160">PlotFlg.Terran</t>
+ <t id="5000">Object Context Menu</t>
+ <t id="5001">ObjContext.Custom</t>
+ <t id="5002">ObjContext.Advanced</t>
+ <t id="5003">ObjContext.Sector</t>
+ <t id="5004">ObjContext.Orders</t>
+</page>
+
+<page id="392003" title="Script Command Names" descr="0" voice="no">
+ <t id="203">send incoming message %0 to player: type:%1, display it=%2, log it=%3</t>
+ <t id="2593">%0convert gate: gate=%1, type=%2, allow oos=%3, build ship=%4, disabled cutscene=%5</t>
+ <t id="3144">%0split string: %1, to width: %2</t>
+ <t id="3145">add object context entry: id=%0, class=%1, icon=%2, pageid=%3, textid=%4, script=%5, type=%6</t>
+ <t id="3146">add object context entry: id=%0, class=%1, icon=%2, pageid=%3, textid=%4, scriptname=%5, type=%6</t>
+ <t id="3147">%0get true race blacklist: race=%1</t>
+ <t id="3148">%0get global friend/foe race blacklist: race=%1</t>
+ <t id="3149">%0get start day</t>
+ <t id="3150">%0set start day</t>
+ <t id="3151">%0 get player marines</t>
+ <t id="3152">%0 get player marines: in space, addto=%1</t>
+ <t id="3153">%0 get player marines: boarding, addto=%1</t>
+ <t id="3154">%0 get player marines: on ships, addto=%1</t>
+ <t id="3155">%0 get player marines: on stations, addto=%1</t>
+ <t id="3156">%0 get player pilots</t>
+ <t id="3157">%0 get player marines: in training, addto=%1</t>
+ <t id="3158">%0 get player marines: waiting pickup, addto=%1</t>
+ <t id="3159">%1%0 is stationary flagged</t>
+ <t id="3160">%0 set stationary flag: %1</t>
+ <t id="3161">%0 exponential interpolation: x1=%1, x2=%2, y1=%3, y2=%4, value=%5</t>
+ <t id="3162">%0 logarithmic interpolation: x1=%1, x2=%2, y1=%3, y2=%4, value=%5</t>
+ <t id="3163">%1%0 is race active</t>
+ <t id="3164">%1%0 does race have enconomy</t>
+ <t id="3165">%1%0 is organised race</t>
+ <t id="3166">%0 clear all race threats</t>
+ <t id="3167">%1%0 is race piloted</t>
+ <t id="3168">%1%0 is pirate race</t>
+ <t id="3169">%1%0 can race have marines</t>
+ <t id="3170">%1%0 is fixed notority race</t>
+ <t id="3171">%1%0 is XUniverse race</t>
+ <t id="3172">%1%0 is terran race</t>
+ <t id="3173">%1%0 is aggressive race</t>
+ <t id="3174">%1%0 is default race</t>
+ <t id="3175">%1%0 is race pilot sub race</t>
+ <t id="3176">%1%0 is NPC race</t>
+ <t id="3177">%1%0 is player race</t>
+ <t id="3178">%1%0 is non talking race</t>
+ <t id="3179">register god event script: script=%0, prio=%1</t>
+ <t id="3180">unregister god event script: script=%0</t>
+ <t id="3181">register god event script: scriptname=%0, prio=%1</t>
+ <t id="3182">unregister god event script: scriptname=%0</t>
+ <t id="3183">%1%0 should corporation use speaker race</t>
+ <t id="3184">%0 set should corporation use speaker race: %1</t>
+ <t id="3185">%0 set corporation speaker race: %1</t>
+ <t id="3186">%0 set corporation connected race: %1</t>
+ <t id="3187">add custom upgrade: ware=%0, shiptype=%1</t>
+ <t id="3188">add custom drone: ware=%0, shiptype=%1, default command=%2</t>
+ <t id="3189">remove custom upgrade: ware=%0</t>
+ <t id="3190">write to player logbook: type=%0, text=%1</t> 
+ <t id="3191">%1%0 get HQ blueprint time: ware=%2, only available=%3</t>
+ <t id="3192">%1%0 get HQ blueprint product count: ware=%2</t>
+ <t id="3193">%1%0 get HQ blueprint count: ware=%2</t>
+ <t id="3194">%1%0 get HQ recyclable objects: include queued=%2</t>
+ <t id="3195">%1%0 get HQ recyclable stations: include queued=%2</t>
+ <t id="3196">%0 is race blacklist automatic</t>
+ <t id="3197">%1%0get dock true products table</t>
+ <t id="3198">%1%0get dock true resources table</t> 
+ <t id="3199">%1%0get dock true tradeables table</t> 
+ <t id="3200">%1%0get dock storage wares</t> 
+ <t id="3201">%1%0get dock storage wares table</t> 
+ <t id="3202">%1%0is passenger a pilot</t>
+ <t id="3203">%1%0get marine status: as string=%2</t>
+ <t id="3204">%0 get fleet leader count</t>
+ <t id="3205">%0 get fleet ships count</t>
+ <t id="3206">%0 get all fleet leaders</t>
+ <t id="3207">add ware deployment: ware=%0, script=%1</t>
+ <t id="3208">add ware deployment: ware=%0, scriptname=%1</t>
+ <t id="3209">%0 get ware deployment script: ware=%1</t>
+ <t id="3210">%1%0 get sector colour</t>
+ <t id="3211">%0 set sector colour: %1</t>
+ <t id="3212">%0 get real time</t>
+ <t id="3213">%0clear sector objects</t>
+ <t id="3214">%0remove sector wreck: %1</t>
+ <t id="3215">load universe map: %0</t>
+ <t id="3216">%0set override comm range: %1</t>
+ <t id="3217">%1%0get override comm range</t>
+ <t id="3218">%0set sector text id: %1</t>
+ <t id="3219">%0set sector description id: %1</t>
+ <t id="3220">%0 clear all wrecks</t>
+ <t id="3221">%1%0 has sector fog of war</t>
+ <t id="3222">%0 set sector fog of war: %1</t>
+ <t id="3223">%1%0 is sector always jumpable</t>
+ <t id="3224">%0 set sector always jumpable: %1</t>
+ <t id="3225">add script selection option: name=%0, pageid=%1, textid=%2, options=%3, default=%4</t>
+ <t id="3226">add script selection option: name=%0, pageid=%1, textid=%2, options=%3, default=%4, callback script=%5</t>
+ <t id="3227">remove script selection option: name=%0</t>
+ <t id="3228">%0get script selection value: name=%1</t>
+ <t id="3229">%0get all script selection options</t>
+ <t id="3230">set script selection option: name=%0, value=%1</t>
+ <t id="3231">add script selection option: name=%0, pageid=%1, textid=%2, options=%3, default=%4, callback scriptname=%5</t>
+ <t id="3232">add object info menu: class=%0, script=%1, prio=%2</t>
+ <t id="3233">add object info menu: class=%0, scriptname=%1, prio=%2</t>
+ <t id="3234">remove object info menu: class=%0, script=%1</t>
+ <t id="3235">remove object info menu: class=%0, scriptname=%1</t>
+ <t id="3236">%0 get files in directory: %1 search pattern=%2</t>
+ <t id="3237">%0get random face: race=%1, subrace=%2, female=%3</t>
+ <t id="3238">%0add face: id=%1, female=%2, subrace=%3</t>
+ <t id="3239">%0remove face: id=%1, female=%2, subrace=%3</t>
+ <t id="3240">%1%0get faces: female=%2, subrace=%3</t>
+ <t id="3241">%1%0get face from id: %2, female=%3, subrace=%4</t>
+ <t id="3242">%0 %1 &lt;&lt; %2</t>
+ <t id="3243">%0 %1 &gt;&gt; %2</t>
+ <t id="3244">%0get matrix from angles: alpha=%1, beta=%2, gamma=%3</t>
+ <t id="3245">%0get angles from vector: x=%1, y=%2, z=%3</t>
+ <t id="3246">%0get angles from matrix: %1</t>
+ <t id="3247">%0matrix multiple: %1 * %2</t>
+ <t id="3248">%0matrix multiple inverse: %1 * %2</t>
+ <t id="3249">%0rotate vector: %0, alpha=%1, beta=%2</t>
+ <t id="3250">%0rotate vector inverse: %0, alpha=%1, beta=%2</t>
+ <t id="3251">%1%0is capital sector</t>
+ <t id="3252">%0set capital sector: %1</t>
+ <t id="3253">%1%0has sector additional info</t>
+ <t id="3254">%0add sector additional info: id=%1, title=%2, data=%3</t>
+ <t id="3255">%0add sector additional info: id=%1, title page=%2, title id=%3, data page=%4, data id=%5</t>
+ <t id="3256">%1%0get sector additional data</t>
+ <t id="3257">%1%0get sector additional data title: id=%2</t>
+ <t id="3258">%1%0get sector additional data text: id=%2</t>
+ <t id="3259">%0remove sector additional data: id=%1</t>
+ <t id="3260">%0get ware description: ware=%1</t>
+ <t id="3261">remove god proposed station: id=%0</t>
+ <t id="3262">add laser restriction: laser=%0, race=%1</t>
+ <t id="3263">remove laser restriction: laser=%0, race=%1</t>
+ <t id="3264">clear laser restrictions: laser=%0</t>
+ <t id="3265">%0get laser restrictions: laser=%1</t>
+ <t id="3266">%0is laser restricted: laser=%1, race=%2</t>
+ <t id="3267">%0can ship type install laser: shiptype=%1, laser=%2, turret=%3</t>
+ <t id="3268">%0get system time</t>
+ <t id="3269">%0get custom ranks: sorted=%1</t>
+ <t id="3270">%0get mission ranks</t>
+ <t id="3271">set custom rank: id=%0, name page=%1, name id=%2, title page=%3, title id=%4, percent=%5</t>
+ <t id="3272">set custom rank: id=%0, name=%1, title=%2, percent=%3</t>
+ <t id="3273">%0get custom rank string: id=%1</t>
+ <t id="3274">%0get custom rank name: id=%1</t>
+ <t id="3275">%0get custom rank title: id=%1</t>
+ <t id="3276">%0get custom rank percent: id=%1</t>
+ <t id="3277">%0set allow player docking: %1</t>
+ <t id="3278">%1%0is allow player docking</t>
+ <t id="3279">remove custom rank: id=%0</t>
+ <t id="3280">add custom menu hyperlinked info: menu=%0, text=%1</t>
+ <t id="3281">set menu option: %0, maximum select lines=%1</t>
+ <t id="3282">%1%0get all production modifiers</t>
+ <t id="3283">%1%0get production modifier: ware=%2</t>
+ <t id="3284">%1%0should display production modifier: ware=%2</t>
+ <t id="3285">%0add production modifier: ware=%1, percent=%2, display=%3</t>
+ <t id="3286">%0remove production modifier: ware=%1</t>
+ <t id="3287">%1%0get sector override race name</t>
+ <t id="3288">%0set sector override race name: %1</t>
+ <t id="3289">%0clear sector override race name</t> 
+ <t id="3290">%1%0is passenger eject disabled</t>
+ <t id="3291">%0set passenger eject disabled: %1</t>
+ <t id="3292">%0get mod name display</t>
+ <t id="3293">set mod name display: %0</t>
+ <t id="3282">%1%0get all production modifiers</t>
+ <t id="3283">%1%0get production modifier: ware=%2</t>
+ <t id="3284">%1%0should display production modifier: ware=%2</t>
+ <t id="3285">%0add production modifier: ware=%1, percent=%2, display=%3</t>
+ <t id="3286">%0remove production modifier: ware=%1</t>
+ <t id="3287">%1%0get sector override race name</t>
+ <t id="3288">%0set sector override race name: %1</t>
+ <t id="3289">%0clear sector override race name</t> 
+ <t id="3290">%1%0is passenger eject disabled</t>
+ <t id="3291">%0set passenger eject disabled: %1</t>
+ <t id="3292">%0get mod name display</t>
+ <t id="3293">set mod name display: %0</t>
+ <t id="3294">set maker race override: shiptype=%0, race=%1</t>
+ <t id="3295">%0get maker race override: shiptype=%1</t>
+ <t id="3296">set secondary maker race: shiptype=%0, race=%1</t>
+ <t id="3297">%0get secondary maker race: shiptype=%1</t>
+ <t id="3298">set dock type to military: %0</t>
+ <t id="3299">remove dock type as military: %0</t>
+ <t id="3300">%0 set special object video channel: %1</t>
+ <t id="3301">%1%0is station rebuild in owner sector only</t>
+ <t id="3302">%0set station rebuild in owner sector only: %1</t>
+</page>
+
+<page id="392008" title="Script Object Commands" descr="0" voice="no">
+ <t id="9600">COMMAND_UPGRADE_FACTORY</t>
+</page>
+
+<page id="392010" title="Script Cmd Names" descr="0" voice="no">
+ <t id="2">Angriff auf nächsten Feind von...</t>
+ <t id="9">Kaufe Heimatbasis-Ware...</t>
+ <t id="10">Kaufe Heimatbasis-Ware zum besten Preis...</t>
+ <t id="14">Töte alle Feinde und Lande</t>
+ <t id="19">Fliege zu Position...</t>
+ <t id="28">Verkaufe Heimatbasis-Ware...</t>
+ <t id="29">Verkaufe Heimatbasis-Ware zum besten Preis...</t>
+ <t id="100">Vernichte Feinde</t>
+ <t id="101">Greife mein Ziel an</t>
+ <t id="102">Raketenabwehr</t>
+ <t id="103">Beschütze Schiff</t>
+ <t id="105">Reine Raketenabwehr</t>
+ <t id="106">Greife Jäger an</t>
+ <t id="107">Greife Großkampfschiffe an</t>
+ <t id="9600">Fabriken Aufrüsten</t>
+ <t id="100000">Ausrüstungsplan anwenden</t>
+ <t id="100003">Beschädigte Schiffe in Schiffsw./HQ reparieren</t>
+ <t id="100010">Waren mit Drohnen einsammeln</t>
+ <t id="100028">Waren von Heimatbasis holen</t>
+ <t id="100029">Waren an Heimatbasis liefern</t>
+</page>
+
+<page id="392005" title="Script Command Menu" descr="0" voice="no">
+ <t id="103">Datenreihen &amp; Tabellen</t>
+</page>
+ 
+<page id="392011" title="Script Cmd Shorts" descr="0" voice="no">
+ <t id="1">HB.Flug</t>
+ <t id="2">Angr.n.Feind</t>
+ <t id="4">Verteidige</t>
+ <t id="5">Folge</t>
+ <t id="7">Lande</t>
+ <t id="8">Angr.Ziel.von</t>
+ <t id="9">HB.Kauf.Ware</t>
+ <t id="10">HB.Kauf.W.Best</t>
+ <t id="12">Flug.Sektor</t>
+ <t id="14">Angr.a.F.Lande</t>
+ <t id="15">Angr.a.Feinde</t>
+ <t id="19">Flug.Pos</t>
+ <t id="23">Angr.F.Lande</t>
+ <t id="24">Sammle.Ware</t>
+ <t id="26">Vert.Pos</t>
+ <t id="28">HB.Verk.Ware</t>
+ <t id="29">HB.Verk.W.Best</t>
+ <t id="30">Sammle.W.Sektor</t>
+ <t id="31">Plünd.Schiffe.Sktr</t>
+ <t id="37">Spr.Sektor</t>
+ <t id="38">Spr.Flug.Stat</t>
+ <t id="39">Spr.Flug.Pos</t>
+ <t id="40">Sammle.Steine</t>
+ <t id="41">Bergbau.Sektor</t>
+ <t id="42">Versorge.Schiffe</t>
+ <t id="43">Bewaffne.Schiffe</t>
+ <t id="44">Betanke.Schiffe</t>
+ <t id="47">Flug.Tor</t>
+ <t id="48">Baue.SatNetz</t>
+ <t id="49">Bergb.Verk.Best</t>
+ <t id="51">Patr.Sektorn</t>
+ <t id="52">Aufl.Feinde</t>
+ <t id="54">Angr.GKS</t>
+ <t id="55">Angr.Jäger</t>
+ <t id="58">Entere.Schiff</t>
+ <t id="59">Sammle.Pilot</t>
+ <t id="60">Kauf.Verk</t>
+ <t id="61">Kauf.Best</t>
+ <t id="62">Verk.Best</t>
+ <t id="64">Rak.Sperrfeuer</t>
+ <t id="67">Vert.Stat</t>
+ <t id="68">Anfl.Schiffe</t>
+ <t id="69">SetzeAb.Jäger</t>
+ <t id="72">Starte.Jäger</t>
+ <t id="73">Angr.Schilde</t>
+ <t id="74">Vert.Sektor</t>
+ <t id="76">Scan.Asteroid</t>
+ <t id="77">D.Waren.Tausch</t>
+ <t id="80">Schicke.Marines</t>
+ <t id="81">Kauf</t>
+ <t id="82">Verk</t>
+ <t id="83">FL.Bereit</t>
+ <t id="84">FL.Bilde.Flotte</t>
+ <t id="85">FL.Angriff</t>
+ <t id="86">FL.Angr.a.F</t>
+ <t id="87">FL.Vert.Sektor</t>
+ <t id="88">FL.Vert.Stat</t>
+ <t id="89">FL.Überf.Sektor</t>
+ <t id="90">Flug.Koord</t>
+ <t id="91">Spr.zu.mir</t>
+ <t id="92">FL.Nachschub</t>
+ <t id="93">FL.Patr.Sektorn</t>
+ <t id="94">Packe.Stat</t>
+ <t id="100">K.Angr.Feinde</t>
+ <t id="101">K.Angr.m.Ziel</t>
+ <t id="102">K.RakAbw</t>
+ <t id="103">K.Vert.Schiff</t>
+ <t id="105">K.nur.RakAbw</t>
+ <t id="106">K.Angr.Jäger</t>
+ <t id="107">K.Angr.GKS</t>
+ <t id="1100">Auto.Cr.Transfer</t>
+ <t id="9600">Aufr.Fabrik</t>
+ <t id="100000">HQ.AusrPlan.Anw</t>
+ <t id="100001">Zurück.z.Träger</t>
+ <t id="100002">Rückruf.Schiffe</t>
+ <t id="100003">Rep.Schiffe</t>
+ <t id="100004">Sammle.Schiffe</t>
+ <t id="100005">D.Erkunde</t>
+ <t id="100006">D.Scan.Asteroid</t>
+ <t id="100007">D.Scan.Schiffe</t>
+ <t id="100008">D.Nachschub</t>
+ <t id="100009">D.Rep.Schiff</t>
+ <t id="100010">D.Sammle.Waren</t>
+ <t id="100012">Rep.Ziel</t>
+ <t id="100013">D.Rep.Stat</t>
+ <t id="100015">D.Bergbau</t>
+ <t id="100016">Aufkl.Tor</t>
+ <t id="100022">D.Sammle.Fliegen</t>
+ <t id="100023">D.Verteil.Marines</t>
+ <t id="100027">D.Aufkl.Sektor</t>
+ <t id="100028">HB.Ware.Holen</t>
+ <t id="100029">HB.Ware.Liefern</t>
+ <t id="100030">Verteile.Waren</t>
+ <t id="100031">Stat.Manager</t>
+ <t id="100032">Auto.Preis</t>
+ <t id="100033">HB.Sprung</t>
+ <t id="100034">HB.Bergbau</t>
+ <t id="100035">Einschr.Stat.Mgr</t>
+ <t id="100036">Baue.Komplex</t>
+ <t id="100038">Sammle.Objekt</t>
+</page>
+
+<page id="392020" title="Command Console" descr="0" voice="no">
+ <t id="45">Benachrichtigung, wenn Auftrag beendet</t>
+ <t id="99">Ausrüstungsstufe</t>
+ <t id="139">Nachricht, wenn Agent von Auftrag zurück</t>
+</page>
+
+<page id="392021" title="Cockpit Turret Names" descr="0" voice="no">
+ <t id="5">Oben</t>
+ <t id="6">Unten</t>
+</page>
+
+<page id="392022" title="Command Info" descr="0" voice="no">
+ <t id="49">Baut Mineralien in einem zugewiesenen Gebiet ab und verkauft sie in diesem möglichst gewinnbringend.\n{2022,99993}</t>
+ <t id="1100">Dieser Befehl überweist automatisch Geldbeträge zwischen dem Stationskonto und deinem persönlichen Konto.\nWenn das Stationskonto unter den Mindestwert fällt, wird Geld von deinem Konto auf das Stationskonto überwiesen.\nWenn das Stationskonto den Höchstwert überschreitet, wird dieser vom Stationskonto auf dein persönliches Konto überwiesen.\n{2022,99994}</t>
+ <t id="9600">Dieser Befehl weist deinem TL an, Fabriken die aufgerüstet werden können, automatisch auf zu rüsten. Dein TL wird die benötigten Stations-Upgradebausätze finden, diese kaufen und deine Stationen damit aufrüsten.\nDieser Befehl kann für eine einzelne Fabriken, Fabriken innerhalb von Komplexen, sowie für alle im Sektor befindlichen Fabriken bzw. Komplexe angewandt werden.\n{2022,99994}</t>
+ <t id="100000">Schiff wird für einen Ausrüstungswechsel zu einem Hauptquartier geschickt. Das Schiff wird warten, bis alle erforderlichen Waren verfügbar sind.</t>
+ <t id="100031">Während dieser Befehl läuft, werden die Waren in deiner Station/deinem Komplex verwaltet. Alle heimatbasierten Schiffe werden benutzt, repariert und ersetzt, wenn nötig.\n\nDer Stationsmanager wird seinen Dienst solange fort führen, bis sein Befehl aus dem Kommandoslot der Station entfernt wird. Für die Dienste des Managers fällt eine Gebühr an, welche alle 2 Stunden vom Stationskonto abgebucht wird. Wenn sich nicht mehr genügend Credits auf dem Stationskonto vorhanden sind, werden die Dienste eingestellt, bis sie wieder bezahlt werden können.\n\nWährend der Manager Stationszugewiesene Schiffe verwendet, wird dessen Kontrolle übernommen, was dich daran hindert, diesen Schiffen Befehle zu erteilen.\n{2022,99994}</t>
+</page>
+
+<page id="392030" title="Group Commands" descr="0" voice="no">
+ <t id="1">Docke an...</t>
+ <t id="2">Fliege zu Sektor...</t>
+ <t id="3">Fliege zu Position...</t>
+</page>
+
+<page id="392031" title="Group Command Shorts" descr="0" voice="no">
+ <t id="1">ST.Lande</t>
+ <t id="2">ST.Flug.Sektor</t>
+ <t id="3">ST.Flug.Pos</t>
+ <t id="4">ST.Angr.a.F</t>
+ <t id="5">ST.Angriff</t>
+ <t id="6">ST.Folge</t>
+ <t id="7">ST.Verteidige</t>
+ <t id="8">ST.Angr.Ziel.von</t>
+ <t id="9">ST.Angr.n.Feind</t>
+ <t id="10">ST.Vert.Pos</t>
+ <t id="11">ST.Bereit</t>
+ <t id="12">ST.Sprung</t>
+ <t id="13">ST.Leerlauf</t>
+ <t id="14">ST.Patr.Sektorn</t>
+ <t id="15">ST.Sammle.Waren</t>
+ <t id="16">ST.Nachschub</t>
+ <t id="17">ST.Ausrüsten.wie</t>
+ <t id="18">ST.Bewaffnen</t>
+ <t id="19">ST.Angr.Schilde</t>
+</page>
+
+<page id="392294" title="Bartering system" descr="Text strings used by the new bartering engine and the bartering menus" voice="no">
+ <t id="207">Verkaufe %s %s - %s bietet:</t>
+ <t id="210">Kaufe %s %s - %s verlangt:</t>
+</page>
+
+<page id="392295" title="Hephaistos Corp Text" descr="Hephaistos Corp Text" voice="no">
+ <t id="257">%s\n[left]Hephaistos Corp. Baugebühren:[/left][right]\053\062\060%%[/right]</t>
+</page>
+
+<page id="392600" title="Gametips" descr="Ingame tips for the player that are shown once an action is performed for the first time. The tips should be as short and precise as possible." voice="no">
+ <t id="36">Du hast den Bauplan für einen TOA-Bausatz in deinem Hauptquartier erworben.</t>
+ <t id="37">Eingebaute Komponenten können nicht zwischen Schiffen transferiert werden.</t>
+ <t id="38">Die Kiste enthielt eine Blaupause, die jetzt in deinem Hauptquartier hinzugefügt wurde.</t>
+ <t id="39">Um den HSZP zu aktivieren, benutze das Kontextmenü in einem Umkreis von 3 km.</t>
+ <t id="40">Sieht aus, als wäre dein Schiff beschädigt. Du kannst es austeigen und es mit dem Reparaturlaser deines Raumanzugs reparieren.</t>
+ <t id="41">Wenn du ein Schiff oder eine Station auswählst, kannst du mit dem Identifikations-Hotkey weitere Informationen zu diesen anzeigen lassen. $VK_IDENTIFY$</t>
+ <t id="42">Wenn du eine Ware auswählst, kannst du mit dem Identifizierungs-Hotkey weitere Informationen zu dieser anzeigen lassen. $VK_IDENTIFY$</t>
+ <t id="43">Du hast das Spacelab-Hauptquartier in Besitz genommen, nun hast du die die volle Kontrolle darüber.</t>
+</page>
+
+<page id="393202" title="X3.9 Tutorial Lines" descr="0" voice="no">
+ <t id="12">Ringrennensimulation</t>
+</page>
+
+<page id="393303" title="L2 Generic Transport Passenger" descr="0" voice="no">
+ <t id="100">104</t>
+ <t id="101">Ich muss unbedingt zu einem Treffen auf {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest}, aber mein Schiff hat hier seinen Geist aufgegeben.</t>
+ <t id="102">Ich suche nach einem Piloten mit einem schnellen Schiff, das Passagiere transportieren kann, damit ich einige wichtige Dokumente ausliefern kann. Mein Pilot, mit dem ich sonst fliege, ist krank geworden, aber diese Dokumente müssen so schnell wie möglich verteilt werden.</t>
+ <t id="103">Ich bin ziemlich spät dran und muss zu einem wichtigen Treffen auf {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest}, weshalb ich einen Piloten mit einem schnellen Schiff brauche, der mich da in Windeseile hinbringt.</t>
+ <t id="104">Ich will gerne {random.pilot.{value@L2M103.OfferRace}} auf der Station {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest} einen Besuch abstatten.</t>
+ <t id="200">205</t>
+ <t id="201">Ich benötige eine luxuriöse Transportmöglichkeit zu einem Treffen auf {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest}. Wenn Sie einen TP Passagierkreuzer haben, würde ich gerne mit Ihnen fliegen.</t>
+ <t id="202">Ich bin auf der Suche nach einem Piloten mit einem TP Passagiertransporter, damit ich einige wichtige Dokumente ausliefern kann. Mein üblicher Pilot ist krank geworden und ich muss diese Dokumente schleunigst abliefern.</t>
+ <t id="203">Ich bin spät dran zu einem Treffen auf {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest} und brauche einen Piloten mit einem schnellen TP Passagierkreuzer, der mich dahin bringt.</t>
+ <t id="204">Ich würde gerne {random.pilot.{value@L2M103.OfferRace}} an Bord von {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest} besuchen. Ich suche daher einen Piloten mit einem TP Passagierkreuzer.</t>
+ <t id="205">Ich muss nach {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest} und brauche dafür ein Schiff. Ich akzeptiere allerdings nur höchste Standards an Komfort und Ausstattung, ein TP Passagiertransporter ist daher Pflicht.</t>
+</page>
+
+<page id="393333" title="L2M133 Generic Anti Smuggler Police" descr="0" voice="no">
+ <t id="2002">Die Aufrüstung des Militärs der Gemeinschaft der Planeten hat das Einkommen vieler von uns Freiberuflern geschmälert. Wir benötigen einen talentierten Piloten, der für uns {lookup.class.name@{value@L0M33 B.ShipClass}} in einem beliebigen Sektor scannt. Wenn gute, profitbringende Scans gemacht werden, werden wir einen Teil der Beute abgeben.</t>
+</page>
+
+<page id="393382" title="L2 Tour Of A Lifetime" descr="0" voice="no">
+ <t id="182015">{value@{param@Cue}.{param@ID} PassengerTotal} Wagemutige haben sich gerade dazu entschieden, die "Reise Ihres Lebens Xtreme" durchstehen zu wollen. Aus völlig unerfindlichen Gründen ist unser eigentlicher Pilot für die Tour nicht auffindbar. Ich brauche einen fähigen Piloten, der einen Passagiertransporter \(TP\) fliegen kann.\nDie Tour wird Sie durch alle 10 Xenon-Sektoren führen.</t>
+</page>	
+
+<page id="393800" title="Generic player replies" descr="0" voice="no">
+ <t id="10007">[author]Entdeckergilde[/author]Grüße, %s!\n\nSie können eine neue Entdeckung finden, irgendwo in \033B%s\033X.</t>
+</page>
+ 
+<page id="396020" title="Mine Minerals Script" descr="Input menu for ship command Mine Minerals" voice="no">
+ <t id="228">Alle Marineinfanteristen aufsammeln</t>
+ <t id="263">Riesenschiff</t>
+ <t id="2104">Max. Reichweite von Startsektor</t>
+ <t id="2105">Max. Entfernung zu Verkaufsort</t>
+ <t id="2119">Warten bis Anzahl geladen</t>
+ <t id="2120">Frachtraum füllen</t>
+ <t id="2124">Warte bis Anzahl entladen</t> 
+ <t id="2142">Mindestwarenwert</t>
+ <t id="2143">Befehl Endlos ausführen</t>
+ <t id="2146">Marineinfanteristen einschließen</t> 
+ <t id="2162">Externe Fabriken/Komplexe hinzufügen</t>
+ <t id="2163">Externe Fabriken/Komplexe</t>
+ <t id="2164">Wähle Position zum Platzieren aus...</t>
+</page>
+
+<page id="396023" title="Defend Station Command" descr="Defend Station menu text" voice="no">
+ <t id="4">Wähle Schiff zum Angreifen aus</t>
+ <t id="5">Wähle Station zum Angreifen aus</t>
+ <t id="6">Wähle Schiff/Station zum Angreifen aus</t>
+ <t id="7">Wähle zu verteidigende Position</t>
+</page>
+
+<page id="399998" title="Unofficial patch texts" descr="" voice="no">
+ <t id="1">SINZA-Sicherheitsabschaltung deaktivieren</t>
+ <t id="2">Packen Sie bitte meine Station ein...</t>
+ <t id="3">Die von Ihnen gewählte Station kann nicht eingepackt werden. Ich bin nicht in der Lage Minen auf Asteroiden ein zu packen.</t>
+ <t id="4">Die von Ihnen gewählte Station kann nicht eingepackt werden. Ich bin nicht in der Lage den Xenon Hub ein zu packen.</t>
+ <t id="5">Die von Ihnen gewählte Station kann nicht eingepackt werden. Ich bin nicht in der Lage eine Fabrik ein zu packen, die gerade aufgerüstet wird.</t>
+ <t id="6">Die von Ihnen gewählte Station kann nicht eingepackt werden. Ich bin nicht in der Lage eine Fabrik ein zu packen, für die eine Aufrüstung ansteht.</t>
+ <t id="7">Die von Ihnen gewählte Station kann nicht eingepackt werden. Mein Schiff hat nicht genug Frachtraum für die Station und all ihre Waren.</t>
+ <t id="8">Die von Ihnen gewählte Station kann nicht eingepackt werden. Mein Schiff hat nicht genug Platz für die Marineinfanteristen der Station.</t>
+ <t id="9">Die von Ihnen gewählte Station kann nicht eingepackt werden. Mein Schiff kann nicht an deiner Station andocken und ich habe keine Frachtdrohnen an Bord.</t>
+ <t id="10">Wir bereiten uns jetzt auf das Packen Ihrer Station vor.</t>
+ <t id="11">Sektor Musik ändern</t>
+ <t id="12">Zufällige Wiedergabe</t>
+ <t id="13">Original wiederherstellen</t>
+ <t id="14">Original Musik:</t>
+ <t id="15">Aktuelle Musik:</t>
+ <t id="16">Keine</t>
+ <t id="17">Musik ID \(%s\)</t>
+ <t id="18">Schiff wird angegriffen</t>
+ <t id="19">Schiff zerstört</t>
+ <t id="20">Eines Ihrer Schiffe wird angegriffen: %s - %s</t>
+ <t id="21">Station wird angegriffen</t>
+ <t id="22">Station zerstört</t>
+ <t id="23">Eine Ihrer Stationen wird angegriffen: %s - %s</t>
+ <t id="24">Ihr Schiff: %s wurde zerstört in %s</t>
+ <t id="25">Ihre Station: %s wurde zerstört in %s</t>
+ <t id="26">Benachrichtigungen zur Produktion deaktivieren</t>
+ <t id="27">Fabrikfarbgebung deaktivieren</t>
+ <t id="28">Wähle Sektor zum Aufrüsten von Fabriken aus</t>
+ <t id="29">Wähle Fabrik/Komplex zum Aufrüsten aus</t>
+ <t id="30">Wähle Fabrik/Komplex...</t>
+ <t id="31">Wähle Sektor...</t>
+ <t id="32">Wähle alle aus...</t>
+ <t id="33">Auswahl</t>
+ <t id="34">Alle</t>
+ <t id="35">Ausgewählt</t>
+ <t id="36">Starte Aufrüstung</t>
+ <t id="37">Bevorzugter Kaufort</t>
+ <t id="38">Nächstliegender</t>
+ <t id="39">Günstigster</t>
+ <t id="40">Aufrüstung von Fabrik: %s</t>
+ <t id="41">Wartend: nicht genügend Credits</t>
+ <t id="42">Aufrüstung durchführen: %s</t>
+ <t id="43">Wartend: Keine sichere Route zu: %s</t>
+ <t id="44">Wartend: Ansehen zu gering</t>
+ <t id="45">Wartend: Keine sicheren Routen verfügbar</t>
+ <t id="46">Blaupause im HQ vorhanden:</t>
+ <t id="100">Argonen Hauptsektor - {7,1020402}</t>
+ <t id="101">Boronen Hauptsektor - {7,1020101}</t>
+ <t id="102">Paraniden Hauptsektor - {7,1020702}</t>
+ <t id="103">Split Hauptsektor - {7,1020308}</t>
+ <t id="104">Teladi Hauptsektor - {7,1020206}</t>
+ <t id="105">TerraCorp Titelmusik</t>
+ <t id="106">Atreus Titelmusik</t>
+ <t id="107">OTAS Titelmusik</t>
+ <t id="108">NMMC Titelmusik</t>
+ <t id="109">StrongArms Titelmusik</t>
+ <t id="110">Split - {7,1020410}</t>
+ <t id="111">Paraniden - {7,1021410}</t>
+ <t id="112">X3: Reunion Plot Verfolgungsjagd</t>
+ <t id="113">Game-Over Musik</t>
+ <t id="114">Andock Musik</t>
+ <t id="115">X: Beyond the Frontier Titelmusik</t>
+ <t id="116">Darkspace Titelmusik</t>
+ <t id="117">Piraten - {7,1021110}</t>
+ <t id="118">Piraten - {7,1020605}</t>
+ <t id="119">Piraten - {7,1021119}</t>
+ <t id="120">Piraten - {7,1020707}</t>
+ <t id="121">Kha'ak Sektor</t>
+ <t id="122">Terraner Hauptsektor - {7,1020414}</t>
+ <t id="123">Teladi - {7,1020820}</t>
+ <t id="124">X3: Farnham's Legacy Titelmusik</t>
+ <t id="125">Korsaren Titelmusik</t>
+ <t id="126">Boronen - {7,1021503}</t>
+ <t id="127">Argonen - {7,1020714}</t>
+ <t id="128">Goner Hauptsektor - {7,30007}</t>
+ <t id="129">Goner - {7,1023005}</t>
+ <t id="130">Sektor Musik - 1</t>
+ <t id="131">Sektor Musik - 2</t>
+ <t id="132">Sektor Musik - 3</t>
+ <t id="133">Sektor Musik - 4</t>
+ <t id="134">Sektor Musik - 5</t>
+ <t id="135">Sektor Musik - 6</t>
+ <t id="136">Sektor Musik - 7</t>
+ <t id="137">Sektor Musik - 8</t>
+ <t id="138">Sektor Musik - 9</t>
+ <t id="139">Sektor Musik - 10</t>
+ <t id="140">Sektor Musik - 11</t>
+ <t id="141">Sektor Musik - 12</t>
+ <t id="142">Sektor Musik - 13</t>
+ <t id="143">Sektor Musik - 14</t>
+ <t id="144">Sektor Musik - 15</t>
+ <t id="145">Sektor Musik - 16</t>
+ <t id="146">Sektor Musik - 17</t>
+ <t id="147">Sektor Musik - 18</t>
+ <t id="148">Sektor Musik - 19</t>
+ <t id="149">Sektor Musik - 20</t>
+ <t id="150">Sektor Musik - 21</t>
+ <t id="151">Sektor Musik - 22</t>
+ <t id="152">Sektor Musik - 23</t>
+ <t id="153">Sektor Musik - 24</t>
+ <t id="154">Sektor Musik - 25</t>
+ <t id="155">Sektor Musik - 26</t>
+ <t id="156">Sektor Musik - 27</t>
+ <t id="157">Sektor Musik - 28</t>
+ <t id="158">Sektor Musik - 29</t>
+ <t id="159">Umgebungsgeräusche - 1</t>
+ <t id="160">Umgebungsgeräusche - 2</t>
+ <t id="161">Umgebungsgeräusche - 3</t>
+ <t id="162">Umgebungsgeräusche - 4</t>
+ <t id="163">Umgebungsgeräusche - 5</t>
+ <t id="164">Umgebungsgeräusche - 6</t>
+ <t id="165">X2: Die Bedrohung Titelmusik</t>
+ <t id="166">X3: Reunion Titelmusik</t>
+ <t id="167">X3: Terran Conflict - Teaser</t>
+ <t id="168">X3: Albion Prelude Titelmusik</t>
+ <t id="200">Hinweise</t>
+ <t id="401">Untersuche das Wrack in der Nähe und du wirst einen nützlichen Triplex-Scanner finden</t>
+ <t id="402">Fliege bis 3km an den HSZP heran und aktiviere ihn über das Kontextmenü</t>
+ <t id="403">Beeile dich, verlasse den Sektor und kehre in Die Kammer zurück</t>
+ <t id="500">Hilfestellungen zu Handlungsmissionen</t>
+ <t id="501">Hallo \033B{player.name}\033X,\n\nda du zum ersten Mal spielst, kann ich dir meine Hilfe anbieten, um dich durch einige Teile der Handlung zu führen. Dies wird dir den Weg etwas erleichtern und dir dabei helfen schneller zum Rest des Universums zu gelangen.\n\nDiese Hilfe kannst du jederzeit unter Spieloptionen aktivieren oder deaktivieren.\nMöchtest du sie jetzt aktivieren? Du kannst die gesamten Hilfestellungen erhalten, einschließlich Anleitungen für neue Spieler, oder nur Hinweise zur Handlung, wenn du die Grundlagen bereits kennst.\n\n[center][select value='yes']Ja, ich möchte die gesamten Hilfestellungen erhalten[/select]\n[select value='hints']Ja, aber ich möchte nur die Hinweise zur Handlung erhalten[/select]\n[select value='no']Nein, ich möchte die Sachen selbst herausfinden[/select][/center]</t>
+ <t id="502">Hervorragend, ich werde dir Nachrichten schicken, während du den Handlungsmissionen durchläufst. Wenn du Nachrichten erhältst, wirst du bemerken, dass das Nachrichtensymbol unten links in deinem HUD aufleuchtet. Dies zeigt an, dass du eine neue Nachricht hast, wähle es aus, um dir neue Nachricht anzeigen zu lassen.\n\nMein erster Rat ist, dass du dich in erster Linie auf die einzelnen Missionen konzentrieren und dir durch meiner Unterstützung um nichts anderes Sorgen machen solltest. Du kannst zwar losziehen und andere Dinge tun, aber da dieser Bereich des Raumes sehr begrenzt ist, könnte es schwierig werden, weiter voran zu schreiten, wenn du nicht weißt was du tut.</t>
+ <t id="503">Hallo \033B{player.name}\033X,\n\nhier ist die erste Hilfestellung zu deiner Mission. Schau mal du hast gelbe Pfeile auf deinem HUD, dies ist dein aktuelles Missionsziel und zeigt dir an, wohin du fliegen musst. Nicht alle Missionen haben diese Orientierungshilfe, aber wenn vorhanden hilft es dir, dein Ziel zu finden. Wenn sich das Ziel in einem anderen Sektor als du befindet, zeigt dieser Wegweiser stattdessen auf das Tor, durch das du reisen musst.\n\nBeachte auch, dass das markierte Ziel ein Buchsymbol zeigt. Dies zeigt dir an, dass dort jemand sich dort mit dir unterhalten möchte. Das Buch bedeutet, dass dies eine Handlungsmission ist, also kontaktiere dort die Person mit diesem Symbol, um die Handlungsmission an zu nehmen.\n\nWenn du mehr Informationen zu deiner aktuellen Mission benötigt, kannst du dir die Missionsbeschreibung im Registereintrag Meine Missionen ansehen, diesen findest du unter der Registerkategorie Persönliches in der Seitenleiste.</t>
+ <t id="504">Hallo \033B{player.name}\033X,\n\ndeine nächste Aufgabe ist es, mit \033Y{actor.name@L2M050.MissionGiver}\033X auf der \033B{object.name@L2M050.ResearchStation}\033X zu sprechen. Du kannst an der Station andocken, um die Kommunikationsoption zu nutzen, oder wenn du es vorziehst, kannst du dich der Station bis auf 25 km nähern, was dir erlaubt zu kommunizieren, ohne anzudocken.\n\nDas Andocken hat den Vorteil, dass dein Spiel gespeichert wird, wenn du die automatische Speicherung auf Stationen aktiviert hast, die nützlich sein kann.</t>
+ <t id="505">Hallo \033B{player.name}\033X,\n\ndu musst nun Teile des Spacelab-Hauptquartiers scannen. Um zu scannen, musst du nur nahe genug an das Ziel herankommen und der Scanvorgang wird automatisch gestartet. Bleibe einfach in der Nähe, bis der Scanvorgang abgeschlossen ist. Es kann sein, dass es in Zukunft noch andere Scan-Missionen geben wird, diese werden alle auf dieselbe Weise funktionieren.</t>
+ <t id="506">Hallo \033B{player.name}\033X,\n\ndu hast ein neues Upgrade für deine Schiffe erhalten, den Niederfrequenz-Lokalisator. Dieses Gerät ermöglicht es dir, verschiedene Gegenstände im Universum zu finden. Vielleicht hast du es schon bemerkt, dass ein neues Element in der Mitte deines HUDs aufgetaucht ist. Das ist der NFL in Aktion, der anzeigt, dass es in dem Sektor etwas zu finden gibt. Um den Gegenstand zu finden, bewege dein Schiff in die Richtung, in die der Pfeil zeigt, bis der Pfeil verschwindet und durch Klammern ersetzt wird. Das bedeutet, dass sich der Gegenstand jetzt ungefähr vor dir befindet. Bewege dich also in diese Richtung, die drei Balken am unteren Rand zeigen die Entfernung zum Gegenstand an, bei drei gefüllten Balken bist du sehr nahe dran.\n\nDie Scanner-Anzeige wird nur eingeblendet, wenn es etwas zu finden gibt. Einige Gegenstände haben einen begrenzten Erfassungsbereich, so dass du möglicherweise ein bisschen im Sektor umherfliegen musst, damit der NFL sie erfassen kann. Aber derzeit haben alle Elemente für die Handlung einen unbegrenzten Erfassungsbereich, das heißt wenn der NFL nicht angezeigt wird, bedeutet das, dass es nichts zu finden gibt.\n\nDu musst dich also nur von Sektor zu Sektor bewegen, bis du findest, wonach du suchst. Folge einfach der Richtung des NFLs und Wechsel in einen anderen Sektor, wenn der NFL nichts mehr anzeigt. Es gibt verschiedene nützliche Gegenstände zu finden, für dies es sich lohnt, alle Sektoren zu durchsuchen.</t>
+ <t id="507">Hallo \033B{player.name}\033X,\n\ndu hast ein neues Schiff gefunden, herzlichen Glückwunsch. Dieses Schiff kann im späteren Verlauf der Handlung sehr nützlich werden, da es ein Handelsschiff mit einem großen Frachtraum ist. Es kann dazu verwendet werden, große Mengen an Waren zu transportieren, aber auch, um Geld mit dem Handel von Waren zu verdienen.\n\nDas Wichtigste ist jedoch, dass du einen Blick in den Frachtraum des Schiffes wirfst, indem du eine Reihe von Gegenständen finden, darunter auch einige Waffen. Diese Waffen können auf dem Forschungszentrum verkauft werden, um Credits zu erhalten.</t>
+ <t id="508">Hallo \033B{player.name}\033X,\n\ndu hast nun den Hyperraum-Zugangspunkt gefunden. Um ihn freizuschalten, musst du Triangulationsbojen aufstellen. Diese müssen in der Nähe der Position des Missionsleitsystems platziert werden \(innerhalb von mindestens 1 km\). Falls du Triangulationsbojen noch nicht dabei hast, kannst du welche von deinem Hauptquartier holen, dort sollten 3 Stück vorhanden sein, die du auf dein Schiff übertragen kannst. Du kannst dort auch neue herstellen, aber du wirst im Moment noch keine weiteren brauchen.</t>  
+ <t id="509">Hallo \033B{player.name}\033X,\n\in deiner nächste Mission, musst du einige Asteroiden scannen. Dazu brauchst du den Mineralienscanner, der auf deinem Schiff installiert ist. Glücklicherweise hast du diesen bereits erhalten, so dass du direkt loslegen kannst. Um die Asteroiden zu scannen, fliegst du einfach nahe an den Asteroiden heran. Sobald du dich innerhalb von 8 km befindest, wird die Scan-Option im Kontextmenü des zu scannenden Asteroiden verfügbar sein. Das Scannen von Asteroiden kann nützlich sein, um herauszufinden, aus welchen Ressourcen sie bestehen, damit man diese später abbauen kann. Konzentriere dich vorerst darauf, die Asteroiden zu scannen, die das Missionsleitsystem dir vorgibt.</t>
+ <t id="510">Hallo \033B{player.name}\033X,\n\ndu hast jetzt 2 Missionen zur Verfügung. Bei der einen geht es darum, einen TL zu finden. Das ist ein großes Schiff, das du suchen musst, es sollte leicht zu finden sein, wenn man sich in jedem Sektor umsieht. Du kannst auch zusätzliche Hinweise über das Blaue Buch Symbol finden, um deine Suche einzugrenzen. In der zweiten Mission musst du eine Station aufbauen. Dazu musst du zunächst einen Stationsbausatz in deinem Hauptquartier herstellen. Du hast die Blaupause erhalten, die du für die Herstellung benötigst und du hast auch die meisten Waren zur Verfügung, die du dafür brauchst. Damit die Herstellung beginnen kann, benötigst du noch einige Credits und Energiezellen. Die Credits müssen von deinem Konto auf das des Hauptquartiers überwiesen werden. Sobald du die benötigten Credits und Waren auf dem Hauptquartier hast, wird die Produktion beginnen. Dann brauchst du den TL, damit du die Station auch aufbauen kannst.\n\nUm die Energiezellen zu bekommen, musst du einfach zu den örtlichen Sonnenkraftwerken fliegen und sie dort kaufen. Manchmal stehen sie aber auch auf dem Forschungszentrum zum Verkauf. Wenn nicht genügend Energiezellen auf dem Markt zum Verkauf stehen, musst du einfach abwarten, mit der Zeit werden diese wieder nachproduziert.\nUm genügend Credits zu bekommen, hast du mehrere Möglichkeiten. Du kannst losziehen und sie dir durch Missionen oder Handel verdienen. Am schnellsten geht es jedoch, wenn du einfach einige der Waren verkaufst, die du bereits besitzt. Wenn du die verlassenen Schiffe der TS-Klasse gefunden hast, kannst du die Waren die sich deren Frachtraum befinden verkaufen. Alleine wenn du die Waffen auf dem Forschungszentrum verkaufst, solltest du problemlos die noch fehlenden Credits erhalten. Du kannst auch einige der Waren aus deinem Hauptquartier verkaufen, da du nicht alle brauchst. Prüfe nur vorher, wie viele du tatsächlich brauchst, damit du nicht zu viele davon verkaufst. Eine gute Idee wäre einige der Siliziumscheiben mit deinem Handelsschiff an die Tech-Fabriken zu verkaufen.</t>
+ <t id="511">Hallo \033B{player.name}\033X,\n\ndu musst dir einen Skorpion besorgen, der ein Split Abfangjäger ist. Wie du vielleicht weißt, gibt es in Die Kammer keine Schiffswerften, du kannst also nicht einfach einen kaufen. Stattdessen kannst du ihn in deinem Hauptquartier produzieren lassen, ähnlich wie in der Fabrik. Du hast den Bauplan für den Skorpion erhalten. Wenn du das Schiff gebaut hast, schicke es zu dem TL, den du gefunden hast. Sobald es sich im selben Sektor wie der TL befindet, kannst du es übergeben, um die Mission fortzusetzen.</t>
+ <t id="512">Hallo \033B{player.name}\033X,\n\ndu hast nun den TL angeheuert, damit du die Station errichten kannst. Um ein angeheuertes Schiff für deine Zwecke zu verwenden, musst du das Schiff anfunken, um ihm Befehle erteilen. Tue dies nun und sage, dass es an deinem Hauptquartier andocken soll. Dort kannst du die Station auf den TL verladen lassen, sobald ihre Produktion abgeschlossen ist. Solange du ein Schiff angeheuert hast, wird dies in deinen Besitztümern mit aufgeführt, so dass du darüber mit dem Schiff kommunizieren kannst, ohne in der Nähe fliegen zu müssen. Um die Station auf den TL verladen zu lassen, wähle nach dem Andocken den angeheuerten TL in deinen Besitztümern aus und wähle dann die Option Fracht-Transfer. Dann musst du den TL abdocken lassen, dazu Befehle ihn, dass er zu einer Position fliegen soll, an der du die Station bauen möchtest. Du kannst sie überall in Die Kammer aufbauen, du hast die Wahl.</t>
+ <t id="513">Hallo \033B{player.name}\033X,\n\nYdu hast nun deinen ersten Agenten erworben und kannst das Diplomatiesystem nutzen. Das Diplomatie-Menü befindet sich in deiner Seitenleiste in der Registerkategorie Persönliches. Um hier etwas zu bewirken, musst du Agenten auf Missionen schicken. Du hast einen Agenten erhalten, den du einsetzen kannst. Für deine ersten Missionen benötigst du Einfluss, den du gewinnen musst. Einfluss ist ein Mittel, das du für diplomatische Missionen ausgeben kannst. HINWEIS: Das Diplomatiesystem ist derzeit eingeschränkt, so dass alle anderen Möglichkeiten gesperrt sind und du nur diese eine Sache tun kannst. Sobald du weiter vorangeschritten bist, werden alle anderen Möglichkeiten für dich verfügbar sein.</t>
+ <t id="514">Hallo \033B{player.name}\033X,\n\nnun, da du den benötigten Einfluss gesammelt hast, kannst du ihn für eine diplomatische Mission ausgeben. Für die Handlungsmission musst deinen Ruf bei den Paraniden steigern, also benutze deinen Agenten, um den Fraktionsruf zu steigern und lege die Menge des Einflusses fest, die du ausgeben möchtest. Je mehr du ausgibst, desto mehr Ruf gewinnst du. In diesem Fall kannst du den Betrag, den du ausgeben möchtest, nicht ändern, aber in Zukunft wirst du das können.</t>
+ <t id="1000">Spiel speichern</t>
+ <t id="1001">Um deinen Fortschritt speichern zu können, musst du entweder an einer Station angedockt sein oder eine Bergungsversicherung verwenden. Wenn du angedockt bist, kannst du speichern ohne eine Bergungsversicherung zu verwenden und wenn du die automatische Speicherung in Stationen aktiviert hast, wird dein Spiel jedes Mal beim Andocken, auf einem von drei zusätzlichen Speicherplätzen, automatisch abgespeichert. Beachte jedoch, dass die Speicherplätze für die automatische Speicherung jedes Mal in wiederholender Reihenfolge ersetzt werden, wenn du an einer Station andockst.\n\nWenn du es bevorzugst, jederzeit speichern zu können, auch wenn du im Weltraum unterwegs bist, dann benötigst du eine so genannte [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_TECH209']Bergungsversicherung[/hyperlink]. Für jede Speicherung wird 1 Versicherung benötigt, die beim Speichern in Anspruch genommen wird, du musst dir also einen Vorrat anlegen, wenn du viel speichern möchtest. Alternativ dazu kannst du auch einen [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_SALVAGECON']Bergungsversicherungsvertrag[/hyperlink] erwerben. Sobald du diesen besitzt, brauchst du keine Bergungsversicherung mehr, um zu speichern, sondern zahlst bei jedem Speichervorgang nur noch mit Credits, solange du auf deinen Konto zu dieser Zeit ausreichend zur Verfügung hast. Desweiteren kannst du auch eine [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_UNLIMIT_SALVAGE']Unbegrenzte Bergungsversicherung[/hyperlink] erwerben, mit der du überall und unbegrenzter Menge speichern kannst.</t>
+ <t id="1002">Reparatur von Schiffen</t>
+ <t id="1003">Der Weltraum kann ein gefährlicher Ort sein und manchmal kann es vorkommen, dass deine Schiffe beschädigt werden. Entweder durch Kollisionen oder durch feindliche Angriffe. Schilde sind nützlich, um Schäden an der Hülle zu vermeiden, deren Reparatur teuer oder zeitaufwändig sein kann. Also versuche die Schildenergie möglichst hochzuhalten, um den Schaden an deinem Schiff zu begrenzen. Wenn die Hülle deines Schiffes beschädigt wird, wirkt sich das auf die Geschwindigkeit aus, mit der du dich fortbewegen kannst. Je mehr Schaden die Hülle erleidet, desto langsamer wird dein Schiff. Wenn die Hülle deines Schiffes beschädigt wird, kann auch die Ausrüstung deines Schiffes zerstört werden, so dass du sie neu kaufen und installieren musst. Dies kannst du verhindern, indem du ein [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_CARGOSHIELD']Frachtraumkraftfeld[/hyperlink] installierst. Wenn die Hülle deines Schiffes beschädigt wird, gibt es zahlreiche Möglichkeiten, sie zu reparieren und die Hülle wieder auf 100% zu bringen. Dies kann jedoch kostspielig und/oder zeitaufwändig werden.\n\nBei kleinen Schiffen ist die einfachste Art der Reparatur, sich in den Raumanzug zu begeben, der mit einem Reparaturlaser ausgestattet ist. Gehe einfach nahe genug an dein Schiff heran und schieße mit dem Reparaturlaser darauf, um mit der Reparatur zu beginnen. Je stärker die Hülle ist, desto länger dauert dies und ist im Allgemeinen für größere Schiffe nicht geeignet. Achte nur auf den begrenzten Sauerstoffvorrat in deinem Raumanzug, damit dir nicht die Luft ausgeht.\n\nEine schnellere Methode ist die Reparatur von Schiffen in einer Werft, wobei sich die Reparaturkosten im Verhältnis zum Schiffspreis bewegen und sehr hoch sein können. Mit dieser Methode wird dein Schiff sofort repariert und ist direkt wieder einsatzbereit.\n\nWenn du Zugang zu deinem persönlichen Hauptquartier hast, kannst du es auch dort reparieren lassen. Docke das Schiff einfach an deinem Hauptquartier an und füge es zur Reparaturwarteschlange hinzu \(du kannst das Schiff, auf dem du dich gerade befindest, nicht reparieren). Dies erfordert Ressourcen und einige Credits, um die Reparatur abzuschließen, also stelle sicher, dass dein Hauptquartier über ausreichend Ressourcen verfügt und genügend Credits auf seinem Konto hat. Diese Methode geht schneller als mit einem Reparaturlaser und ist billiger als in einer Schiffswerft, erfordert jedoch Ressourcen und dauert eine gewisse Zeit.\n\nLetztendlich gibt es noch die Möglichkeit, einen Drohnenträger \(M7D\) mit Spezialdrohnen auszustatten, die mit einem Reparaturlasern ausgerüstet sind und dein Schiff ähnlich wie dein Raumanzug reparieren können. Da du mehrere Drohnen einsetzen kannst, kannst du die Reparaturgeschwindigkeit erhöhen. Boronische Drohnen sind besonders leistungsstark bei Reparaturen.</t>
+</page>
+</language>

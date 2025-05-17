@@ -1,0 +1,2696 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!init.ship.globalscriptmap.pl</name>
+<version>11</version>
+<engineversion>70</engineversion>
+<description>Initialisation for all ships with race player</description>
+<arguments>
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  * .............................................................
+  * set default scripts for all ships with race player
+  * .............................................................
+  
+  $race = Player
+  * Navigation Commands
+  global script map: ignore: key=COMMAND_IDLE, class=Fighter Drone, race=$race
+  global script map: ignore: key=COMMAND_DOCKAT, class=Fighter Drone, race=$race
+  
+  global script map: ignore: key=COMMAND_DOCKAT, class=Recon Drone, race=$race
+  
+  global script map: set: key=COMMAND_FOLLOW, class=Ship, race=$race, script=!ship.cmd.follow.pl, prio=0
+  
+  $cmd = COMMAND_MOVE_SECTOR
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.movesector.pl, prio=0
+  
+  $cmd = COMMAND_MOVE_POS
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.moveposition.pl, prio=0
+  global script map: ignore: key=$cmd, class=Fighter Drone, race=$race
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  
+  $cmd = COMMAND_MOVEPOSCONTINUE
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.moveposcontinue.pl, prio=0
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  
+  global script map: ignore: key=COMMAND_MOVE_COORDS, class=Freight Drone, race=$race
+  
+  $cmd = COMMAND_JUMP_STATION
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.jumpstation.std, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_JUMP_SECTOR
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.jump.std, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_JUMP_POSITION
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.jumpposition.std, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  global script map: ignore: key=COMMAND_JUMPTOME, class=Freight Drone, race=$race
+  
+  * Trade Commands
+  $cmd = COMMAND_GET_WARE
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.getware.pl, prio=0
+  global script map: set: key=$cmd, class=Freight Drone, race=$race, script=!ship.cmd.getware.drone.pl, prio=0
+  global script map: ignore: key=$cmd, class=Huge Ship, race=$race
+  
+  $cmd = COMMAND_GET_WARE_BEST
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.getwarebest.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  global script map: ignore: key=$cmd, class=Huge Ship, race=$race
+  
+  $cmd = COMMAND_SELL_WARE
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.sellware.pl, prio=0
+  global script map: set: key=$cmd, class=Freight Drone, race=$race, script=!ship.cmd.sellware.drone.pl, prio=0
+  global script map: ignore: key=$cmd, class=Huge Ship, race=$race
+  
+  $cmd = COMMAND_SELL_WARE_BEST
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.sellwarebest.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  global script map: ignore: key=$cmd, class=Huge Ship, race=$race
+  
+  $cmd = COMMAND_TRADE_MINE
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_FREIGHT_TRANSFER
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  * preload, but needs .pl-script
+  $cmd = COMMAND_MANUAL_TRADE_RUN
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.mtc.trade.run.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_REMOTE_BESTBUY
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.mtc.bestbuy.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_REMOTE_BESTSELL
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.mtc.bestsell.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  
+  * Fight Commands
+  $cmd = COMMAND_PROTECT
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.protect.pl, prio=0
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  global script map: ignore: key=$cmd, class=Recon Drone, race=$race
+  
+  $cmd = COMMAND_ATTACK
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.attack.pl, prio=0
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  global script map: ignore: key=$cmd, class=Recon Drone, race=$race
+  
+  $cmd = COMMAND_ATTACK_TARGET
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.attacktarget.pl, prio=0
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  global script map: ignore: key=$cmd, class=Recon Drone, race=$race
+  
+  $cmd = COMMAND_ATTACK_SAME
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.attacksame.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_ATTACK_NEAREST
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.attacknearest.pl, prio=0
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  global script map: ignore: key=$cmd, class=Recon Drone, race=$race
+  
+  $cmd = COMMAND_ATTACK_FIGHTERS
+  global script map: ignore: key=$cmd, class=Freighter, race=$race
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_ATTACK_BIGSHIPS
+  global script map: ignore: key=$cmd, class=Freighter, race=$race
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  global script map: ignore: key=COMMAND_KILL_ENEMIES, class=Freight Drone, race=$race
+  global script map: ignore: key=COMMAND_KILL_ENEMIES, class=Recon Drone, race=$race
+  
+  $cmd = COMMAND_KILL_ENEMIES_RANGE
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.killenemiesrange.pl, prio=0
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  global script map: ignore: key=$cmd, class=Recon Drone, race=$race
+  
+  $cmd = COMMAND_KILL_ENEMIES_AND_LAND
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.killenemiesland.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  global script map: ignore: key=$cmd, class=Big Ship, race=$race
+  
+  $cmd = COMMAND_DEFEND_STATION
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.defend.station.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_ATTACK_RETURN
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.attackreturn.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  global script map: ignore: key=$cmd, class=Big Ship, race=$race
+  
+  $cmd = COMMAND_ATTACK_BOARDSHIP
+  global script map: set: key=$cmd, class=M3, race=$race, script=!ship.cmd.boardship.pl, prio=0
+  global script map: set: key=$cmd, class=TP, race=$race, script=!ship.cmd.boardship.pl, prio=0
+  global script map: set: key=$cmd, class=Big Ship, race=$race, script=!ship.cmd.boardship.pl, prio=0
+  global script map: ignore: key=$cmd, class=M7D, race=$race
+  global script map: ignore: key=$cmd, class=M8, race=$race
+  global script map: ignore: key=$cmd, class=TL, race=$race
+  global script map: ignore: key=$cmd, class=TM, race=$race
+  global script map: ignore: key=$cmd, class=M1, race=$race
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_LAUNCH_ALLMARINES
+  global script map: set: key=$cmd, class=M3, race=$race, script=!ship.cmd.launchmarines.pl, prio=0
+  global script map: set: key=$cmd, class=TP, race=$race, script=!ship.cmd.launchmarines.pl, prio=0
+  global script map: set: key=$cmd, class=Big Ship, race=$race, script=!ship.cmd.launchmarines.pl, prio=0
+  global script map: ignore: key=$cmd, class=M7D, race=$race
+  global script map: ignore: key=$cmd, class=TL, race=$race
+  global script map: ignore: key=$cmd, class=M8, race=$race
+  global script map: ignore: key=$cmd, class=TM, race=$race
+  global script map: ignore: key=$cmd, class=M1, race=$race
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_DEPLOY_FIGHTERS
+  global script map: ignore: key=$cmd, class=Ship, race=$race
+  global script map: set: key=$cmd, class=TM, race=$race, script=!ship.cmd.deployfighters.std, prio=0
+  
+  $cmd = COMMAND_RETREAT
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.retreat.std, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  * Special Commands
+  $cmd = COMMAND_COLLECT_WARE
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.collectware.std, prio=0
+  global script map: ignore: key=$cmd, class=Big Ship, race=$race
+  global script map: set: key=$cmd, class=M6, race=$race, script=!ship.cmd.collectware.std, prio=0
+  global script map: set: key=$cmd, class=TM, race=$race, script=!ship.cmd.collectware.std, prio=0
+  
+  $cmd = COMMAND_COLLECT_ASTRONAUT
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.collectastronaut.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  global script map: ignore: key=$cmd, class=Big Ship, race=$race
+  global script map: set: key=$cmd, class=M6, race=$race, script=!ship.cmd.collectastronaut.pl, prio=0
+  global script map: set: key=$cmd, class=TM, race=$race, script=!ship.cmd.collectastronaut.pl, prio=0
+  
+  $cmd = COMMAND_COLLECT_FLYINGWARES
+  global script map: set: key=$cmd, class=Ship, race=$race, script=!ship.cmd.collectflyingwares.pl, prio=0
+  global script map: ignore: key=$cmd, class=Big Ship, race=$race
+  global script map: set: key=$cmd, class=M6, race=$race, script=!ship.cmd.collectflyingwares.pl, prio=0
+  global script map: set: key=$cmd, class=TM, race=$race, script=!ship.cmd.collectflyingwares.pl, prio=0
+  
+  $cmd = COMMAND_MINE_AUTO
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_MINING_DEBRIS
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.mineminerals.pl, prio=0
+  
+  * Explorer Commands
+  $cmd = COMMAND_DEPLOY_SATS
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.deploysats.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_EXPLORE_SECTOR
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.mapsector.pl, prio=0
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  
+  $cmd = COMMAND_FLYTHROUGH_GATE
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.passgate.pl, prio=0
+  global script map: set: key=$cmd, class=Astronaut, race=$race, script=!ship.cmd.passgate.pl, prio=0
+  *global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  
+  $cmd = COMMAND_SCAN_ASTEROID
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.scan.roid.pl, prio=0
+  global script map: ignore: key=$cmd, class=Freight Drone, race=$race
+  global script map: ignore: key=$cmd, class=Recon Drone, race=$race
+  
+  
+  * Supply Commands
+  $cmd = COMMAND_EQUIPLIKE
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.resupply.equiplike.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_REARM
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.resupply.rearm.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  $cmd = COMMAND_REFUEL
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.resupply.fueler.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  * preload, but needs .pl-script
+  $cmd = COMMAND_RESUPPLY
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.resupply.group.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  * Drone Commands
+  $cmd = COMMAND_RECON_MAPSECTOR
+  global script map: set: key=$cmd, class=Moveable Ship, race=$race, script=!ship.cmd.mapsector.drones.pl, prio=0
+  global script map: ignore: key=$cmd, class=Drone, race=$race
+  
+  * Signals
+  global script map: set: key=SIGNAL_ATTACKED, class=Ship, race=$race, script=!ship.signal.attacked, prio=100
+  global script map: set: key=SIGNAL_ATTACKED, class=TS, race=$race, script=!ship.signal.attacked, prio=100
+  global script map: set: key=SIGNAL_BUYWARE, class=Station, race=$race, script=!station.signal.buyware, prio=100
+  global script map: set: key=SIGNAL_SELWARE, class=Station, race=$race, script=!station.signal.sellware, prio=100
+  global script map: set: key=SIGNAL_NONE, class=Moveable Ship, race=$race, script=!ship.signal.cmdnone.pl, prio=100
+  
+  global script map: set: key=SIGNAL_LOADWARE, class=TL, race=$race, script=!tl.signal.loadware, prio=100
+  global script map: set: key=SIGNAL_UNLOADWARE, class=TL, race=$race, script=!tl.signal.unloadware, prio=100
+  global script map: set: key=SIGNAL_WARETRANSFER, class=TL, race=$race, script=!tl.signal.transferware, prio=100
+  global script map: set: key=SIGNAL_HQ_WARERECYCLED, class=Headquarters, race=$race, script=!station.signal.recycled, prio=100
+  
+  * Ignore Jobs
+  global script map: ignore: key=COMMAND_INVASION, class=Ship, race=$race
+  global script map: ignore: key=COMMAND_PATROL, class=Ship, race=$race
+  global script map: ignore: key=COMMAND_PREACH, class=Ship, race=$race
+  global script map: ignore: key=COMMAND_WAR_DEFENDSECTOR, class=Ship, race=$race
+  global script map: ignore: key=COMMAND_WAR_INVADESECTORS, class=Ship, race=$race
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><comment><text>*&#160;</text><var>.............................................................</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>set&#160;default&#160;scripts&#160;for&#160;all&#160;ships&#160;with&#160;race&#160;player</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>.............................................................</var></comment></line>
+<line indent=""></line>
+<line indent=""><var>$race&#160;=&#160;</var><var>Player</var></line>
+<line indent=""><comment><text>*&#160;</text><var>Navigation&#160;Commands</var></comment></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_IDLE</var><text>,&#160;class=</text><var>Fighter&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_DOCKAT</var><text>,&#160;class=</text><var>Fighter&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_DOCKAT</var><text>,&#160;class=</text><var>Recon&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_FOLLOW</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.follow.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_MOVE_SECTOR</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.movesector.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_MOVE_POS</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.moveposition.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Fighter&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_MOVEPOSCONTINUE</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.moveposcontinue.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_MOVE_COORDS</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_JUMP_STATION</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.jumpstation.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_JUMP_SECTOR</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.jump.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_JUMP_POSITION</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.jumpposition.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_JUMPTOME</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Trade&#160;Commands</var></comment></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_GET_WARE</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.getware.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.getware.drone.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Huge&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_GET_WARE_BEST</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.getwarebest.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Huge&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_SELL_WARE</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.sellware.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.sellware.drone.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Huge&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_SELL_WARE_BEST</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.sellwarebest.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Huge&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_TRADE_MINE</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_FREIGHT_TRANSFER</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>preload,&#160;but&#160;needs&#160;.pl-script</var></comment></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_MANUAL_TRADE_RUN</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.mtc.trade.run.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_REMOTE_BESTBUY</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.mtc.bestbuy.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_REMOTE_BESTSELL</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.mtc.bestsell.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Fight&#160;Commands</var></comment></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_PROTECT</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.protect.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Recon&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_ATTACK</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.attack.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Recon&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_ATTACK_TARGET</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.attacktarget.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Recon&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_ATTACK_SAME</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.attacksame.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_ATTACK_NEAREST</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.attacknearest.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Recon&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_ATTACK_FIGHTERS</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freighter</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_ATTACK_BIGSHIPS</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freighter</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_KILL_ENEMIES</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_KILL_ENEMIES</var><text>,&#160;class=</text><var>Recon&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_KILL_ENEMIES_RANGE</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.killenemiesrange.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Recon&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_KILL_ENEMIES_AND_LAND</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.killenemiesland.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Big&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_DEFEND_STATION</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.defend.station.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_ATTACK_RETURN</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.attackreturn.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Big&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_ATTACK_BOARDSHIP</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M3</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.boardship.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TP</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.boardship.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Big&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.boardship.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M8</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TL</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TM</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M1</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_LAUNCH_ALLMARINES</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M3</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.launchmarines.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TP</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.launchmarines.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Big&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.launchmarines.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TL</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M8</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TM</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M1</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_DEPLOY_FIGHTERS</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TM</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.deployfighters.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_RETREAT</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.retreat.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Special&#160;Commands</var></comment></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_COLLECT_WARE</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectware.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Big&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M6</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectware.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TM</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectware.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_COLLECT_ASTRONAUT</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectastronaut.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Big&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M6</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectastronaut.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TM</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectastronaut.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_COLLECT_FLYINGWARES</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectflyingwares.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Big&#160;Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>M6</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectflyingwares.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>TM</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectflyingwares.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_MINE_AUTO</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_MINING_DEBRIS</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.mineminerals.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Explorer&#160;Commands</var></comment></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_DEPLOY_SATS</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.deploysats.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_EXPLORE_SECTOR</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.mapsector.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_FLYTHROUGH_GATE</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.passgate.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Astronaut</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.passgate.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><comment>*<text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text>$cmd<text>,&#160;class=</text>Freight&#160;Drone<text>,&#160;race=</text>$race</comment></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_SCAN_ASTEROID</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.scan.roid.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Freight&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Recon&#160;Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Supply&#160;Commands</var></comment></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_EQUIPLIKE</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.resupply.equiplike.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_REARM</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.resupply.rearm.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_REFUEL</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.resupply.fueler.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>preload,&#160;but&#160;needs&#160;.pl-script</var></comment></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_RESUPPLY</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.resupply.group.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Drone&#160;Commands</var></comment></line>
+<line indent=""><var>$cmd&#160;=&#160;</var><var>COMMAND_RECON_MAPSECTOR</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.mapsector.drones.pl</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>$cmd</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Signals</var></comment></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_ATTACKED</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.signal.attacked</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_ATTACKED</var><text>,&#160;class=</text><var>TS</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.signal.attacked</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_BUYWARE</var><text>,&#160;class=</text><var>Station</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!station.signal.buyware</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_SELWARE</var><text>,&#160;class=</text><var>Station</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!station.signal.sellware</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_NONE</var><text>,&#160;class=</text><var>Moveable&#160;Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.signal.cmdnone.pl</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_LOADWARE</var><text>,&#160;class=</text><var>TL</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!tl.signal.loadware</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_UNLOADWARE</var><text>,&#160;class=</text><var>TL</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!tl.signal.unloadware</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_WARETRANSFER</var><text>,&#160;class=</text><var>TL</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!tl.signal.transferware</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>SIGNAL_HQ_WARERECYCLED</var><text>,&#160;class=</text><var>Headquarters</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!station.signal.recycled</call><text>,&#160;prio=</text><var>100</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>Ignore&#160;Jobs</var></comment></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_INVASION</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_PATROL</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_PREACH</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_WAR_DEFENDSECTOR</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;ignore:&#160;key=</text><var>COMMAND_WAR_INVADESECTORS</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!init.ship.globalscriptmap.pl"/>
+  <sval type="int" val="70"/>
+  <sval type="string" val="Initialisation for all ships with race player"/>
+  <sval type="int" val="11"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="2">
+    <sval type="string" val="race"/>
+    <sval type="string" val="cmd"/>
+  </sval>
+  <sval type="array" size="185">
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2067"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2067"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2150"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="!ship.cmd.follow.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.movesector.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="19"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.moveposition.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2067"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="36"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.moveposcontinue.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="90"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="38"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.jumpstation.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="37"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.jump.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="39"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.jumpposition.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="91"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.getware.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.getware.drone.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2019"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.getwarebest.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2019"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="28"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.sellware.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.sellware.drone.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2019"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="29"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.sellwarebest.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2019"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="49"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="77"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="60"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.mtc.trade.run.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="61"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.mtc.bestbuy.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="62"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.mtc.bestsell.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.protect.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2150"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.attack.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2150"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.attacktarget.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2150"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.attacksame.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.attacknearest.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2150"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="55"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2038"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="54"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2038"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2150"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="26"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.killenemiesrange.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2150"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.killenemiesland.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2073"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="67"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.defend.station.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="23"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.attackreturn.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2073"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="58"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.boardship.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2023"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.boardship.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2030"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.boardship.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2073"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2152"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2142"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2032"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2141"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2021"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="80"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.launchmarines.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2023"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.launchmarines.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2030"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.launchmarines.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2073"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2152"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2032"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2142"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2141"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2021"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="69"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.deployfighters.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2141"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="70"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.retreat.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="24"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectware.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2073"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectware.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2026"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectware.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2141"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="59"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectastronaut.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2073"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectastronaut.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2026"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectastronaut.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2141"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="30"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectflyingwares.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2073"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectflyingwares.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2026"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.collectflyingwares.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2141"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="53"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="41"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.mineminerals.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="48"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.deploysats.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="46"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.mapsector.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="47"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.passgate.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.passgate.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2064"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="76"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.scan.roid.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2150"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="45"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.resupply.equiplike.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="43"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.resupply.rearm.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="44"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.resupply.fueler.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="42"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.resupply.group.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100027"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!ship.cmd.mapsector.drones.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1000"/>
+      <sval type="string" val="!ship.signal.attacked"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1000"/>
+      <sval type="string" val="!ship.signal.attacked"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2031"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1013"/>
+      <sval type="string" val="!station.signal.buyware"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2016"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1014"/>
+      <sval type="string" val="!station.signal.sellware"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2016"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1022"/>
+      <sval type="string" val="!ship.signal.cmdnone.pl"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2134"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1015"/>
+      <sval type="string" val="!tl.signal.loadware"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2032"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1016"/>
+      <sval type="string" val="!tl.signal.unloadware"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2032"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1021"/>
+      <sval type="string" val="!tl.signal.transferware"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2032"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1033"/>
+      <sval type="string" val="!station.signal.recycled"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2046"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="27"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="299"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="127"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="298"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="array" size="70">
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="............................................................."/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="set default scripts for all ships with race player"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="............................................................."/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="0"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Navigation Commands"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="3"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="4"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="5"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="7"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="14"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="15"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="18"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="21"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="24"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="25"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="25"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Trade Commands"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="29"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="33"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="37"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="41"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="43"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="45"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="45"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="preload, but needs .pl-script"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="48"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="51"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="54"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="54"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="54"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Fight Commands"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="58"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="62"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="66"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="69"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="73"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="76"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="79"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="81"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="85"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="89"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="92"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="96"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="106"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="116"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="119"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="122"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="122"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Special Commands"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="127"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="133"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="138"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="140"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="142"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="142"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Explorer Commands"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="145"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="148"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="9">
+      <sval type="int" val="151"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="127"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="cmd"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2092"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="race"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="151"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="155"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="155"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="155"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Supply Commands"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="158"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="161"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="164"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="164"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="preload, but needs .pl-script"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="167"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="167"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Drone Commands"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="170"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="170"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Signals"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="175"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="179"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="179"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Ignore Jobs"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>8560</nosignature>
+</script>

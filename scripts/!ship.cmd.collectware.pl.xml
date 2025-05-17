@@ -1,0 +1,81 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!ship.cmd.collectware.pl</name>
+<version>2</version>
+<engineversion>61</engineversion>
+<description>Ship Player COMMAND COLLECT WARE</description>
+<arguments>
+<argument index="1" name="wareobj" type="Var/Flying Ware" desc="GALOBJ of ware flying in sector" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  [THIS] ->set command: COMMAND_COLLECT_WARE  target=$wareobj target2=null par1=null par2=null
+@ $ret = [THIS] -> call script !move.collectware :  GALOBJ of flying ware=$wareobj  destroy only=[FALSE]
+  return $ret
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>[THIS]&#160;-&gt;</var><text>set&#160;command:&#160;</text><var>COMMAND_COLLECT_WARE</var><text>&#160;&#160;target=</text><var>$wareobj</var><text>&#160;target2=</text><var>null</var><text>&#160;par1=</text><var>null</var><text>&#160;par2=</text><var>null</var></line>
+<line interruptable="@" indent=""><var>$ret&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!move.collectware</call><text>&#160;:&#160;</text><text>&#160;GALOBJ&#160;of&#160;flying&#160;ware=</text><var>$wareobj</var><text>&#160;</text><text>&#160;destroy&#160;only=</text><var>[FALSE]</var></line>
+<line indent=""><text>return&#160;</text><var>$ret</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!ship.cmd.collectware.pl"/>
+  <sval type="int" val="61"/>
+  <sval type="string" val="Ship Player COMMAND COLLECT WARE"/>
+  <sval type="int" val="2"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="2">
+    <sval type="string" val="wareobj"/>
+    <sval type="string" val="ret"/>
+  </sval>
+  <sval type="array" size="3">
+    <sval type="array" size="13">
+      <sval type="int" val="538"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="24"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="102"/>
+      <sval type="string" val="!move.collectware"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+    </sval>
+  </sval>
+  <sval type="array" size="1">
+    <sval type="array" size="2">
+      <sval type="int" val="55"/>
+      <sval type="string" val="GALOBJ of ware flying in sector"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="int" val="24"/>
+</sval>
+
+</codearray>
+<nosignature>8587</nosignature>
+</script>

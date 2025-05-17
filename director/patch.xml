@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="director.xsl" type="text/xsl" ?>
+<director name="test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="director.xsd">
+  <documentation>
+    <author name="Cycrow" alias="Cycrow" />
+    <content reference="patch" name="Unoffical Patch" description="Patch script for the Unoffical X3FL Patch" />
+    <version number="1.0" date="2022/08/03" />
+  </documentation>
+  <cues>
+    <cue name="Patch_Load_1" check="cancel">
+      <condition>
+        <check_value value="{player.age}" min="10s"/>
+      </condition>
+      <timing>
+        <time exact="1s"/>
+      </timing>
+      <action>
+        <do_all>
+			<load_map file="x3_universe_patch"/>
+        </do_all>
+      </action>
+    </cue>
+  </cues>
+</director>

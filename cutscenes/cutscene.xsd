@@ -1,0 +1,3208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <!-- Root node of the cutscene -->
+  <xs:element name="cutscene" type="CutsceneRoot">
+    <xs:annotation>
+      <xs:documentation>
+        This is the main container node for all elements of a cutscene.
+        Each cutscene file must define precisely one cutscene root node.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CutsceneRoot">
+    <xs:all>
+      <xs:element name="client" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Configures various user client (UI) options.
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="input" minOccurs="0" maxOccurs="1">
+              <xs:annotation>
+                <xs:documentation>
+                  Controls options for restricting user input while the cutscene is playing.
+                </xs:documentation>
+              </xs:annotation>
+              <xs:complexType>
+                <xs:attribute name="lock">
+                  <xs:simpleType>
+                    <xs:annotation>
+                      <xs:documentation>
+                        Determines the level of input restriction to enforce during cutscene playback.
+                      </xs:documentation>
+                    </xs:annotation>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="none">
+                        <xs:annotation>
+                          <xs:documentation>
+                            No input locking will be enforced (unless input has been locked by another source).
+                          </xs:documentation>
+                        </xs:annotation>
+                      </xs:enumeration>
+                      <xs:enumeration value="control">
+                        <xs:annotation>
+                          <xs:documentation>
+                            Control of the player's ship will be locked out.
+                          </xs:documentation>
+                        </xs:annotation>
+                      </xs:enumeration>
+                      <xs:enumeration value="input">
+                        <xs:annotation>
+                          <xs:documentation>
+                            UI input and control will be locked out.
+                          </xs:documentation>
+                        </xs:annotation>
+                      </xs:enumeration>
+                      <xs:enumeration value="all">
+                        <xs:annotation>
+                          <xs:documentation>
+                            All user input will be locked out.
+                          </xs:documentation>
+                        </xs:annotation>
+                      </xs:enumeration>
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:complexType>
+            </xs:element>
+          </xs:all>
+          <xs:attribute name="menus">
+            <xs:annotation>
+              <xs:documentation>
+                Controls how opened menus are handled when the cutscene begins playing.
+              </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="ignore">
+                  <xs:annotation>
+                    <xs:documentation>
+                      Any open menus will be ignored and left open. If input is not locked, they will still be interactive.
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+                <xs:enumeration value="close">
+                  <xs:annotation>
+                    <xs:documentation>
+                      All open menus and UI dialogs will be closed. If input is not locked, the user may still open additional UI elements.
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:enumeration>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="director" type="DirectorLink" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls linkage with a Mission Director script.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="environments" type="EnvironmentList">
+        <xs:annotation>
+          <xs:documentation>
+            Defines the environment(s) in which the cutscene takes place.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="presentation" type="PresentationNodes">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the presentation of cutscene content to the player.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Mission Director linkage -->
+  <xs:complexType name="DirectorLink">
+    <xs:attribute name="key" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          An arbitrary "trigger word." MD cues with a matching key
+          will be triggered for certain cutscene events.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Environments node -->
+  <xs:complexType name="EnvironmentList">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="environment_implicit" type="ImplicitEnvironment">
+          <xs:annotation>
+            <xs:documentation>
+              Defines an implicit environment (corresponds to a "real" game sector).
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="environment_explicit" type="ExplicitEnvironment">
+          <xs:annotation>
+            <xs:documentation>
+              Defines an explicit environment (exists only for the purposes of this scene).
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="character_display" type="CharacterDisplay">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a character display (shows a speaker's face).
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="find_sector" type="SectorFind">
+          <xs:annotation>
+            <xs:documentation>
+              Provides a way to assign ID tags to real game sectors.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="object_group" type="ManualRefObjGroup">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a group of reference objects that can be treated as a single entity.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Implicit environments -->
+  <xs:complexType name="ImplicitEnvironment">
+    <xs:sequence>
+      <xs:element name="filter_show" type="EnvironmentFilterOpt" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Specifies filtering options which control what objects are visible in the environment.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="sector" type="SectorReference" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID of a find_sector reference linking to a real game sector.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="EnvOptionAttributes" />
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Explicit environments -->
+  <xs:complexType name="ExplicitEnvironment">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="galaxytype" type="xs:integer" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID code of the galaxy backdrop to use for this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="nebulaindex" type="xs:integer" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Controls the nebula body index used for this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="starsindex" type="xs:integer" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Controls the starfield index used for this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="size" type="Meters" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Controls the size of this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="EnvOptionAttributes" />
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Character displays -->
+  <xs:complexType name="CharacterDisplay">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this character display.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="face" type="FaceNumber" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Face ID number of the speaker to display.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Common attributes used for environments -->
+  <xs:attributeGroup name="EnvOptionAttributes">
+    <xs:attribute name="background" type="EnvBackgroundOption">
+      <xs:annotation>
+        <xs:documentation>
+          Backdrop to display in this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="nebulaeffect" type="EnvNebulaOption">
+      <xs:annotation>
+        <xs:documentation>
+          Controls stardust and nebula effects.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Auxiliary enumeration: environment backgrounds -->
+  <xs:simpleType name="EnvBackgroundOption">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="normal">
+        <xs:annotation>
+          <xs:documentation>
+            Display standard stars/planets/etc. in background.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="black">
+        <xs:annotation>
+          <xs:documentation>
+            Display a pure black background; only foreground sector objects will be rendered.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="transparent">
+        <xs:annotation>
+          <xs:documentation>
+            Render foreground sector objects directly with no background.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Auxiliary enumeration: environment dust effects -->
+  <xs:simpleType name="EnvNebulaOption">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="normal">
+        <xs:annotation>
+          <xs:documentation>
+            Render standard stardust and nebula dust cloud effects.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="none">
+        <xs:annotation>
+          <xs:documentation>
+            Render no stardust, nebula dust, or dust cloud ("fog") effects.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Environment filter options -->
+  <xs:complexType name="EnvironmentFilterOpt">
+    <xs:attribute name="scenery" type="EnvFilterScenery" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Allow a certain type of scenery to render in this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="object" type="ObjectID" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Allow the object with the given ID to render in this environment.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Auxiliary enumeration: environment scenery filters -->
+  <xs:simpleType name="EnvFilterScenery">
+    <xs:annotation>
+      <xs:documentation>
+        String specifying a filterable scenery type.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="planets">
+        <xs:annotation>
+          <xs:documentation>
+            Allow planets to render in this environment.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="suns">
+        <xs:annotation>
+          <xs:documentation>
+            Allow suns to render in this environment.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="asteroids">
+        <xs:annotation>
+          <xs:documentation>
+            Allow asteroids to render in this environment.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="debris">
+        <xs:annotation>
+          <xs:documentation>
+            Allow debris to render in this environment.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="wrecks">
+        <xs:annotation>
+          <xs:documentation>
+            Allow wrecks to render in this environment.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Sector lookups -->
+  <xs:complexType name="SectorFind">
+    <xs:attributeGroup ref="SectorAttributes" />
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Auxiliary types for sector lookups -->
+  <xs:attributeGroup name="SectorAttributes">
+    <xs:attribute name="x" type="CoordMap" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          X coordinate (on galaxy map) of the sector.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="y" type="CoordMap" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Y coordinate (on galaxy map) of the sector.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying the linked sector.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:simpleType name="SectorReference">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string" />
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="@playersector">
+            <xs:annotation>
+              <xs:documentation>
+                Special sector reference that links to the player's current sector (at the start of cutscene playback).
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <!-- Reference groups -->
+  <xs:complexType name="ManualRefObjGroup">
+    <xs:sequence>
+      <xs:element name="reference" type="ObjectGroupReference" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Specifies a member of this reference group.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Name used to refer to this group of objects.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Individual member of reference group -->
+  <xs:complexType name="ObjectGroupReference">
+    <xs:attribute name="object" type="ObjectID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the object to link.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="weight" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Weight value to apply to this object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Presentation node -->
+  <xs:complexType name="PresentationNodes">
+    <xs:all>
+      <xs:element name="cuts" type="CutList" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            List of pre-defined B3D engine cut files used in the scene.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="rendertargets" type="RenderTargetList" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            List of texture render targets used in the scene.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="actions" type="ActionNodeList" minOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Contains nodes that define the playback events in the cutscene.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="timings" type="TimingNodeList" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Contains nodes used for setting up complex timings for a scene.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  <!-- Cut list -->
+  <xs:complexType name="CutList">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="cut" type="Cut">
+        <xs:annotation>
+          <xs:documentation>
+            Establishes a reference to a predefined B3D cut file.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Cut declaration nodes -->
+  <xs:complexType name="Cut">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="animation" type="CutAnimation">
+        <xs:annotation>
+          <xs:documentation>
+            Establishes a link to an animation defined in the B3D cut file.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying the cut.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="source" type="B3DCutFile" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Name of the B3D cut file to link.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Cut animation declarations -->
+  <xs:complexType name="CutAnimation">
+    <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID string used to reference this animation.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cut_start" type="Milliseconds" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Time index of the animation's start point in the cut file.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cut_stop" type="Milliseconds" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Time index of the animation's ending point in the cut file.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Render target list -->
+  <xs:complexType name="RenderTargetList">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="rendertarget" type="RenderTarget">
+        <xs:annotation>
+          <xs:documentation>
+            Defines a special texture render target.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Render target declaration nodes -->
+  <xs:complexType name="RenderTarget">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this render target.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="texture" type="B3DTextureFile" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          File name of the B3D texture to render onto.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="x" type="CoordPixel" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          X coordinate (pixels) of the target render area.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="y" type="CoordPixel" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Y coordinate (pixels) of the target render area.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="width" type="CoordPixel" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Width (pixels) of the target render area.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="height" type="CoordPixel" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Height (pixels) of the target render area.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Actions node -->
+  <xs:complexType name="ActionNodeList">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:choice>
+        <xs:element name="sequence" type="ShotSequence">
+          <xs:annotation>
+            <xs:documentation>
+              Defines an ordered sequence of camera shots.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="dynamicshots" type="DynamicShots">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a set of shots that are triggered by cutscene events.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="speech" type="Speech">
+          <xs:annotation>
+            <xs:documentation>
+              Plays back pre-recorded speech.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="soundeffect" type="SoundEffect">
+          <xs:annotation>
+            <xs:documentation>
+              Plays back pre-recorded sound effects.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="musicchange" type="MusicChange">
+          <xs:annotation>
+            <xs:documentation>
+              Changes the currently playing background music track.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="instantiate_cut" type="InstantiateCut">
+          <xs:annotation>
+            <xs:documentation>
+              Creates an instance of a predefined B3D cut.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="animate_cut" type="AnimateCut">
+          <xs:annotation>
+            <xs:documentation>
+              Plays back a predefined B3D cut animation.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="render_text" type="RenderText">
+          <xs:annotation>
+            <xs:documentation>
+              Renders text onto a given target.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Shot sequence nodes -->
+  <xs:complexType name="ShotSequence">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element name="viewport" type="Viewport">
+          <xs:annotation>
+            <xs:documentation>
+              Defines the area of the screen in which shots will be played.
+              Omit this node to set a full-screen viewport.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="render_to_texture" type="RenderToTexture">
+          <xs:annotation>
+            <xs:documentation>
+              Renders shots from this sequence onto a given render target.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+      <xs:element name="shot" type="Shot" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Defines a camera shot to display.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this sequence of shots.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="start" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field specifying when the sequence begins playing.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Dynamic shot set nodes -->
+  <xs:complexType name="DynamicShots">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element name="viewport" type="Viewport">
+          <xs:annotation>
+            <xs:documentation>
+              Defines the area of the screen in which shots will be played.
+              Omit this node to set a full-screen viewport.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="render_to_texture" type="RenderToTexture">
+          <xs:annotation>
+            <xs:documentation>
+              Renders shots from this sequence onto a given render target.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+      <xs:element name="shot" type="DynamicShot" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Defines a camera shot to display.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this set of shots.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="endevent" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the event that will stop any playing shot in this shot list.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Shot sequence viewport nodes -->
+  <xs:complexType name="Viewport">
+    <xs:all>
+      <xs:element name="position" type="ValueSource">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the position (top-left corner, pixels) of the viewport.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="size" type="ValueSource">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the width and height (pixels) of the viewport.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  <!-- Shot sequence render-to-texture nodes -->
+  <xs:complexType name="RenderToTexture">
+    <xs:attribute name="rendertarget" type="B3DTextureFile" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          This feature is currently not implemented.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Common subnodes for ordered and dynamic shots -->
+  <xs:group name="ShotSubnodes">
+    <xs:sequence>
+      <xs:element name="takeover_position" type="PosTransition" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Moves the camera smoothly from the position/orientation of previous shot into the current shot.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element name="camera" type="NormalCamera">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a manually-controlled camera.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_orbit" type="CameraOrbit">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera that circles a target object.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_flyby" type="CameraFlyby">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera that shows a target object flying past.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_panover" type="CameraPanOver">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera that pans across a target object.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_follow" type="CameraFollow">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera that follows a target object.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_lookat" type="CameraLookAt">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera focusing on a target object.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_panto" type="CameraPanTo">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera that pans between two target objects.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_flyto" type="CameraFlyTo">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera that flies to a target position/object.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_flyfromto" type="CameraFlyFromTo">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera that flies from one object to a second.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="camera_find" type="CameraFindInSector">
+          <xs:annotation>
+            <xs:documentation>
+              Defines a camera that appears to search for a target object.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+      <xs:element name="transition_in" type="Transition" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Defines the transition played when this shot begins.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="transition_out" type="Transition" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Defines the transition played when this shot ends.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <!-- Shot nodes -->
+  <xs:complexType name="Shot">
+    <xs:group ref="ShotSubnodes" />
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this shot.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="environment" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID string of the environment or character display for this shot.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="duration" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field controlling how long the shot is displayed.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="failsafe_duration" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Absolute upper limit on display duration; useful for limiting length of shots with onevent: durations.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Shot nodes -->
+  <xs:complexType name="DynamicShot">
+    <xs:group ref="ShotSubnodes" />
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this shot.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="trigger" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Event ID string that will trigger this shot. May be safely triggered more than once (unlike an onevent: trigger).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="environment" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID string of the environment or character display for this shot.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="failsafe_duration" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Absolute upper limit on display duration.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Auxiliary camera attribute group: banking factor -->
+  <xs:attributeGroup name="CameraBankingAttribs">
+    <xs:attribute name="banking" type="xs:integer" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          UNFINISHED - Please don't use yet ;-)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Auxiliary camera attribute group: overlay -->
+  <xs:attributeGroup name="CameraOverlayAttribs">
+    <xs:attribute name="overlay_texture" type="xs:string" use="optional">
+    <xs:annotation>
+      <xs:documentation>
+        Overlay texture name, e.g. "interlace". (No path, texture type suffix or file extension required.)
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+  <xs:attribute name="overlay_tile" type="xs:integer" use="optional">
+    <xs:annotation>
+      <xs:documentation>
+        Overlay texture tile state, e.g. "1" for interlace. (1 to tile, 0 to stretch.)
+      </xs:documentation>
+    </xs:annotation>
+  </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Standard cameras -->
+  <xs:complexType name="NormalCamera">
+    <xs:all>
+      <xs:element name="position" type="ValueSource">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the camera position, in worldspace coordinates.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="lookdirection" type="ValueSource" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the pitch and yaw angles of the camera (look direction).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the roll angle of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="orientation" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Object reference; controls the up-vector of the camera. (Default is to orient to the sector ecliptic.)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="roll" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies a constant roll value for the camera. Overridden by roll tag.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraBankingAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Shot transitions -->
+  <xs:complexType name="Transition">
+    <xs:attribute name="type" type="TransitionType" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Type (appearance) of the transition.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="duration" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing the duration of the transition.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Auxiliary enumeration for transition types -->
+  <xs:simpleType name="TransitionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="cut">
+        <xs:annotation>
+          <xs:documentation>
+            Instant cut. Do not use (simply omit the transition tag).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="fadeblack">
+        <xs:annotation>
+          <xs:documentation>
+            Fade to or from black.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="fadewhite">
+        <xs:annotation>
+          <xs:documentation>
+            Fade to or from white.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="crossfade">
+        <xs:annotation>
+          <xs:documentation>
+            Crossfade between two consecutive shots (same as fadeblack if no consecutive shot available).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Camera position transitions -->
+  <xs:complexType name="PosTransition">
+    <xs:attribute name="duration" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies duration of the position merging process.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="interpolation" type="KeyframeInterpolationMethod" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Interpolation method for the merge process.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Audio: play a recorded speech sample -->
+  <xs:complexType name="Speech">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this speech playback event.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="page" type="TextPage" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID number of the textpage containing the line to be spoken.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="line" type="TextLine" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID number of the text line to be spoken.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="start" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing when speech playback should begin.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="display" type="NodeID" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Synchronize speech audio to a character display.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Audio: play a sound effect -->
+  <xs:complexType name="SoundEffect">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this sound effect playback event.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="effectid" type="SoundEffectNumber" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID number of the sound effect to play.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="start" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing when audio playback should begin.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Audio: change the background music track -->
+  <xs:complexType name="MusicChange">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this music change event.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="trackid" type="MusicTrackNumber" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID number of the music track to begin playing.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="start" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing when the music change should take effect.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Cut instantiation request nodes -->
+  <xs:complexType name="InstantiateCut">
+    <xs:sequence>
+      <xs:element name="position" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the 3D camera-space coordinates of the cut instance.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this instance of the cut.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cut" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the linked B3D cut to instantiate.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="start" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing when the cut should be instantiated.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="duration" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing how long the instance has to live before it is brutally annihilated by the dark gods of cutscene voodoo.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Cut animation request nodes -->
+  <xs:complexType name="AnimateCut">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this animation request.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="instance" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the cut instance to animate.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="animation" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the animation to play.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="start" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing when to begin the animation.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Text render request nodes -->
+  <xs:complexType name="RenderText">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this text render request.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="target" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the render target the text will be drawn to.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="page" type="TextPage" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID number of the textpage containing the text to render.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="line" type="TextLine" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID number of the text line to render.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="start" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing when the text appears.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="duration" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing how long the text remains visible.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Timings node -->
+  <xs:complexType name="TimingNodeList">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="timing" type="TimingNode">
+        <xs:annotation>
+          <xs:documentation>
+            Defines a custom timing point.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Timing nodes -->
+  <xs:complexType name="TimingNode">
+    <xs:attribute name="name" type="NodeID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Unique string identifying this timing point.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="base" type="TimingField" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing the base value of the timing point.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="offset_add" type="TimingField" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing a time amount to add to the base value.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="offset_subtract" type="TimingField" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Timing field describing a time amount to subtract from the base value.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Valuesource nodes -->
+  <xs:complexType name="ValueSource">
+    <xs:sequence>
+      <xs:group ref="valuesourcesubelements" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+  <!-- Element group for valuesources -->
+  <xs:group name="valuesourcesubelements">
+    <xs:choice>
+      <xs:element name="value" type="ConstantValue" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Defines a constant value. Use multiple value tags in sequence for coordinates, etc.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="offset" type="ValueOffset">
+        <xs:annotation>
+          <xs:documentation>
+            Defines an addition between two valuesources.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reference" type="ObjectReference">
+        <xs:annotation>
+          <xs:documentation>
+            Returns coordinates based on a reference object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="anchor" type="Anchor">
+        <xs:annotation>
+          <xs:documentation>
+            Provides special predefined anchor points.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="orbit" type="Orbit">
+        <xs:annotation>
+          <xs:documentation>
+            Generates coordinates that orbit around a center point.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="keyframes" type="KeyframeSet">
+        <xs:annotation>
+          <xs:documentation>
+            Allows custom keyframe-based interpolation between valuesources.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="static" type="StaticValue">
+        <xs:annotation>
+          <xs:documentation>
+            Returns a dynamic value for a given duration, then locks at the last given value.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="angles" type="Angles">
+        <xs:annotation>
+          <xs:documentation>
+            Relative offset computed from pitch/yaw angles and a distance.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="transform_relative" type="ObjSpaceTransform">
+        <xs:annotation>
+          <xs:documentation>
+            Transforms the nested coordinates from object-local space into worldspace.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="bias_relative" type="ObjSpaceBias">
+        <xs:annotation>
+          <xs:documentation>
+            Adjusts the nested coordinates relative to the given object, while remaining oriented to the ecliptic.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="autozoom" type="AutoZoom">
+        <xs:annotation>
+          <xs:documentation>
+            Automatically calculates FOV factors for camera zoom effects. Only valid for shot cameras!
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="autodistance" type="AutoDistance">
+        <xs:annotation>
+          <xs:documentation>
+            Automatically calculates camera view distance needed for target object to fill a given percentage of the screen. Only valid for shot cameras!
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="peek_camerapos" type="PeekCameraPos">
+        <xs:annotation>
+          <xs:documentation>
+            Yields the current camera position coordinates for the active shot. Only valid for shot cameras!
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="make_camangles" type="MakeCameraAngles">
+        <xs:annotation>
+          <xs:documentation>
+            Computes the rotation angles needed to point a camera at the nested 3-space world coordinates.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:choice>
+  </xs:group>
+  <!-- Valuesource type: Constant value -->
+  <xs:complexType name="ConstantValue">
+    <xs:attribute name="exact" type="xs:decimal" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          An exact number value. Cannot be combined with percentage/scaleref/scaleinfo.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="percentage" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Percentage of the relative value (based on scaleref and scaleinfo) to return. Cannot be combined with "exact."
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="scaleref" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Reference object from which to compute relative value. Cannot be combined with "exact."
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="scaleinfo" type="ScaleInfo" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Which attribute of the reference object to use for the relative value. Cannot be combined with "exact."
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Valuesource type: Value offset -->
+  <xs:complexType name="ValueOffset">
+    <xs:sequence>
+      <xs:element name="base" type="ValueSource" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource providing the base values for the addition.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="adjust" type="ValueSource" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource providing values to add to the base.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Valuesource type: Object reference -->
+  <xs:complexType name="ObjectReference">
+    <xs:attribute name="object" type="ObjectID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the object to link.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="ObjRelativeCoords" />
+    <xs:attribute name="scaleinfo" type="ScaleInfo" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Which attribute of the reference object to use for the relative value. Cannot be combined with "exact."
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="space" type="CoordinateOrientationMode" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the coordinate space in which the given X/Y/Z offset is computed.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Valuesource type: Anchor -->
+  <xs:complexType name="Anchor">
+    <xs:attribute name="special" type="SpecialAnchorPoint" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Special predefined anchor point. Cannot be combined with instance/anchorpoint.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="instance" type="NodeID" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the cut instance to anchor to. Cannot be combined with "special."
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="anchorpoint" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          ID (from the B3D cut file) of the dummy body to anchor to. Cannot be combined with "special."
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Auxiliary enumeration: special anchor point IDs -->
+  <xs:simpleType name="SpecialAnchorPoint">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="screen_topleft">
+        <xs:annotation>
+          <xs:documentation>
+            Top left corner of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="screen_topcenter">
+        <xs:annotation>
+          <xs:documentation>
+            Center of top edge of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="screen_topright">
+        <xs:annotation>
+          <xs:documentation>
+            Top right corner of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="screen_leftcenter">
+        <xs:annotation>
+          <xs:documentation>
+            Center of left edge of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="screen_center">
+        <xs:annotation>
+          <xs:documentation>
+            Exact center of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="screen_rightcenter">
+        <xs:annotation>
+          <xs:documentation>
+            Center of right edge of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="screen_bottomleft">
+        <xs:annotation>
+          <xs:documentation>
+            Bottom left corner of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="screen_bottomcenter">
+        <xs:annotation>
+          <xs:documentation>
+            Center of bottom edge of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="screen_bottomright">
+        <xs:annotation>
+          <xs:documentation>
+            Bottom right corner of the screen: X,Y coordinates, in pixels.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Valuesource type: Orbit -->
+  <xs:complexType name="Orbit">
+    <xs:all>
+      <xs:element name="center" type="ValueSource">
+        <xs:annotation>
+          <xs:documentation>
+            Provides the center point for the orbit.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="center2" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            If specified, provides the second centroid of an elliptical orbit.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="distance" type="ValueSource">
+        <xs:annotation>
+          <xs:documentation>
+            Provides the distance at which to orbit the center point.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="elevation" type="ValueSource">
+        <xs:annotation>
+          <xs:documentation>
+            Provides the elevation above the plane of orbit.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="startangle" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Starting angle of the orbit (degrees).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="stopangle" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Ending angle of the orbit (degrees).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time" type="Milliseconds" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Time needed to complete a revolution (milliseconds).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Valuesource type: Static value -->
+  <xs:complexType name="StaticValue">
+    <xs:group ref="valuesourcesubelements" />
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          After this much time has elapsed, the static valuesource "locks" and always returns the last computed value.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Valuesource type: Angles -->
+  <xs:complexType name="Angles">
+    <xs:all>
+      <xs:element name="pitch" type="ValueSource" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the pitch (vertical offset) angle.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="yaw" type="ValueSource" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the yaw (horizontal offset) angle.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="distance" type="ValueSource" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the distance from the reference point.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  <!-- Valuesource type: Object space transform -->
+  <xs:complexType name="ObjSpaceTransform">
+    <xs:group ref="valuesourcesubelements" />
+    <xs:attributeGroup ref="ObjectReference" />
+  </xs:complexType>
+  <!-- Valuesource type: Object space bias -->
+  <xs:complexType name="ObjSpaceBias">
+    <xs:group ref="valuesourcesubelements" />
+    <xs:attributeGroup ref="ObjectReference" />
+  </xs:complexType>
+  <!-- Valuesource type: Automatic zoom -->
+  <xs:complexType name="AutoZoom">
+    <xs:attribute name="fillspace" type="Percent" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Percentage of the viewport the target object should fill.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="ObjectReference" />
+  </xs:complexType>
+  <!-- Valuesource type: Automatic view distance -->
+  <xs:complexType name="AutoDistance">
+    <xs:attribute name="fillspace" type="Percent" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Percentage of the viewport the target object should fill.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <!-- Valuesource type: Camera position peek -->
+  <xs:complexType name="PeekCameraPos">
+  </xs:complexType>
+  <!-- Valuesource type: Camera look direction computation -->
+  <xs:complexType name="MakeCameraAngles">
+    <xs:group ref="valuesourcesubelements" />
+  </xs:complexType>
+  <!-- Valuesource type: Keyframe set -->
+  <xs:complexType name="KeyframeSet">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element name="keyframe" type="Keyframe">
+        <xs:annotation>
+          <xs:documentation>
+            Defines an individual keyframe.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="cycle" type="KeyframeCycleMethod" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Determines out-of-bounds behavior for the keyframe set - i.e. what happens for time values after the last given keyframe.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Individual keyframes -->
+  <xs:complexType name="Keyframe">
+    <xs:sequence>
+      <xs:group ref="valuesourcesubelements" />
+    </xs:sequence>
+    <xs:attribute name="timestamp" type="Milliseconds" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timestamp (milliseconds) of the keyframe.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="interpolation" type="KeyframeInterpolationMethod" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Interpolation method for this keyframe and subsequent time values (up until the next keyframe).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+  </xs:complexType>
+  <!-- Auxiliary enumeration: keyframe interpolation methods -->
+  <xs:simpleType name="KeyframeInterpolationMethod">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none">
+        <xs:annotation>
+          <xs:documentation>
+            No interpolation - value remains constant.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="linear">
+        <xs:annotation>
+          <xs:documentation>
+            Use simple linear interpolation.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="smooth">
+        <xs:annotation>
+          <xs:documentation>
+            Use fast smooth interpolator.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Auxiliary enumeration: keyframe cycle methods -->
+  <xs:simpleType name="KeyframeCycleMethod">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none">
+        <xs:annotation>
+          <xs:documentation>
+            Do not cycle - hold the value given by the last keyframe.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="repeat">
+        <xs:annotation>
+          <xs:documentation>
+            Repeat keyframe sequence from the beginning.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="bounce">
+        <xs:annotation>
+          <xs:documentation>
+            Play keyframe sequence in reverse back to the beginning, then resume forward playback.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Auxiliary enumeration: scaling parameters -->
+  <xs:simpleType name="ScaleInfo">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="size">
+        <xs:annotation>
+          <xs:documentation>
+            Scale based on the size of the reference object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: node ID string -->
+  <xs:simpleType name="NodeID">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Za-z0-9_]+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: object ID string -->
+  <xs:simpleType name="ObjectID">
+    <xs:annotation>
+      <xs:documentation>
+        String which uniquely identifies an object.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[A-Za-z0-9_]+" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="@playership">
+            <xs:annotation>
+              <xs:documentation>
+                Special object ID corresponding to the player's ship.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: timing fields -->
+  <xs:simpleType name="TimingField">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="\d+" />
+      <xs:pattern value="start:[A-Za-z0-9_]+" />
+      <xs:pattern value="end:[A-Za-z0-9_]+" />
+      <xs:pattern value="duration:[A-Za-z0-9_]+" />
+      <xs:pattern value="onevent:[A-Za-z0-9_]+" />
+      <xs:pattern value="timing:[A-Za-z0-9_]+" />
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: B3D cut file reference -->
+  <xs:simpleType name="B3DCutFile">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: B3D texture file reference -->
+  <xs:simpleType name="B3DTextureFile">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: coordinates (galaxy map) -->
+  <xs:simpleType name="CoordMap">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: coordinates (pixels) -->
+  <xs:simpleType name="CoordPixel">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: coordinates (world space) -->
+  <xs:simpleType name="CoordWorld">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: character face ID number -->
+  <xs:simpleType name="FaceNumber">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: sound effect ID number -->
+  <xs:simpleType name="SoundEffectNumber">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: music track ID number -->
+  <xs:simpleType name="MusicTrackNumber">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: units (milliseconds) -->
+  <xs:simpleType name="Milliseconds">
+    <xs:annotation>
+      <xs:documentation>
+        Time value in milliseconds.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: units (meters) -->
+  <xs:simpleType name="Meters">
+    <xs:annotation>
+      <xs:documentation>
+        Dimension in meters.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: units (degrees) -->
+  <xs:simpleType name="Degrees">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: units (percent) -->
+  <xs:simpleType name="Percent">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: textpage number -->
+  <xs:simpleType name="TextPage">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary datatypes: text line number -->
+  <xs:simpleType name="TextLine">
+    <xs:restriction base="xs:integer" />
+  </xs:simpleType>
+  <!-- Auxiliary attribute group: optional user-defined node comments -->
+  <xs:attributeGroup name="Comment">
+    <xs:attribute name="comment" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Arbitrary, user-defined comment text.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Auxiliary attribute group: reference linkage to objects -->
+  <xs:attributeGroup name="ObjectReference">
+    <xs:attribute name="reference" type="ObjectID" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          ID of the object to link.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Common attributes for camera shortcut animation tags -->
+  <xs:attributeGroup name="CameraAnimAttribs">
+    <xs:attribute name="fillspace" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the percentage of the viewport the target object should fill (affects camera FOV).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="roll" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies an additional roll angle for the camera, in degrees.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Attributes used for Orbit camera shortcut -->
+  <xs:attributeGroup name="CameraOrbitAttribs">
+    <xs:attribute name="distance" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies distance from the target object, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="elevation" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies elevation from the target's x-z plane, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Animation begin node for orbit camera -->
+  <xs:complexType name="CameraOrbitAnimBegin">
+    <xs:attributeGroup ref="CameraOrbitAttribs" />
+    <xs:attribute name="angle" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies starting angle of the orbit arc, in degrees.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation end node for orbit camera -->
+  <xs:complexType name="CameraOrbitAnimEnd">
+    <xs:attributeGroup ref="CameraOrbitAttribs" />
+    <xs:attribute name="angle" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies ending angle of the orbit arc, in degrees.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time required to traverse the orbit arc.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: orbit -->
+  <xs:complexType name="CameraOrbit">
+    <xs:all>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the roll angle of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="distance" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the distance from the target object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="elevation" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the elevation above the target object (in object space).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraOrbitAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters. Cannot be combined with distance/elevation tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraOrbitAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters. Cannot be combined with distance/elevation tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="ObjectReference" />
+    <xs:attributeGroup ref="CameraOrbitAttribs" />
+    <xs:attribute name="startangle" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies starting angle of the orbit arc, in degrees.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="stopangle" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies ending angle of the orbit arc, in degrees.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time required to traverse the orbit arc.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Attributes used for Flyby camera shortcut -->
+  <xs:attributeGroup name="CameraFlybyAttribs">
+    <xs:attribute name="distance" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies distance from the target object's line of forward motion, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="elevation" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies elevation from the target's X/Z plane, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="offset" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies camera distance from the object's X/Y plane, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Animation begin node for flyby camera -->
+  <xs:complexType name="CameraFlybyAnimBegin">
+    <xs:attributeGroup ref="CameraFlybyAttribs" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation end node for flyby camera -->
+  <xs:complexType name="CameraFlybyAnimEnd">
+    <xs:attributeGroup ref="CameraFlybyAttribs" />
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time taken for the object to pass by the camera.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: flyby -->
+  <xs:complexType name="CameraFlyby">
+    <xs:all>
+      <xs:element name="distance" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the distance from the object's line of forward movement to the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="elevation" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the elevation of the camera above the object's X/Z plane.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the roll angle of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraFlybyAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters. Cannot be combined with distance/elevation tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraFlybyAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters. Cannot be combined with distance/elevation tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="ObjectReference" />
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time taken for the object to pass by the camera.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraFlybyAttribs" />
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Attributes used for pan-over camera shortcut -->
+  <xs:attributeGroup name="CameraPanOverAttribs">
+    <xs:attribute name="distance" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies distance from the target object, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="elevation" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies elevation from the target's center plane, in percent of the object's size. (Camera pans parallel to the center plane.)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="offset" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Offset distance from object center, along the panning axis.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Animation begin node for pan-over camera -->
+  <xs:complexType name="CameraPanOverAnimBegin">
+    <xs:attributeGroup ref="CameraPanOverAttribs" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation end node for pan-over camera -->
+  <xs:complexType name="CameraPanOverAnimEnd">
+    <xs:attributeGroup ref="CameraPanOverAttribs" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time required to complete the animation.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: pan-over -->
+  <xs:complexType name="CameraPanOver">
+    <xs:all>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the roll angle of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraPanOverAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters. Cannot be combined with distance/elevation control tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraPanOverAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters. Cannot be combined with distance/elevation control tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="ObjectReference" />
+    <xs:attributeGroup ref="CameraPanOverAttribs" />
+    <xs:attribute name="panstart" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Starting offset from object (in percentage of object size).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="panend" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Ending offset from object (in percentage of object size).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Time (milliseconds) required to complete the pan.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="showing" type="CamPanShowing" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Controls which side of the object is facing the camera.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="pan_direction" type="CamPanDirection" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Controls the direction of the pan.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Auxiliary enumerations for pan-over cameras -->
+  <xs:simpleType name="CamPanShowing">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="left">
+        <xs:annotation>
+          <xs:documentation>
+            Camera looks at the left side of the object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="right">
+        <xs:annotation>
+          <xs:documentation>
+            Camera looks at the right side of the object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="top">
+        <xs:annotation>
+          <xs:documentation>
+            Camera looks at the top of the object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="bottom">
+        <xs:annotation>
+          <xs:documentation>
+            Camera looks at the bottom of the object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="front">
+        <xs:annotation>
+          <xs:documentation>
+            Camera looks at the front of the object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="back">
+        <xs:annotation>
+          <xs:documentation>
+            Camera looks at the back of the object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="CamPanDirection">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="leftwards">
+        <xs:annotation>
+          <xs:documentation>
+            Object starts at right side of viewport and moves left.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="rightwards">
+        <xs:annotation>
+          <xs:documentation>
+            Object starts at left side of viewport and moves right.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="upwards">
+        <xs:annotation>
+          <xs:documentation>
+            Object starts at bottom of viewport and moves up.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="downwards">
+        <xs:annotation>
+          <xs:documentation>
+            Object starts at top of viewport and moves down.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Attribute group: pitch/yaw/distance triplet -->
+  <xs:attributeGroup name="PitchYawDistance">
+    <xs:attribute name="pitch" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Angle (degrees) of the camera above the object's x-z plane.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="yaw" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Angle (degrees) of the camera from the object's forward vector.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="distance" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies distance from the target object, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Attribute group: object-relative x y z coordinates -->
+  <xs:attributeGroup name="ObjRelativeCoords">
+    <xs:attribute name="x" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Position offset from object, in percent of object size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="y" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Position offset from object, in percent of object size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="z" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Position offset from object, in percent of object size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <!-- Animation shortcut beginning tag for follow camera -->
+  <xs:complexType name="CameraFollowAnimBegin">
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation shortcut ending tag for follow camera -->
+  <xs:complexType name="CameraFollowAnimEnd">
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time required to complete the animation.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: follow -->
+  <xs:complexType name="CameraFollow">
+    <xs:all>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the roll angle of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pitch" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Angle (degrees) of the camera above the object's x-z plane.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="yaw" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Angle (degrees) of the camera from the object's forward vector.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="distance" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the distance from the target object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraFollowAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters. Cannot be combined with pitch/yaw/distance tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraFollowAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters. Cannot be combined with pitch/yaw/distance tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="ObjectReference" />
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Animation shortcut beginning tag for lookat camera -->
+  <xs:complexType name="CameraLookAtAnimBegin">
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation shortcut ending tag for lookat camera -->
+  <xs:complexType name="CameraLookAtAnimEnd">
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time required to complete the animation.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: look-at -->
+  <xs:complexType name="CameraLookAt">
+    <xs:all>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the roll angle of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pitch" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Angle (degrees) of the camera above the object's x-z plane.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="yaw" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Angle (degrees) of the camera from the object's forward vector.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="distance" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the distance from the target object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraLookAtAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters. Cannot be combined with pitch/yaw/distance tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraLookAtAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters. Cannot be combined with pitch/yaw/distance tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="position_reference" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Camera's position follows this object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="lookat_reference" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Camera looks at this object (looks at position_reference if omitted).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Animation shortcut beginning tag for pan-to camera -->
+  <xs:complexType name="CameraPanToAnimBegin">
+    <xs:attributeGroup ref="ObjRelativeCoords" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation shortcut ending tag for pan-to camera -->
+  <xs:complexType name="CameraPanToAnimEnd">
+    <xs:attributeGroup ref="ObjRelativeCoords" />
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: pan-to -->
+  <xs:complexType name="CameraPanTo">
+    <xs:all>
+      <xs:element name="position" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the camera position, in worldspace coordinates.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the roll angle of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraPanToAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters. Cannot be combined with position tag.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraPanToAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters. Cannot be combined with position tag.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="ObjectReference" />
+    <xs:attribute name="panto_reference" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Camera pans to this object during the shot.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time_firstobject" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Time spent focusing on the initial object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time_pan" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Time required to pan from first to second object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="ObjRelativeCoords" />
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Animation begin node for fly-to camera -->
+  <xs:complexType name="CameraFlyToAnimBegin">
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation end node for fly-to camera -->
+  <xs:complexType name="CameraFlyToAnimEnd">
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time required to complete the animation.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: fly-to -->
+  <xs:complexType name="CameraFlyTo">
+    <xs:all>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the roll angle of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pitch" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Angle (degrees) of the camera above the object's x-z plane.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="yaw" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Angle (degrees) of the camera from the object's forward vector.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraFlyToAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraFlyToAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="ObjectReference" />
+    <xs:attribute name="pitch" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Angle (degrees) of the camera above the object's x-z plane.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="yaw" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Angle (degrees) of the camera from the object's forward vector.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="distance" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies distance from the target object, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="fillspace" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Percentage of the viewport the object should fill at the end of camera flight.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Time required to fly from initial position to object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Animation begin node for fly-from-to camera -->
+  <xs:complexType name="CameraFlyFromToAnimBegin">
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation end node for fly-from-to camera -->
+  <xs:complexType name="CameraFlyFromToAnimEnd">
+    <xs:attributeGroup ref="CameraAnimAttribs" />
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time required to complete the animation.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: fly-from-to -->
+  <xs:complexType name="CameraFlyFromTo">
+    <xs:all>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the roll angle of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="zoom" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the FOV of the camera, in degrees.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraFlyFromToAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraFlyFromToAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attributeGroup ref="ObjectReference" />
+    <xs:attribute name="flyto_reference" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Second object to fly to.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="distance" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies distance from the first target object, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="flyto_distance" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies distance from the second target object, in percent of the object's size.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time_firstobject" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Duration to display the first target object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time_fly" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Duration of flight between first and second object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Animation shortcut beginning tag for find-in-sector camera -->
+  <xs:complexType name="CameraFindAnimBegin">
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attribute name="roll" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies an additional roll angle for the camera, in degrees.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Animation shortcut ending tag for find-in-sector camera -->
+  <xs:complexType name="CameraFindAnimEnd">
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attribute name="roll" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies an additional roll angle for the camera, in degrees.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the time required to complete the animation.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:complexType>
+  <!-- Camera shorthand tag: find-in-sector -->
+  <xs:complexType name="CameraFindInSector">
+    <xs:all>
+      <xs:element name="position" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the position of the camera. Cannot be combined with begin/end or other position control tags.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="roll" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Controls the roll angle of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pitch" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Angle (degrees) of the camera above the object's x-z plane.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="yaw" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Angle (degrees) of the camera from the object's forward vector.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="distance" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the distance from the target object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="begin" type="CameraFindAnimBegin" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation beginning parameters. Cannot be combined with pitch/yaw/distance tags or the position tag.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="end" type="CameraFindAnimEnd" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Shortcut notation for animation ending parameters. Cannot be combined with pitch/yaw/distance tags or the position tag.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shaking" type="ValueSource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Valuesource controlling the degree of shaking of the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="position_reference" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Camera's position follows this object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="lookat_reference" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Camera will look for (and eventually find) this object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time_search" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Time spent looking around before "noticing" the target object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="time_lockon" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Time spent locking on to the target object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="jitter" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Percentage jitter factor; higher values yield more jerky/haphazard movement.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="fillspace" type="Percent" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Percentage of the viewport the target object should fill.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="PitchYawDistance" />
+    <xs:attributeGroup ref="Comment" />
+    <xs:attributeGroup ref="CamShortcutAttribs" />
+    <xs:attributeGroup ref="CameraOverlayAttribs" />
+  </xs:complexType>
+  <!-- Auxiliary enumeration: coordinate orientation options -->
+  <xs:simpleType name="CoordinateOrientationMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="object">
+        <xs:annotation>
+          <xs:documentation>
+            Orient the camera in object-space; all rotations of the object will apply also to the camera.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ecliptic">
+        <xs:annotation>
+          <xs:documentation>
+            Orient the camera to rotate in the X/Z plane with the object, but retain vertical orientation parallel to the ecliptic.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="world">
+        <xs:annotation>
+          <xs:documentation>
+            Translate to object-space but apply no rotations. (Note that this may not always work as expected!)
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <!-- Auxiliary attribute group: common camera shortcut attributes -->
+  <xs:attributeGroup name="CamShortcutAttribs">
+    <xs:attribute name="orient_to" type="CoordinateOrientationMode" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Controls how the camera is oriented relative to the target object.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="roll" type="Degrees" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies a constant roll value for the camera. Overridden by begin/end tags or a roll tag.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="interpolation" type="KeyframeInterpolationMethod" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Interpolation method for automatic animations. Does not affect manual keyframe sets.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cycle" type="KeyframeCycleMethod" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Determines how animations will repond if shot duration is greater than manually specified animation time.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="delay" type="Milliseconds" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Delay in milliseconds between cycles (see cycle attribute).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attributeGroup ref="CameraBankingAttribs" />
+    <xs:attributeGroup ref="CameraShakingAttribs" />
+  </xs:attributeGroup>
+  <!-- Auxiliary attribute group: camera shaking -->
+  <xs:attributeGroup name="CameraShakingAttribs">
+    <xs:attribute name="shaking" type="xs:integer" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specifies the degree of camera shaking effects.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+</xs:schema>

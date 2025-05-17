@@ -1,0 +1,88 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>plugin.turbo.toggle</name>
+<version>1</version>
+<engineversion>61</engineversion>
+<description>Turbo: Hotkey event script</description>
+<arguments>
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  if [PLAYERSHIP] -> get local variable: name='afterburn.on'
+@   = [PLAYERSHIP] -> call script plugin.turbo.off : 
+  else
+@   = [PLAYERSHIP] -> call script plugin.turbo.start : 
+  end
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>if&#160;</var><var>[PLAYERSHIP]&#160;-&gt;</var><text>&#160;get&#160;local&#160;variable:&#160;name=</text><var>'afterburn.on'</var></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><var>[PLAYERSHIP]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>plugin.turbo.off</call><text>&#160;:&#160;</text></line>
+<line indent=""><text>else</text></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><var>[PLAYERSHIP]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>plugin.turbo.start</call><text>&#160;:&#160;</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="plugin.turbo.toggle"/>
+  <sval type="int" val="61"/>
+  <sval type="string" val="Turbo: Hotkey event script"/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="5">
+    <sval type="array" size="6">
+      <sval type="int" val="156"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="afterburn.on"/>
+      <sval type="int" val="-1610611965"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="102"/>
+      <sval type="string" val="plugin.turbo.off"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="102"/>
+      <sval type="string" val="plugin.turbo.start"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="array" size="2">
+    <sval type="array" size="2">
+      <sval type="int" val="3"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>9486</nosignature>
+</script>

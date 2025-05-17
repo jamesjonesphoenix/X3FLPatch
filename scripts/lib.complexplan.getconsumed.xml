@@ -1,0 +1,82 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>lib.complexplan.getconsumed</name>
+<version>1</version>
+<engineversion>66</engineversion>
+<description>Complex Planner: Get consumed ware table</description>
+<arguments>
+<argument index="1" name="a.stationType" type="Var/Station Type" desc="Station Type" />
+<argument index="2" name="a.eff" type="Var/Number" desc="Efficency" />
+<argument index="3" name="a.isPlayer" type="Var/Boolean" desc="Is Player" />
+<argument index="4" name="a.scale" type="Var/Number" desc="Scale Factor" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  $wares = get consumed ware table: stationtype=$a.stationType, efficiency=$a.eff, player=$a.isPlayer, scale factor=$a.scale
+  return $wares
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>$wares&#160;=&#160;</var><text>get&#160;consumed&#160;ware&#160;table:&#160;stationtype=</text><var>$a.stationType</var><text>,&#160;efficiency=</text><var>$a.eff</var><text>,&#160;player=</text><var>$a.isPlayer</var><text>,&#160;scale&#160;factor=</text><var>$a.scale</var></line>
+<line indent=""><text>return&#160;</text><var>$wares</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="lib.complexplan.getconsumed"/>
+  <sval type="int" val="66"/>
+  <sval type="string" val="Complex Planner: Get consumed ware table"/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="5">
+    <sval type="string" val="a.stationType"/>
+    <sval type="string" val="a.eff"/>
+    <sval type="string" val="a.isPlayer"/>
+    <sval type="string" val="a.scale"/>
+    <sval type="string" val="wares"/>
+  </sval>
+  <sval type="array" size="2">
+    <sval type="array" size="10">
+      <sval type="int" val="1930"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+    </sval>
+  </sval>
+  <sval type="array" size="4">
+    <sval type="array" size="2">
+      <sval type="int" val="17"/>
+      <sval type="string" val="Station Type"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val="Efficency"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="63"/>
+      <sval type="string" val="Is Player"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val="Scale Factor"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>7773</nosignature>
+</script>

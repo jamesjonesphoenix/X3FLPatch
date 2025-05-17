@@ -1,0 +1,85 @@
+0.1 Assassinate 1
+0.13 Follow Ship
+0.16 Transport Cargo
+0.18 Scout Sector
+0.19 Escort Convoy
+0.22 Build Stations
+0.24 Deploy Objects
+0.27 Destroy Convoy
+0.28 Capture Passengers
+0.29 Deliver Matching Ship
+0.3 Transport Passenger
+0.30 Transport Passengers
+0.33 Freight Scan
+0.34 Patrol
+0.35 Defend Object
+0.4 Return Wares
+0.45 Scan Objects
+0.5 Return Ship
+0.50 Deploy Relays
+0.8 Battle Enemy Ships
+0.80 Repair Station
+0.81 Multiple Transport
+0.82 Tour Of A Lifetime
+0.83 Dual Convoy
+2.009 Tutorials
+2.050 Farnhams Legacy Plot
+2.051 Terran Plot
+2.101 Generic Assasination
+2.103 Generic Transport
+2.104 Generic Delivery
+2.105 Generic Return Ship
+2.108 Generic Battle Ships
+2.109 Generic Transport Agent
+2.113 Generic Follow Ship
+2.116 Cargo Transport
+2.119 Trade Convoy
+2.122 Build Station
+2.127 Generic Destroy Convoy
+2.129 Deliver Matching Ship
+2.130 Generic Group Transport
+2.133 Generic Freight Scan
+2.134 Generic Patrol
+2.135 Defend Object
+2.136 Notoriety Hack
+2.137 Defend Object Agent
+2.144 Buy Asteroid Information
+2.145 Scan Asteroids
+2.147 Buy Sector Information
+2.150 Buy Used Ship
+2.161 Buy Blueprints
+2.180 Repair Station
+2.181 Multiple Transport
+2.182 Tour Of A Lifetime
+2.183 Dual Convoy
+3.01 Generic Missions
+3.08 Sector Management
+3.10 RSM HSAP Management
+COM01 Dock At Station
+COM02 Fly To Sector
+constants
+DSG
+OBJ01 Meet Contact
+OBJ02 Scan Object
+OBJ03 Battle Objectives
+OBJ05 Provide Station Ware
+OBS
+ROFG
+SRST
+start
+StockExchange
+U.10 Send Squads
+U.11 Follow Anxiety
+U.12 Move Offer Ship
+U.13 Get Rival Race
+U.15 Remove Ships
+U.16 Follow Anxiety MaxRange
+U.183 Raiding Parties
+U.184 Xenon Invasions
+U.2 Wingman Plugin
+U.3 Create Ships
+U.4 Finish Briefing
+U.5 Finish Objective
+U.6 Get Transport Locations
+U.9 Build Fleet
+patch

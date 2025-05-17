@@ -1,0 +1,399 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!ship.signal.killed</name>
+<version>4</version>
+<engineversion>62</engineversion>
+<description>Synchron signal. killed</description>
+<arguments>
+<argument index="1" name="killer" type="Value" desc="killer" />
+<argument index="2" name="cmd" type="Object Command" desc="cmd" />
+<argument index="3" name="cmdtarget" type="Value" desc="cmdtarget" />
+<argument index="4" name="cmdtarget2" type="Value" desc="cmdtarget2" />
+<argument index="5" name="cmdpar1" type="Value" desc="cmdpar1" />
+<argument index="6" name="cmdpar2" type="Value" desc="cmdpar2" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  * if we have followers, select a new leader
+  if [THIS] -> has formation ships
+    $newleader = [THIS] -> select new formation leader by: ship class=[TRUE] strength=[TRUE] min.speed=[TRUE]
+    if $newleader -> is of class Fighter Drone
+      skip if [THIS] -> is of class Fighter Drone
+        $cmd = COMMAND_KILL_ENEMIES
+    end
+    [THIS] ->give formation leadership to $newleader
+    
+    START $newleader -> command $cmd : arg1=$cmdtarget, arg2=$cmdtarget2, arg3=$cmdpar1, arg4=$cmdpar2
+    if $killer -> exists
+      if $killer -> is of class Ship
+        do if [THIS] -> is $killer a enemy
+          $newleader ->set relation against $killer to Foe
+      end
+      $attacker = [THIS] -> get attacker
+      if $attacker == $killer
+        $newleader ->send signal SIGNAL_ATTACKED : arg1=$killer, arg2=null, arg3=null, arg4=null
+      end
+    end
+  end
+  * OWP: store position
+  if [THIS] -> is of class M1
+    if not [THIS] -> get max speed
+      $pos = [THIS] -> get position as array
+      append [SECTOR] to array $pos
+      $pos.global = get global variable: name='owp.positions'
+      skip if is datatype[ $pos.global ] == DATATYPE_ARRAY
+        $pos.global = array alloc: size=0
+      append $pos to array $pos.global
+      set global variable: name='owp.positions' value=$pos.global
+    end
+  end
+  return null
+  * v2: fighter drone special code (SymTec)
+  * v3: OWP special code
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><comment><text>*&#160;</text><var>if&#160;we&#160;have&#160;followers,&#160;select&#160;a&#160;new&#160;leader</var></comment></line>
+<line indent=""><var>if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;has&#160;formation&#160;ships</text></line>
+<line indent="&#160;"><var>$newleader&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;select&#160;new&#160;formation&#160;leader&#160;by:&#160;ship&#160;class=</text><var>[TRUE]</var><text>&#160;strength=</text><var>[TRUE]</var><text>&#160;min.speed=</text><var>[TRUE]</var></line>
+<line indent="&#160;"><var>if&#160;</var><var>$newleader&#160;-&gt;</var><text>&#160;is&#160;of&#160;class&#160;</text><var>Fighter&#160;Drone</var></line>
+<line indent="&#160;&#160;"><var>skip&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;is&#160;of&#160;class&#160;</text><var>Fighter&#160;Drone</var></line>
+<line indent="&#160;&#160;&#160;"><var>$cmd&#160;=&#160;</var><var>COMMAND_KILL_ENEMIES</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"><var>[THIS]&#160;-&gt;</var><text>give&#160;formation&#160;leadership&#160;to&#160;</text><var>$newleader</var></line>
+<line indent="&#160;"></line>
+<line indent="&#160;"><text>START&#160;</text><var>$newleader&#160;-&gt;</var><text>&#160;command&#160;</text><var>$cmd</var><text>&#160;:&#160;arg1=</text><var>$cmdtarget</var><text>,&#160;arg2=</text><var>$cmdtarget2</var><text>,&#160;arg3=</text><var>$cmdpar1</var><text>,&#160;arg4=</text><var>$cmdpar2</var></line>
+<line indent="&#160;"><var>if&#160;</var><var>$killer&#160;-&gt;</var><text>&#160;exists</text></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$killer&#160;-&gt;</var><text>&#160;is&#160;of&#160;class&#160;</text><var>Ship</var></line>
+<line indent="&#160;&#160;&#160;"><var>do&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;is&#160;</text><var>$killer</var><text>&#160;a&#160;enemy</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$newleader&#160;-&gt;</var><text>set&#160;relation&#160;against&#160;</text><var>$killer</var><text>&#160;to&#160;</text><var>Foe</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><var>$attacker&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;get&#160;attacker</text></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$attacker</var><text>&#160;</text><var>==</var><text>&#160;</text><var>$killer</var></line>
+<line indent="&#160;&#160;&#160;"><var>$newleader&#160;-&gt;</var><text>send&#160;signal&#160;</text><var>SIGNAL_ATTACKED</var><text>&#160;:&#160;arg1=</text><var>$killer</var><text>,&#160;arg2=</text><var>null</var><text>,&#160;arg3=</text><var>null</var><text>,&#160;arg4=</text><var>null</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""><comment><text>*&#160;</text><var>OWP:&#160;store&#160;position</var></comment></line>
+<line indent=""><var>if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;is&#160;of&#160;class&#160;</text><var>M1</var></line>
+<line indent="&#160;"><var>if&#160;not&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;get&#160;max&#160;speed</text></line>
+<line indent="&#160;&#160;"><var>$pos&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;get&#160;position&#160;as&#160;array</text></line>
+<line indent="&#160;&#160;"><text>append&#160;</text><var>[SECTOR]</var><text>&#160;to&#160;array&#160;</text><var>$pos</var></line>
+<line indent="&#160;&#160;"><var>$pos.global&#160;=&#160;</var><text>get&#160;global&#160;variable:&#160;name=</text><var>'owp.positions'</var></line>
+<line indent="&#160;&#160;"><var>skip&#160;if&#160;</var><text>is&#160;datatype[&#160;</text><var>$pos.global</var><text>&#160;]&#160;==&#160;</text><var>DATATYPE_ARRAY</var></line>
+<line indent="&#160;&#160;&#160;"><var>$pos.global&#160;=&#160;</var><text>array&#160;alloc:&#160;size=</text><var>0</var></line>
+<line indent="&#160;&#160;"><text>append&#160;</text><var>$pos</var><text>&#160;to&#160;array&#160;</text><var>$pos.global</var></line>
+<line indent="&#160;&#160;"><text>set&#160;global&#160;variable:&#160;name=</text><var>'owp.positions'</var><text>&#160;value=</text><var>$pos.global</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+<line indent=""><comment><text>*&#160;</text><var>v2:&#160;fighter&#160;drone&#160;special&#160;code&#160;(SymTec)</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>v3:&#160;OWP&#160;special&#160;code</var></comment></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!ship.signal.killed"/>
+  <sval type="int" val="62"/>
+  <sval type="string" val="Synchron signal. killed"/>
+  <sval type="int" val="4"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="10">
+    <sval type="string" val="killer"/>
+    <sval type="string" val="cmd"/>
+    <sval type="string" val="cmdtarget"/>
+    <sval type="string" val="cmdtarget2"/>
+    <sval type="string" val="cmdpar1"/>
+    <sval type="string" val="cmdpar2"/>
+    <sval type="string" val="newleader"/>
+    <sval type="string" val="attacker"/>
+    <sval type="string" val="pos"/>
+    <sval type="string" val="pos.global"/>
+  </sval>
+  <sval type="array" size="24">
+    <sval type="array" size="4">
+      <sval type="int" val="531"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610609149"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="530"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="705"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="-1610611453"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2067"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="705"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-536869625"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2067"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="532"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="514"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="706"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-1610609149"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="705"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-1610609917"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2004"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="727"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610609912"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="744"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="736"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="7"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610609149"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="515"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1000"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="705"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610606845"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2021"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="785"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-536865020"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="795"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="158"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="owp.positions"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="125"/>
+      <sval type="int" val="-536865529"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="21"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="128"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="135"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="157"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="owp.positions"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="array" size="6">
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="string" val="killer"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="31"/>
+      <sval type="string" val="cmd"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="string" val="cmdtarget"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="string" val="cmdtarget2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="string" val="cmdpar1"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="string" val="cmdpar2"/>
+    </sval>
+  </sval>
+  <sval type="array" size="12">
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="if we have followers, select a new leader"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="5"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="6"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="14"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="14"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="14"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="14"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="OWP: store position"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="23"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="23"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="24"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="v2: fighter drone special code (SymTec)"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="24"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="v3: OWP special code"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>3941</nosignature>
+</script>

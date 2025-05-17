@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="director.xsl" type="text/xsl" ?>
+<director name="template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="director.xsd">
+  <documentation>
+    <author name="Owen Lake" alias="Xenon_Slayer" contact="E-Mail: Owen@egosoft.com Skype: Owen Lake"/>
+    <content reference="L3M08" name="Sector Management" description="Global MD sector Management"/>
+    <version number="0.2" date="09/07/2008" status="testing"/>
+  </documentation>
+  <cues>
+    <cue name="ODSHE">
+      <condition>
+        <check_value value="{player.gamestart.group}" exact="100" negate="1"/>
+      </condition>
+      <action>
+        <do_all>
+          <create_wreck typename="SS_DOCK_TR_MILITARY_1_WRECK">
+            <position x="25km" y="2km" z="23km" max="1km"/>
+            <rotation alpha="30720" beta="0" gamma="0"/>
+            <sector x="13" y="4"/>
+          </create_wreck>
+        </do_all>
+      </action>
+    </cue>
+    <cue name="HiredTLFix" check="cancel">
+      <condition>
+        <check_value value="{player.age}" min="30s"/>
+      </condition>
+      <action>
+        <do_all>
+          <find_ship multiple="1" class="tl" race="corporations|default|pirategroup|terrangroup" group="HiredTLFix.TLGroup">
+            <sector x="9" y="9"/>
+            <jumps max="50"/>
+          </find_ship>
+          <do_all exact="{group.object.count@HiredTLFix.TLGroup}" counter="TLCount">
+            <add_cargo object="{group.object.{counter@TLCount}@HiredTLFix.TLGroup}">
+              <ware critical="1" exact="1" typename="SS_WARE_SW_BUILD_MK1"/>
+              <ware critical="1" exact="1" typename="SS_WARE_SW_BUILD_MK2"/>
+            </add_cargo>
+          </do_all>
+        </do_all>
+      </action>
+    </cue>
+    <cue name="BPKM2" delay="5s">
+      <condition>
+        <check_value value="{player.gamestart.group}" exact="100" negate="1"/>
+      </condition>
+      <action>
+        <do_all>
+          <find_station name="BPKM.PHQ" typename="SS_DOCK_P_HQ_39" race="player">
+            <sector x="9" y="9"/>
+            <jumps max="50"/>
+          </find_station>
+          <find_ship group="BPKM.KMCount" race="player" typename="SS_SH_FLAGSHIP" silent="1">
+            <sector x="9" y="9"/>
+            <jumps max="50"/>
+          </find_ship>
+          <do_choose>
+            <do_when value="{group.object.count@BPKM.KMCount}" min="1">
+              <add_blueprints_to_headquarters typename="SS_SH_FLAGSHIP"/>
+            </do_when>
+            <do_otherwise>
+              <do_all exact="{player.headquarters.blueprints.count}" counter="BPCounter">
+                <do_if value="{player.headquarters.blueprints.{counter@BPCounter}}" exact="{lookup.type@SS_SH_FLAGSHIP}">
+                  <add_cargo object="BPKM.PHQ">
+                    <ware typename="SS_WARE_QUANTUMPR" exact="30" critical="1"/>
+                  </add_cargo>
+                </do_if>
+              </do_all>
+            </do_otherwise>
+          </do_choose>
+        </do_all>
+      </action>
+    </cue>
+    <cue name="HiredTLFix_2" delay="2s" >
+      <condition>
+        <check_all>
+          <check_value value="{player.age}" min="30s"/>
+        </check_all>
+      </condition>
+      <action>
+        <do_all>
+          <reset_cue cue="HiredTLFix"/>
+        </do_all>
+      </action>
+    </cue>
+    <cue name="Mapfixes" delay="2s" check="cancel">
+      <condition>
+        <check_value value="{player.age}" min="30s"/>
+      </condition>
+      <action>
+        <do_all>
+          <find_sector name="Mapfixes.1718" x="17" y="18"/>
+          <find_sector name="Mapfixes.1310" x="13" y="10"/>
+          <find_station name="Mapfixes.HUB" typename="SS_DOCK_HUB">
+            <sector sector="Mapfixes.1310"/>
+          </find_station>
+          <set_invincible object="Mapfixes.HUB" invincible="1"/>
+          <find_station name="Mapfixes.RStation" typename="SS_DOCK_B_MILITARY">
+            <sector sector="Mapfixes.1718"/>
+            <jumps exact="0"/>
+          </find_station>
+          <add_tradables object="Mapfixes.RStation">
+            <ware typename="SS_WARE_BEAMING" exact="1"/>
+            <ware typename="SS_WARE_TECH277" exact="1"/>
+          </add_tradables>
+        </do_all>
+      </action>
+    </cue>
+    <cue name="PHQINV" delay="5s">
+      <condition>
+        <check_all>
+          <check_value value="{player.gamestart.group}" exact="100" negate="1"/>
+          <check_value value="{player.gamestart}" exact="-1" negate="1"/>
+        </check_all>
+      </condition>
+      <action>
+        <do_all>
+          <find_station name="PHQINV.PHQ" typename="SS_DOCK_P_HQ_39">
+            <sector sector="{player.sector}"/>
+            <jumps max="50"/>
+          </find_station>
+          <set_invincible object="PHQINV.PHQ" invincible="1"/>
+        </do_all>
+      </action>
+    </cue>
+
+    <cue name="HUBINV" delay="5s">
+      <condition>
+        <check_all>
+          <check_value value="{player.gamestart.group}" exact="100" negate="1"/>
+          <check_value value="{player.gamestart}" exact="-1" negate="1"/>
+        </check_all>
+      </condition>
+      <action>
+        <do_all>
+          <find_station name="HUBINV.HUB" typename="SS_DOCK_HUB">
+            <sector x="13" y="10"/>
+          </find_station>
+        </do_all>
+      </action>
+      <cues>
+        <cue name="HUBINV_SET" delay="5s">
+          <condition>
+            <check_value value="{object.invincible@HUBINV.HUB}" exact="0"/>
+          </condition>
+          <action>
+            <do_all>
+              <set_invincible object="HUBINV.HUB" invincible="1"/>
+              <reset_cue cue="HUBINV_SET"/>
+            </do_all>
+          </action>
+        </cue>
+      </cues>
+    </cue>
+
+    <cue name="HUB Gates">
+      <condition>
+        <check_all>
+          <check_value value="{player.gamestart.group}" exact="100" negate="1"/>
+          <check_value value="{player.gamestart}" exact="-1" negate="1"/>
+        </check_all>
+      </condition>
+      <action>
+        <do_all>
+          <find_sector name="this.Sector" x="13" y="10" exact="0"/>
+          <do_if value="{sector.exists@this.Sector}" exact="1">
+            <find_station name="this.HUB" typename="SS_DOCK_HUB">
+              <sector sector="this.Sector"/>
+            </find_station>
+            <find_gate name="this.Gate" silent="1">
+              <sector sector="this.Sector"/>
+            </find_gate>
+            <set_invincible object="this.HUB" invincible="1"/>
+            <!--A gate already exists in the sector. Assume that the HUB gates have already been created and the MD has been reset-->
+            <do_if value="{object.exists@this.Gate}" exact="0">
+              <do_if value="{object.exists@this.HUB}" exact="1">
+                <create_gate gate="-1" typename="SS_WG_HUB_INACTIVE_NORTH" safety="0">
+                  <position z="10100000"/>
+                  <sector sector="this.Sector"/>
+                  <destination gate="-1"/>
+                </create_gate>
+                <create_gate gate="-1" typename="SS_WG_HUB_INACTIVE_SOUTH" safety="0">
+                  <position z="-10100000"/>
+                  <rotation alpha="180deg"/>
+                  <sector sector="this.Sector"/>
+                  <destination gate="-1"/>
+                </create_gate>
+                <create_gate gate="-1" typename="SS_WG_HUB_INACTIVE_EAST" safety="0">
+                  <position x="8750000" z="5050000"/>
+                  <rotation alpha="300deg"/>
+                  <sector sector="this.Sector"/>
+                  <destination gate="-1"/>
+                </create_gate>
+                <create_gate gate="-1" typename="SS_WG_HUB_INACTIVE_WEST" safety="0">
+                  <position x="-8750000" z="-5050000"/>
+                  <rotation alpha="120deg"/>
+                  <sector sector="this.Sector"/>
+                  <destination gate="-1"/>
+                </create_gate>
+                <create_gate gate="-1" typename="SS_WG_HUB_INACTIVE_UP" safety="0">
+                  <position x="-8750000" z="5050000"/>
+                  <rotation alpha="60deg"/>
+                  <sector sector="this.Sector"/>
+                  <destination gate="-1"/>
+                </create_gate>
+                <create_gate gate="-1" typename="SS_WG_HUB_INACTIVE_DOWN" safety="0">
+                  <position x="8750000" z="-5050000"/>
+                  <rotation alpha="240deg"/>
+                  <sector sector="this.Sector"/>
+                  <destination gate="-1"/>
+                </create_gate>
+                <set_state object="this.HUB" gate="north" lock="1"/>
+                <set_state object="this.HUB" gate="down" lock="1"/>
+                <set_state object="this.HUB" gate="east" lock="1"/>
+              </do_if>
+            </do_if>
+          </do_if>
+        </do_all>
+      </action>
+    </cue>
+
+    <!-- Dynamic Jobs Manager -->
+    <cue name="DJM" delay="10s" version="2">
+      <action>
+        <do_all>
+          <set_value name="DJM.Score" exact="0"/>
+          <do_choose>
+            <do_when value="{player.traderank.rank}" min="0" max="10">
+              <set_value name="DJM.Score" operation="add" exact="({player.traderank.rank}*1)"/>
+            </do_when>
+            <do_when value="{player.traderank.rank}" min="11" max="20">
+              <set_value name="DJM.Score" operation="add" exact="({player.traderank.rank}*2)"/>
+            </do_when>
+            <do_when value="{player.traderank.rank}" min="21" max="25">
+              <set_value name="DJM.Score" operation="add" exact="({player.traderank.rank}*3)"/>
+            </do_when>
+            <do_otherwise>
+              <set_value name="DJM.Score" operation="add" exact="({player.traderank.rank}*4)"/>
+            </do_otherwise>
+          </do_choose>
+
+          <do_choose>
+            <do_when value="{player.fightrank.rank}" min="0" max="5">
+              <set_value name="DJM.Score" operation="add" exact="({player.fightrank.rank}*1)"/>
+            </do_when>
+            <do_when value="{player.fightrank.rank}" min="6" max="10">
+              <set_value name="DJM.Score" operation="add" exact="({player.fightrank.rank}*2)"/>
+            </do_when>
+            <do_when value="{player.fightrank.rank}" min="11" max="15">
+              <set_value name="DJM.Score" operation="add" exact="({player.fightrank.rank}*4)"/>
+            </do_when>
+            <do_when value="{player.fightrank.rank}" min="16" max="20">
+              <set_value name="DJM.Score" operation="add" exact="({player.fightrank.rank}*5)"/>
+            </do_when>
+            <do_when value="{player.fightrank.rank}" min="21" max="25">
+              <set_value name="DJM.Score" operation="add" exact="({player.fightrank.rank}*7)"/>
+            </do_when>
+            <do_otherwise>
+              <set_value name="DJM.Score" operation="add" exact="({player.fightrank.rank}*10)"/>
+            </do_otherwise>
+          </do_choose>
+        </do_all>
+      </action>
+      <cues>
+        <cue name="DJM_Jobs" delay="2s">
+          <condition>
+            <cue_is_complete cue="DJM"/>
+          </condition>
+          <action>
+            <do_all>
+              <do_choose>
+                <do_when value="{value@DJM.Score}" min="0" max="50">
+                  <disable_plotflag plotflag="xenon1"/>
+                  <disable_plotflag plotflag="xenon2"/>
+                  <disable_plotflag plotflag="xenon3"/>
+                  <disable_plotflag plotflag="xenon4"/>
+                  <disable_plotflag plotflag="xenon5"/>
+                </do_when>
+                <do_when value="{value@DJM.Score}" min="51" max="100">
+                  <enable_plotflag plotflag="xenon1"/>
+                  <disable_plotflag plotflag="xenon2"/>
+                  <disable_plotflag plotflag="xenon3"/>
+                  <disable_plotflag plotflag="xenon4"/>
+                  <disable_plotflag plotflag="xenon5"/>
+                </do_when>
+                <do_when value="{value@DJM.Score}" min="101" max="150">
+                  <enable_plotflag plotflag="xenon1"/>
+                  <enable_plotflag plotflag="xenon2"/>
+                  <disable_plotflag plotflag="xenon3"/>
+                  <disable_plotflag plotflag="xenon4"/>
+                  <disable_plotflag plotflag="xenon5"/>
+                </do_when>
+                <do_when value="{value@DJM.Score}" min="151" max="225">
+                  <enable_plotflag plotflag="xenon1"/>
+                  <enable_plotflag plotflag="xenon2"/>
+                  <enable_plotflag plotflag="xenon3"/>
+                  <disable_plotflag plotflag="xenon4"/>
+                  <disable_plotflag plotflag="xenon5"/>
+                </do_when>
+                <do_when value="{value@DJM.Score}" exact="226" max="300">
+                  <enable_plotflag plotflag="xenon1"/>
+                  <enable_plotflag plotflag="xenon2"/>
+                  <enable_plotflag plotflag="xenon3"/>
+                  <enable_plotflag plotflag="xenon4"/>
+                  <disable_plotflag plotflag="xenon5"/>
+                </do_when>
+                <do_otherwise>
+                  <enable_plotflag plotflag="xenon1"/>
+                  <enable_plotflag plotflag="xenon2"/>
+                  <enable_plotflag plotflag="xenon3"/>
+                  <enable_plotflag plotflag="xenon4"/>
+                  <enable_plotflag plotflag="xenon5"/>
+                </do_otherwise>
+              </do_choose>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="DJM_Reset" delay="5s">
+              <condition>
+                <cue_is_complete cue="DJM_Jobs"/>
+              </condition>
+              <timing>
+                <time min="300s" max="360s"/>
+              </timing>
+              <action>
+                <do_all>
+                  <reset_cue cue="DJM"/>
+                </do_all>
+              </action>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+
+    <cue name="RMG" instantiate="static">
+      <condition>
+        <object_changed_sector/>
+      </condition>
+      <action>
+        <do_all>
+          <do_choose>
+            <do_when value="{player.sector.race}" list="{lookup.race@pirate}|{lookup.race@xenon}|{lookup.race@unknown}">
+              <do_any>
+                <set_value name="this.Track" min="35" max="39" comment="Sombre XBTF" chance="60"/>
+                <set_value name="this.Track" min="8214" max="8215" comment="Sombre X3TC" chance="40"/>
+              </do_any>
+            </do_when>
+            <do_otherwise>
+              <do_any>
+                <set_value name="this.Track" min="19" max="33" comment="Ambiance XBTF" chance="40"/>
+                <set_value name="this.Track" min="3001" max="3003" comment="Ambiance X2" chance="30"/>
+                <set_value name="this.Track" exact="8509" comment="Ambiance X3TC" chance="10"/>
+                <set_value name="this.Track" min="8601" max="8603" comment="Ambiance X2" chance="20"/>
+              </do_any>
+            </do_otherwise>
+          </do_choose>
+
+          <do_if value="{player.sector.fixedmusic}" exact="0">
+            <alter_sector sector="{player.sector}" music="{value@this.Track}"/>
+          </do_if>
+        </do_all>
+      </action>
+    </cue>
+
+	  <cue name="UFJD">
+		  <action>
+			  <do_all>
+				  <find_sector name="UFJD Sector" x="23" y="19" exact="0"/>
+				  <do_if value="{sector.exists@UFJD Sector}" exact="0">
+					  <cancel_cue cue="UFJD"/>
+				  </do_if>
+			  </do_all>
+		  </action>
+		  <cues>
+			  <cue name="Shady Business UFJD" instantiate="static">
+				  <condition>
+					  <check_all>
+						  <object_changed_sector/>
+						  <check_value value="{player.sector}" exact="{sector@UFJD Sector}"/>
+						  <check_value value="{value@Shady Business Enabled}" exact="1"/>
+					  </check_all>
+				  </condition>
+				  <timing>
+					  <time exact="100"/>
+				  </timing>
+				  <action>
+					  <do_all>
+						  <load_map file="APCP_ufjd"/>
+						  <alter_sector background="SS_BG_81"/>
+					  </do_all>
+				  </action>
+			  </cue>
+			  <cue name="UFJD Generation" instantiate="static">
+				  <condition>
+					  <check_all>
+						  <object_changed_sector/>
+						  <check_value value="{player.sector}" exact="{sector@UFJD Sector}"/>
+						  <check_value value="{value@Shady Business Enabled}" exact="1" negate="1"/>
+					  </check_all>
+				  </condition>
+				  <timing>
+					  <time exact="100"/>
+				  </timing>
+				  <action>
+					  <do_all>
+						  <do_any>
+							  <set_value chance="3" name="this.Enemy" exact="{lookup.race@xenon}"/>
+							  <set_value chance="6" name="this.Enemy" exact="0"/>
+						  </do_any>
+						  <do_any>
+							  <do_all chance="3">
+								  <do_if value="{player.ship.cargo.SS_WARE_BEAMING.exists}" exact="1">
+									  <add_equipment object="{player.ship}">
+										  <ware typename="SS_WARE_BEAMING" exact="-1"/>
+									  </add_equipment>
+									  <play_text>
+										  <line pageid="17" textid="3973"/>
+										  <line pageid="13" textid="29"/>
+									  </play_text>
+								  </do_if>
+							  </do_all>
+							  <do_all chance="3">
+								  <do_if value="{player.ship.cargo.SS_WARE_TECH276.exists}" exact="1">
+									  <add_equipment object="{player.ship}">
+										  <ware typename="SS_WARE_TECH276" exact="-1"/>
+									  </add_equipment>
+									  <play_text>
+										  <line pageid="17" textid="2763"/>
+										  <line pageid="13" textid="29"/>
+									  </play_text>
+								  </do_if>
+							  </do_all>
+							  <do_all chance="3">
+								  <do_if value="{player.ship.cargo.SS_WARE_SCANNER3.exists}" exact="1">
+									  <add_equipment object="{player.ship}">
+										  <ware typename="SS_WARE_SCANNER3" exact="-1"/>
+									  </add_equipment>
+									  <play_text>
+										  <line pageid="17" textid="5463"/>
+										  <line pageid="13" textid="29"/>
+									  </play_text>
+								  </do_if>
+							  </do_all>
+							  <set_value chance="20" name="this.temp" exact="1"/>
+						  </do_any>
+
+						  <do_all>
+							  <do_any>
+								  <do_all comment="blueish set">
+									  <do_all exact="2" counter="ColCount">
+										  <set_value name="UFJD Generation.Redval{counter@ColCount}" min="180" max="215"/>
+										  <set_value name="UFJD Generation.Greenval{counter@ColCount}" min="160" max="235"/>
+										  <set_value name="UFJD Generation.Blueval{counter@ColCount}" min="220" max="255"/>
+										  <do_any>
+											  <set_value name="UFJD Generation.suntype" exact="1"/>
+											  <set_value name="UFJD Generation.suntype" exact="5"/>
+											  <set_value name="UFJD Generation.suntype" exact="6"/>
+											  <set_value name="UFJD Generation.suntype" exact="8"/>
+										  </do_any>
+									  </do_all>
+									  <set_value name="UFJD Generation.RSectorBG" list="0|3|8|11|25|64"/>
+								  </do_all>
+								  <do_all comment="greenish set">
+									  <do_all exact="2" counter="ColCount">
+										  <set_value name="UFJD Generation.Redval{counter@ColCount}" min="195" max="220"/>
+										  <set_value name="UFJD Generation.Greenval{counter@ColCount}" min="180" max="255"/>
+										  <set_value name="UFJD Generation.Blueval{counter@ColCount}" min="210" max="230 "/>
+										  <do_any>
+											  <set_value name="UFJD Generation.suntype" exact="4"/>
+											  <set_value name="UFJD Generation.suntype" exact="6"/>
+											  <set_value name="UFJD Generation.suntype" exact="8"/>
+											  <set_value name="UFJD Generation.suntype" exact="9"/>
+										  </do_any>
+									  </do_all>
+									  <set_value name="UFJD Generation.RSectorBG" list="5|9|11|18|19|20|21|29"/>
+								  </do_all>
+
+								  <do_all comment="redish set">
+									  <do_all exact="2" counter="ColCount">
+										  <set_value name="UFJD Generation.Redval{counter@ColCount}" min="210" max="255"/>
+										  <set_value name="UFJD Generation.Greenval{counter@ColCount}" min="175" max="205"/>
+										  <set_value name="UFJD Generation.Blueval{counter@ColCount}" min="195" max="235 "/>
+										  <do_any>
+											  <set_value name="UFJD Generation.suntype" exact="2"/>
+											  <set_value name="UFJD Generation.suntype" exact="3"/>
+											  <set_value name="UFJD Generation.suntype" exact="6"/>
+											  <set_value name="UFJD Generation.suntype" exact="7"/>
+											  <set_value name="UFJD Generation.suntype" exact="8"/>
+										  </do_any>
+									  </do_all>
+									  <set_value name="UFJD Generation.RSectorBG" list="1|3|4|8|12|13|23|25|26|27|28|30|33|65"/>
+								  </do_all>
+
+								  <do_all comment="oos set">
+									  <do_all exact="2" counter="ColCount">
+										  <set_value name="UFJD Generation.Redval{counter@ColCount}" min="235" max="255"/>
+										  <set_value name="UFJD Generation.Greenval{counter@ColCount}" min="235" max="255"/>
+										  <set_value name="UFJD Generation.Blueval{counter@ColCount}" min="235" max="255"/>
+										  <do_any>
+											  <set_value name="UFJD Generation.suntype" exact="6"/>
+											  <set_value name="UFJD Generation.suntype" exact="8"/>
+										  </do_any>
+									  </do_all>
+									  <set_value name="UFJD Generation.RSectorBG" list="22|31|32|64|69|70|71|72|73"/>
+								  </do_all>
+							  </do_any>
+							  <do_all min="1" max="2" profile="decreasing" counter="Suncolor">
+								  <create_sun typename="SS_SUN_{value@UFJD Generation.suntype}" red="{value@UFJD Generation.Redval{counter@Suncolor}}" green="{value@UFJD Generation.Greenval{counter@Suncolor}}" blue="{value@UFJD Generation.Blueval{counter@Suncolor}}">
+									  <position min="2000km" max="2500km"/>
+									  <sector sector="UFJD Sector"/>
+								  </create_sun>
+							  </do_all>
+						  </do_all>
+						  <set_value name="UFJD Generation.RSectorSize" min="30" max="120"/>
+						  <alter_sector background="SS_BG_{value@UFJD Generation.RSectorBG}" population="0" sector="UFJD Sector" size="{value@UFJD Generation.RSectorSize}km"/>
+
+						  <set_value name="this.PlanetChance" min="1" max="100"/>
+						  <do_choose>
+							  <do_when value="{value@this.PlanetChance}" max="20">
+								  <do_all>
+									  <set_value name="this.planetsval" min="1" max="2"/>
+									  <do_any counter="planetcounter" exact="{value@this.planetsval}">
+										  <set_value name="this.Planetrange{counter@planetcounter}" min="25" max="33"/>
+										  <set_value name="this.Planetrange{counter@planetcounter}" min="36" max="48"/>
+										  <set_value name="this.Planetrange{counter@planetcounter}" min="69" max="88"/>
+										  <set_value name="this.Planetrange{counter@planetcounter}" min="89" max="108"/>
+										  <set_value name="this.Planetrange{counter@planetcounter}" min="109" max="128"/>
+									  </do_any>
+									  <do_all counter="planetcounter2" exact="{value@this.planetsval}">
+										  <create_planet typename="SS_PL{value@this.Planetrange{counter@planetcounter2}}" blue="0" green="0" red="0">
+											  <position min="(600*{value@this.planetsval})km" max="(800*{value@this.planetsval})km"/>
+											  <sector sector="UFJD Sector"/>
+										  </create_planet>
+									  </do_all>
+								  </do_all>
+							  </do_when>
+							  <do_otherwise>
+								  <set_value name="this.temp" exact="13"/>
+							  </do_otherwise>
+						  </do_choose>
+
+						  <do_any>
+							  <create_crate chance="1" invincible="1">
+								  <position x="0" y="0" z="0" min="({sector.size.km@UFJD Sector}+({sector.size.km@UFJD Sector}/20))km" max="({sector.size.km@UFJD Sector}+({sector.size.km@UFJD Sector}/3))km"/>
+								  <sector sector="UFJD Sector"/>
+								  <ware typename="SS_WARE_TECH213" exact="1"/>
+							  </create_crate>
+							  <create_crate chance="3" invincible="1" secret="1">
+								  <position x="0" y="0" z="0" min="({sector.size.km@UFJD Sector}+({sector.size.km@UFJD Sector}/20))km" max="({sector.size.km@UFJD Sector}+({sector.size.km@UFJD Sector}/3))km"/>
+								  <sector sector="UFJD Sector"/>
+								  <ware typename="SS_WARE_TECH246" exact="1"/>
+							  </create_crate>
+							  <create_crate chance="2" invincible="1">
+								  <position x="0" y="0" z="0" min="({sector.size.km@UFJD Sector}+({sector.size.km@UFJD Sector}/20))km" max="({sector.size.km@UFJD Sector}+({sector.size.km@UFJD Sector}/3))km"/>
+								  <sector sector="UFJD Sector"/>
+								  <ware typename="SS_LASER_PAL" min="1" max="3"/>
+							  </create_crate>
+							  <set_value chance="95" name="this.temp" exact="42"/>
+						  </do_any>
+
+						  <set_value name="this.Nividium Chance" max="100" profile="decreasing"/>
+						  <set_value name="this.Ore Chance" max="150" profile="bell"/>
+						  <set_value name="this.Silicon Chance" max="200" profile="bell"/>
+
+						  <set_value name="this.MinRange" min="0" max="3"/>
+						  <set_value name="this.MaxRange" min="50" max="60"/>
+						  <create_spacefly name="this.Position" swarm="1">
+							  <position x="0" y="0" z="0" min="3km" max="5km"/>
+							  <sector sector="UFJD Sector"/>
+						  </create_spacefly>
+
+						  <do_choose>
+							  <do_when value="{value@UFJD Sector Custom ID}" exact="1">
+								  <set_value name="this.Nividium Chance" min="40" max="170"/>
+								  <set_value name="this.Ore Chance" max="60" profile="bell"/>
+								  <set_value name="this.Silicon Chance" max="35" profile="bell"/>
+								  <set_value name="this.Enemy" exact="{lookup.race@khaak}"/>
+							  </do_when>
+							  <do_when value="{value@UFJD Sector Custom ID}" exact="2">
+								  <set_value name="this.Nividium Chance" min="25" max="60"/>
+								  <set_value name="this.Ore Chance" min="30" max="60" profile="bell"/>
+								  <set_value name="this.Silicon Chance" min="20" max="35" profile="bell"/>
+							  </do_when>
+						  </do_choose>
+
+						  <do_if value="{value@this.Enemy}" exact="0" negate="1">
+							  <set_value name="this.OBS Instances" min="0" max="10" profile="decreasing" chance="90"/>
+							  <set_value name="this.Enemy Level" min="{lookup.level@easy}" max="{lookup.level@veryhard}" profile="bell"/>
+						  </do_if>
+
+						  <!--Xenon Generation-->
+						  <do_if value="{value@this.Enemy}" exact="{lookup.race@xenon}">
+							  <set_value name="this.OBS Instances" min="3" max="7" profile="bell"/>
+							  <do_all chance="15">
+								  <set_value name="this.OBS Instances" min="3" max="12" profile="bell"/>
+								  <create_station name="this.Position" typename="SS_DOCK_X_TRADE" race="xenon">
+									  <position min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+									  <sector sector="UFJD Sector"/>
+									  <equipment loadout="default"/>
+								  </create_station>
+								  <do_if value="{value@this.Enemy Level}" max="{lookup.level@veryhard}">
+									  <set_value name="this.Enemy Level" exact="({value@this.Enemy Level}+1)"/>
+								  </do_if>
+							  </do_all>
+							  <do_all max="{value@this.OBS Instances}*2">
+								  <create_ship typename="{random.type@SS_SH_X_M3|SS_SH_X_M4|SS_SH_X_M5}" race="xenon">
+									  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+									  <sector sector="UFJD Sector"/>
+									  <equipment loadout="maximum"/>
+									  <command command="killenemies"/>
+								  </create_ship>
+							  </do_all>
+						  </do_if>
+
+						  <do_if value="{value@this.Nividium Chance}" min="25">
+							  <do_all exact="{value@this.Nividium Chance}/5">
+								  <do_any>
+									  <create_asteroid chance="3" typename="{random.type@SS_ASTEROID_01|SS_ASTEROID_02}">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+										  <resource typename="SS_WARE_NIVIDIUM2"/>
+									  </create_asteroid>
+									  <create_debris chance="6" typename="{random.type@SS_DEBRIS_C1|SS_DEBRIS_CDE|SS_DEBRIS_CDE1|SS_DEBRIS_CDE2|SS_DEBRIS_CDE3|SS_DEBRIS_D1|SS_DEBRIS_E1|SS_DEBRIS_F2|SS_DEBRIS_FGH|SS_DEBRIS_FGH1|SS_DEBRIS_FGH2|SS_DEBRIS_FGH3|SS_DEBRIS_G2|SS_DEBRIS_H2|SS_DEBRIS_I3|SS_DEBRIS_IJ|SS_DEBRIS_IJ1|SS_DEBRIS_IJ2|SS_DEBRIS_IJ3|SS_DEBRIS_J|SS_DEBRIS_JCOLLECT}">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+										  <resource typename="SS_WARE_NIVIDIUM2"/>
+									  </create_debris>
+								  </do_any>
+								  <do_all chance="30">
+									  <create_spacefly swarm="1">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+									  </create_spacefly>
+								  </do_all>
+							  </do_all>
+						  </do_if>
+
+						  <do_if value="{value@this.Ore Chance}" min="25">
+							  <do_all exact="{value@this.Ore Chance}/5">
+								  <do_any>
+									  <create_asteroid chance="3" typename="{random.type@SS_ASTEROID_01|SS_ASTEROID_02}">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+										  <resource typename="SS_WARE_ORE"/>
+									  </create_asteroid>
+									  <create_debris chance="6" typename="{random.type@SS_DEBRIS_C1|SS_DEBRIS_CDE|SS_DEBRIS_CDE1|SS_DEBRIS_CDE2|SS_DEBRIS_CDE3|SS_DEBRIS_D1|SS_DEBRIS_E1|SS_DEBRIS_F2|SS_DEBRIS_FGH|SS_DEBRIS_FGH1|SS_DEBRIS_FGH2|SS_DEBRIS_FGH3|SS_DEBRIS_G2|SS_DEBRIS_H2|SS_DEBRIS_I3|SS_DEBRIS_IJ|SS_DEBRIS_IJ1|SS_DEBRIS_IJ2|SS_DEBRIS_IJ3|SS_DEBRIS_J|SS_DEBRIS_JCOLLECT}">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+										  <resource typename="SS_WARE_ORE"/>
+									  </create_debris>
+								  </do_any>
+								  <do_all chance="30">
+									  <create_spacefly swarm="1">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+									  </create_spacefly>
+								  </do_all>
+							  </do_all>
+						  </do_if>
+
+						  <do_if value="{value@this.Silicon Chance}" min="25">
+							  <do_all exact="{value@this.Silicon Chance}/5">
+								  <do_any>
+									  <create_asteroid chance="3" typename="{random.type@SS_ASTEROID_01|SS_ASTEROID_02}">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+										  <resource typename="SS_WARE_SILICON"/>
+									  </create_asteroid>
+									  <create_debris chance="6" typename="{random.type@SS_DEBRIS_C1|SS_DEBRIS_CDE|SS_DEBRIS_CDE1|SS_DEBRIS_CDE2|SS_DEBRIS_CDE3|SS_DEBRIS_D1|SS_DEBRIS_E1|SS_DEBRIS_F2|SS_DEBRIS_FGH|SS_DEBRIS_FGH1|SS_DEBRIS_FGH2|SS_DEBRIS_FGH3|SS_DEBRIS_G2|SS_DEBRIS_H2|SS_DEBRIS_I3|SS_DEBRIS_IJ|SS_DEBRIS_IJ1|SS_DEBRIS_IJ2|SS_DEBRIS_IJ3|SS_DEBRIS_J|SS_DEBRIS_JCOLLECT}">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+										  <resource typename="SS_WARE_SILICON"/>
+									  </create_debris>
+								  </do_any>
+								  <do_all chance="30">
+									  <create_spacefly swarm="1">
+										  <position object="this.Position" min="{value@this.MinRange}km" max="{value@this.MaxRange}km"/>
+										  <sector sector="UFJD Sector"/>
+									  </create_spacefly>
+								  </do_all>
+							  </do_all>
+						  </do_if>
+
+						  <warp_object>
+							  <position x="0" y="0" z="0" min="1km" max="5km"/>
+						  </warp_object>
+					  </do_all>
+				  </action>
+				  <cues>
+					  <cue name="UFJD Emergency Energy Creator" delay="2s">
+						  <condition>
+							  <check_all>
+								  <cue_is_complete cue="UFJD Generation"/>
+								  <check_value value="{group.object.count@UFJD Generation.EnergyCrates}" max="3"/>
+							  </check_all>
+						  </condition>
+						  <action>
+							  <do_all>
+								  <find_ship class="ship" multiple="1" group="this.PlayerObjects" race="player" includedocked="1" silent="1">
+									  <sector sector="UFJD Sector"/>
+								  </find_ship>
+								  <do_all exact="{group.object.count@this.PlayerObjects}" counter="count">
+									  <set_value name="this.EnergyCount" operation="add" exact="{group.object.{counter@count}.cargo.SS_WARE_ENERGY.count@this.PlayerObjects}"/>
+								  </do_all>
+								  <do_if value="{value@this.EnergyCount}" max="800">
+									  <do_all exact="4">
+										  <create_crate group="UFJD Generation.EnergyCrates" secret="1" hidden="1">
+											  <position object="UFJD Generation.Position" min="{value@UFJD Generation.MinRange}km" max="{value@UFJD Generation.MaxRange}km"/>
+											  <ware typename="SS_WARE_ENERGY" min="100" max="500"/>
+										  </create_crate>
+										  <create_crate group="UFJD Generation.EnergyCrates">
+											  <position object="UFJD Generation.Position" min="({value@UFJD Generation.MinRange}*2)km" max="({value@UFJD Generation.MaxRange}*2)km"/>
+											  <ware typename="SS_WARE_ENERGY" min="100" max="500"/>
+										  </create_crate>
+									  </do_all>
+								  </do_if>
+							  </do_all>
+						  </action>
+						  <cues>
+							  <cue name="UFJD Emergency Energy Creator Wait">
+								  <timing>
+									  <time min="10m" max="20m"/>
+								  </timing>
+								  <action>
+									  <reset_cue cue="UFJD Emergency Energy Creator"/>
+								  </action>
+							  </cue>
+						  </cues>
+					  </cue>
+					  <cue name="UFJD OBS">
+						  <condition>
+							  <check_all>
+								  <cue_is_complete cue="UFJD Generation"/>
+								  <check_value value="{value@UFJD Generation.OBS Instances}" min="1"/>
+							  </check_all>
+						  </condition>
+						  <action>
+							  <set_value name="UFJD Generation.OBS Instances" operation="subtract"/>
+						  </action>
+						  <cues>
+							  <cue ref="OBS">
+								  <params>
+									  <param name="OBS Cue" value="UFJD Generation" comment="The cue name where the ship groups are saved too"/>
+									  <param name="OBS Cancel Cue" value="OBS" comment="The cue which is canceled after the OBS finishes"/>
+									  <param name="OBS Fleet Group Name" value="Ships" comment="The group name where all main ships are saved too"/>
+									  <param name="OBS Support Fleet Group Name" value="Ships" comment="The group name where all support ships are saved too"/>
+									  <param name="OBSFleetRace" value="{value@UFJD Generation.Enemy}" comment="The maker race ID of the ships or the racemask 'default' or 'pirategroup'"/>
+									  <param name="OBSFleetPilotsRace" value="{value@UFJD Generation.Enemy}" comment="The race ID of the pilots"/>
+									  <param name="OBSMissionRank" value="{player.fightrank.rank}" comment="A 0-30 scale preferably based on the players fight rank"/>
+									  <param name="OBSDifficultyRank" value="{value@UFJD Generation.Enemy Level}" comment="A 1-8 scale of difficulty"/>
+									  <param name="OBSPosition" value="{value@UFJD Generation.MaxRange}km" comment="how far away should the OBS ships be from FleetPositionObject"/>
+									  <param name="OBSFleetPositionObject" value="UFJD Generation.Position" comment="The object which will provide the location information"/>
+									  <param name="OBS Dock Support" value="1" comment="0/1 Sets if the created support ships are docked with their homebase"/>
+									  <param name="OBS Support Overflow" value="1" comment="0/1 Sets if additional support ships are created outside when the homebase is full"/>
+								  </params>
+							  </cue>
+							  <cue name="UFJD Set Attack">
+								  <condition>
+									  <cue_cancelled cue="OBS"/>
+								  </condition>
+								  <action>
+									  <do_all>
+										  <set_group_command group="UFJD Generation.Ships" command="killenemies"/>
+										  <remove_group group="UFJD Generation.Ships"/>
+									  </do_all>
+								  </action>
+								  <cues>
+									  <cue name="UFJD Reset OBS">
+										  <timing>
+											  <time min="600s" max="1200s"/>
+										  </timing>
+										  <action>
+											  <reset_cue cue="UFJD OBS"/>
+										  </action>
+									  </cue>
+								  </cues>
+							  </cue>
+						  </cues>
+					  </cue>
+					  <cue name="UFJD Cancel OBS" delay="1s">
+						  <condition>
+							  <check_all>
+								  <cue_is_complete cue="UFJD Generation"/>
+								  <check_value value="{value@UFJD Generation.OBS Instances}" max="0"/>
+							  </check_all>
+						  </condition>
+						  <action>
+							  <cancel_cue cue="UFJD OBS"/>
+						  </action>
+					  </cue>
+					  <cue name="Left UFJD Sector">
+						  <condition>
+							  <object_changed_sector/>
+						  </condition>
+						  <action>
+							  <cancel_cue cue="UFJD Generation"/>
+						  </action>
+					  </cue>
+				  </cues>
+			  </cue>
+		  </cues>
+	  </cue>
+
+
+    <cue name="18OPFix" check="cancel">
+      <condition>
+        <check_value value="{player.age}" min="30s"/>
+      </condition>
+      <action>
+        <do_all>
+          <find_station name="18OPFix.Outpost" typename="SS_DOCK_T_MILITARY">
+            <sector x="10" y="7"/>
+            <jumps exact="0"/>
+          </find_station>
+          <add_tradables object="18OPFix.Outpost">
+            <ware typename="SS_LASER_IRE" exact="1"/>
+            <ware typename="SS_LASER_PAC" exact="1"/>
+            <ware typename="SS_LASER_MASS" exact="1"/>
+            <ware typename="SS_LASER_EBC" exact="1"/>
+            <ware typename="SS_LASER_CIG" exact="1"/>
+            <ware typename="SS_LASER_FLAK_ALPHA" exact="1"/>
+            <ware typename="SS_MISSILE_A" exact="1"/>
+            <ware typename="SS_MISSILE_B" exact="1"/>
+            <ware typename="SS_MISSILE_TORP" exact="1"/>
+            <ware typename="SS_MISSILE_BOMBER" exact="1"/>
+            <ware typename="SS_MISSILE_TORP_CAPITAL" exact="1"/>
+            <ware typename="SS_MISSILE_AF_CAPITAL" exact="1"/>
+            <ware typename="SS_WARE_ENERGY" exact="1"/>
+            <ware typename="SS_WARE_SATELLITE" exact="1"/>
+            <ware typename="SS_WARE_MINE_1" exact="1"/>
+            <ware typename="SS_WARE_ORBITALLASER" exact="1"/>
+            <ware typename="SS_WARE_FIGHTDRONE" exact="1"/>
+            <ware typename="SS_WARE_TECH276" exact="1"/>
+            <ware typename="SS_WARE_L_T" exact="1"/>
+            <ware typename="SS_WARE_AMMUNITION_ALPHA" exact="1"/>
+            <ware typename="SS_WARE_SATELLITE2" exact="1"/>
+            <ware typename="SS_WARE_SCANNER3" exact="1"/>
+            <ware typename="SS_WARE_SW_FIGHT_1" exact="1"/>
+            <ware typename="SS_WARE_AMMUNITION_BETA" exact="1"/>
+            <ware typename="SS_WARE_SOLDIER_1" exact="1"/>
+            <ware typename="SS_WARE_SOLDIER_2" exact="1"/>
+          </add_tradables>
+        </do_all>
+      </action>
+    </cue>
+
+    <cue name="SandboxFIXCS" check="cancel">
+      <condition>
+        <check_all>
+          <check_value value="{player.age}" min="30s"/>
+          <check_value value="{player.gamestart}" exact="1000"/>
+        </check_all>
+      </condition>
+      <action>
+        <reset_cue cue="SandboxFIX"/>
+      </action>
+    </cue>
+
+    <cue name="SandboxFIX" check="cancel">
+      <condition>
+        <check_all>
+			<check_value value="{player.gamestart}" exact="-1" negate="1"/>
+			<check_value value="{player.gamestart.group}" exact="100" negate="1"/>
+			<check_value value="{player.gamestart.group}" exact="200" negate="1"/>
+		</check_all>
+      </condition>
+      <action>
+        <do_all>
+          <find_sector name="SandboxFIX.TheVoidalpha" x="18" y="16"/>
+          <find_sector name="SandboxFIX.TheVoidepsilon" x="18" y="18"/>
+          <find_sector name="SandboxFIX.TheVoidgama" x="18" y="17"/>
+          <find_sector name="SandboxFIX.HolyVisionalpha" x="14" y="14"/>
+          <find_sector name="SandboxFIX.PerpetualSin" x="12" y="13"/>
+          <find_station name="SandboxFIX.PHQ" typename="SS_DOCK_P_HQ_39">
+            <sector sector="SandboxFIX.TheVoidepsilon"/>
+            <jumps exact="0"/>
+          </find_station>
+          <destroy_object object="SandboxFIX.PHQ" explosion="0"/>
+          <find_object group="SandboxFIX.Targetpoints" typename="SS_SPECIAL_INVMARKER" multiple="1">
+            <sector sector="SandboxFIX.TheVoidepsilon"/>
+            <jumps max="0"/>
+          </find_object>
+          <destroy_group group="SandboxFIX.Targetpoints" explosion="0"/>
+
+          <find_gate name="SandboxFIX.HSGate" typename="SS_WG_HYPERSPEED">
+            <sector sector="SandboxFIX.TheVoidgama"/>
+            <jumps max="0"/>
+          </find_gate>
+          <destroy_object object="SandboxFIX.HSGate" explosion="0"/>
+          <create_gate name="SandboxFIX.GateN" gate="north" typename="SS_WG_T_NORTH" safety="0">
+            <position x="19km" y="0" z="88km"/>
+            <sector sector="SandboxFIX.TheVoidgama"/>
+            <destination gate="south" sector="SandboxFIX.TheVoidalpha"/>
+          </create_gate>
+          <create_gate name="SandboxFIX.GateS" gate="south" typename="SS_WG_T_SOUTH" safety="0">
+            <position x="0" y="0" z="-40km"/>
+            <rotation alpha="21920"/>
+            <sector sector="SandboxFIX.TheVoidalpha"/>
+            <destination gate="north" sector="SandboxFIX.TheVoidgama"/>
+          </create_gate>
+          <find_object name="SandboxFIX.IGPerpetualSin" typename="SS_SPECIAL_GATE_INACTIVE">
+            <sector sector="SandboxFIX.PerpetualSin"/>
+            <jumps exact="0"/>
+          </find_object>
+          <find_object name="SandboxFIX.IGHolyVision" typename="SS_SPECIAL_GATE_INACTIVE">
+            <sector sector="SandboxFIX.HolyVisionalpha"/>
+            <jumps exact="0"/>
+          </find_object>
+          <create_gate name="SandboxFIX.WGPerpetualSin" safety="0" typename="SS_WG_EAST" gate="east" race="paranid">
+            <position object="SandboxFIX.IGPerpetualSin" exact="0"/>
+            <sector sector="SandboxFIX.PerpetualSin"/>
+            <destination gate="west" sector="SandboxFIX.HolyVisionalpha"/>
+          </create_gate>
+          <create_gate name="SandboxFIX.EGHolyvision" safety="0" typename="SS_WG_WEST" gate="west" race="paranid">
+            <position object="SandboxFIX.IGHolyVision" exact="0"/>
+            <sector sector="SandboxFIX.HolyVisionalpha"/>
+            <destination gate="east" sector="SandboxFIX.PerpetualSin"/>
+          </create_gate>
+          <destroy_object object="SandboxFIX.IGPerpetualSin" explosion="0"/>
+          <destroy_object object="SandboxFIX.IGHolyVision" explosion="0"/>
+        </do_all>
+      </action>
+    </cue>
+
+  </cues>
+  <signature>hr5BuUTWXamlDQUkxb0X8OAmVvz0UVhxh9N1xdy/RVdRYEir0q3TBRT+fBtMFNwmcJ/rD/65X8URb3ZZx12oiWVX23WsEJUeS0p5GXCRN4qrpqS5jxRA1IP8NgapptX76yWeRgyIK/CxqUwfNc0TTHwgMxxEtS+E0afYYshbU/e7PnSMy8DiqUcEmTqFrk0F2c5zlwk2eryph8v4bqVKvcs35HQMiTCxDENfT06N+4ODE9Est7qHZVna4YkII2KHcafRfFgRyupRFi/m0GVOzxbw2QGxL1eNO/i5sfbi8tPQR5y7FKnsqAiUiz66bMtAw0HNbvxOJfSEpY7mbtnofw==</signature>
+</director>

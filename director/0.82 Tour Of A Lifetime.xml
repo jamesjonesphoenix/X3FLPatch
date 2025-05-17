@@ -1,0 +1,1971 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="director.xsl" type="text/xsl" ?>
+<director name="test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="director.xsd">
+  <documentation>
+    <author name="Phil Royle" alias="Dillpickle" contact="E-Mail: forums@piroyle.co.uk"/>
+    <content reference="L0M82 Tour Of A Lifetime" name="Tour Of A Lifetime Mission" description="Tour Of A Lifetime"/>
+    <version number="1.3" date="13/10/2012" status="testing" />
+  </documentation>
+  <cues>
+    <cue name="L0M82 B" library="1">
+      <documentation>
+        <content name="L0M82 Tour Of A Lifetime" reference="L0M82" type="L0"/>
+        <version number="1.3" date="13/10/12" status="testing"/>
+        <params>
+          <param name="Cue" type="cuename" compulsory="1" description="The cue where the briefing and objectives are stored"/>
+          <param name="ID" type="number" compulsory="1" description="The mission Id for dealing with mission chains"/>
+          <param name="OfferRace" type="number" compulsory="1" description="Race offering the mission"/>
+          <param name="EnemyRace" type="number" compulsory="1" description="Race of the enemy"/>
+          <param name="Lv1Guide" type="actorname" compulsory="1" description="The person offering the mission"/>
+          <param name="StartStation" type="objectname" compulsory="1" description="Start/End Station for the mission"/>
+          <param name="PageID" type="number" description="Page ID of mission description"/>
+          <param name="TextID" type="number" description="Text ID of mission description"/>
+          <param name="TitleID" type="number" description="Text ID of mission description"/>
+          <param name="BriefingBackground" type="text" compulsory="0" description="Briefing Background to be used"/>
+          <param name="Reward" description="Reward type"/>
+          <param name="StoryID" type="number" compulsory="0" description="Text ID of the Story title" default="No title"/>
+          <param name="ChapterID" type="number" compulsory="0" description="Text ID of the chapter title" default="No title"/>
+          <param name="Difficulty" type="number" compulsory="1" description="Difficulty level of mission"/>
+          <param name="PassengerCount" type="number" compulsory="1" description="Number of passengersto be transported"/>
+          <param name="Step" type="number" compulsory="0" description="The step to use if additional objectives are involved"/>
+          <param name="TPNeeded" type="number" compulsory="0" description="% Chance that the npc will require a TP transport"/>
+          <param name="IsPlot" compulsory="0" description="If the mission is a plot mission or not" default="non-plot"/>
+          <param name="BonusAmount" type="number"/>
+          <param name="TextID1" type="number" description="Text ID of mission description"/>
+          <param name="TextID2" type="number" description="Text ID of mission description"/>
+          <param name="NoBonusSector" type="number"/>
+        </params>
+        <returns>
+          <return name="{param@Cue}.{param@ID} L0M82 Progress" type="number" description="1 - Mission Completed"/>
+          <return name="{param@Cue}.{param@ID} L0M82 Progress" type="number" description="2 - Out of time"/>
+          <return name="{param@Cue}.{param@ID} L0M82 Progress" type="number" description="3 - Killed/Enslaved Passenger"/>
+          <return name="{param@Cue}.{param@ID} L0M82 Progress" type="number" description="5 - Player Ejected Pilot"/>
+          <return name="{param@Cue}.{param@ID} L0M82 Progress" type="number" description="92 - Out of time, not started mission"/>
+          <return name="{param@Cue}.{param@ID} L0M82 Progress" type="number" description="93 - Destination destroyed, not started mission"/>
+          <return name="{param@Cue}.{param@ID} L0M82 Progress" type="number" description="99 - Aborted"/>
+          <return name="{param@Cue}.{param@ID} L0M82 Bonus Sectors" type="number" description="Extra Sectors Visited"/>
+        </returns>
+        <history>
+          <change date="12/04/2013" author="Dillpickle" description="Increased help message times"/>
+          <change date="24/03/2013" author="Dillpickle" description="Fixed passengers getting off if docked at 'hold position' station"/>
+          <change date="24/03/2013" author="Dillpickle" description="Fixed incorrect objective at final stage"/>
+          <change date="22/03/2013" author="Dillpickle" description="Fixes to keep player in the ship to complete mission"/>
+          <change date="22/03/2013" author="Dillpickle" description="Added delay for bonus sectors registering to prevent 'gate hopping'"/>
+          <change date="17/02/2013" author="Dillpickle" description="Fixed miscalculating space required for passengers"/>
+          <change date="17/02/2013" author="Dillpickle" description="Fixed passengers getting on board when not docked"/>
+          <change date="17/02/2013" author="Dillpickle" description="Fixed exploit of not needing to be in the ship with tour group to complete mission "/>
+        </history>
+      </documentation>
+      <action>
+        <do_all>
+          <set_value name="{param@Cue}.{param@ID} PassengerCount" exact="{param@PassengerCount}"/>
+          <set_value name="{param@Cue}.{param@ID} PassengerTotal" exact="{param@PassengerCount}+1"/>
+          <set_value name="{param@Cue}.{param@ID} PageID" exact="{param@PageID}"/>
+          <do_choose>
+            <do_when value="{param@Difficulty}" exact="{lookup.level@impossible}">
+              <set_value name="{param@Cue}.{param@ID} StationCount" exact="10"/>
+            </do_when>
+            <do_when value="{param@Difficulty}" exact="{lookup.level@veryhard}">
+              <set_value name="{param@Cue}.{param@ID} StationCount" min="7" max="9"/>
+            </do_when>
+            <do_when value="{param@Difficulty}" exact="{lookup.level@hard}">
+              <set_value name="{param@Cue}.{param@ID} StationCount" min="6" max="8"/>
+            </do_when>
+            <do_when value="{param@Difficulty}" exact="{lookup.level@average}">
+              <set_value name="{param@Cue}.{param@ID} StationCount" min="5" max="7"/>
+            </do_when>
+            <do_when value="{param@Difficulty}" exact="{lookup.level@easy}">
+              <set_value name="{param@Cue}.{param@ID} StationCount" min="4" max="6"/>
+            </do_when>
+            <do_otherwise>
+              <set_value name="{param@Cue}.{param@ID} StationCount" min="3" max="5"/>
+            </do_otherwise>
+          </do_choose>
+          <set_value name="L0M82.StartTime" exact="{player.age}+7200"/>
+          <do_if value="{param.exists@IsPlot}" exact="0">
+            <set_value name="{param@Cue}.{param@ID} L0Time" min="15000" max="20000"/>
+            <do_if value="{param.exists@Difficulty}" exact="1">
+              <do_if value="{param@Difficulty}" min="1">
+                <do_choose>
+                  <do_when value="{param@Difficulty}" exact="7">
+                    <set_value name="{param@Cue}.{param@ID} L0Time" exact="({value@{param@Cue}.{param@ID} L0Time}/{param@Difficulty})*2"/>
+                  </do_when>
+                  <do_otherwise>
+                    <set_value name="{param@Cue}.{param@ID} L0Time" exact="{value@{param@Cue}.{param@ID} L0Time}/{param@Difficulty}"/>
+                  </do_otherwise>
+                </do_choose>
+              </do_if>
+            </do_if>
+          </do_if>
+          <do_if value="{param.exists@RewardCr}" exact="1">
+            <do_choose>
+              <do_when value="{param@Difficulty}" exact="7">
+                <do_if value="{value@{param@RewardCr}}" exact="0">
+                  <set_value name="{param@RewardCr}" exact="{reward.money.{param@OfferRace}@{param@Difficulty}.XXXT}"/>
+                </do_if>
+              </do_when>
+              <do_when value="{param@Difficulty}" min="1">
+                <do_if value="{value@{param@RewardCr}}" exact="0">
+                  <set_value name="{param@RewardCr}" exact="{reward.money.{param@OfferRace}@{param@Difficulty}.XXXT}/2"/>
+                </do_if>
+              </do_when>
+              <do_otherwise>
+                <do_if value="{value@{param@RewardCr}}" exact="0">
+                  <set_value name="{param@RewardCr}" exact="{reward.money}"/>
+                </do_if>
+              </do_otherwise>
+            </do_choose>
+          </do_if>
+          <do_if value="{param.exists@RewardFree}" exact="1">
+            <do_if value="{value@{param@RewardFree}}" exact="0">
+              <set_value name="{param@RewardFree}" exact="{value@{param@RewardCr}}/10"/>
+            </do_if>
+          </do_if>
+        </do_all>
+      </action>
+      <cues>
+        <cue name="L0M82 Create Briefing">
+          <condition>
+            <cue_completed cue="L0M82 B"/>
+          </condition>
+          <action>
+            <do_all>
+              <set_value name="{param@Cue}.{param@ID} L0Step" exact="2"/>
+              <set_value name="L0M82 B.SpaceNeeded" exact="{lookup.type.cargospace@SS_WARE_PASSENGER}*{value@{param@Cue}.{param@ID} PassengerTotal}"/>
+              <create_briefing cue="{param@Cue}" text="{{param@PageID},{param@TextID}}" title="{{param@PageID},{param@TitleID}}">
+				  <requirements>
+					  <requirement value="{value@L0M82 B.SpaceNeeded}" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="tp" type="class"/>
+				  </requirements>
+				  <objectives>
+                  <objective step="{value@{param@Cue}.{param@ID} L0Step}-1">
+                    <custom action="{3382,182000}" text="{3382,182000}"/>
+                  </objective>
+                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                    <custom icon="flyto" action="{35,2025}" text="[y]{3382,182020}[/y][o]{{param@PageID},{param@TextID1}}[/o][y]{{param@PageID},{param@TextID2}}[/y]"/>
+                  </objective>
+                </objectives>
+              </create_briefing>
+            </do_all>
+          </action>
+          <cues>
+            <cue ref="LUM04">
+              <params>
+                <param name="Discipline" value="XXXT"/>
+                <param name="StartTime" value="L0M82.StartTime"/>
+                <param name="Duration" value="{param@Cue}.{param@ID} L0Time"/>
+              </params>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+
+    <cue name="L0M82" library="1">
+      <documentation>
+        <content name="L0M82 Multiple Transport" reference="L0M82" type="L0"/>
+        <version number="1.0" date="09/10/12" status="development"/>
+        <params>
+          <param name="Cue" type="cuename" compulsory="1" description="The cue where the briefing and objectives are stored"/>
+          <param name="ID" type="number" compulsory="1" description="The mission Id for dealing with mission chains"/>
+          <param name="OfferRace" type="number" compulsory="1" description="Race offering the mission"/>
+          <param name="EnemyRace" type="number" compulsory="1" description="Race of the enemy"/>
+          <param name="Lv1Guide" type="actorname" compulsory="1" description="The person offering the mission"/>
+          <param name="StartStation" type="objectname" compulsory="1" description="Start/End Station for the mission"/>
+          <param name="PageID" type="number" description="Page ID of mission description"/>
+          <param name="TextID" type="number" description="Text ID of mission description"/>
+          <param name="TitleID" type="number" description="Text ID of mission description"/>
+          <param name="BriefingBackground" type="text" compulsory="0" description="Briefing Background to be used"/>
+          <param name="Reward" description="Reward type"/>
+          <param name="StoryID" type="number" compulsory="0" description="Text ID of the Story title" default="No title"/>
+          <param name="ChapterID" type="number" compulsory="0" description="Text ID of the chapter title" default="No title"/>
+          <param name="Difficulty" type="number" compulsory="1" description="Difficulty level of mission"/>
+          <param name="PassengerCount" type="number" compulsory="1" description="Number of passengersto be transported"/>
+          <param name="Step" type="number" compulsory="0" description="The step to use if additional objectives are involved"/>
+          <param name="TPNeeded" type="number" compulsory="0" description="% Chance that the npc will require a TP transport"/>
+          <param name="IsPlot" compulsory="0" description="If the mission is a plot mission or not" default="non-plot"/>
+          <param name="BonusAmount" type="number"/>
+          <param name="NoBonusSector" type="number"/>
+        </params>
+      </documentation>
+      <action>
+	    <do_all>
+            <set_value name="{param@Cue}.{param@ID} L0M82SpaceNeeded" exact="{lookup.type.cargospace@SS_WARE_PASSENGER}*{value@{param@Cue}.{param@ID} PassengerTotal}"/>
+            <set_value name="{param@Cue}.{param@ID} L0M82 Progress" exact="0"/>
+		</do_all>
+      </action>
+      <cues>
+        <cue name="L0M82 Mission">
+          <action>
+            <do_all>
+              <set_value name="{param@Cue}.{param@ID} L0EndTime" exact="{value@{param@Cue}.{param@ID} L0Time}+{player.age}"/>
+              <set_value name="{param@Cue}.{param@ID} MissionSectors" exact="{value@{param@Cue}.{param@ID} StationCount}+1"/>
+              <set_value name="{param@Cue}.{param@ID} BonusTotal" exact="0"/>
+              <set_value name="{param@Cue}.{param@ID} BonusAmount" exact="{param@BonusAmount}"/>
+              <do_if value="{param@NoBonusSector}" exact="1">
+                <set_value name="{param@Cue}.{param@ID} NoBonusSector" exact="1"/>
+              </do_if>
+              <do_choose>
+                <do_when value="{param@Difficulty}" exact="7">
+                  <set_value name="L0M82.XenonOnly" exact="1"/>
+                  <set_value name="{param@Cue}.{param@ID} NoBonusSector" exact="1"/>
+                </do_when>
+                <do_otherwise>
+                  <create_stationary group="L0M82.TourMarker" race="{object.sector.race@{param@StartStation}}" typename="SS_SH_BEACON" invincible="1">
+                    <position x="100km" y="100km" z="100km"/>
+                    <sector sector="{object.sector@{param@StartStation}}"/>
+                  </create_stationary>
+                  <do_all exact="{value@{param@Cue}.{param@ID} StationCount}" counter="Count">
+                    <do_choose>
+                      <do_when value="{param@Difficulty}" exact="{lookup.level@veryhard}">
+                        <do_choose>
+                          <do_when value="{counter@Count}" exact="{value@{param@Cue}.{param@ID} StationCount}">
+                            <do_any>
+                              <do_all chance="70">
+                                <find_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" race="xenon">
+                                  <jumps max="50"/>
+                                </find_station>
+                                <do_if value="{object.exists@{param@Cue}.{param@ID} TourStation {counter@Count}}" exact="0">
+                                  <find_sector name="L0M92.XenonTempSector" race="xenon" max="50"/>
+                                  <set_value name="this.XCoOrd" min="-20" max="20"/>
+                                  <set_value name="this.YCoOrd" min="-10" max="10"/>
+                                  <set_value name="this.ZCoOrd" min="-30" max="30"/>
+                                  <create_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" race="xenon">
+                                    <position x="{value@this.XCoOrd}km" y="{value@this.YCoOrd}km" z="{value@this.ZCoOrd}km"/>
+                                    <sector sector="L0M92.XenonTempSector"/>
+                                  </create_station>
+                                  <set_object name="{param@Cue}.{param@ID} TempXenonStation" value="{object@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                                </do_if>
+                              </do_all>
+                              <do_all chance="30">
+                                <set_value name="this.FindCount" exact="{counter@Count}-1"/>
+                                <find_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" findobject="{param@Cue}.{param@ID} TourStation {value@this.FindCount}" class="station" race="default|terran|pirategroup">
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {value@this.FindCount}}"/>
+                                  <jumps min="3" max="{param@Difficulty}+2"/>
+                                </find_station>
+                              </do_all>
+                            </do_any>
+                            <create_stationary group="L0M82.TourMarker" race="{object.sector.race@{param@Cue}.{param@ID} TourStation {counter@Count}}" typename="SS_SH_BEACON" invincible="1">
+                              <position x="100km" y="100km" z="100km"/>
+                              <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                            </create_stationary>
+                            <set_sector name="L0M82.TourSector {counter@Count}" value="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                          </do_when>
+                          <do_otherwise>
+                            <do_choose>
+                              <do_when value="{counter@Count}" exact="1">
+                                <find_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" findobject="{player.ship}" class="station" race="default|terran|pirategroup">
+                                  <sector sector="{player.sector}"/>
+                                  <jumps min="3" max="{param@Difficulty}+2"/>
+                                </find_station>
+                                <create_stationary group="L0M82.TourMarker" race="{object.sector.race@{param@Cue}.{param@ID} TourStation {counter@Count}}" typename="SS_SH_BEACON" invincible="1">
+                                  <position x="100km" y="100km" z="100km"/>
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                                </create_stationary>
+                                <set_sector name="L0M82.TourSector {counter@Count}" value="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                              </do_when>
+                              <do_otherwise>
+                                <set_value name="this.FindCount" exact="{counter@Count}-1"/>
+                                <find_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" findobject="{param@Cue}.{param@ID} TourStation {value@this.FindCount}" class="station" race="default|terran|pirategroup">
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {value@this.FindCount}}"/>
+                                  <jumps min="3" max="{param@Difficulty}+2"/>
+                                </find_station>
+                                <create_stationary group="L0M82.TourMarker" race="{object.sector.race@{param@Cue}.{param@ID} TourStation {value@this.FindCount}}" typename="SS_SH_BEACON" invincible="1">
+                                  <position x="100km" y="100km" z="100km"/>
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                                </create_stationary>
+                                <set_sector name="L0M82.TourSector {counter@Count}" value="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                              </do_otherwise>
+                            </do_choose>
+                          </do_otherwise>
+                        </do_choose>
+                      </do_when>
+                      <do_otherwise>
+                        <do_choose>
+                          <do_when value="{param@Difficulty}" min="{lookup.level@average}">
+                            <do_choose>
+                              <do_when value="{counter@Count}" exact="1">
+                                <find_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" findobject="{player.ship}" class="station" race="default|terran|pirategroup">
+                                  <sector sector="{player.sector}"/>
+                                  <jumps min="2" max="{param@Difficulty}+2"/>
+                                </find_station>
+                                <create_stationary group="L0M82.TourMarker" race="{object.sector.race@{param@Cue}.{param@ID} TourStation {counter@Count}}" typename="SS_SH_BEACON" invincible="1">
+                                  <position x="100km" y="100km" z="100km"/>
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                                </create_stationary>
+                                <set_sector name="L0M82.TourSector {counter@Count}" value="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                              </do_when>
+                              <do_otherwise>
+                                <set_value name="this.FindCount" exact="{counter@Count}-1"/>
+                                <find_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" findobject="{param@Cue}.{param@ID} TourStation {value@this.FindCount}" class="station" race="default|terran|pirategroup">
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {value@this.FindCount}}"/>
+                                  <jumps min="2" max="{param@Difficulty}+2"/>
+                                </find_station>
+                                <create_stationary group="L0M82.TourMarker" race="{object.sector.race@{param@Cue}.{param@ID} TourStation {value@this.FindCount}}" typename="SS_SH_BEACON" invincible="1">
+                                  <position x="100km" y="100km" z="100km"/>
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                                </create_stationary>
+                                <set_sector name="L0M82.TourSector {counter@Count}" value="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                              </do_otherwise>
+                            </do_choose>
+                          </do_when>
+                          <do_otherwise>
+                            <do_choose>
+                              <do_when value="{counter@Count}" exact="1">
+                                <find_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" findobject="{player.ship}" class="station" race="default|terran">
+                                  <sector sector="{player.sector}"/>
+                                  <jumps min="2" max="{param@Difficulty}+2"/>
+                                </find_station>
+                                <create_stationary group="L0M82.TourMarker" race="{object.sector.race@{param@Cue}.{param@ID} TourStation {counter@Count}}" typename="SS_SH_BEACON" invincible="1">
+                                  <position x="100km" y="100km" z="100km"/>
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                                </create_stationary>
+                                <set_sector name="L0M82.TourSector {counter@Count}" value="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                              </do_when>
+                              <do_otherwise>
+                                <set_value name="this.FindCount" exact="{counter@Count}-1"/>
+                                <find_station name="{param@Cue}.{param@ID} TourStation {counter@Count}" group="{param@Cue}.{param@ID} TourStationGroup" findobject="{param@Cue}.{param@ID} TourStation {value@this.FindCount}" class="station" race="default|terran">
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {value@this.FindCount}}"/>
+                                  <jumps min="2" max="{param@Difficulty}+2"/>
+                                </find_station>
+                                <create_stationary group="L0M82.TourMarker" race="{object.sector.race@{param@Cue}.{param@ID} TourStation {value@this.FindCount}}" typename="SS_SH_BEACON" invincible="1">
+                                  <position x="100km" y="100km" z="100km"/>
+                                  <sector sector="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                                </create_stationary>
+                                <set_sector name="L0M82.TourSector {counter@Count}" value="{object.sector@{param@Cue}.{param@ID} TourStation {counter@Count}}"/>
+                              </do_otherwise>
+                            </do_choose>
+                          </do_otherwise>
+                        </do_choose>
+                      </do_otherwise>
+                    </do_choose>
+                  </do_all>
+                </do_otherwise>
+              </do_choose>
+              <set_value name="{param@Cue}.{param@ID} L0Step" exact="3"/>
+              <set_objective cue="{param@Cue}" title="{{param@PageID},{param@TitleID}}">
+                <briefing cue="{param@Cue}" step="3"/>
+                <mission discipline="XXXT" level="{param@Difficulty}"/>
+                <timer start="{player.age}" duration="{value@{param@Cue}.{param@ID} L0Time}"/>
+                <custom icon="flyto" action="{35,2042}" text="[o]{3382,182102}[/o]" guidance="{object@{param@StartStation}}"/>
+              </set_objective>
+              <create_briefing cue="{param@Cue}">
+                <timer start="{player.age}" duration="{value@{param@Cue}.{param@ID} L0Time}"/>
+				  <requirements>
+					  <requirement value="{value@{param@Cue}.{param@ID} L0M82SpaceNeeded}" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="tp" type="class"/>
+				  </requirements>
+				  <objectives>
+                  <objective step="1">
+                    <custom action="{3382,182000}" text="{3382,182000}"/>
+                  </objective>
+                  <objective step="2">
+                    <custom icon="flyto" action="{35,2025}" text="[y]{3382,182020}[/y][o]{{param@PageID},{param@TextID1}}[/o][y]{{param@PageID},{param@TextID2}}[/y]"/>
+                  </objective>
+                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                    <custom icon="flyto" action="{35,2042}" text="{3382,182102}" guidance="{object@{param@StartStation}}"/>
+                  </objective>
+                </objectives>
+              </create_briefing>
+              <set_value name="L0M82 Mission.StartTime" exact="{player.age}"/>
+              <set_value name="{param@Cue}.{param@ID} L0Step" operation="add"/>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="L0M82 Find Xenon Sectors">
+              <condition>
+                <check_value value="{value@L0M82.XenonOnly}" exact="1"/>
+              </condition>
+              <action>
+                <do_all>
+                  <set_value name="L0M82.Xcount" operation="add"/>
+                  <find_sector name="L0M82.XSector{value@L0M82.Xcount}" race="xenon" max="100"/>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L0M82 Find Xenon Sector Check">
+                  <condition>
+                    <cue_is_complete cue="L0M82 Find Xenon Sectors"/>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <do_all exact="{group.object.count@L0M82.XTourMarker}" counter="BeaconCount">
+                        <do_if value="{sector@L0M82.XSector{value@L0M82.Xcount}}" exact="{object.sector@{group.object.{counter@BeaconCount}@L0M82.XTourMarker}}">
+                          <set_value name="L0M82.XBeaconExists" exact="1"/>
+                        </do_if>
+                      </do_all>
+                      <do_choose>
+                        <do_when value="{value@L0M82.XBeaconExists}" exact="1" negate="1">
+                          <set_value name="this.XCoOrd" min="-20" max="20"/>
+                          <set_value name="this.YCoOrd" min="-10" max="10"/>
+                          <set_value name="this.ZCoOrd" min="-30" max="30"/>
+                          <create_stationary group="L0M82.XTourMarker" race="neutral" typename="SS_SH_BEACON" invincible="1">
+                            <position x="100km" y="100km" z="100km"/>
+                            <sector sector="L0M82.XSector{value@L0M82.Xcount}"/>
+                          </create_stationary>
+                          <find_station name="{param@Cue}.{param@ID} TourStation {value@L0M82.Xcount}" group="{param@Cue}.{param@ID} TourStationGroup" class="station" race="xenon">
+                            <sector sector="L0M82.XSector{value@L0M82.Xcount}"/>
+                          </find_station>
+                          <do_if value="{object.exists@{param@Cue}.{param@ID} TourStation {value@L0M82.Xcount}}" exact="0">
+                            <create_stationary name="{param@Cue}.{param@ID} TourStation {value@L0M82.Xcount}" group="{param@Cue}.{param@ID} TourStationGroup" race="neutral" typename="SS_SH_BEACON" invincible="1">
+                              <position x="{value@this.XCoOrd}km" y="{value@this.YCoOrd}km" z="{value@this.ZCoOrd}km"/>
+                              <sector sector="L0M82.XSector{value@L0M82.Xcount}"/>
+                            </create_stationary>
+                            <set_object name="{param@Cue}.{param@ID} TourBeacon {value@L0M82.Xcount}" value="{object@{param@Cue}.{param@ID} TourStation {value@L0M82.Xcount}}" group="L0M82.TourBeaconGroup"/>
+                          </do_if>
+                          <set_sector name="L0M82.TourSector {value@L0M82.Xcount}" value="{sector@L0M82.XSector{value@L0M82.Xcount}}"/>
+                          <do_choose>
+                            <do_when value="{value@L0M82.Xcount}" exact="11">
+                              <cancel_cue cue="L0M82 Find Xenon Sectors"/>
+                            </do_when>
+                            <do_otherwise>
+                              <set_value name="L0M82.XBeaconExists" exact="0"/>
+                              <reset_cue cue="L0M82 Find Xenon Sectors"/>
+                            </do_otherwise>
+                          </do_choose>
+                        </do_when>
+                        <do_otherwise>
+                          <set_value name="L0M82.XBeaconExists" exact="0"/>
+                          <set_value name="L0M82.Xcount" operation="subtract"/>
+                          <reset_cue cue="L0M82 Find Xenon Sectors"/>
+                        </do_otherwise>
+                      </do_choose>
+                    </do_all>
+                  </action>
+                </cue>
+              </cues>
+            </cue>
+            <cue ref="LUM04">
+              <params>
+                <param name="StartTime" value="L0M82 Mission.StartTime"/>
+                <param name="Duration" value="{param@Cue}.{param@ID} L0Time"/>
+              </params>
+            </cue>
+            <cue ref="LUM05">
+              <params>
+                <param name="Duration" value="{param@Cue}.{param@ID} L0Time"/>
+              </params>
+            </cue>
+            <cue name="L0M82 Docked Check">
+              <condition>
+                <check_all>
+                  <object_is_docked dockobject="{object@{param@StartStation}}"/>
+                  <check_value value="{player.ship.isclass.tp}" exact="1"/>
+                </check_all>
+              </condition>
+              <timing>
+                <time exact="3s"/>
+              </timing>
+              <action>
+                <do_all>
+                  <set_value name="L0M82.SpaceNeeded" exact="{lookup.type.cargospace@SS_WARE_PASSENGER}*{value@{param@Cue}.{param@ID} PassengerTotal}"/>
+                  <set_value name="L0M82.TourStationCount" exact="1"/>
+                  <do_choose>
+                    <do_when value="{player.ship.cargospace}" max="{value@L0M82.SpaceNeeded}-1">
+                      <incoming_message author="{actor.name@{param@Lv1Guide}}" text="{3382,182200}" popup="1"/>
+                      <set_value name="L0M82.NoSpaceReset" exact="2"/>
+                    </do_when>
+                    <do_otherwise>
+                      <create_actor name="{param@Cue}.{param@ID} TempTourLeader" race="{param@OfferRace}" voiceflags="32"/>
+                      <create_actor name="{param@Cue}.{param@ID} TourLeader" character="{3382,182106}" race="{actor.race@{param@Cue}.{param@ID} TempTourLeader}" voiceflags="32" object="{player.ship}" location="passenger"/>
+                      <set_object name="{param@Cue}.{param@ID} TourLeaderA" value="{actor@{param@Cue}.{param@ID} TourLeader}" group="{param@Cue}.{param@ID} PassengerGroup"/>
+                      <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}">
+                        <set_value name="{param@Cue}.{param@ID} PassengerNumber" operation="add"/>
+                        <do_choose>
+                          <do_when value="{param@OfferRace}" exact="{lookup.race@terran}">
+                            <do_any>
+                              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{object.race@{param@StartStation}}" chance="30"/>
+                              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{object.sector.race@{param@StartStation}}" chance="25"/>
+                              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{lookup.race@paranid}" chance="15"/>
+                              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{lookup.race@split}" chance="15"/>
+                              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{lookup.race@teladi}" chance="15"/>
+                            </do_any>
+                          </do_when>
+                          <do_otherwise>
+                            <do_any>
+                              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{object.race@{param@StartStation}}" chance="25"/>
+                              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{object.sector.race@{param@StartStation}}" chance="25"/>
+                              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{random.race@default}" chance="50"/>
+                            </do_any>
+                          </do_otherwise>
+                        </do_choose>
+                        <create_actor name="{param@Cue}.{param@ID} TempPassenger {value@{param@Cue}.{param@ID} PassengerNumber}" race="{value@{param@Cue}.{param@ID} ActorRace}" voiceflags="32"/>
+                        <create_actor name="{param@Cue}.{param@ID} Passenger {value@{param@Cue}.{param@ID} PassengerNumber}" character="{3382,182107}" race="{actor.race@{param@Cue}.{param@ID} TempPassenger {value@{param@Cue}.{param@ID} PassengerNumber}}" voiceflags="32" object="{player.ship}" location="passenger"/>
+                        <set_object name="{param@Cue}.{param@ID} Passengers {value@{param@Cue}.{param@ID} PassengerNumber}" value="{actor@{param@Cue}.{param@ID} Passenger {value@{param@Cue}.{param@ID} PassengerNumber}}" group="{param@Cue}.{param@ID} PassengerGroup"/>
+                      </do_all>
+                      <set_object name="{param@Cue}.{param@ID} MissionShip" value="{player.ship}"/>
+                      <set_value name="{param@Cue}.{param@ID} TourStep" exact="1"/>
+                      <create_briefing cue="{param@Cue}">
+						  <requirements>
+        					  <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							  <requirement value="tp" type="class"/>
+						  </requirements>
+						  <objectives>
+                          <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                            <flyto>
+                              <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                            </flyto>
+                          </objective>
+                        </objectives>
+                      </create_briefing>
+                      <set_objective cue="{param@Cue}">
+                        <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                        <flyto>
+                          <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                        </flyto>
+                      </set_objective>
+                      <set_value name="L0M82.PickUpMade" exact="1"/>
+                    </do_otherwise>
+                  </do_choose>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L0M82 NoSpaceReset">
+                  <condition>
+                    <check_all>
+                      <check_value value="{player.ship.cargospace}" min="{value@L0M82.SpaceNeeded}"/>
+                      <check_value value="{value@L0M82.NoSpaceReset}" exact="2"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <set_value name="L0M82.NoSpaceReset" exact="1"/>
+                      <reset_cue cue="L0M82 Docked Check"/>
+                    </do_all>
+                  </action>
+                </cue>
+                <cue name="L0M82 PlayerNotInShip">
+                  <condition>
+                    <check_all>
+                      <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}" negate="1"/>
+                      <check_value value="{value@L0M82.PickUpMade}" exact="1"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <create_briefing cue="{param@Cue}">
+						  <requirements>
+        					  <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							  <requirement value="tp" type="class"/>
+						  </requirements>
+						  <objectives>
+                          <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                            <custom action="{35,2067}" text="{object.name@{param@Cue}.{param@ID} MissionShip}" guidance="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                          </objective>
+                        </objectives>
+                      </create_briefing>
+                      <set_objective cue="{param@Cue}">
+                        <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                        <custom action="{35,2067}" text="[o]{object.name@{param@Cue}.{param@ID} MissionShip}[/o]" guidance="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                      </set_objective>
+                    </do_all>
+                  </action>
+                  <cues>
+                    <cue name="L0M82 PlayerBackInShip">
+                      <condition>
+                        <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                      </condition>
+                      <action>
+                        <do_all>
+                          <do_choose>
+                            <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="1">
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <flyto>
+                                      <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                    </flyto>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="{param@Cue}">
+                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                <flyto>
+                                  <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                </flyto>
+                              </set_objective>
+                            </do_when>
+                            <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="2">
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <flyto>
+                                      <position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                                    </flyto>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="{param@Cue}">
+                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                <flyto>
+                                  <position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                                </flyto>
+                              </set_objective>
+                            </do_when>
+                            <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="3">
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <custom action="{3382,182103}" text="{3382,182000}"/>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="{param@Cue}">
+                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                <custom action="{3382,182103}" text="{3382,182000}"/>
+                              </set_objective>
+                            </do_when>
+                            <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="4">
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <dockat object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="{param@Cue}">
+                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                <dockat object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                              </set_objective>
+                            </do_when>
+                            <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="5">
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <custom action="{35,2048}" text="{3382,182102}"/>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="{param@Cue}">
+                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                <custom action="{35,2048}" text="{3382,182102}"/>
+                              </set_objective>
+                            </do_when>
+                            <do_when value="{value@{param@Cue}.{param@ID} TourStep}" min="6" max="8">
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}-1">
+                                    <custom action="{3382,182104}" text="{3382,182105}"/>
+                                  </objective>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <flyto>
+                                      <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                    </flyto>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <do_choose>
+                                <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="6">
+                                  <set_objective cue="{param@Cue}">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <flyto>
+                                      <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                    </flyto>
+                                  </set_objective>
+                                </do_when>
+                                <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="7">
+                                  <set_objective cue="{param@Cue}" silent="1">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <custom icon="flyto" action="{35,2007}" text="[o]{sector.name@L0M82.TourSector {value@L0M82.TourStationCount}}" guidance="{object@{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}}"/>
+                                  </set_objective>
+                                </do_when>
+                                <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="8">
+                                  <set_objective cue="{param@Cue}" silent="1">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <flyto>
+                                      <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                    </flyto>
+                                  </set_objective>
+                                </do_when>
+                              </do_choose>
+                            </do_when>
+                            <do_when value="{value@{param@Cue}.{param@ID} TourStep}" min="9">
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}-1">
+                                    <custom action="{3382,182104}" text="{3382,182105}"/>
+                                  </objective>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <dockat object="{param@StartStation}"/>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <do_choose>
+                                <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="9">
+                                  <set_objective cue="{param@Cue}">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <dockat object="{param@StartStation}"/>
+                                  </set_objective>
+                                </do_when>
+                                <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="10">
+                                  <set_objective cue="{param@Cue}" silent="1">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <custom icon="flyto" action="{35,2007}" text="[o]{sector.name@L0M82.TourSector {value@L0M82.TourStationCount}}" guidance="{object@{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}}"/>
+                                  </set_objective>
+                                </do_when>
+                                <do_when value="{value@{param@Cue}.{param@ID} TourStep}" exact="11">
+                                  <set_objective cue="{param@Cue}" silent="1">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <dockat object="{param@StartStation}"/>
+                                  </set_objective>
+                                </do_when>
+                              </do_choose>
+
+                            </do_when>
+                          </do_choose>
+                          <reset_cue cue="L0M82 PlayerNotInShip"/>
+                        </do_all>
+                      </action>
+                    </cue>
+                  </cues>
+                </cue>
+                <cue name="L0M82 Bonus Sector Check">
+                  <condition>
+                    <check_all>
+                      <object_changed_sector/>
+                      <check_value value="{value@{param@Cue}.{param@ID} NoBonusSector}" exact="1" negate="1"/>
+                      <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                      <check_value value="{value@L0M82.PickUpMade}" exact="1"/>
+                    </check_all>
+                  </condition>
+                  <timing>
+                    <time exact="1s"/>
+                  </timing>
+                  <cues>
+                    <cue name="L0M82 Potential Bonus Sector">
+                      <condition>
+                        <check_all>
+                          <cue_is_complete cue="L0M82 Bonus Sector Check"/>
+                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                        </check_all>
+                      </condition>
+                      <action>
+                        <do_all>
+                          <do_all exact="{group.object.count@L0M82.TourMarker}" counter="BeaconCount">
+                            <do_if value="{object.sector@{param@Cue}.{param@ID} MissionShip}" exact="{object.sector@{group.object.{counter@BeaconCount}@L0M82.TourMarker}}">
+                              <set_value name="L0M82.BeaconExists" exact="1"/>
+                            </do_if>
+                          </do_all>
+                          <do_choose>
+                            <do_when value="{value@L0M82.BeaconExists}" exact="1">
+                              <set_value name="L0M82.BeaconExists" exact="0"/>
+                              <reset_cue cue="L0M82 Bonus Sector Check"/>
+                            </do_when>
+                            <do_otherwise>
+                              <set_sector name="L0M82.BonusSector" value="{player.sector}"/>
+                              <set_value name="L0M82.BonusCheck" exact="1"/>
+                              <set_value name="L0M82.BonusTime" min="{player.age}+25s" max="{player.age}+35s"/>
+                              <show_help duration="5s" force="1" text="{{param@PageID},182507}"/>
+                            </do_otherwise>
+                          </do_choose>
+                        </do_all>
+                      </action>
+                      <cues>
+                        <cue name="L0M82 Bonus Sector Jump">
+                          <condition>
+                            <check_all>
+                              <object_changed_sector/>
+                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                            </check_all>
+                          </condition>
+                          <action>
+                            <do_all>
+                              <do_choose>
+                                <do_when value="{player.sector}" exact="{sector@L0M82.BonusSector}">
+                                  <reset_cue cue="L0M82 Bonus Sector Jump"/>
+                                </do_when>
+                                <do_otherwise>
+                                  <cancel_cue cue="L0M82 Bonus Sector Added"/>
+                                  <set_value name="L0M82.BeaconExists" exact="0"/>
+                                  <reset_cue cue="L0M82 Potential Bonus Sector"/>
+                                </do_otherwise>
+                              </do_choose>
+                            </do_all>
+                          </action>
+                        </cue>
+                        <cue name="L0M82 Bonus Sector Added">
+                          <condition>
+                            <check_all>
+                              <check_value value="{value@L0M82.BonusCheck}" exact="1"/>
+                              <check_value value="{player.sector}" exact="{sector@L0M82.BonusSector}"/>
+                              <check_value value="{player.age}" min="{value@L0M82.BonusTime}"/>
+                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                            </check_all>
+                          </condition>
+                          <action>
+                            <do_all>
+                              <do_if value="{value@L0M82.BeaconExists}" exact="1" negate="1">
+                                <create_stationary group="L0M82.TourMarker" race="{player.sector.race}" typename="SS_SH_BEACON" invincible="1">
+                                  <position x="100km" y="100km" z="100km"/>
+                                  <sector sector="{player.sector}"/>
+                                </create_stationary>
+                                <set_value name="{param@Cue}.{param@ID} BonusTotal" exact="{value@{param@Cue}.{param@ID} BonusAmount}" operation="add"/>
+                                <show_help duration="5s" force="1" text="{{param@PageID},182023}"/>
+                                <create_briefing cue="{param@Cue}">
+                                  <reward money="{value@{param@RewardCr}}" other="{3382,182028} [o]{value.formatted@{param@Cue}.{param@ID} BonusTotal}[/o] {35,707}"/>
+                                </create_briefing>
+                                <set_objective cue="{param@Cue}" silent="1">
+                                  <reward money="{value@{param@RewardCr}}" other="{3382,182028} [o]{value.formatted@{param@Cue}.{param@ID} BonusTotal}[/o] {35,707}"/>
+                                </set_objective>
+                              </do_if>
+                              <set_value name="L0M82.BeaconExists" exact="0"/>
+                              <reset_cue cue="L0M82 Bonus Sector Check"/>
+                            </do_all>
+                          </action>
+                        </cue>
+                      </cues>
+                    </cue>
+                  </cues>
+                </cue>
+                <cue name="L0M82 Ejected" delay="3s">
+                  <condition>
+                    <check_all>
+                      <check_value value="{value@L0M82.PickUpMade}" exact="1"/>
+                      <check_any>
+                        <match_object object="{actor.ship@{param@Cue}.{param@ID} TourLeader}" class="astronaut"/>
+                        <check_any exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="EjectCount">
+                          <match_object object="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@EjectCount}}" class="astronaut"/>
+                        </check_any>
+                      </check_any>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <do_if value="{actor.ship@{param@Cue}.{param@ID} TourLeader}" exact="{lookup.class@astronaut}">
+                        <do_choose>
+                          <do_when value="{actor.sector@{param@Cue}.{param@ID} TourLeader}" exact="{object.sector@{param@Cue}.{param@ID} MissionShip}">
+                            <play_text actor="{param@Cue}.{param@ID} Passenger {counter@ECount}" textid="852" priority="99"/>
+                          </do_when>
+                          <do_otherwise>
+                            <incoming_message author="{actor.name@{param@Cue}.{param@ID} TourLeader}" text="{{actor.voice@{param@Cue}.{param@ID} TourLeader},852}"/>
+                          </do_otherwise>
+                        </do_choose>
+                      </do_if>
+                      <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="ECount">
+                        <do_if value="{actor.ship.class@{param@Cue}.{param@ID} Passenger {counter@ECount}}" exact="{lookup.class@astronaut}">
+                          <do_choose>
+                            <do_when value="{actor.sector@{param@Cue}.{param@ID} Passenger {counter@ECount}}" exact="{object.sector@{param@Cue}.{param@ID} MissionShip}">
+                              <play_text actor="{param@Cue}.{param@ID} Passenger {counter@ECount}" textid="852" priority="99"/>
+                            </do_when>
+                            <do_otherwise>
+                              <incoming_message author="{actor.name@{param@Cue}.{param@ID} Passenger {counter@ECount}}" text="{{actor.voice@{param@Cue}.{param@ID} Passenger {counter@ECount}},852}"/>
+                            </do_otherwise>
+                          </do_choose>
+                        </do_if>
+                      </do_all>
+                      <set_value name="{param@Cue}.{param@ID} L0M82 Progress" exact="5"/>
+                      <cancel_cue cue="L0M82 Mission"/>
+                    </do_all>
+                  </action>
+                </cue>
+                <cue name="L0M82 Killed Other" delay="150">
+                  <condition>
+                    <any_object_destroyed_by_player group="{param@Cue}.{param@ID} PassengerGroup"/>
+                  </condition>
+                  <timing>
+                    <time exact="3s"/>
+                  </timing>
+                  <action>
+                    <do_all>
+                      <set_value name="{param@Cue}.{param@ID} L0M82 Progress" exact="3"/>
+                      <cancel_cue cue="L0M82 Mission"/>
+                    </do_all>
+                  </action>
+                </cue>
+                <cue name="L0M82 In Tour Sector" delay="2s">
+                  <condition>
+                    <check_all>
+                      <check_value value="{value@L0M82.PickUpMade}" exact="1"/>
+                      <check_value value="{player.sector}" exact="{sector@L0M82.TourSector {value@L0M82.TourStationCount}}"/>
+                      <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <set_value name="L0M82.TourHurried" exact="0"/>
+                      <do_if value="{object.exists@{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}}" exact="0">
+                        <find_station name="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}" group="{param@Cue}.{param@ID} TourStationGroup" class="station" race="default|terran">
+                          <sector sector="{player.sector}"/>
+                        </find_station>
+                      </do_if>
+                    </do_all>
+                  </action>
+                  <cues>
+                    <cue name="L0M82 No Station Reset Wait" delay="1s">
+                      <condition>
+                        <check_all>
+                          <check_value value="{object.exists@{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}}" exact="0"/>
+                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                        </check_all>
+                      </condition>
+                      <timing>
+                        <time min="15s" max="30s"/>
+                      </timing>
+                      <cues>
+                        <cue name="L0M82 No Station Reset" delay="1s">
+                          <condition>
+                            <check_all>
+                              <cue_is_complete cue="L0M82 No Station Reset Wait"/>
+                              <check_value value="{player.sector}" exact="{sector@L0M82.TourSector {value@L0M82.TourStationCount}}"/>
+                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                            </check_all>
+                          </condition>
+                          <action>
+                            <do_all>
+                              <set_value name="L0M82.TourStationCount" operation="add"/>
+                              <!--<set_value name="{param@Cue}.{param@ID} L0Step" operation="add"/>-->
+                              <do_choose>
+                                <do_when value="{value@L0M82.TourStationCount}" exact="{value@{param@Cue}.{param@ID} StationCount}+1">
+                                  <set_value name="L0M82.TourComplete" exact="1"/>
+                                  <cancel_cue cue="L0M82 In Tour Sector"/>
+                                </do_when>
+                                <do_otherwise>
+                                  <set_value name="{param@Cue}.{param@ID} TourStep" exact="1"/>
+                                  <create_briefing cue="{param@Cue}">
+									  <requirements>
+        					              <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							              <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							              <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							              <requirement value="tp" type="class"/>
+									  </requirements>
+									  <objectives>
+                                      <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                        <flyto>
+                                          <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                        </flyto>
+                                      </objective>
+                                    </objectives>
+                                  </create_briefing>
+                                  <set_objective cue="{param@Cue}">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <flyto>
+                                      <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                    </flyto>
+                                  </set_objective>
+                                  <reset_cue cue="L0M82 In Tour Sector"/>
+                                </do_otherwise>
+                              </do_choose>
+                            </do_all>
+                          </action>
+                        </cue>
+                      </cues>
+                    </cue>
+                    <cue name="L0M82 Cant Dock">
+                      <condition>
+                        <check_all>
+                          <object_docking_allowed object="{player.ship}" dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}" negate="1"/>
+                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                        </check_all>
+                      </condition>
+                      <timing>
+                        <time exact="3s"/>
+                      </timing>
+                      <action>
+                        <do_all>
+                          <set_value name="{param@Cue}.{param@ID} TourStep" exact="2"/>
+                          <create_briefing cue="{param@Cue}">
+							  <requirements>
+        					      <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							      <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							      <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							      <requirement value="tp" type="class"/>
+							  </requirements>
+							  <objectives>
+                              <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                <flyto>
+                                  <position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                                </flyto>
+                              </objective>
+                            </objectives>
+                          </create_briefing>
+                          <set_objective cue="{param@Cue}">
+                            <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                            <flyto>
+                              <position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                            </flyto>
+                          </set_objective>
+                        </do_all>
+                      </action>
+                      <cues>
+                        <cue name="L0M82 HoldPosition1">
+                          <condition>
+                            <check_all>
+                              <object_position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}" max="10000m"/>
+                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                            </check_all>
+                          </condition>
+                          <action>
+                            <do_all>
+                              <set_value name="{param@Cue}.{param@ID} TourStep" exact="3"/>
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <custom action="{3382,182103}" text="{3382,182000}"/>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="{param@Cue}">
+                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                <custom action="{3382,182103}" text="{3382,182000}"/>
+                              </set_objective>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L0M82 Cant Dock Reset Wait" delay="1s">
+                              <condition>
+                                <check_all>
+                                  <cue_is_complete cue="L0M82 HoldPosition1"/>
+                                  <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                </check_all>
+                              </condition>
+                              <timing>
+                                <time min="15s" max="30s"/>
+                              </timing>
+                              <cues>
+                                <cue name="L0M82 Cant Dock Reset" delay="1s">
+                                  <condition>
+                                    <check_all>
+                                      <cue_is_complete cue="L0M82 Cant Dock Reset Wait"/>
+                                      <object_position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}" max="20000m"/>
+                                      <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                    </check_all>
+                                  </condition>
+                                  <action>
+                                    <do_all>
+                                      <set_value name="L0M82.TourSectorCount" exact="{value@L0M82.TourStationCount}"/>
+                                      <set_value name="L0M82.TourStationCount" operation="add"/>
+                                      <!--<set_value name="{param@Cue}.{param@ID} L0Step" operation="add"/>-->
+                                      <do_choose>
+                                        <do_when value="{value@L0M82.TourStationCount}" exact="{value@{param@Cue}.{param@ID} StationCount}+1">
+                                          <set_value name="L0M82.TourComplete" exact="1"/>
+                                          <cancel_cue cue="L0M82 In Tour Sector"/>
+                                        </do_when>
+                                        <do_otherwise>
+                                          <set_value name="{param@Cue}.{param@ID} TourStep" exact="1"/>
+                                          <create_briefing cue="{param@Cue}">
+											  <requirements>
+        					                      <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							                      <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							                      <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							                      <requirement value="tp" type="class"/>
+											  </requirements>
+											  <objectives>
+                                              <objective step="{value@{param@Cue}.{param@ID} L0Step}-1">
+                                                <custom action="{3382,182104}" text="{3382,182105}"/>
+                                              </objective>
+                                              <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                                <flyto>
+                                                  <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                                </flyto>
+                                              </objective>
+                                            </objectives>
+                                          </create_briefing>
+                                          <set_objective cue="{param@Cue}">
+                                            <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                            <flyto>
+                                              <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                            </flyto>
+                                          </set_objective>
+                                          <reset_cue cue="L0M82 In Tour Sector"/>
+                                        </do_otherwise>
+                                      </do_choose>
+                                    </do_all>
+                                  </action>
+                                </cue>
+                              </cues>
+                            </cue>
+                          </cues>
+                        </cue>
+                      </cues>
+                    </cue>
+                    <cue name="L0M82 Can Dock">
+                      <condition>
+                        <check_all>
+                          <object_docking_allowed object="{player.ship}" dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                        </check_all>
+                      </condition>
+                      <timing>
+                        <time exact="3s"/>
+                      </timing>
+                      <action>
+                        <do_any>
+                          <do_all>
+                            <set_value name="{param@Cue}.{param@ID} TourStep" exact="2"/>
+                            <create_briefing cue="{param@Cue}">
+								<requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								</requirements>
+								<objectives>
+                                <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                  <flyto>
+                                    <position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                                  </flyto>
+                                </objective>
+                              </objectives>
+                            </create_briefing>
+                            <set_objective cue="{param@Cue}">
+                              <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                              <flyto>
+                                <position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                              </flyto>
+                            </set_objective>
+                            <set_value name="L0M82.NotDocked" exact="1"/>
+                          </do_all>
+                          <do_all>
+                            <set_value name="{param@Cue}.{param@ID} TourStep" exact="4"/>
+                            <create_briefing cue="{param@Cue}">
+								<requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								</requirements>
+								<objectives>
+                                <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                  <dockat object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                                </objective>
+                              </objectives>
+                            </create_briefing>
+                            <set_objective cue="{param@Cue}">
+                              <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                              <dockat object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                            </set_objective>
+                            <set_value name="L0M82.WillDock" exact="1"/>
+                          </do_all>
+                        </do_any>
+                      </action>
+                      <cues>
+                        <cue name="L0M82 HoldPosition2">
+                          <condition>
+                            <check_all>
+                              <check_value value="{value@L0M82.NotDocked}" exact="1"/>
+                              <object_position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}" max="10000m"/>
+                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                            </check_all>
+                          </condition>
+                          <action>
+                            <do_all>
+                              <set_value name="{param@Cue}.{param@ID} TourStep" exact="3"/>
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <custom action="{3382,182103}" text="{3382,182000}"/>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="{param@Cue}">
+                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                <custom action="{3382,182103}" text="{3382,182000}"/>
+                              </set_objective>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L0M82 No Dock Reset Wait" delay="1s">
+                              <condition>
+                                <check_all>
+                                  <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                  <cue_is_complete cue="L0M82 HoldPosition2"/>
+                                </check_all>
+                              </condition>
+                              <timing>
+                                <time min="15s" max="30s"/>
+                              </timing>
+                              <cues>
+                                <cue name="L0M82 No Dock Reset" delay="1s">
+                                  <condition>
+                                    <check_all>
+                                      <cue_is_complete cue="L0M82 No Dock Reset Wait"/>
+                                      <object_position object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}" max="20000m"/>
+                                      <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                    </check_all>
+                                  </condition>
+                                  <action>
+                                    <do_all>
+                                      <set_value name="L0M82.TourSectorCount" exact="{value@L0M82.TourStationCount}"/>
+                                      <set_value name="L0M82.TourStationCount" operation="add"/>
+                                      <!--<set_value name="{param@Cue}.{param@ID} L0Step" operation="add"/>-->
+                                      <do_choose>
+                                        <do_when value="{value@L0M82.TourStationCount}" exact="{value@{param@Cue}.{param@ID} StationCount}+1">
+                                          <set_value name="L0M82.TourComplete" exact="1"/>
+                                          <cancel_cue cue="L0M82 In Tour Sector"/>
+                                        </do_when>
+                                        <do_otherwise>
+                                          <set_value name="{param@Cue}.{param@ID} TourStep" exact="1"/>
+                                          <create_briefing cue="{param@Cue}">
+				                          <requirements>
+        					                  <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							                  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							                  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							                  <requirement value="tp" type="class"/>
+				                          </requirements>
+                                            <objectives>
+                                              <objective step="{value@{param@Cue}.{param@ID} L0Step}-1">
+                                                <custom action="{3382,182104}" text="{3382,182105}"/>
+                                              </objective>
+                                              <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                                <flyto>
+                                                  <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                                </flyto>
+                                              </objective>
+                                            </objectives>
+                                          </create_briefing>
+                                          <set_objective cue="{param@Cue}">
+                                            <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                            <flyto>
+                                              <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                            </flyto>
+                                          </set_objective>
+                                          <set_value name="L0M82.NotDocked" exact="0"/>
+                                          <reset_cue cue="L0M82 In Tour Sector"/>
+                                        </do_otherwise>
+                                      </do_choose>
+                                    </do_all>
+                                  </action>
+                                </cue>
+                              </cues>
+                            </cue>
+                          </cues>
+                        </cue>
+                        <cue name="L0M82 Tour Docked">
+                          <condition>
+                            <check_all>
+                              <check_value value="{value@L0M82.WillDock}" exact="1"/>
+                              <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}"/>
+                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                            </check_all>
+                          </condition>
+                          <timing>
+                            <time exact="3s"/>
+                          </timing>
+                          <action>
+                            <do_all>
+                              <set_value name="L0M82.WillDock" exact="0"/>
+                              <set_value name="{param@Cue}.{param@ID} TourStep" exact="5"/>
+                              <create_briefing cue="{param@Cue}">
+								  <requirements>
+        					          <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							          <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							          <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							          <requirement value="tp" type="class"/>
+								  </requirements>
+								  <objectives>
+                                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                    <custom action="{35,2048}" text="{3382,182102}"/>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="{param@Cue}">
+                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                <custom action="{35,2048}" text="{3382,182102}"/>
+                              </set_objective>
+                              <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}" location="crew"/>
+                              <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="TourCount">
+                                <do_any>
+                                  <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@TourCount}" object="{param@Cue}.{param@ID} TourStation {value@L0M82.TourStationCount}" location="crew"/>
+                                  <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@TourCount}" object="{player.ship}" location="passenger"/>
+                                </do_any>
+                              </do_all>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L0M82 Continue Tour" delay="2s">
+                              <condition>
+                                <check_all>
+                                  <cue_is_complete cue="L0M82 Tour Docked"/>
+                                  <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                </check_all>
+                              </condition>
+                              <timing>
+                                <time min="25s" max="35s"/>
+                              </timing>
+                              <action>
+                                <do_all>
+                                  <set_value name="L0M82.TourSectorCount" exact="{value@L0M82.TourStationCount}"/>
+                                  <set_value name="L0M82.TourStationCount" operation="add"/>
+                                  <!--<set_value name="{param@Cue}.{param@ID} L0Step" operation="add"/>-->
+                                  <do_choose>
+                                    <do_when value="{value@L0M82.TourStationCount}" exact="{value@{param@Cue}.{param@ID} StationCount}+1">
+                                      <set_value name="L0M82.TourComplete" exact="1"/>
+                                      <cancel_cue cue="L0M82 In Tour Sector"/>
+                                    </do_when>
+                                    <do_otherwise>
+                                      <set_value name="{param@Cue}.{param@ID} TourStep" exact="6"/>
+                                      <create_briefing cue="{param@Cue}">
+										  <requirements>
+        					                  <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							                  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							                  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							                  <requirement value="tp" type="class"/>
+										  </requirements>
+										  <objectives>
+                                          <objective step="{value@{param@Cue}.{param@ID} L0Step}-1">
+                                            <custom action="{3382,182104}" text="{3382,182105}"/>
+                                          </objective>
+                                          <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                                            <flyto>
+                                              <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                            </flyto>
+                                          </objective>
+                                        </objectives>
+                                      </create_briefing>
+                                      <set_objective cue="{param@Cue}">
+                                        <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                        <flyto>
+                                          <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                        </flyto>
+                                      </set_objective>
+                                    </do_otherwise>
+                                  </do_choose>
+                                  <do_if value="{value@L0M82.TourComplete}" exact="1" negate="1">
+                                    <set_value name="L0M82.ActorOnStation" operation="add"/>
+                                    <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="TCount">
+                                      <do_if value="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@TCount}}" exact="{player.ship}" negate="1">
+                                        <set_value name="L0M82.TourOnStation" exact="1"/>
+                                        <set_value name="L0M82.ActorOnStation" operation="add"/>
+                                      </do_if>
+                                    </do_all>
+                                    <do_if value="{value@L0M82.TourOnStation}" exact="1">
+                                      <set_value name="{param@Cue}.{param@ID} TourStep" exact="7"/>
+                                      <create_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                      <show_help duration="8s" force="1" text="{3382,182026}"/>
+                                      <set_objective cue="{param@Cue}" silent="1">
+                                        <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                        <custom icon="flyto" action="{35,2007}" text="[o]{sector.name@L0M82.TourSector {value@L0M82.TourStationCount}}" guidance="{object@{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}}"/>
+                                      </set_objective>
+                                      <set_value name="L0M82.MoreSpaceNeeded" exact="{lookup.type.cargospace@SS_WARE_PASSENGER}*{value@L0M82.ActorOnStation}"/>
+                                    </do_if>
+                                  </do_if>
+                                </do_all>
+                              </action>
+                              <cues>
+                                <cue name="L0M82 Tour Hurried Wait">
+                                  <condition>
+                                    <check_all>
+                                      <cue_is_complete cue="L0M82 Continue Tour"/>
+                                      <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                    </check_all>
+                                  </condition>
+                                  <timing>
+                                    <time exact="5s"/>
+                                  </timing>
+                                  <cues>
+                                    <cue name="L0M82 Tour Hurried">
+                                      <condition>
+                                        <check_all>
+                                          <cue_is_complete cue="L0M82 Tour Hurried Wait"/>
+                                          <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}"/>
+                                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                          <check_value value="{value@L0M82.TourOnStation}" exact="1"/>
+                                          <conversation_completed actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup" answer="hurry"/>
+                                        </check_all>
+                                      </condition>
+                                      <timing>
+                                        <time exact="3s"/>
+                                      </timing>
+                                      <action>
+                                        <do_all>
+                                          <set_value name="L0M82.TourOnStation" exact="0"/>
+                                          <set_value name="L0M82.TourHurried" exact="1"/>
+                                          <do_choose>
+                                            <do_when value="{player.ship.cargospace}" max="{value@L0M82.MoreSpaceNeeded}-1">
+                                              <incoming_message author="{actor.name@{param@Cue}.{param@ID} TourLeader}" text="{3382,182201}" popup="1"/>
+                                              <set_value name="L0M82.NoSpaceReset2" exact="1"/>
+                                            </do_when>
+                                            <do_otherwise>
+                                              <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{player.ship}" location="passenger"/>
+                                              <remove_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                              <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="HCount">
+                                                <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@HCount}" object="{player.ship}" location="passenger"/>
+                                              </do_all>
+                                              <show_help duration="8s" force="1" text="{3382,182027}"/>
+                                              <set_value name="{param@Cue}.{param@ID} TourStep" exact="8"/>
+                                              <set_objective cue="{param@Cue}" silent="1">
+                                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                                <flyto>
+                                                  <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                                </flyto>
+                                              </set_objective>
+                                              <set_value name="L0M82.ActorOnStation" exact="0"/>
+                                              <reset_cue cue="L0M82 In Tour Sector"/>
+                                            </do_otherwise>
+                                          </do_choose>
+                                        </do_all>
+                                      </action>
+                                      <cues>
+                                        <cue name="L0M82 HurryNoSpaceReset">
+                                          <condition>
+                                            <check_all>
+                                              <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}"/>
+                                              <check_value value="{player.ship.isclass.tp}" exact="1"/>
+                                              <check_value value="{player.ship.cargospace}" min="{value@L0M82.MoreSpaceNeeded}"/>
+                                              <check_value value="{value@L0M82.NoSpaceReset2}" exact="1"/>
+                                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                            </check_all>
+                                          </condition>
+                                          <action>
+                                            <do_all>
+                                              <set_value name="L0M82.NoSpaceReset2" exact="0"/>
+                                              <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{player.ship}" location="passenger"/>
+                                              <remove_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                              <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="HCount">
+                                                <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@HCount}" object="{player.ship}" location="passenger"/>
+                                              </do_all>
+                                              <show_help duration="8s" force="1" text="{3382,182027}"/>
+                                              <set_value name="{param@Cue}.{param@ID} TourStep" exact="8"/>
+                                              <set_objective cue="{param@Cue}" silent="1">
+                                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                                <flyto>
+                                                  <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                                </flyto>
+                                              </set_objective>
+                                              <set_value name="L0M82.ActorOnStation" exact="0"/>
+                                              <reset_cue cue="L0M82 In Tour Sector"/>
+                                            </do_all>
+                                          </action>
+                                        </cue>
+                                      </cues>
+                                    </cue>
+                                  </cues>
+                                </cue>
+                                <cue name="L0M82 Tour Not Hurried Wait">
+                                  <condition>
+                                    <check_all>
+                                      <cue_is_complete cue="L0M82 Continue Tour"/>
+                                      <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                    </check_all>
+                                  </condition>
+                                  <timing>
+                                    <time min="45s" max="60s"/>
+                                  </timing>
+                                  <cues>
+                                    <cue name="L0M82 Tour Not Hurried">
+                                      <condition>
+                                        <check_all>
+                                          <cue_is_complete cue="L0M82 Tour Not Hurried Wait"/>
+                                          <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}"/>
+                                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                          <check_value value="{value@L0M82.TourOnStation}" exact="1"/>
+                                          <check_value value="{value@L0M82.TourHurried}" exact="1" negate="1"/>
+                                        </check_all>
+                                      </condition>
+                                      <action>
+                                        <do_all>
+                                          <set_value name="L0M82.TourOnStation" exact="0"/>
+                                          <do_choose>
+                                            <do_when value="{player.ship.cargospace}" max="{value@L0M82.MoreSpaceNeeded}-1">
+                                              <incoming_message author="{actor.name@{param@Cue}.{param@ID} TourLeader}" text="{3382,182201}" popup="1"/>
+                                              <set_value name="L0M82.NoSpaceReset3" exact="1"/>
+                                            </do_when>
+                                            <do_otherwise>
+                                              <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{player.ship}" location="passenger"/>
+                                              <remove_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                              <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="HCount">
+                                                <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@HCount}" object="{player.ship}" location="passenger"/>
+                                              </do_all>
+                                              <show_help duration="8s" force="1" text="{3382,182027}"/>
+                                              <set_value name="{param@Cue}.{param@ID} TourStep" exact="8"/>
+                                              <set_objective cue="{param@Cue}" silent="1">
+                                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                                <flyto>
+                                                  <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                                </flyto>
+                                              </set_objective>
+                                              <set_value name="L0M82.ActorOnStation" exact="0"/>
+                                              <reset_cue cue="L0M82 In Tour Sector"/>
+                                            </do_otherwise>
+                                          </do_choose>
+                                        </do_all>
+                                      </action>
+                                      <cues>
+                                        <cue name="L0M82 NoHurryNoSpaceReset">
+                                          <condition>
+                                            <check_all>
+                                              <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}"/>
+                                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                              <check_value value="{player.ship.cargospace}" min="{value@L0M82.MoreSpaceNeeded}"/>
+                                              <check_value value="{value@L0M82.NoSpaceReset3}" exact="1"/>
+                                            </check_all>
+                                          </condition>
+                                          <action>
+                                            <do_all>
+                                              <set_value name="L0M82.NoSpaceReset3" exact="0"/>
+                                              <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{player.ship}" location="passenger"/>
+                                              <remove_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                              <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="HCount">
+                                                <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@HCount}" object="{player.ship}" location="passenger"/>
+                                              </do_all>
+                                              <show_help duration="8s" force="1" text="{3382,182027}"/>
+                                              <set_value name="{param@Cue}.{param@ID} TourStep" exact="8"/>
+                                              <set_objective cue="{param@Cue}" silent="1">
+                                                <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                                <flyto>
+                                                  <sector sector="L0M82.TourSector {value@L0M82.TourStationCount}"/>
+                                                </flyto>
+                                              </set_objective>
+                                              <set_value name="L0M82.ActorOnStation" exact="0"/>
+                                              <reset_cue cue="L0M82 In Tour Sector"/>
+                                            </do_all>
+                                          </action>
+                                        </cue>
+                                      </cues>
+                                    </cue>
+                                  </cues>
+                                </cue>
+                              </cues>
+                            </cue>
+                          </cues>
+                        </cue>
+                      </cues>
+                    </cue>
+                  </cues>
+                </cue>
+                <cue name="L0M82 End Tour" delay="2s">
+                  <condition>
+                    <check_all>
+                      <check_value value="{value@L0M82.TourComplete}" exact="1"/>
+                      <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <set_value name="{param@Cue}.{param@ID} TourStep" exact="9"/>
+                      <create_briefing cue="{param@Cue}">
+						  <requirements>
+        					  <requirement value="{value@L0M82.SpaceNeeded}" type="freecargo" />
+							  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+							  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+							  <requirement value="tp" type="class"/>
+						  </requirements>
+						  <objectives>
+                          <objective step="{value@{param@Cue}.{param@ID} L0Step}-1">
+                            <custom action="{3382,182104}" text="{3382,182105}"/>
+                          </objective>
+                          <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                            <dockat object="{param@StartStation}"/>
+                          </objective>
+                        </objectives>
+                      </create_briefing>
+                      <set_objective cue="{param@Cue}">
+                        <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                        <dockat object="{param@StartStation}"/>
+                      </set_objective>
+                      <set_value name="L0M82.ActorOnStation" operation="add"/>
+                      <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="TCount">
+                        <do_if value="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@TCount}}" exact="{player.ship}" negate="1">
+                          <set_value name="L0M82.TourOnStation" exact="1"/>
+                          <set_value name="L0M82.ActorOnStation" operation="add"/>
+                        </do_if>
+                      </do_all>
+                      <do_if value="{value@L0M82.TourOnStation}" exact="1">
+                        <create_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                        <show_help duration="8s" force="1" text="{3382,182026}"/>
+                        <set_value name="{param@Cue}.{param@ID} TourStep" exact="10"/>
+                        <set_objective cue="{param@Cue}" silent="1">
+                          <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                          <custom icon="dockat" action="{35,2005}" text="[o]{object.name@{param@StartStation}}, {object.sector.name@{param@StartStation}}" guidance="{object@{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}}"/>
+                        </set_objective>
+                        <set_value name="L0M82.MoreSpaceNeeded" exact="{lookup.type.cargospace@SS_WARE_PASSENGER}*{value@L0M82.ActorOnStation}"/>
+                      </do_if>
+                    </do_all>
+                  </action>
+                  <cues>
+                    <cue name="L0M82 End Tour Hurried Wait">
+                      <condition>
+                        <check_all>
+                          <cue_is_complete cue="L0M82 End Tour"/>
+                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                        </check_all>
+                      </condition>
+                      <timing>
+                        <time exact="5s"/>
+                      </timing>
+                      <cues>
+                        <cue name="L0M82 End Tour Hurried">
+                          <condition>
+                            <check_all>
+                              <cue_is_complete cue="L0M82 End Tour Hurried Wait"/>
+                              <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}"/>
+                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                              <check_value value="{value@L0M82.TourOnStation}" exact="1"/>
+                              <conversation_completed actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup" answer="hurry"/>
+                            </check_all>
+                          </condition>
+                          <timing>
+                            <time exact="3s"/>
+                          </timing>
+                          <action>
+                            <do_all>
+                              <set_value name="L0M82.TourOnStation" exact="0"/>
+                              <set_value name="L0M82.TourHurried" exact="1"/>
+                              <do_choose>
+                                <do_when value="{player.ship.cargospace}" max="{value@L0M82.MoreSpaceNeeded}-1">
+                                  <incoming_message author="{actor.name@{param@Cue}.{param@ID} TourLeader}" text="{3382,182201}" popup="1"/>
+                                  <set_value name="L0M82.EndNoSpaceReset2" exact="1"/>
+                                </do_when>
+                                <do_otherwise>
+                                  <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{player.ship}" location="passenger"/>
+                                  <remove_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="HCount">
+                                    <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@HCount}" object="{player.ship}" location="passenger"/>
+                                  </do_all>
+                                  <show_help duration="8s" force="1" text="{3382,182027}"/>
+                                  <set_value name="{param@Cue}.{param@ID} TourStep" exact="11"/>
+                                  <set_objective cue="{param@Cue}" silent="1">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <dockat object="{param@StartStation}"/>
+                                  </set_objective>
+                                </do_otherwise>
+                              </do_choose>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L0M82 EndHurryNoSpaceReset">
+                              <condition>
+                                <check_all>
+                                  <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}"/>
+                                  <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                  <check_value value="{player.ship.cargospace}" min="{value@L0M82.MoreSpaceNeeded}"/>
+                                  <check_value value="{value@L0M82.EndNoSpaceReset2}" exact="1"/>
+                                </check_all>
+                              </condition>
+                              <action>
+                                <do_all>
+                                  <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{player.ship}" location="passenger"/>
+                                  <remove_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="HCount">
+                                    <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@HCount}" object="{player.ship}" location="passenger"/>
+                                  </do_all>
+                                  <show_help duration="8s" force="1" text="{3382,182027}"/>
+                                  <set_value name="{param@Cue}.{param@ID} TourStep" exact="11"/>
+                                  <set_objective cue="{param@Cue}" silent="1">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <dockat object="{param@StartStation}"/>
+                                  </set_objective>
+                                </do_all>
+                              </action>
+                            </cue>
+                          </cues>
+                        </cue>
+                      </cues>
+                    </cue>
+                    <cue name="L0M82 End Tour Not Hurried Wait">
+                      <condition>
+                        <check_all>
+                          <cue_is_complete cue="L0M82 End Tour"/>
+                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                        </check_all>
+                      </condition>
+                      <timing>
+                        <time min="45s" max="60s"/>
+                      </timing>
+                      <cues>
+                        <cue name="L0M82 End Tour Not Hurried">
+                          <condition>
+                            <check_all>
+                              <cue_is_complete cue="L0M82 End Tour Not Hurried Wait"/>
+                              <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}"/>
+                              <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                              <check_value value="{value@L0M82.TourOnStation}" exact="1"/>
+                              <check_value value="{value@L0M82.TourHurried}" exact="1" negate="1"/>
+                            </check_all>
+                          </condition>
+                          <action>
+                            <do_all>
+                              <set_value name="L0M82.TourOnStation" exact="0"/>
+                              <do_choose>
+                                <do_when value="{player.ship.cargospace}" max="{value@L0M82.MoreSpaceNeeded}-1">
+                                  <incoming_message author="{actor.name@{param@Cue}.{param@ID} TourLeader}" text="{3382,182201}" popup="1"/>
+                                  <set_value name="L0M82.EndNoSpaceReset3" exact="1"/>
+                                </do_when>
+                                <do_otherwise>
+                                  <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{player.ship}" location="passenger"/>
+                                  <remove_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="HCount">
+                                    <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@HCount}" object="{player.ship}" location="passenger"/>
+                                  </do_all>
+                                  <show_help duration="8s" force="1" text="{3382,182027}"/>
+                                  <set_value name="{param@Cue}.{param@ID} TourStep" exact="11"/>
+                                  <set_objective cue="{param@Cue}" silent="1">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <dockat object="{param@StartStation}"/>
+                                  </set_objective>
+                                </do_otherwise>
+                              </do_choose>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L0M82 EndNoHurryNoSpaceReset">
+                              <condition>
+                                <check_all>
+                                  <object_is_docked dockobject="{param@Cue}.{param@ID} TourStation {value@L0M82.TourSectorCount}"/>
+                                  <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                                  <check_value value="{player.ship.cargospace}" min="{value@L0M82.MoreSpaceNeeded}"/>
+                                  <check_value value="{value@L0M82.EndNoSpaceReset3}" exact="1"/>
+                                </check_all>
+                              </condition>
+                              <action>
+                                <do_all>
+                                  <set_value name="L0M82.NoSpaceReset3" exact="0"/>
+                                  <set_actor_location actor="{param@Cue}.{param@ID} TourLeader" object="{player.ship}" location="passenger"/>
+                                  <remove_offer actor="{param@Cue}.{param@ID} TourLeader" conversation="L0M82TourGroup"/>
+                                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="HCount">
+                                    <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@HCount}" object="{player.ship}" location="passenger"/>
+                                  </do_all>
+                                  <show_help duration="8s" force="1" text="{3382,182027}"/>
+                                  <set_value name="{param@Cue}.{param@ID} TourStep" exact="11"/>
+                                  <set_objective cue="{param@Cue}" silent="1">
+                                    <briefing cue="{param@Cue}" step="{value@{param@Cue}.{param@ID} L0Step}"/>
+                                    <dockat object="{param@StartStation}"/>
+                                  </set_objective>
+                                </do_all>
+                              </action>
+                            </cue>
+                          </cues>
+                        </cue>
+                      </cues>
+                    </cue>
+                    <cue name="L0M82 Tour Completed">
+                      <condition>
+                        <check_all>
+                          <object_is_docked dockobject="{param@StartStation}"/>
+                          <check_value value="{player.ship}" exact="{object@{param@Cue}.{param@ID} MissionShip}"/>
+                          <check_value value="{actor.ship@{param@Cue}.{param@ID} TourLeader}" exact="{player.ship}"/>
+                          <check_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="EndCount">
+                            <check_value value="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@EndCount}}" exact="{player.ship}"/>
+                          </check_all>
+                        </check_all>
+                      </condition>
+                      <timing>
+                        <time exact="3s"/>
+                      </timing>
+                      <action>
+                        <do_all>
+                          <cancel_cue cue="L0M82 PlayerNotInShip"/>
+                          <set_value name="{param@Cue}.{param@ID} L0M82 Progress" exact="1"/>
+                          <set_value name="{param@Cue}.{param@ID} L0M82 Bonus Sectors" exact="{group.object.count@L0M82.TourMarker}-{value@{param@Cue}.{param@ID} MissionSectors}"/>
+                          <destroy_actor actor="{param@Cue}.{param@ID} TourLeader"/>
+                          <destroy_actor actor="{param@Cue}.{param@ID} TempTourLeader"/>
+                          <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="KillCount">
+                            <destroy_actor actor="{param@Cue}.{param@ID} Passenger {counter@KillCount}"/>
+                            <destroy_actor actor="{param@Cue}.{param@ID} TempPassenger {counter@KillCount}"/>
+                          </do_all>
+                          <remove_object object="{param@Cue}.{param@ID} MissionShip"/>
+                          <destroy_group group="L0M82.TourMarker"/>
+                          <destroy_group group="L0M82.XTourMarker"/>
+                          <destroy_group group="L0M82.TourBeaconGroup"/>
+                          <do_if value="{object.exists@{param@Cue}.{param@ID} TempXenonStation}" exact="1">
+                            <destroy_object object="{param@Cue}.{param@ID} TempXenonStation"/>
+                          </do_if>
+                          <cancel_cue cue="L0M82 Mission"/>
+                        </do_all>
+                      </action>
+                    </cue>
+                  </cues>
+                </cue>
+              </cues>
+            </cue>
+            <cue name="L0M82 Time Out">
+              <condition comment="If mission Started and allowed to fail">
+                <check_all>
+                  <cue_completed cue="L0M82 Mission"/>
+                  <check_value value="{param@IsPlot}" exact="1" negate="1"/>
+                </check_all>
+              </condition>
+              <timing>
+                <time exact="{value@{param@Cue}.{param@ID} L0Time}s"/>
+              </timing>
+              <action>
+                <do_all>
+                  <destroy_actor actor="{param@Cue}.{param@ID} TempTourLeader"/>
+                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="KillCount">
+                    <destroy_actor actor="{param@Cue}.{param@ID} TempPassenger {counter@KillCount}"/>
+                  </do_all>
+                  <destroy_group group="L0M82.TourMarker"/>
+                  <do_if value="{object.exists@{param@Cue}.{param@ID} TempXenonStation}" exact="1">
+                    <destroy_object object="{param@Cue}.{param@ID} TempXenonStation"/>
+                  </do_if>
+                  <set_value name="{param@Cue}.{param@ID} L0M82 Progress" exact="2"/>
+                  <cancel_cue cue="L0M82 Mission"/>
+                </do_all>
+              </action>
+            </cue>
+            <cue name="L0M82 Aborted">
+              <condition>
+                <objective_cancelled cue="{param@Cue}"/>
+              </condition>
+              <action>
+                <do_all>
+                  <set_value name="{param@Cue}.{param@ID} L0M82 Progress" exact="99"/>
+                  <destroy_actor actor="{param@Cue}.{param@ID} TempTourLeader"/>
+                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="KillCount">
+                    <destroy_actor actor="{param@Cue}.{param@ID} TempPassenger {counter@KillCount}"/>
+                  </do_all>
+                  <destroy_group group="L0M82.TourMarker"/>
+                  <do_if value="{object.exists@{param@Cue}.{param@ID} TempXenonStation}" exact="1">
+                    <destroy_object object="{param@Cue}.{param@ID} TempXenonStation"/>
+                  </do_if>
+                  <cancel_cue cue="L0M82 Mission"/>
+                </do_all>
+              </action>
+            </cue>
+          </cues>
+        </cue>
+        <cue name="L0M82 Cleanup" delay="500">
+          <condition>
+            <check_value value="{value@{param@Cue}.{param@ID} L0M82 Progress}" min="1"/>
+          </condition>
+          <action>
+            <do_all>
+              <do_choose>
+                <!--actors dead, nothing needed-->
+                <do_when value="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" exact="0">
+                  <cancel_cue cue="L0M82 Cleanup Actor"/>
+                </do_when>
+                <do_otherwise>
+                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="CUCount">
+                    <do_choose>
+                      <!--actor is astronaut, was ejected-->
+                      <do_when value="{actor.ship.isclass.astronaut@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" exact="1">
+                        <find_station name="this.ActorDest {counter@CUCount}" class="station" dockingallowed="1" findobject="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" nearest="1"/>
+                        <set_command object="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" command="dock" commandobject="this.ActorDest {counter@CUCount}"/>
+                      </do_when>
+                      <do_otherwise>
+                        <!--Check actors not aboard player ship-->
+                        <do_if value="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" exact="{player.ship}" negate="1">
+                          <!--Check actors not aboard player owned ship-->
+                          <do_if value="{actor.ship.race@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" exact="{lookup.race@player}" negate="1">
+                            <!--else actor not picked up then-->
+                            <do_if value="{actor.exists@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" exact="1">
+                              <destroy_actor actor="{param@Cue}.{param@ID} Passenger {counter@CUCount}"/>
+                            </do_if>
+                            <do_if value="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" exact="0">
+                              <cancel_cue cue="L0M82 Cleanup Actor"/>
+                            </do_if>
+                          </do_if>
+                        </do_if>
+                      </do_otherwise>
+                    </do_choose>
+                  </do_all>
+                </do_otherwise>
+              </do_choose>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="L0M82 Dockobject Docked" delay="3s" instantiate="static">
+              <condition>
+                <check_any exact="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" counter="DockCount">
+                  <check_value value="{group.object.{counter@DockCount}.dockobject.dockobject.exists@{param@Cue}.{param@ID} PassengerGroup}" exact="1"/>
+                </check_any>
+              </condition>
+              <action>
+                <do_all>
+                  <do_all exact="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" counter="DOCount">
+                    <do_if value="{group.object.{counter@DOCount}.dockobject.dockobject.exists@{param@Cue}.{param@ID} PassengerGroup}" exact="1">
+                      <do_if value="{group.object.{counter@DOCount}.dockobject.dockobject.isclass.station@{param@Cue}.{param@ID} PassengerGroup}" exact="1">
+                        <set_object name="L0M82.Matched {group.object.{counter@DOCount}@{param@Cue}.{param@ID} PassengerGroup}" group="L0M82.Matched" value="{group.object.{counter@DOCount}@{param@Cue}.{param@ID} PassengerGroup}"/>
+                      </do_if>
+                    </do_if>
+                  </do_all>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L0M82 Remove Landed Passengers" check="cancel">
+                  <condition>
+                    <check_all>
+                      <cue_completed cue="L0M82 Dockobject Docked"/>
+                      <check_value value="{group.object.count@L0M82.Matched}" min="1"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <do_all exact="{group.object.count@L0M82.Matched}" counter="RemoveCount">
+                        <remove_object_from_group object="{group.object.{counter@RemoveCount}@L0M82.Matched}" group="{param@Cue}.{param@ID} PassengerGroup"/>
+                      </do_all>
+                      <set_value name="{param@Cue}.{param@ID} L0M82 Surplus Passengers" operation="add" exact="{group.object.count@L0M82.Matched}"/>
+                      <destroy_group group="L0M82.Matched"/>
+                    </do_all>
+                  </action>
+                </cue>
+                <cue name="L0M82 All Actors Removed">
+                  <condition>
+                    <check_value value="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" exact="0"/>
+                  </condition>
+                  <action>
+                    <cancel_cue cue="L0M82"/>
+                  </action>
+                </cue>
+              </cues>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+  </cues>
+  <signature>18xll8YnWwSN2c8GS83APih1JPtneB3dEeSsRP7nkpjU3OjNE8Gz/0jJjcw7vP3BfsHGGxmS/+m4PUOP3+pmk1AwbOpVN/9O/5bfTTnUf2+V+oT4zmPsHZwg+Ftspva9NycJZvH7NL6tWU6ThuMsx3HGAftq89g6piC2VvdMNsI5HOxi6S5zLn6e6a0X/ZyJgC3w1x1p15A08pQkH4eI0tb6UjGgqtKFCYQbXZqYK43tEi1E5exRTi5Qos2+RKp1vQnbPTC8cMufnxvF7Npl80E7ZO8KlP6nSAXOo7mIDBVFwEHDh/51T2KrHYokA1Xv2eA6UM8cLs/uHQ4fo7pKWw==</signature>
+</director>

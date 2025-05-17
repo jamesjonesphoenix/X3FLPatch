@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="director.xsl" type="text/xsl" ?>
+<director name="test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="director.xsd">
+  <documentation>
+    <author name="Phil Royle" alias="Dillpickle" contact="E-Mail: phil@piroyle.co.uk"/>
+    <content reference="L0M81 Multiple Transport" name="Multiple Transport Mission" description="Mission for Multiple Passenger Transport"/>
+    <version number="1.0" date="09/10/2012" status="development" />
+  </documentation>
+  <cues>
+    <cue name="L0M81 B" library="1">
+      <documentation>
+        <content name="L0M81 Multiple Transport" reference="L0M81" type="L0"/>
+        <version number="1.0" date="09/10/12" status="development"/>
+        <params>
+          <param name="Cue" type="cuename" compulsory="1" description="The cue where the briefing and objectives are stored"/>
+          <param name="ID" type="number" compulsory="1" description="The mission Id for dealing with mission chains"/>
+          <param name="OfferRace" type="number" compulsory="1" description="Race offering the mission"/>
+          <param name="EnemyRace" type="number" compulsory="1" description="Race of the enemy"/>
+          <param name="Lv1Guide" type="actorname" compulsory="1" description="The person offering the mission"/>
+          <param name="PageID" type="number" description="Page ID of mission description"/>
+          <param name="TextID" type="number" description="Text ID of mission description"/>
+          <param name="TitleID" type="number" description="Text ID of mission description"/>
+          <param name="BriefingBackground" type="text" compulsory="0" description="Briefing Background to be used"/>
+          <param name="Reward" description="Reward type"/>
+          <param name="StoryID" type="number" compulsory="0" description="Text ID of the Story title" default="No title"/>
+          <param name="ChapterID" type="number" compulsory="0" description="Text ID of the chapter title" default="No title"/>
+          <param name="Difficulty" type="number" compulsory="1" description="Difficulty level of mission"/>
+          <param name="PassengerCount" type="number" compulsory="1" description="Number of passengersto be transported"/>
+          <param name="Step" type="number" compulsory="0" description="The step to use if additional objectives are involved"/>
+          <param name="TPNeeded" type="number" compulsory="0" description="% Chance that the npc will require a TP transport"/>
+          <param name="IsPlot" compulsory="0" description="If the mission is a plot mission or not" default="non-plot"/>
+        </params>
+        <returns>
+          <return name="{param@Cue}.{param@ID} L0M81 Progress" type="number" description="1 - Mission Completed"/>
+          <return name="{param@Cue}.{param@ID} L0M81 Progress" type="number" description="2 - Out of time"/>
+          <return name="{param@Cue}.{param@ID} L0M81 Progress" type="number" description="3 - Killed/Enslaved Passenger"/>
+          <return name="{param@Cue}.{param@ID} L0M81 Progress" type="number" description="5 - Player Ejected Pilot"/>
+          <return name="{param@Cue}.{param@ID} L0M81 Progress" type="number" description="92 - Out of time, not started mission"/>
+          <return name="{param@Cue}.{param@ID} L0M81 Progress" type="number" description="93 - Destination destroyed, not started mission"/>
+          <return name="{param@Cue}.{param@ID} L0M81 Progress" type="number" description="99 - Aborted"/>
+          <return name="{param@Cue}.{param@ID} Passengers Delivered" type="number" description="Number of Passengers Transported"/>
+        </returns>
+      </documentation>
+      <action>
+        <do_all>
+          <set_value name="{param@Cue}.{param@ID} PassengerCount" exact="{param@PassengerCount}"/>
+          <set_value name="{param@Cue}.{param@ID} CollectCount" exact="{param@PassengerCount}"/>
+          <set_value name="{param@Cue}.{param@ID} DeliverCount" exact="{param@PassengerCount}"/>
+          <set_value name="{param@Cue}.{param@ID} PageID" exact="{param@PageID}"/>
+          <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}">
+            <set_value name="{param@Cue}.{param@ID} PassengerNumber" operation="add"/>
+            <find_station name="{param@Cue}.{param@ID} CollectPoint {value@{param@Cue}.{param@ID} PassengerNumber}" group="{param@Cue}.{param@ID} CollectStations" findobject="{player.ship}" class="station" race="default|terran|pirategroup|corporations">
+              <sector sector="{player.sector}"/>
+              <jumps max="{param@Difficulty}+2"/>
+            </find_station>
+            <set_sector name="{param@Cue}.{param@ID} MissionSector {value@{param@Cue}.{param@ID} PassengerNumber}" value="{object.sector@{param@Cue}.{param@ID} CollectPoint {value@{param@Cue}.{param@ID} PassengerNumber}}"/>
+            <find_station name="{param@Cue}.{param@ID} DeliverPoint {value@{param@Cue}.{param@ID} PassengerNumber}" group="{param@Cue}.{param@ID} DeliverStations" findobject="{param@Cue}.{param@ID} CollectPoint {value@{param@Cue}.{param@ID} PassengerNumber}" class="station" race="default|terran|pirategroup|corporations">
+              <sector sector="{object.sector@{param@Cue}.{param@ID} CollectPoint {value@{param@Cue}.{param@ID} PassengerNumber}}"/>
+              <jumps min="1" max="{param@Difficulty}+2"/>
+            </find_station>
+            <do_any>
+              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{object.race@{param@Cue}.{param@ID} CollectPoint {value@{param@Cue}.{param@ID} PassengerNumber}}" chance="25"/>
+              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{object.race@{param@Cue}.{param@ID} DeliverPoint {value@{param@Cue}.{param@ID} PassengerNumber}}" chance="25"/>
+              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{random.race@default}" chance="40"/>
+              <set_value name="{param@Cue}.{param@ID} ActorRace" exact="{lookup.race@terran}" chance="10"/>
+            </do_any>
+            <create_actor name="{param@Cue}.{param@ID} Passenger {value@{param@Cue}.{param@ID} PassengerNumber}" race="{value@{param@Cue}.{param@ID} ActorRace}" voiceflags="32" object="{param@Cue}.{param@ID} CollectPoint {value@{param@Cue}.{param@ID} PassengerNumber}" location="crew"/>
+            <set_object name="{param@Cue}.{param@ID} Passengers {value@{param@Cue}.{param@ID} PassengerNumber}" value="{actor@{param@Cue}.{param@ID} Passenger {value@{param@Cue}.{param@ID} PassengerNumber}}" group="{param@Cue}.{param@ID} PassengerGroup"/>
+          </do_all>
+          <set_value name="L0M81.StartTime" exact="{player.age}+7200"/>
+          <do_if value="{param.exists@IsPlot}" exact="0">
+            <set_value name="{param@Cue}.{param@ID} L0Time" min="15000" max="20000"/>
+            <do_if value="{param.exists@Difficulty}" exact="1">
+              <do_if value="{param@Difficulty}" min="1">
+                <set_value name="{param@Cue}.{param@ID} L0Time" exact="{value@{param@Cue}.{param@ID} L0Time}/{param@Difficulty}"/>
+              </do_if>
+            </do_if>
+          </do_if>
+          <do_if value="{param.exists@RewardCr}" exact="1">
+            <do_if value="{value@{param@RewardCr}}" exact="0">
+              <set_value name="{param@RewardCr}" exact="{reward.money.{param@OfferRace}@{param@Difficulty}.XXXT}"/>
+              <do_if value="{value@{param@Cue}.{param@ID} PassengerCount}" min="3">
+                <set_value name="{param@RewardCr}" exact="({value@{param@RewardCr}}*{value@{param@Cue}.{param@ID} PassengerCount})/3"/>
+              </do_if>
+            </do_if>
+          </do_if>
+        </do_all>
+      </action>
+      <cues>
+        <cue name="L0M81 Create Briefing">
+          <condition>
+            <cue_completed cue="L0M81 B"/>
+          </condition>
+          <action>
+            <do_all>
+              <set_value name="{param@Cue}.{param@ID} L0Step" exact="1"/>
+              <create_briefing cue="{param@Cue}" text="{{param@PageID},{param@TextID}}" title="{{param@PageID},{param@TitleID}}">
+				  <requirements>
+					  <requirement value="tp" type="class"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="{lookup.type.cargospace@SS_WARE_PASSENGER}*{param@Cue}.{param@ID} PassengerCount" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+				  </requirements>
+                <objectives>
+                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                    <custom icon="flyto" action="{35,2042}" text="[y]{{param@PageID},181020}[/y][o]{{param@PageID},181021}[/o][y]{{param@PageID},181022}[/y]"/>
+                  </objective>
+                </objectives>
+              </create_briefing>
+              <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}">
+                <set_value name="{param@Cue}.{param@ID} L0Step" operation="add"/>
+                <set_value name="{param@Cue}.{param@ID} StepCount" operation="add"/>
+                <create_briefing cue="{param@Cue}">
+				  <requirements>
+					  <requirement value="tp" type="class"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="{lookup.type.cargospace@SS_WARE_PASSENGER}*{param@Cue}.{param@ID} PassengerCount" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+				  </requirements>
+                  <objectives>
+                    <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                      <custom icon="flyto" action="{{param@PageID},181101}" text="[y]{{param@PageID},181102}[/y][r]{{param@PageID},181103}[/r][g]{{param@PageID},181104}[/g]"/>
+                    </objective>
+                  </objectives>
+                </create_briefing>
+              </do_all>
+            </do_all>
+          </action>
+          <cues>
+            <cue ref="LUM04">
+              <params>
+                <param name="Discipline" value="XXXT"/>
+                <param name="StartTime" value="L0M81.StartTime"/>
+                <param name="Duration" value="{param@Cue}.{param@ID} L0Time"/>
+              </params>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+
+    <cue name="L0M81" library="1">
+      <documentation>
+        <content name="L0M81 Multiple Transport" reference="L0M81" type="L0"/>
+        <version number="1.0" date="09/10/12" status="development"/>
+        <params>
+          <param name="Cue" type="cuename" compulsory="1" description="The cue where the briefing and objectives are stored"/>
+          <param name="ID" type="number" compulsory="1" description="The mission Id for dealing with mission chains"/>
+          <param name="OfferRace" type="number" compulsory="1" description="Race offering the mission"/>
+          <param name="EnemyRace" type="number" compulsory="1" description="Race of the enemy"/>
+          <param name="Lv1Guide" type="actorname" compulsory="1" description="The person offering the mission"/>
+          <param name="PageID" type="number" description="Page ID of mission description"/>
+          <param name="TextID" type="number" description="Text ID of mission description"/>
+          <param name="TitleID" type="number" description="Text ID of mission description"/>
+          <param name="BriefingBackground" type="text" compulsory="0" description="Briefing Background to be used"/>
+          <param name="Reward" description="Reward type"/>
+          <param name="StoryID" type="number" compulsory="0" description="Text ID of the Story title" default="No title"/>
+          <param name="ChapterID" type="number" compulsory="0" description="Text ID of the chapter title" default="No title"/>
+          <param name="Difficulty" type="number" compulsory="1" description="Difficulty level of mission"/>
+          <param name="PassengerCount" type="number" compulsory="1" description="Number of passengersto be transported"/>
+          <param name="Step" type="number" compulsory="0" description="The step to use if additional objectives are involved"/>
+          <param name="TPNeeded" type="number" compulsory="0" description="% Chance that the npc will require a TP transport"/>
+          <param name="IsPlot" compulsory="0" description="If the mission is a plot mission or not" default="non-plot"/>
+        </params>
+      </documentation>
+      <action>
+        <set_value name="{param@Cue}.{param@ID} L0M81 Progress" exact="0"/>
+      </action>
+      <cues>
+        <cue name="L0M81 Mission">
+          <action>
+            <do_all>
+              <set_value name="{param@Cue}.{param@ID} L0EndTime" exact="{value@{param@Cue}.{param@ID} L0Time}+{player.age}"/>
+              <incoming_message author="{actor.name@{param@Lv1Guide}}" text="{{param@PageID},{18120{param@PassengerCount}}}"/>
+              <set_value name="{param@Cue}.{param@ID} L0Step" exact="1"/>
+              <set_value name="{param@Cue}.{param@ID} StepCount" exact="0"/>
+              <set_objective cue="{param@Cue}" title="{{param@PageID},{param@TitleID}}">
+                <briefing cue="{param@Cue}" step="1"/>
+                <mission discipline="XXXT" level="{param@Difficulty}"/>
+                <timer start="{player.age}" duration="{value@{param@Cue}.{param@ID} L0Time}"/>
+                <custom icon="flyto" action="{35,2042}" text="[y]{{param@PageID},181020}[/y][o]{{param@PageID},181021}[/o][y]{{param@PageID},181022}[/y]"/>
+              </set_objective>
+              <create_briefing cue="{param@Cue}">
+                <timer start="{player.age}" duration="{value@{param@Cue}.{param@ID} L0Time}"/>
+				  <requirements>
+					  <requirement value="tp" type="class"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="{lookup.type.cargospace@SS_WARE_PASSENGER}*{param@Cue}.{param@ID} PassengerCount" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+				  </requirements>
+                <objectives>
+                  <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                    <custom icon="flyto" action="{35,2042}" text="[y]{{param@PageID},181020}[/y][o]{{param@PageID},181021}[/o][y]{{param@PageID},181022}[/y]"/>
+                  </objective>
+                </objectives>
+              </create_briefing>
+              <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}">
+                <set_value name="{param@Cue}.{param@ID} L0Step" operation="add"/>
+                <set_value name="{param@Cue}.{param@ID} StepCount" operation="add"/>
+                <create_briefing cue="{param@Cue}">
+				  <requirements>
+					  <requirement value="tp" type="class"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="{lookup.type.cargospace@SS_WARE_PASSENGER}*{param@Cue}.{param@ID} PassengerCount" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+				  </requirements>
+                  <objectives>
+                    <objective step="{value@{param@Cue}.{param@ID} L0Step}">
+                      <custom icon="flyto" action="{{param@PageID},181101}" text="[y]{{param@PageID},181102}[/y][r]{{param@PageID},181103}[/r][g]{{param@PageID},181104}[/g]"/>
+                    </objective>
+                  </objectives>
+                </create_briefing>
+              </do_all>
+              <set_value name="L0M81 Mission.StartTime" exact="{player.age}"/>
+            </do_all>
+          </action>
+          <cues>
+            <cue ref="LUM04">
+              <params>
+                <param name="StartTime" value="L0M81 Mission.StartTime"/>
+                <param name="Duration" value="{param@Cue}.{param@ID} L0Time"/>
+              </params>
+            </cue>
+            <cue ref="LUM05">
+              <params>
+                <param name="Duration" value="{param@Cue}.{param@ID} L0Time"/>
+              </params>
+            </cue>
+            <cue name="L0M81 Docked Check">
+              <condition>
+                <check_all>
+                  <check_any>
+                    <check_any exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="Count">
+                      <object_is_docked dockobject="{param@Cue}.{param@ID} CollectPoint {counter@Count}"/>
+                    </check_any>
+                    <check_any exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="Count">
+                      <object_is_docked dockobject="{param@Cue}.{param@ID} DeliverPoint {counter@Count}"/>
+                    </check_any>
+                  </check_any>
+                  <check_value value="{player.ship.isclass.tp}" exact="1"/>
+                </check_all>
+              </condition>
+              <action>
+                <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="PCount">
+                  <do_if value="{player.dockobject}" exact="{object@{param@Cue}.{param@ID} CollectPoint {counter@PCount}}">
+                    <do_if value="{actor.station@{param@Cue}.{param@ID} Passenger {counter@PCount}}" exact="{object@{param@Cue}.{param@ID} CollectPoint {counter@PCount}}">
+                      <do_choose>
+                        <do_when value="{player.ship.cargospace}" max="{lookup.type.cargospace@SS_WARE_PASSENGER}-1">
+                          <play_text actor="{param@Cue}.{param@ID} Passenger {counter@PCount}" textid="905" priority="99"/>
+                          <incoming_message author="{actor.name@{param@Cue}.{param@ID} Passenger {counter@PCount}}" text="{{actor.voice@{param@Cue}.{param@ID} Passenger {counter@PCount}},905}" silent="1"/>
+                          <set_value name="L0M81.NoSpaceReset" exact="2"/>
+                        </do_when>
+                        <do_otherwise>
+                          <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@PCount}" object="{player.ship}" location="passenger"/>
+                          <do_any>
+                            <play_text actor="{param@Cue}.{param@ID} Passenger {counter@PCount}" priority="99">
+                              <line actor="{param@Cue}.{param@ID} Passenger {counter@PCount}" textid="900"/>
+                            </play_text>
+                            <play_text actor="{param@Cue}.{param@ID} Passenger {counter@PCount}" priority="99">
+                              <line actor="{param@Cue}.{param@ID} Passenger {counter@PCount}" textid="901"/>
+                            </play_text>
+                          </do_any>
+                          <show_help duration="5s" force="1" text="{{param@PageID},181023}"/>
+                          <set_value name="{param@Cue}.{param@ID} CollectCount" operation="subtract"/>
+                          <set_objective cue="{param@Cue}" title="{{param@PageID},{param@TitleID}}">
+                            <briefing cue="{param@Cue}" step="1"/>
+                            <custom icon="flyto" action="{35,2042}" text="[y]{{param@PageID},181020}[/y][o]{{param@PageID},181021}[/o][y]{{param@PageID},181022}[/y]"/>
+                          </set_objective>
+                        </do_otherwise>
+                      </do_choose>
+                    </do_if>
+                  </do_if>
+                  <do_if value="{player.dockobject}" exact="{object@{param@Cue}.{param@ID} DeliverPoint {counter@PCount}}">
+                    <do_if value="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@PCount}}" exact="{player.ship}">
+                      <set_actor_location actor="{param@Cue}.{param@ID} Passenger {counter@PCount}" object="{param@Cue}.{param@ID} DeliverPoint {counter@PCount}" location="crew"/>
+                      <set_value name="this.dialog" list="841|842"/>
+                      <play_text actor="{param@Cue}.{param@ID} Passenger {counter@PCount}" textid="{value@this.dialog}" priority="99"/>
+                      <show_help duration="5s" force="1" text="{{param@PageID},181024}"/>
+                      <set_value name="{param@Cue}.{param@ID} DeliverCount" operation="subtract"/>
+                      <set_objective cue="{param@Cue}" title="{{param@PageID},{param@TitleID}}">
+                        <briefing cue="{param@Cue}" step="1"/>
+                        <custom icon="flyto" action="{35,2042}" text="[y]{{param@PageID},181020}[/y][o]{{param@PageID},181021}[/o][y]{{param@PageID},181022}[/y]"/>
+                      </set_objective>
+                      <set_value name="{param@Cue}.{param@ID} Passengers Delivered" operation="add"/>
+                    </do_if>
+                  </do_if>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L0M81 NoSpaceReset">
+                  <condition>
+                    <check_all>
+                      <check_value value="{player.ship.cargospace}" min="{lookup.type.cargospace@SS_WARE_PASSENGER}"/>
+                      <check_value value="{value@L0M81.NoSpaceReset}" exact="2"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <set_value name="L0M81.NoSpaceReset" exact="1"/>
+                      <reset_cue cue="L0M81 Docked Check"/>
+                    </do_all>
+                  </action>
+                </cue>
+                <cue name="L0M81 Dock Check Reset">
+                  <condition>
+                    <check_all>
+                      <object_undocked/>
+                      <check_value value="{value@{param@Cue}.{param@ID} DeliverCount}" min="1"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <reset_cue cue="L0M81 Docked Check"/>
+                  </action>
+                </cue>
+              </cues>
+            </cue>
+            <cue name="L0M81 All Delivered" delay="2s">
+              <condition>
+                <check_value value="{value@{param@Cue}.{param@ID} DeliverCount}" exact="0"/>
+              </condition>
+              <action>
+                <do_all>
+                  <set_value name="{param@Cue}.{param@ID} L0M81 Progress" exact="1"/>
+                  <cancel_cue cue="L0M81 Mission"/>
+                </do_all>
+              </action>
+            </cue>
+            <cue name="L0M81 Time Out">
+              <condition comment="If mission Started and allowed to fail">
+                <check_all>
+                  <cue_completed cue="L0M81 Mission"/>
+                  <check_value value="{param@IsPlot}" exact="1" negate="1"/>
+                </check_all>
+              </condition>
+              <timing>
+                <time exact="{value@{param@Cue}.{param@ID} L0Time}s"/>
+              </timing>
+              <action>
+                <do_all>
+                  <set_value name="{param@Cue}.{param@ID} L0M81 Progress" exact="2"/>
+                  <cancel_cue cue="L0M81 Mission"/>
+                </do_all>
+              </action>
+            </cue>
+            <cue name="L0M81 Dest Destroyed">
+              <condition>
+                <check_any>
+                  <any_object_destroyed group="{param@Cue}.{param@ID} DeliverStations"/>
+                  <any_object_destroyed_by_player group="{param@Cue}.{param@ID} DeliverStations"/>
+                </check_any>
+              </condition>
+              <timing>
+                <time exact="3s"/>
+              </timing>
+              <action>
+                <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="DCount">
+                  <do_if value="{object.exists@{param@Cue}.{param@ID} DeliverPoint {counter@DCount}}" exact="0">
+                    <do_if value="{actor.exists@{param@Cue}.{param@ID} Passenger {counter@DCount}}" exact="1">
+                      <find_station name="{param@Cue}.{param@ID} DeliverPoint {counter@DCount}" group="{param@Cue}.{param@ID} DeliverStations" findobject="{param@Cue}.{param@ID} CollectPoint {counter@DCount}" class="station" race="default|terran|pirategroup">
+                        <sector sector="{object.sector@{param@Cue}.{param@ID} CollectPoint {counter@DCount}}"/>
+                        <jumps min="1" max="2"/>
+                      </find_station>
+                      <do_choose>
+                        <do_when value="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@DCount}}" exact="{player.ship}">
+                          <incoming_message author="{actor.name@{param@Cue}.{param@ID} Passenger {counter@DCount}}" text="{{param@PageID},181026}"/>
+                        </do_when>
+                        <do_otherwise>
+                          <incoming_message author="{actor.name@{param@Lv1Guide}}" text="{{param@PageID},181027}"/>
+                        </do_otherwise>
+                      </do_choose>
+                    </do_if>
+                  </do_if>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L0M81 L0M81 Dest Destroyed Reset">
+                  <condition>
+                    <cue_is_complete cue="L0M81 Dest Destroyed"/>
+                  </condition>
+                  <action>
+                    <reset_cue cue="L0M81 Dest Destroyed"/>
+                  </action>
+                </cue>
+              </cues>
+            </cue>
+            <cue name="L0M81 Start Destroyed">
+              <condition>
+                <check_any>
+                  <any_object_destroyed group="{param@Cue}.{param@ID} CollectStations"/>
+                  <any_object_destroyed_by_player group="{param@Cue}.{param@ID} CollectStations"/>
+                </check_any>
+              </condition>
+              <timing>
+                <time exact="3s"/>
+              </timing>
+              <action>
+                <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="CCount">
+                  <do_if value="{object.exists@{param@Cue}.{param@ID} CollectPoint {counter@CCount}}" exact="0">
+                    <do_choose>
+                      <do_when value="{actor.exists@{param@Cue}.{param@ID} Passenger {counter@CCount}}" exact="1">
+                        <create_briefing cue="{param@Cue}">
+				  <requirements>
+					  <requirement value="tp" type="class"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="{lookup.type.cargospace@SS_WARE_PASSENGER}*{param@Cue}.{param@ID} PassengerCount" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+				  </requirements>
+                          <objectives>
+                            <objective step="{counter@CCount}+1">
+                              <custom icon="flyto" action="{{param@PageID},181034}" text="[r]{{param@PageID},181028}[/r][g]{{param@PageID},181029}[/g]"/>
+                            </objective>
+                          </objectives>
+                        </create_briefing>
+                      </do_when>
+                      <do_otherwise>
+                        <set_value name="{param@Cue}.{param@ID} CollectCount" operation="subtract"/>
+                        <set_value name="{param@Cue}.{param@ID} DeliverCount" operation="subtract"/>
+                        <create_briefing cue="{param@Cue}">
+				  <requirements>
+					  <requirement value="tp" type="class"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="{lookup.type.cargospace@SS_WARE_PASSENGER}*{param@Cue}.{param@ID} PassengerCount" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+				  </requirements>
+                          <objectives>
+                            <objective step="1">
+                              <custom icon="flyto" action="{35,2042}" text="[y]{{param@PageID},181020}[/y][o]{{param@PageID},181021}[/o][y]{{param@PageID},181022}[/y]"/>
+                            </objective>
+                          </objectives>
+                        </create_briefing>
+                        <create_briefing cue="{param@Cue}">
+				  <requirements>
+					  <requirement value="tp" type="class"/>
+					  <requirement value="SS_WARE_LIFESUPPORT" type="equipment"/>
+					  <requirement value="{lookup.type.cargospace@SS_WARE_PASSENGER}*{param@Cue}.{param@ID} PassengerCount" type="freecargo" />
+					  <requirement value="{lookup.type.cargoclass@SS_WARE_PASSENGER}" type="tc"/>
+				  </requirements>
+                          <objectives>
+                            <objective step="{counter@CCount}+1">
+                              <custom icon="flyto" action="{{param@PageID},181032}" text="[r]{{param@PageID},181028}[/r][g]{{param@PageID},181033}[/g]"/>
+                            </objective>
+                          </objectives>
+                        </create_briefing>
+                        <set_objective cue="{param@Cue}">
+                          <briefing cue="{param@Cue}" step="1"/>
+                          <custom icon="flyto" action="{35,2042}" text="[y]{{param@PageID},181020}[/y][o]{{param@PageID},181021}[/o][y]{{param@PageID},181022}[/y]"/>
+                        </set_objective>
+                        <incoming_message author="{actor.name@{param@Lv1Guide}}" text="{{param@PageID},181031}"/>
+                        <set_value name="L0M81.StationDeath {counter@CCount}" exact="1"/>
+                      </do_otherwise>
+                    </do_choose>
+                  </do_if>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L0M81 L0M81 Start Destroyed Reset">
+                  <condition>
+                    <cue_is_complete cue="L0M81 Start Destroyed"/>
+                  </condition>
+                  <action>
+                    <reset_cue cue="L0M81 Start Destroyed"/>
+                  </action>
+                </cue>
+              </cues>
+            </cue>
+            <cue name="L0M81 Ejected" delay="3s">
+              <condition>
+                <check_any exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="EjectCount">
+                  <match_object object="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@EjectCount}}" class="astronaut"/>
+                </check_any>
+              </condition>
+              <action>
+                <do_all>
+                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="ECount">
+                    <do_if value="{actor.ship.class@{param@Cue}.{param@ID} Passenger {counter@ECount}}" exact="{lookup.class@astronaut}">
+                      <do_choose>
+                        <do_when value="{actor.sector@{param@Cue}.{param@ID} Passenger {counter@ECount}}" exact="{player.sector}">
+                          <play_text actor="{param@Cue}.{param@ID} Passenger {counter@ECount}" textid="852" priority="99"/>
+                        </do_when>
+                        <do_otherwise>
+                          <incoming_message author="{actor.name@{param@Cue}.{param@ID} Passenger {counter@ECount}}" text="{{actor.voice@{param@Cue}.{param@ID} Passenger {counter@ECount}},852}"/>
+                        </do_otherwise>
+                      </do_choose>
+                    </do_if>
+                  </do_all>
+                  <set_value name="{param@Cue}.{param@ID} L0M81 Progress" exact="5"/>
+                  <cancel_cue cue="L0M81 Mission"/>
+                </do_all>
+              </action>
+            </cue>
+            <cue name="L0M81 Killed Other" delay="150">
+              <condition>
+                <any_object_destroyed_by_player group="{param@Cue}.{param@ID} PassengerGroup"/>
+              </condition>
+              <timing>
+                <time exact="3s"/>
+              </timing>
+              <action>
+                <do_all>
+                  <set_value name="{param@Cue}.{param@ID} L0M81 Progress" exact="3"/>
+                  <cancel_cue cue="L0M81 Mission"/>
+                </do_all>
+              </action>
+            </cue>
+            <cue name="L0M81 Aborted">
+              <condition>
+                <objective_cancelled cue="{param@Cue}"/>
+              </condition>
+              <action>
+                <do_all>
+                  <set_value name="{param@Cue}.{param@ID} L0M81 Progress" exact="99"/>
+                  <cancel_cue cue="L0M81 Mission"/>
+                </do_all>
+              </action>
+            </cue>
+          </cues>
+        </cue>
+        <cue name="L0M81 Cleanup" delay="500">
+          <condition>
+            <check_value value="{value@{param@Cue}.{param@ID} L0M81 Progress}" min="1"/>
+          </condition>
+          <action>
+            <do_all>
+              <do_choose>
+                <!--actors dead, nothing needed-->
+                <do_when value="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" exact="0">
+                  <cancel_cue cue="L0M81 Cleanup Actor"/>
+                </do_when>
+                <do_otherwise>
+                  <do_all exact="{value@{param@Cue}.{param@ID} PassengerCount}" counter="CUCount">
+                    <do_choose>
+                      <!--actor is astronaut, was ejected-->
+                      <do_when value="{actor.ship.isclass.astronaut@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" exact="1">
+                        <find_station name="this.ActorDest {counter@CUCount}" class="station" dockingallowed="1" findobject="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" nearest="1"/>
+                        <set_command object="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" command="dock" commandobject="this.ActorDest {counter@CUCount}"/>
+                      </do_when>
+                      <do_otherwise>
+                        <!--Check actors not aboard player ship-->
+                        <do_if value="{actor.ship@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" exact="{player.ship}" negate="1">
+                          <!--Check actors not aboard player owned ship-->
+                          <do_if value="{actor.ship.race@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" exact="{lookup.race@player}" negate="1">
+                            <!--else actor not picked up then-->
+                            <do_if value="{actor.exists@{param@Cue}.{param@ID} Passenger {counter@CUCount}}" exact="1">
+                              <destroy_actor actor="{param@Cue}.{param@ID} Passenger {counter@CUCount}"/>
+                            </do_if>
+                            <do_if value="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" exact="0">
+                              <cancel_cue cue="L0M81 Cleanup Actor"/>
+                            </do_if>
+                          </do_if>
+                        </do_if>
+                      </do_otherwise>
+                    </do_choose>
+                  </do_all>
+                </do_otherwise>
+              </do_choose>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="L0M81 Dockobject Docked" delay="3s" instantiate="static">
+              <condition>
+                <check_any exact="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" counter="DockCount">
+                  <check_value value="{group.object.{counter@DockCount}.dockobject.dockobject.exists@{param@Cue}.{param@ID} PassengerGroup}" exact="1"/>
+                </check_any>
+              </condition>
+              <action>
+                <do_all>
+                  <do_all exact="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" counter="DOCount">
+                    <do_if value="{group.object.{counter@DOCount}.dockobject.dockobject.exists@{param@Cue}.{param@ID} PassengerGroup}" exact="1">
+                      <do_if value="{group.object.{counter@DOCount}.dockobject.dockobject.isclass.station@{param@Cue}.{param@ID} PassengerGroup}" exact="1">
+                        <set_object name="L0M81.Matched {group.object.{counter@DOCount}@{param@Cue}.{param@ID} PassengerGroup}" group="L0M81.Matched" value="{group.object.{counter@DOCount}@{param@Cue}.{param@ID} PassengerGroup}"/>
+                      </do_if>
+                    </do_if>
+                  </do_all>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L0M81 Remove Landed Passengers" check="cancel">
+                  <condition>
+                    <check_all>
+                      <cue_completed cue="L0M81 Dockobject Docked"/>
+                      <check_value value="{group.object.count@L0M81.Matched}" min="1"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <do_all exact="{group.object.count@L0M81.Matched}" counter="RemoveCount">
+                        <remove_object_from_group object="{group.object.{counter@RemoveCount}@L0M81.Matched}" group="{param@Cue}.{param@ID} PassengerGroup"/>
+                      </do_all>
+                      <set_value name="{param@Cue}.{param@ID} L0M81 Surplus Passengers" operation="add" exact="{group.object.count@L0M81.Matched}"/>
+                      <destroy_group group="L0M81.Matched"/>
+                    </do_all>
+                  </action>
+                </cue>
+                <cue name="L0M81 All Actors Removed">
+                  <condition>
+                    <check_value value="{group.object.count@{param@Cue}.{param@ID} PassengerGroup}" exact="0"/>
+                  </condition>
+                  <action>
+                    <cancel_cue cue="L0M81"/>
+                  </action>
+                </cue>
+              </cues>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+  </cues>
+  <signature>4AM/Sf6YN0vQdsb/UAg31FysnsY/cVAritck7C5JiUnyc6ArTYkQ6rwtMP8Id61POanTn/KR4jbQ1yzBpYOPmAE1/Lsy02A/jNcOVPTURDMLm/QqkDMkMy99Ag9bcO5wO43CakZUTzxPYpj7YoRyKyFymPYNj2HbZQwIYYLTrPKO2uvtouDwOadZ/SjGicJ4UQ+zLHYcORzH7DfN/3SXw5cg0ZMWHk+cjG71C9PxOyPY57yEezoU1A/teRj4QDq6zKZx65ZZLCtxvAGJiLWT02EulfzMrDJ6Vs7qUmZ3zIZUgZ+PXLCLHSdusVNKGYKkWR3fJrwXQm0VcngELHzFjg==</signature>
+</director>

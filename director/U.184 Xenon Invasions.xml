@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="director.xsl" type="text/xsl" ?>
+<director name="template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="director.xsd">
+  <documentation>
+    <author name="Ketraar"/>
+    <content reference="U.184" name="Xenon Invasions" description="Spawns Xenon ships to simulate invasion for Shady busines"/>
+    <version number="0.1" date="02-02-2013" status="development"/>
+  </documentation>
+  <cues>
+    <cue name="U184" delay="5s">
+      <condition>
+        <check_all>
+          <check_value value="{value@SBXenonInvasion}" exact="1"/>
+        </check_all>
+      </condition>
+      <action>
+        <do_all>
+          <find_sector name="U184.BHS" x="15" y="8"/>
+          <find_sector name="U184.Segaris" x="15" y="0"/>
+          <find_gate name="U184.BHSNorth" gate="north" typename="SS_WG_NORTH" >
+            <sector sector="U184.BHS"/>
+            <jumps exact="0"/>
+          </find_gate>
+          <find_gate name="U184.SegarisEast" gate="east" typename="SS_WG_EAST">
+            <sector sector="U184.Segaris"/>
+            <jumps exact="0"/>
+          </find_gate>
+        </do_all>
+      </action>
+      <cues>
+        <cue name="U184_Spawn_XS472" delay="2s">
+          <condition>
+            <check_all>
+              <cue_is_complete cue="U184"/>
+            </check_all>
+          </condition>
+          <action>
+            <do_all>
+              <set_value name="U184_Spawn_XS472.HeavyEscortChance" min="0" max="100"/>
+              <create_ship name="U184_Spawn_XS472.Carrier" group="U184_Spawn_XS472.XS472Group" typename="SS_SH_X_M1" race="xenon" warp="1" racelogic="0">
+                <position object="U184.BHSNorth" min="5km" max="10km"/>
+                <sector sector="U184.BHS"/>
+                <equipment loadout="maximum" loadoutmask="all"/>
+              </create_ship>
+              <add_cargo object="U184_Spawn_XS472.Carrier">
+                <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_XS472.Carrier}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_XS472.Carrier})"/>
+                <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_XS472.Carrier}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_XS472.Carrier})"/>
+                <ware typename="SS_WARE_SCANNER3" exact="1"/>
+              </add_cargo>
+              <do_choose>
+                <do_when value="{value@U184_Spawn_XS472.HeavyEscortChance}" min="51" max="80">
+                  <do_all exact="3" counter="EscortHeavy">
+                    <create_ship name="U184_Spawn_XS472.Heavy{counter@EscortHeavy}" group="U184_Spawn_XS472.XS472Group" race="xenon" typename="{random.type@SS_SH_X_M2|SS_SH_X_M2P}" warp="1" racelogic="0">
+                      <position object="U184_Spawn_XS472.Carrier" min="2km" max="10km"/>
+                      <sector sector="{object.sector@U184_Spawn_XS472.Carrier}"/>
+                      <equipment loadout="maximum" loadoutmask="all"/>
+                    </create_ship>
+                    <add_cargo object="U184_Spawn_XS472.Heavy{counter@EscortHeavy}">
+                      <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_XS472.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_XS472.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_XS472.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_XS472.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                    </add_cargo>
+                  </do_all>
+                </do_when>
+                <do_when value="{value@U184_Spawn_XS472.HeavyEscortChance}" min="81" max="100">
+                  <do_all min="4" max="5" counter="EscortHeavy">
+                    <create_ship name="U184_Spawn_XS472.Heavy{counter@EscortHeavy}" group="U184_Spawn_XS472.XS472Group" race="xenon" typename="{random.type@SS_SH_X_M2|SS_SH_X_M2P}" warp="1" racelogic="0">
+                      <position object="U184_Spawn_XS472.Carrier" min="2km" max="10km"/>
+                      <sector sector="{object.sector@U184_Spawn_XS472.Carrier}"/>
+                      <equipment loadout="maximum" loadoutmask="all"/>
+                    </create_ship>
+                    <add_cargo object="U184_Spawn_XS472.Heavy{counter@EscortHeavy}">
+                      <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_XS472.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_XS472.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_XS472.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_XS472.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                    </add_cargo>
+                  </do_all>
+                </do_when>
+                <do_otherwise>
+                  <do_all exact="2" counter="EscortHeavy">
+                    <create_ship name="U184_Spawn_XS472.Heavy{counter@EscortHeavy}" group="U184_Spawn_XS472.XS472Group" race="xenon" typename="{random.type@SS_SH_X_M2|SS_SH_X_M2P}" warp="1" racelogic="0">
+                      <position object="U184_Spawn_XS472.Carrier" min="2km" max="10km"/>
+                      <sector sector="{object.sector@U184_Spawn_XS472.Carrier}"/>
+                      <equipment loadout="maximum" loadoutmask="all"/>
+                    </create_ship>
+                    <add_cargo object="U184_Spawn_XS472.Heavy{counter@EscortHeavy}">
+                      <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_XS472.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_XS472.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_XS472.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_XS472.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                    </add_cargo>
+                  </do_all>
+                </do_otherwise>
+              </do_choose>
+              <do_all min="20" max="30" counter="EscortLight">
+                <create_ship name="U184_Spawn_XS472.Light{counter@EscortLight}" group="U184_Spawn_XS472.XS472Group" race="xenon" typename="{random.type@SS_SH_X_M3|SS_SH_X_M3P|SS_SH_X_M4|SS_SH_X_M3}" warp="1" racelogic="0">
+                  <position object="U184_Spawn_XS472.Carrier" min="1km" max="5km"/>
+                  <sector sector="{object.sector@U184_Spawn_XS472.Carrier}"/>
+                  <equipment loadout="maximum" loadoutmask="all"/>
+                  <command command="killenemies"/>
+                </create_ship>
+                <add_cargo object="U184_Spawn_XS472.Light{counter@EscortLight}">
+                  <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_XS472.Light{counter@EscortLight}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_XS472.Light{counter@EscortLight}})"/>
+                  <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_XS472.Light{counter@EscortLight}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_XS472.Light{counter@EscortLight}})"/>
+                  <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                </add_cargo>
+              </do_all>
+              <do_all min="5" max="8" counter="EscortMedium">
+                <create_ship name="U184_Spawn_XS472.Medium{counter@EscortMedium}" group="U184_Spawn_XS472.XS472Group" race="xenon" typename="{random.type@SS_SH_X_M6|SS_SH_X_M6M|SS_SH_X_M7}" warp="1" racelogic="0">
+                  <position object="U184_Spawn_XS472.Carrier" min="1km" max="6km"/>
+                  <sector sector="{object.sector@U184_Spawn_XS472.Carrier}"/>
+                  <equipment loadout="maximum" loadoutmask="all"/>
+                </create_ship>
+                <add_cargo object="U184_Spawn_XS472.Medium{counter@EscortMedium}">
+                  <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_XS472.Medium{counter@EscortMedium}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_XS472.Medium{counter@EscortMedium}})"/>
+                  <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_XS472.Medium{counter@EscortMedium}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_XS472.Medium{counter@EscortMedium}})"/>
+                  <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                </add_cargo>
+              </do_all>
+              <set_group_command command="killenemies" group="U184_Spawn_XS472.XS472Group"/>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="U184_CapXS472Ships" instantiate="static">
+              <condition>
+                <check_any>
+                  <any_object_claimed group="U184_Spawn_XS472.XS472Group"/>
+                  <any_object_captured group="U184_Spawn_XS472.XS472Group"/>
+                </check_any>
+              </condition>
+              <action>
+                <do_all>
+                  <remove_object_from_group object="{event.object}" group="U184_Spawn_XS472.XS472Group"/>
+                </do_all>
+              </action>
+            </cue>
+            <cue name="U184_Reset" delay="2s">
+              <condition>
+                <check_all>
+                  <check_value value="{value@SBXenonInvasion}" exact="1"/>
+                  <object_exists object="U184_Spawn_XS472.Carrier" negate="1"/>
+                  <check_value value="{group.object.count@U184_Spawn_XS472.XS472Group}" max="3"/>
+                </check_all>
+              </condition>
+              <timing>
+                <time min="1m" max="2m" comment="TODO set higher values for release"/>
+              </timing>
+              <action>
+                <do_all>
+                  <reset_cue cue="U184_Spawn_XS472"/>
+                </do_all>
+              </action>
+            </cue>
+          </cues>
+        </cue>
+        <!-- Segaris -->
+        <cue name="U184_Spawn_Segaris" delay="2s">
+          <condition>
+            <check_all>
+              <cue_is_complete cue="U184"/>
+            </check_all>
+          </condition>
+          <action>
+            <do_all>
+              <set_value name="U184_Spawn_Segaris.HeavyEscortChance" min="0" max="100"/>
+              <create_ship name="U184_Spawn_Segaris.Carrier" group="U184_Spawn_Segaris.SegarisGroup" typename="SS_SH_X_M1" race="xenon" warp="1" racelogic="0">
+                <position object="U184.SegarisEast" min="5km" max="10km"/>
+                <sector sector="U184.Segaris"/>
+                <equipment loadout="maximum" loadoutmask="all"/>
+              </create_ship>
+              <add_cargo object="U184_Spawn_Segaris.Carrier">
+                <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_Segaris.Carrier}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_Segaris.Carrier})"/>
+                <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_Segaris.Carrier}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_Segaris.Carrier})"/>
+                <ware typename="SS_WARE_SCANNER3" exact="1"/>
+              </add_cargo>
+              <do_choose>
+                <do_when value="{value@U184_Spawn_Segaris.HeavyEscortChance}" min="51" max="80">
+                  <do_all exact="3" counter="EscortHeavy">
+                    <create_ship name="U184_Spawn_Segaris.Heavy{counter@EscortHeavy}" group="U184_Spawn_Segaris.SegarisGroup" race="xenon" typename="{random.type@SS_SH_X_M2|SS_SH_X_M2P}" warp="1" racelogic="0">
+                      <position object="U184_Spawn_Segaris.Carrier" min="2km" max="10km"/>
+                      <sector sector="{object.sector@U184_Spawn_Segaris.Carrier}"/>
+                      <equipment loadout="maximum" loadoutmask="all"/>
+                    </create_ship>
+                    <add_cargo object="U184_Spawn_Segaris.Heavy{counter@EscortHeavy}">
+                      <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                    </add_cargo>
+                  </do_all>
+                </do_when>
+                <do_when value="{value@U184_Spawn_Segaris.HeavyEscortChance}" min="81" max="100">
+                  <do_all min="4" max="5" counter="EscortHeavy">
+                    <create_ship name="U184_Spawn_Segaris.Heavy{counter@EscortHeavy}" group="U184_Spawn_Segaris.SegarisGroup" race="xenon" typename="{random.type@SS_SH_X_M2|SS_SH_X_M2P}" warp="1" racelogic="0">
+                      <position object="U184_Spawn_Segaris.Carrier" min="2km" max="10km"/>
+                      <sector sector="{object.sector@U184_Spawn_Segaris.Carrier}"/>
+                      <equipment loadout="maximum" loadoutmask="all"/>
+                    </create_ship>
+                    <add_cargo object="U184_Spawn_Segaris.Heavy{counter@EscortHeavy}">
+                      <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                    </add_cargo>
+                  </do_all>
+                </do_when>
+                <do_otherwise>
+                  <do_all exact="2" counter="EscortHeavy">
+                    <create_ship name="U184_Spawn_Segaris.Heavy{counter@EscortHeavy}" group="U184_Spawn_Segaris.SegarisGroup" race="xenon" typename="{random.type@SS_SH_X_M2|SS_SH_X_M2P}" warp="1" racelogic="0">
+                      <position object="U184_Spawn_Segaris.Carrier" min="2km" max="10km"/>
+                      <sector sector="{object.sector@U184_Spawn_Segaris.Carrier}"/>
+                      <equipment loadout="maximum" loadoutmask="all"/>
+                    </create_ship>
+                    <add_cargo object="U184_Spawn_Segaris.Heavy{counter@EscortHeavy}">
+                      <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_Segaris.Heavy{counter@EscortHeavy}})"/>
+                      <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                    </add_cargo>
+                  </do_all>
+                </do_otherwise>
+              </do_choose>
+              <do_all min="20" max="30" counter="EscortLight">
+                <create_ship name="U184_Spawn_Segaris.Light{counter@EscortLight}" group="U184_Spawn_Segaris.SegarisGroup" race="xenon" typename="{random.type@SS_SH_X_M3|SS_SH_X_M3P|SS_SH_X_M4|SS_SH_X_M3}" warp="1" racelogic="0">
+                  <position object="U184_Spawn_Segaris.Carrier" min="1km" max="5km"/>
+                  <sector sector="{object.sector@U184_Spawn_Segaris.Carrier}"/>
+                  <equipment loadout="maximum" loadoutmask="all"/>
+                  <command command="killenemies"/>
+                </create_ship>
+                <add_cargo object="U184_Spawn_Segaris.Light{counter@EscortLight}">
+                  <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_Segaris.Light{counter@EscortLight}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_Segaris.Light{counter@EscortLight}})"/>
+                  <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_Segaris.Light{counter@EscortLight}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_Segaris.Light{counter@EscortLight}})"/>
+                  <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                </add_cargo>
+              </do_all>
+              <do_all min="5" max="8" counter="EscortMedium">
+                <create_ship name="U184_Spawn_Segaris.Medium{counter@EscortMedium}" group="U184_Spawn_Segaris.SegarisGroup" race="xenon" typename="{random.type@SS_SH_X_M6|SS_SH_X_M6M|SS_SH_X_M7}" warp="1" racelogic="0">
+                  <position object="U184_Spawn_Segaris.Carrier" min="1km" max="6km"/>
+                  <sector sector="{object.sector@U184_Spawn_Segaris.Carrier}"/>
+                  <equipment loadout="maximum" loadoutmask="all"/>
+                </create_ship>
+                <add_cargo object="U184_Spawn_Segaris.Medium{counter@EscortMedium}">
+                  <ware typename="SS_WARE_TECH213" exact="({object.equipment.SS_WARE_TECH213.maxcount@U184_Spawn_Segaris.Medium{counter@EscortMedium}}-{object.equipment.SS_WARE_TECH213.count@U184_Spawn_Segaris.Medium{counter@EscortMedium}})"/>
+                  <ware typename="SS_WARE_TECH246" exact="({object.equipment.SS_WARE_TECH246.maxcount@U184_Spawn_Segaris.Medium{counter@EscortMedium}}-{object.equipment.SS_WARE_TECH246.count@U184_Spawn_Segaris.Medium{counter@EscortMedium}})"/>
+                  <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                </add_cargo>
+              </do_all>
+              <set_group_command command="killenemies" group="U184_Spawn_Segaris.SegarisGroup"/>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="U184_CapSegarisShips" instantiate="static">
+              <condition>
+                <check_any>
+                  <any_object_claimed group="U184_Spawn_Segaris.SegarisGroup"/>
+                  <any_object_captured group="U184_Spawn_Segaris.SegarisGroup"/>
+                </check_any>
+              </condition>
+              <action>
+                <do_all>
+                  <remove_object_from_group object="{event.object}" group="U184_Spawn_Segaris.SegarisGroup"/>
+                </do_all>
+              </action>
+            </cue>
+            <cue name="U184_Reset" delay="2s">
+              <condition>
+                <check_all>
+                  <check_value value="{value@SBXenonInvasion}" exact="1"/>
+                  <object_exists object="U184_Spawn_Segaris.Carrier" negate="1"/>
+                  <check_value value="{group.object.count@U184_Spawn_Segaris.SegarisGroup}" max="3"/>
+                </check_all>
+              </condition>
+              <timing>
+                <time min="1m" max="2m" comment="TODO set higher values for release"/>
+              </timing>
+              <action>
+                <do_all>
+                  <reset_cue cue="U184_Spawn_Segaris"/>
+                </do_all>
+              </action>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+  </cues>  
+  <signature>4k+ZW4+aqltJ9B6H3AYT6gpbObwIHI1toCpBgktDBc9arqCEbJqG53lInlKz+EcdWA495C700OAgd7PMVSDUZnMzwlVb49Fnw/c/c5QSDwMYm7gLDgzWRyTLUHJwNw+M9eJRvHOOLzjrvql1mmgprU2IHNM864B0W9eLQS8a18snn68De35Fa/7RQ4Kdy0SwZeNNtDLH1v68MQ4myJKcRNG3SANzt76nPbhpXwCXM+8Hvn73iyakLFwN66k2SuNBBPVLJGfaxCxQyTbOjjBahKvcPOPlsG3gRbUbYknh0rg5BJ6AOCmZqWXsTSwMa/XE4QoRemwzvf+QatR9OHO/Tg==</signature>
+</director>

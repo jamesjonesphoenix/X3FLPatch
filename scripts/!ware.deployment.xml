@@ -1,0 +1,380 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!ware.deployment</name>
+<version>5</version>
+<engineversion>61</engineversion>
+<description>Ware Deployment callback script</description>
+<arguments>
+<argument index="1" name="a.obj" type="Value" desc="From Object" />
+<argument index="2" name="a.state" type="Var/String" desc="State" />
+<argument index="3" name="a.ware" type="Var/Ware" desc="Ware" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  if $a.state == 'isenabled'
+    if $a.ware == Trans-Orbital Accelerator Construction Kit
+      if $a.obj -> is in active sector
+        return [TRUE]
+      end
+    end
+    return [FALSE]
+    
+  else if $a.state == 'start'
+    if $a.ware == Trans-Orbital Accelerator Construction Kit
+      $sector = $a.obj -> get sector
+      $text = read text: page=6020 id=262
+      $gate = $a.obj ->get user input: type=Var/HSAP, title=$text, sector=$sector, filter=null, racemask=Player, flags=null, default=null
+      if $gate -> exists
+        $type = 'terran'
+        $dest.sector = $gate -> get gate destination: return sector=[TRUE]
+        $ret = convert gate: gate=$gate, type=$type, allow oos=[FALSE], build ship=$a.obj, disabled cutscene=[FALSE]
+        if $ret -> exists
+          add player discovery points: 500000
+          $dest.owner = $dest.sector -> get owner race
+          do if $dest.owner == Unknown
+            $dest.sector ->set owner race to Neutral Race
+        end
+      end
+    end
+    
+    if $ret
+      = $a.obj -> add -1 units of $a.ware
+    end
+  end
+  
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>if&#160;</var><var>$a.state</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'isenabled'</var></line>
+<line indent="&#160;"><var>if&#160;</var><var>$a.ware</var><text>&#160;</text><var>==</var><text>&#160;</text><var>Trans-Orbital&#160;Accelerator&#160;Construction&#160;Kit</var></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$a.obj&#160;-&gt;</var><text>&#160;is&#160;in&#160;active&#160;sector</text></line>
+<line indent="&#160;&#160;&#160;"><text>return&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"><text>return&#160;</text><var>[FALSE]</var></line>
+<line indent="&#160;"></line>
+<line indent=""><var>else&#160;if&#160;</var><var>$a.state</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'start'</var></line>
+<line indent="&#160;"><var>if&#160;</var><var>$a.ware</var><text>&#160;</text><var>==</var><text>&#160;</text><var>Trans-Orbital&#160;Accelerator&#160;Construction&#160;Kit</var></line>
+<line indent="&#160;&#160;"><var>$sector&#160;=&#160;</var><var>$a.obj&#160;-&gt;</var><text>&#160;get&#160;sector</text></line>
+<line indent="&#160;&#160;"><var>$text&#160;=&#160;</var><text>read&#160;text:&#160;page=</text><var>6020</var><text>&#160;id=</text><var>262</var></line>
+<line indent="&#160;&#160;"><var>$gate&#160;=&#160;</var><var>$a.obj&#160;-&gt;</var><text>get&#160;user&#160;input:&#160;type=</text><var>Var/HSAP</var><text>,&#160;title=</text><var>$text</var><text>,&#160;sector=</text><var>$sector</var><text>,&#160;filter=</text><var>null</var><text>,&#160;racemask=</text><var>Player</var><text>,&#160;flags=</text><var>null</var><text>,&#160;default=</text><var>null</var></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$gate&#160;-&gt;</var><text>&#160;exists</text></line>
+<line indent="&#160;&#160;&#160;"><var>$type&#160;=&#160;</var><var>'terran'</var></line>
+<line indent="&#160;&#160;&#160;"><var>$dest.sector&#160;=&#160;</var><var>$gate&#160;-&gt;</var><text>&#160;get&#160;gate&#160;destination:&#160;return&#160;sector=</text><var>[TRUE]</var></line>
+<line indent="&#160;&#160;&#160;"><var>$ret&#160;=&#160;</var><text>convert&#160;gate:&#160;gate=</text><var>$gate</var><text>,&#160;type=</text><var>$type</var><text>,&#160;allow&#160;oos=</text><var>[FALSE]</var><text>,&#160;build&#160;ship=</text><var>$a.obj</var><text>,&#160;disabled&#160;cutscene=</text><var>[FALSE]</var></line>
+<line indent="&#160;&#160;&#160;"><var>if&#160;</var><var>$ret&#160;-&gt;</var><text>&#160;exists</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><text>add&#160;player&#160;discovery&#160;points:&#160;</text><var>500000</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$dest.owner&#160;=&#160;</var><var>$dest.sector&#160;-&gt;</var><text>&#160;get&#160;owner&#160;race</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>do&#160;if&#160;</var><var>$dest.owner</var><text>&#160;</text><var>==</var><text>&#160;</text><var>Unknown</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$dest.sector&#160;-&gt;</var><text>set&#160;owner&#160;race&#160;to&#160;</text><var>Neutral&#160;Race</var></line>
+<line indent="&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"></line>
+<line indent="&#160;"><var>if&#160;</var><var>$ret</var></line>
+<line indent="&#160;&#160;"><var>=&#160;</var><var>$a.obj&#160;-&gt;</var><text>&#160;add&#160;</text><var>-1</var><text>&#160;units&#160;of&#160;</text><var>$a.ware</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!ware.deployment"/>
+  <sval type="int" val="61"/>
+  <sval type="string" val="Ware Deployment callback script"/>
+  <sval type="int" val="5"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="10">
+    <sval type="string" val="a.obj"/>
+    <sval type="string" val="a.state"/>
+    <sval type="string" val="a.ware"/>
+    <sval type="string" val="sector"/>
+    <sval type="string" val="text"/>
+    <sval type="string" val="gate"/>
+    <sval type="string" val="type"/>
+    <sval type="string" val="dest.sector"/>
+    <sval type="string" val="ret"/>
+    <sval type="string" val="dest.owner"/>
+  </sval>
+  <sval type="array" size="23">
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610611197"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="isenabled"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610611709"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048711"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="761"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-1610611709"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="22"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610607099"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="start"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610607613"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048711"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="703"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="126"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="6020"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="262"/>
+    </sval>
+    <sval type="array" size="18">
+      <sval type="int" val="2625"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="24"/>
+      <sval type="int" val="90"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="706"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="-1610607613"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="terran"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1057"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="12">
+      <sval type="int" val="2593"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="706"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="-1610607613"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="2601"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="500000"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="701"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610607608"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="1030"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="12"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610607101"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="646"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="array" size="3">
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="string" val="From Object"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="string" val="State"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="13"/>
+      <sval type="string" val="Ware"/>
+    </sval>
+  </sval>
+  <sval type="array" size="10">
+    <sval type="array" size="2">
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="5"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="22"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="22"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="22"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>4085</nosignature>
+</script>

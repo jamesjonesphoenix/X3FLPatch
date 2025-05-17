@@ -1,0 +1,379 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>plugin.customstart.terran</name>
+<version>3</version>
+<engineversion>63</engineversion>
+<description>Custom Start Configuration: Terran Sectors</description>
+<arguments>
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  * ========================================
+  * Custom Start Configuration
+  * Terran Sectors enable
+  * ========================================
+  * Enables the terran sectors from the start
+  * ========================================
+  * Author: Cycrow
+  * Date: 2022/07/28
+  * ========================================
+  
+  $bt = get sector from universe index: x=7, y=6
+  $neptune = get sector from universe index: x=10, y=1
+  if $bt -> exists
+    if $neptune -> exists
+      $gate = create gate: type=0 addto=$bt gateid=0 dstsecx=10 dstsecy=1 dstgateid=1 x=5000 y=0 z=32000
+      $gate ->set default gate rotation
+      $gate = create gate: type=22 addto=$neptune gateid=1 dstsecx=7 dstsecy=6 dstgateid=0 x=-38000 y=0 z=-46000
+      $gate ->set default gate rotation
+      $flags = [Find.Hyperspeed] | [Find.ExcludeGates] | [Find.ExcludeTerranGates]
+      $hsap = find gate: flags=$flags, refobj=$bt, max dist=null, refpos=null
+      if $hsap -> exists
+        $type = 'terran'
+        $newgate = convert gate: gate=$hsap, type=$type, allow oos=[TRUE], build ship=null, disabled cutscene=[FALSE]
+        if $neptune -> is known
+          $newgate ->set known status to [TRUE]
+        else if $bt -> is known
+          $newgate ->set known status to [TRUE]
+        end
+      end
+      set plot flag: 1024, on=[TRUE]
+      send script event: name='terran.link', object=[PLAYERSHIP], param1=null, param2=null
+    end
+  end
+  
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><comment><text>*&#160;</text><var>========================================</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>Custom&#160;Start&#160;Configuration</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>Terran&#160;Sectors&#160;enable</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>========================================</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>Enables&#160;the&#160;terran&#160;sectors&#160;from&#160;the&#160;start</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>========================================</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>Author:&#160;Cycrow</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>Date:&#160;2022/07/28</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>========================================</var></comment></line>
+<line indent=""></line>
+<line indent=""><var>$bt&#160;=&#160;</var><text>get&#160;sector&#160;from&#160;universe&#160;index:&#160;x=</text><var>7</var><text>,&#160;y=</text><var>6</var></line>
+<line indent=""><var>$neptune&#160;=&#160;</var><text>get&#160;sector&#160;from&#160;universe&#160;index:&#160;x=</text><var>10</var><text>,&#160;y=</text><var>1</var></line>
+<line indent=""><var>if&#160;</var><var>$bt&#160;-&gt;</var><text>&#160;exists</text></line>
+<line indent="&#160;"><var>if&#160;</var><var>$neptune&#160;-&gt;</var><text>&#160;exists</text></line>
+<line indent="&#160;&#160;"><var>$gate&#160;=&#160;</var><text>create&#160;gate:&#160;type=</text><var>0</var><text>&#160;addto=</text><var>$bt</var><text>&#160;gateid=</text><var>0</var><text>&#160;dstsecx=</text><var>10</var><text>&#160;dstsecy=</text><var>1</var><text>&#160;dstgateid=</text><var>1</var><text>&#160;x=</text><var>5000</var><text>&#160;y=</text><var>0</var><text>&#160;z=</text><var>32000</var></line>
+<line indent="&#160;&#160;"><var>$gate&#160;-&gt;</var><text>set&#160;default&#160;gate&#160;rotation</text></line>
+<line indent="&#160;&#160;"><var>$gate&#160;=&#160;</var><text>create&#160;gate:&#160;type=</text><var>22</var><text>&#160;addto=</text><var>$neptune</var><text>&#160;gateid=</text><var>1</var><text>&#160;dstsecx=</text><var>7</var><text>&#160;dstsecy=</text><var>6</var><text>&#160;dstgateid=</text><var>0</var><text>&#160;x=</text><var>-38000</var><text>&#160;y=</text><var>0</var><text>&#160;z=</text><var>-46000</var></line>
+<line indent="&#160;&#160;"><var>$gate&#160;-&gt;</var><text>set&#160;default&#160;gate&#160;rotation</text></line>
+<line indent="&#160;&#160;"><var>$flags&#160;=&#160;</var><var>[Find.Hyperspeed]</var><text>&#160;</text><var>|</var><text>&#160;</text><var>[Find.ExcludeGates]</var><text>&#160;</text><var>|</var><text>&#160;</text><var>[Find.ExcludeTerranGates]</var></line>
+<line indent="&#160;&#160;"><var>$hsap&#160;=&#160;</var><text>find&#160;gate:&#160;flags=</text><var>$flags</var><text>,&#160;refobj=</text><var>$bt</var><text>,&#160;max&#160;dist=</text><var>null</var><text>,&#160;refpos=</text><var>null</var></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$hsap&#160;-&gt;</var><text>&#160;exists</text></line>
+<line indent="&#160;&#160;&#160;"><var>$type&#160;=&#160;</var><var>'terran'</var></line>
+<line indent="&#160;&#160;&#160;"><var>$newgate&#160;=&#160;</var><text>convert&#160;gate:&#160;gate=</text><var>$hsap</var><text>,&#160;type=</text><var>$type</var><text>,&#160;allow&#160;oos=</text><var>[TRUE]</var><text>,&#160;build&#160;ship=</text><var>null</var><text>,&#160;disabled&#160;cutscene=</text><var>[FALSE]</var></line>
+<line indent="&#160;&#160;&#160;"><var>if&#160;</var><var>$neptune&#160;-&gt;</var><text>&#160;is&#160;known</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$newgate&#160;-&gt;</var><text>set&#160;known&#160;status&#160;to&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;&#160;&#160;"><var>else&#160;if&#160;</var><var>$bt&#160;-&gt;</var><text>&#160;is&#160;known</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$newgate&#160;-&gt;</var><text>set&#160;known&#160;status&#160;to&#160;</text><var>[TRUE]</var></line>
+<line indent="&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><text>set&#160;plot&#160;flag:&#160;</text><var>1024</var><text>,&#160;on=</text><var>[TRUE]</var></line>
+<line indent="&#160;&#160;"><text>send&#160;script&#160;event:&#160;name=</text><var>'terran.link'</var><text>,&#160;object=</text><var>[PLAYERSHIP]</var><text>,&#160;param1=</text><var>null</var><text>,&#160;param2=</text><var>null</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="plugin.customstart.terran"/>
+  <sval type="int" val="63"/>
+  <sval type="string" val="Custom Start Configuration: Terran Sectors"/>
+  <sval type="int" val="3"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="7">
+    <sval type="string" val="bt"/>
+    <sval type="string" val="neptune"/>
+    <sval type="string" val="gate"/>
+    <sval type="string" val="flags"/>
+    <sval type="string" val="hsap"/>
+    <sval type="string" val="type"/>
+    <sval type="string" val="newgate"/>
+  </sval>
+  <sval type="array" size="21">
+    <sval type="array" size="6">
+      <sval type="int" val="800"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="800"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="706"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-1610607613"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="706"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610607613"/>
+    </sval>
+    <sval type="array" size="20">
+      <sval type="int" val="748"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="5000"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="32000"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3129"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="20">
+      <sval type="int" val="748"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="22"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="-38000"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="-46000"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3129"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="19">
+      <sval type="int" val="104"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="4101"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="4102"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="4103"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="-2"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="-4"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="1336"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="706"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="-1610608125"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="terran"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="12">
+      <sval type="int" val="2593"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610608637"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="1062"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="18"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1061"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-1610608123"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="1062"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2650"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1024"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="9">
+      <sval type="int" val="2957"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="terran.link"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="array" size="15">
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="========================================"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Custom Start Configuration"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Terran Sectors enable"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="========================================"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Enables the terran sectors from the start"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="========================================"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Author: Cycrow"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Date: 2022/07/28"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="========================================"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="0"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="18"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="18"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>2664</nosignature>
+</script>

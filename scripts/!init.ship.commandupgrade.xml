@@ -1,0 +1,2081 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!init.ship.commandupgrade</name>
+<version>10</version>
+<engineversion>69</engineversion>
+<description>Init script for the map ship command to needed upgrade. For player owned ships.</description>
+<arguments>
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  * --- Not Player Commands  -------------
+  $upgrade = null
+  set script command upgrade: command=COMMAND_INVASION  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_PATROL  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_PREACH  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_COLLECT_SPACEFLY  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_LAUNCHMISSILE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MARINE_MOVEHOME  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MOVE_WINGFORMATION  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_ATTACK_WINGFORMATION  upgrade=$upgrade
+  
+  * --- Standard Commands  -------------
+  $upgrade = [TRUE]
+  set script command upgrade: command=COMMAND_DOCKAT  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_STAY  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_IDLE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FOLLOW  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MOVE_SECTOR  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MOVE_POS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_RETURN_HOME  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MOVETOBOARD  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DEPLOY_FIGHTERS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FREIGHT_DROP  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FREIGHT_FETCH  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_UNDOCK  upgrade=$upgrade
+  
+  *set script command upgrade: command=COMMAND_TURRET_ATTACK_TARGET  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_JUMP_SECTOR  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FLEET_ATTACK  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_CARRIER_RETURN  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_JUMP_SECTOR upgrade=Jumpdrive
+  
+  set script command upgrade: command=COMMAND_DRONE_COLLECTWARE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_REPAIR_TARGET  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_REPAIRSHIPS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_REPAIR_STATION  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_SCANASTEROID  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_SCANSHIPS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_MAPSECTOR  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_RECONDRONE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_MINING  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_MISSILEDEF  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_SPACEFLY  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_COMBAT  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_DISRUPT  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DRONE_MARINES  upgrade=$upgrade
+  
+  set script command upgrade: command=COMMAND_ATTACK_LAUNCH  upgrade=$upgrade
+  
+  * --- Drone Command Software -------------
+  $upgrade = Drone Command Software
+  set script command upgrade: command=COMMAND_RECON_MAPSECTOR  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_RECON_MAPSECTOR upgrade=Recon Drone 
+  set script command upgrade: command=COMMAND_DRONE_SUPPLYSHIPS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FREIGHT_TRANSFER  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_FREIGHT_TRANSFER upgrade=Trade Command Software MK2
+  add additional command upgrade: command=COMMAND_FREIGHT_TRANSFER upgrade=Freight Drone
+  
+  * --- Build Command Software MK 1 -------------
+  $upgrade = Build Command Software MK2
+  set script command upgrade: command=COMMAND_PACK_STATION  upgrade=$upgrade  script=!ship.cmdcheck.notplayership
+  
+  * --- Navigation Command Software MK 1 -------------
+  $upgrade = Navigation Command Software MK1
+  set script command upgrade: command=COMMAND_JUMP_STATION  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_JUMP_POSITION  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MOVE_COORDS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_JUMPTOME  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_SHIP_JUMPHOME  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MOVE_TO_OBJECT  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_JUMP_STATION upgrade=Jumpdrive
+  add additional command upgrade: command=COMMAND_JUMP_POSITION upgrade=Jumpdrive
+  add additional command upgrade: command=COMMAND_JUMPTOME upgrade=Jumpdrive
+  add additional command upgrade: command=COMMAND_SHIP_JUMPHOME upgrade=Jumpdrive
+  
+  * --- Fight Command Software MK 1 -------------
+  $upgrade = Fight Command Software MK1
+  set script command upgrade: command=COMMAND_ATTACK  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_ATTACK_BIGSHIPS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_ATTACK_FIGHTERS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_KILL_ENEMIES  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_PROTECT  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FLEET_ATTACKALLENEMIES  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FLEET_DEFENDSECTOR  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FLEET_DEFENDSTATION  upgrade=$upgrade
+  
+  *set script command upgrade: command=COMMAND_TURRET_KILL_ENEMIES  upgrade=$upgrade
+  *set script command upgrade: command=COMMAND_TURRET_PROTECT  upgrade=$upgrade
+  
+  * --- Fight Command Software MK 2 -------------
+  $upgrade = Fight Command Software MK2
+  set script command upgrade: command=COMMAND_ATTACK_RETURN  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_ATTACK_TARGET  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_ATTACK_NEAREST  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_ATTACK_SAME  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_ATTACK_BOARDSHIP  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_KILL_ENEMIES_RANGE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_KILL_ENEMIES_AND_LAND  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DEFEND_STATION  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MISSILE_ATTACK  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_RETREAT  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_ATTACK_SHIELDS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_DEFEND_SECTOR  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_LAUNCH_ALLMARINES  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FLEET_INVADESECTOR  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FLEET_PATROL  upgrade=$upgrade
+  
+  *set script command upgrade: command=COMMAND_TURRET_MISSILE_DEFENCE  upgrade=$upgrade
+  *set script command upgrade: command=COMMAND_TURRET_MISSILEONLY  upgrade=$upgrade
+  *set script command upgrade: command=COMMAND_TURRET_ATTACK_FIGHTER  upgrade=$upgrade
+  *set script command upgrade: command=COMMAND_TURRET_ATTACK_CAPITAL  upgrade=$upgrade
+  
+  * --- Trade Command Software MK 1 -------------
+  $upgrade = Trade Command Software MK1
+  set script command upgrade: command=COMMAND_GET_WARE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_SELL_WARE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MANUAL_TRADE_BUY  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_MANUAL_TRADE_SELL  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_TRADE_FETCH  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_TRADE_DELIVER  upgrade=$upgrade
+  
+  
+  * --- Trade Command Software MK 2 -------------
+  $upgrade = Trade Command Software MK2
+  set script command upgrade: command=COMMAND_GET_WARE_BEST  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_SELL_WARE_BEST  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_TRADE_DISTRIBUTE  upgrade=$upgrade
+  
+  * --- Trade Command Software MK 3 -------------
+  *$upgrade = Trade Command Software MK3
+  * Sector/Unitrader commands see setup.plugin.autotrade
+  
+  
+  * --- Special Command Software MK 1 -------------
+  $upgrade = Special Command Software MK1
+  set script command upgrade: command=COMMAND_COLLECT_FLYINGWARES  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_COLLECT_WARE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_COLLECT_DEBRIS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_COLLECT_ASTRONAUT  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_RECYCLE_SHIP  upgrade=$upgrade  script=!ship.cmdcheck.hq
+  set script command upgrade: command=COMMAND_REPAIR_SHIP  upgrade=$upgrade  script=!ship.cmdcheck.hq.repair
+  set script command upgrade: command=COMMAND_REVERSE_SHIP  upgrade=$upgrade  script=!ship.cmdcheck.hq
+  set script command upgrade: command=COMMAND_SHIP_LOADOUT  upgrade=$upgrade  script=!ship.cmdcheck.hq
+  set script command upgrade: command=COMMAND_COLLECT_DEPLOYED  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_COLLECT_ASTRONAUT upgrade=Cargo Lifesupport System
+  add additional command upgrade: command=COMMAND_COLLECT_DEBRIS upgrade=Ore Collector
+  add additional command upgrade: command=COMMAND_TRANSPORT_PASSENGERS upgrade=Cargo Lifesupport System
+  
+  * --- Mining Command Software MK 1 -------------
+  $upgrade = Mining Command Software
+  set script command upgrade: command=COMMAND_MINE_AUTO  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_MINE_AUTO upgrade=Ore Collector
+  set script command upgrade: command=COMMAND_MINING_DEBRIS  upgrade=Special Command Software MK1
+  add additional command upgrade: command=COMMAND_MINING_DEBRIS upgrade=Ore Collector
+  add additional command upgrade: command=COMMAND_MINING_DEBRIS upgrade=Mineral Scanner
+  set script command upgrade: command=COMMAND_TRADE_MINE  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_TRADE_MINE upgrade=Mineral Scanner
+  add additional command upgrade: command=COMMAND_TRADE_MINE upgrade=Ore Collector
+  set script command upgrade: command=COMMAND_MINE_HOMEBASE  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_MINE_HOMEBASE upgrade=Mineral Scanner
+  add additional command upgrade: command=COMMAND_MINE_HOMEBASE upgrade=Ore Collector
+  
+  * ---  Explorer Command Software  -------------
+  $upgrade = Explorer Command Software 
+  set script command upgrade: command=COMMAND_EXPLORE_SECTOR  upgrade=$upgrade
+  *set script command upgrade: command=COMMAND_DEPLOY_SATS  upgrade=$upgrade  script=!ship.cmdcheck.deploysats
+  set script command upgrade: command=COMMAND_DEPLOY_SATS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_FLYTHROUGH_GATE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_SCAN_ASTEROID  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_SCAN_ASTEROID upgrade=Mineral Scanner
+  
+  * ---  Resupply Command Software  -------------
+  $upgrade = Supply Command Software 
+  set script command upgrade: command=COMMAND_EQUIPLIKE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_REARM  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_REFUEL  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_RESUPPLY  upgrade=$upgrade
+  
+  * ---  Manual Trade Commands  -------------
+  $upgrade = Trading System Extension
+  set script command upgrade: command=COMMAND_MANUAL_TRADE_RUN  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_REMOTE_BESTBUY  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_REMOTE_BESTSELL  upgrade=$upgrade
+  add additional command upgrade: command=COMMAND_REMOTE_BESTBUY upgrade=Best Buys Locator
+  add additional command upgrade: command=COMMAND_REMOTE_BESTSELL upgrade=Best Selling Price Locator
+  *$upgrade = Best Buys Locator
+  *$upgrade = Best Selling Price Locator
+  
+  * ---  Carrier Command Software  -------------
+  $upgrade = Carrier Command Software 
+  set script command upgrade: command=COMMAND_CARRIER_RECALL  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_CARRIER_REPAIR  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_CARRIER_REPLACE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_CARRIER_COLLECT  upgrade=$upgrade
+  
+  * ---  Patrol Command Software  -------------
+  $upgrade = Patrol Command Software 
+  set script command upgrade: command=COMMAND_PATROL_SINGLE  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_PATROL_MULTI  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_PATROL_SCOUT  upgrade=$upgrade
+  
+  $upgrade = Piracy Command Software
+  set script command upgrade: command=COMMAND_PIRATE_PLUNDERSHIPS  upgrade=$upgrade  script=!ship.cmdcheck.notplayership
+  
+  $upgrade = Build Command Software MK3
+  set script command upgrade: command=COMMAND_BUILD_COMPLEX  upgrade=$upgrade
+  
+  * --- Fleet commands ------------------
+  $upgrade = [TRUE]
+  set script command upgrade: command=COMMAND_CALLTOARMS  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_JOINWITHFLEET  upgrade=$upgrade
+  $upgrade = Transporter Device
+  set script command upgrade: command=COMMAND_FLEET_RESUPPLY  upgrade=$upgrade
+  
+  $upgrade = Freight Scanner
+  set script command upgrade: command=COMMAND_SCANSHIP  upgrade=$upgrade
+  
+@ = [THIS] -> call script !plugin.gz.missile.def.mk3.menu :  Mode='refresh'  Race or THIS=null  Script=null  Turret script array=null
+  * This assigns command wares to the turret commands.
+  * Which wares are required depends on what the player "builds into" his scripts.
+  
+  * war commands (not used by player)
+  $upgrade = null
+  set script command upgrade: command=COMMAND_WAR_DEFENDSECTOR  upgrade=$upgrade
+  set script command upgrade: command=COMMAND_WAR_INVADESECTORS  upgrade=$upgrade
+  
+  $upgrade = Interplanetary Drive System
+  set script command upgrade: command=COMMAND_INTERPLANETARY  upgrade=$upgrade
+  
+  set equipment install script: ware=Missile Defence System, script=plugin.missiledef.run, task=[Task.MissileDef]
+  
+  return null
+  
+  * 6: Removed Nav Mk1 requirement for jump
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Not&#160;Player&#160;Commands&#160;&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>null</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_INVASION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_PATROL</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_PREACH</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_COLLECT_SPACEFLY</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_LAUNCHMISSILE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MARINE_MOVEHOME</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MOVE_WINGFORMATION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_WINGFORMATION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Standard&#160;Commands&#160;&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>[TRUE]</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DOCKAT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_STAY</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_IDLE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FOLLOW</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MOVE_SECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MOVE_POS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_RETURN_HOME</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MOVETOBOARD</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DEPLOY_FIGHTERS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FREIGHT_DROP</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FREIGHT_FETCH</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_UNDOCK</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment>*<text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text>COMMAND_TURRET_ATTACK_TARGET<text>&#160;&#160;upgrade=</text>$upgrade</comment></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JUMP_SECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FLEET_ATTACK</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_CARRIER_RETURN</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JUMP_SECTOR</var><text>&#160;upgrade=</text><var>Jumpdrive</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_COLLECTWARE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REPAIR_TARGET</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_REPAIRSHIPS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_REPAIR_STATION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_SCANASTEROID</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_SCANSHIPS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_MAPSECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_RECONDRONE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_MINING</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_MISSILEDEF</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_SPACEFLY</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_COMBAT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_DISRUPT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_MARINES</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_LAUNCH</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Drone&#160;Command&#160;Software&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Drone&#160;Command&#160;Software</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_RECON_MAPSECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_RECON_MAPSECTOR</var><text>&#160;upgrade=</text><var>Recon&#160;Drone&#160;</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DRONE_SUPPLYSHIPS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FREIGHT_TRANSFER</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FREIGHT_TRANSFER</var><text>&#160;upgrade=</text><var>Trade&#160;Command&#160;Software&#160;MK2</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FREIGHT_TRANSFER</var><text>&#160;upgrade=</text><var>Freight&#160;Drone</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Build&#160;Command&#160;Software&#160;MK&#160;1&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Build&#160;Command&#160;Software&#160;MK2</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_PACK_STATION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var><text>&#160;&#160;script=</text><call>!ship.cmdcheck.notplayership</call></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Navigation&#160;Command&#160;Software&#160;MK&#160;1&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Navigation&#160;Command&#160;Software&#160;MK1</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JUMP_STATION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JUMP_POSITION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MOVE_COORDS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JUMPTOME</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_SHIP_JUMPHOME</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MOVE_TO_OBJECT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JUMP_STATION</var><text>&#160;upgrade=</text><var>Jumpdrive</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JUMP_POSITION</var><text>&#160;upgrade=</text><var>Jumpdrive</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JUMPTOME</var><text>&#160;upgrade=</text><var>Jumpdrive</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_SHIP_JUMPHOME</var><text>&#160;upgrade=</text><var>Jumpdrive</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Fight&#160;Command&#160;Software&#160;MK&#160;1&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Fight&#160;Command&#160;Software&#160;MK1</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_BIGSHIPS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_FIGHTERS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_KILL_ENEMIES</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_PROTECT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FLEET_ATTACKALLENEMIES</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FLEET_DEFENDSECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FLEET_DEFENDSTATION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment>*<text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text>COMMAND_TURRET_KILL_ENEMIES<text>&#160;&#160;upgrade=</text>$upgrade</comment></line>
+<line indent=""><comment>*<text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text>COMMAND_TURRET_PROTECT<text>&#160;&#160;upgrade=</text>$upgrade</comment></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Fight&#160;Command&#160;Software&#160;MK&#160;2&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Fight&#160;Command&#160;Software&#160;MK2</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_RETURN</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_TARGET</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_NEAREST</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_SAME</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_BOARDSHIP</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_KILL_ENEMIES_RANGE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_KILL_ENEMIES_AND_LAND</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DEFEND_STATION</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MISSILE_ATTACK</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_RETREAT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_ATTACK_SHIELDS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DEFEND_SECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_LAUNCH_ALLMARINES</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FLEET_INVADESECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FLEET_PATROL</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment>*<text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text>COMMAND_TURRET_MISSILE_DEFENCE<text>&#160;&#160;upgrade=</text>$upgrade</comment></line>
+<line indent=""><comment>*<text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text>COMMAND_TURRET_MISSILEONLY<text>&#160;&#160;upgrade=</text>$upgrade</comment></line>
+<line indent=""><comment>*<text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text>COMMAND_TURRET_ATTACK_FIGHTER<text>&#160;&#160;upgrade=</text>$upgrade</comment></line>
+<line indent=""><comment>*<text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text>COMMAND_TURRET_ATTACK_CAPITAL<text>&#160;&#160;upgrade=</text>$upgrade</comment></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Trade&#160;Command&#160;Software&#160;MK&#160;1&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Trade&#160;Command&#160;Software&#160;MK1</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_GET_WARE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_SELL_WARE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MANUAL_TRADE_BUY</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MANUAL_TRADE_SELL</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_TRADE_FETCH</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_TRADE_DELIVER</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Trade&#160;Command&#160;Software&#160;MK&#160;2&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Trade&#160;Command&#160;Software&#160;MK2</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_GET_WARE_BEST</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_SELL_WARE_BEST</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_TRADE_DISTRIBUTE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Trade&#160;Command&#160;Software&#160;MK&#160;3&#160;-------------</var></comment></line>
+<line indent=""><comment>*$upgrade&#160;=&#160;Trade&#160;Command&#160;Software&#160;MK3</comment></line>
+<line indent=""><comment><text>*&#160;</text><var>Sector/Unitrader&#160;commands&#160;see&#160;setup.plugin.autotrade</var></comment></line>
+<line indent=""></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Special&#160;Command&#160;Software&#160;MK&#160;1&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Special&#160;Command&#160;Software&#160;MK1</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_COLLECT_FLYINGWARES</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_COLLECT_WARE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_COLLECT_DEBRIS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_COLLECT_ASTRONAUT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_RECYCLE_SHIP</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var><text>&#160;&#160;script=</text><call>!ship.cmdcheck.hq</call></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REPAIR_SHIP</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var><text>&#160;&#160;script=</text><call>!ship.cmdcheck.hq.repair</call></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REVERSE_SHIP</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var><text>&#160;&#160;script=</text><call>!ship.cmdcheck.hq</call></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_SHIP_LOADOUT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var><text>&#160;&#160;script=</text><call>!ship.cmdcheck.hq</call></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_COLLECT_DEPLOYED</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_COLLECT_ASTRONAUT</var><text>&#160;upgrade=</text><var>Cargo&#160;Lifesupport&#160;System</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_COLLECT_DEBRIS</var><text>&#160;upgrade=</text><var>Ore&#160;Collector</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_TRANSPORT_PASSENGERS</var><text>&#160;upgrade=</text><var>Cargo&#160;Lifesupport&#160;System</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Mining&#160;Command&#160;Software&#160;MK&#160;1&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Mining&#160;Command&#160;Software</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MINE_AUTO</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MINE_AUTO</var><text>&#160;upgrade=</text><var>Ore&#160;Collector</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MINING_DEBRIS</var><text>&#160;&#160;upgrade=</text><var>Special&#160;Command&#160;Software&#160;MK1</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MINING_DEBRIS</var><text>&#160;upgrade=</text><var>Ore&#160;Collector</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MINING_DEBRIS</var><text>&#160;upgrade=</text><var>Mineral&#160;Scanner</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_TRADE_MINE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_TRADE_MINE</var><text>&#160;upgrade=</text><var>Mineral&#160;Scanner</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_TRADE_MINE</var><text>&#160;upgrade=</text><var>Ore&#160;Collector</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MINE_HOMEBASE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MINE_HOMEBASE</var><text>&#160;upgrade=</text><var>Mineral&#160;Scanner</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MINE_HOMEBASE</var><text>&#160;upgrade=</text><var>Ore&#160;Collector</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;&#160;Explorer&#160;Command&#160;Software&#160;&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Explorer&#160;Command&#160;Software&#160;</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_EXPLORE_SECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><comment>*<text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text>COMMAND_DEPLOY_SATS<text>&#160;&#160;upgrade=</text>$upgrade<text>&#160;&#160;script=</text>!ship.cmdcheck.deploysats</comment></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_DEPLOY_SATS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FLYTHROUGH_GATE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_SCAN_ASTEROID</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_SCAN_ASTEROID</var><text>&#160;upgrade=</text><var>Mineral&#160;Scanner</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;&#160;Resupply&#160;Command&#160;Software&#160;&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Supply&#160;Command&#160;Software&#160;</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_EQUIPLIKE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REARM</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REFUEL</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_RESUPPLY</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;&#160;Manual&#160;Trade&#160;Commands&#160;&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Trading&#160;System&#160;Extension</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_MANUAL_TRADE_RUN</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REMOTE_BESTBUY</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REMOTE_BESTSELL</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REMOTE_BESTBUY</var><text>&#160;upgrade=</text><var>Best&#160;Buys&#160;Locator</var></line>
+<line indent=""><text>add&#160;additional&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_REMOTE_BESTSELL</var><text>&#160;upgrade=</text><var>Best&#160;Selling&#160;Price&#160;Locator</var></line>
+<line indent=""><comment>*$upgrade&#160;=&#160;Best&#160;Buys&#160;Locator</comment></line>
+<line indent=""><comment>*$upgrade&#160;=&#160;Best&#160;Selling&#160;Price&#160;Locator</comment></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;&#160;Carrier&#160;Command&#160;Software&#160;&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Carrier&#160;Command&#160;Software&#160;</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_CARRIER_RECALL</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_CARRIER_REPAIR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_CARRIER_REPLACE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_CARRIER_COLLECT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;&#160;Patrol&#160;Command&#160;Software&#160;&#160;-------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Patrol&#160;Command&#160;Software&#160;</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_PATROL_SINGLE</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_PATROL_MULTI</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_PATROL_SCOUT</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Piracy&#160;Command&#160;Software</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_PIRATE_PLUNDERSHIPS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var><text>&#160;&#160;script=</text><call>!ship.cmdcheck.notplayership</call></line>
+<line indent=""></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Build&#160;Command&#160;Software&#160;MK3</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_BUILD_COMPLEX</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>---&#160;Fleet&#160;commands&#160;------------------</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>[TRUE]</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_CALLTOARMS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_JOINWITHFLEET</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Transporter&#160;Device</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_FLEET_RESUPPLY</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Freight&#160;Scanner</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_SCANSHIP</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line interruptable="@" indent=""><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!plugin.gz.missile.def.mk3.menu</call><text>&#160;:&#160;</text><text>&#160;Mode=</text><var>'refresh'</var><text>&#160;</text><text>&#160;Race&#160;or&#160;THIS=</text><var>null</var><text>&#160;</text><text>&#160;Script=</text><var>null</var><text>&#160;</text><text>&#160;Turret&#160;script&#160;array=</text><var>null</var></line>
+<line indent=""><comment><text>*&#160;</text><var>This&#160;assigns&#160;command&#160;wares&#160;to&#160;the&#160;turret&#160;commands.</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>Which&#160;wares&#160;are&#160;required&#160;depends&#160;on&#160;what&#160;the&#160;player&#160;&quot;builds&#160;into&quot;&#160;his&#160;scripts.</var></comment></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>war&#160;commands&#160;(not&#160;used&#160;by&#160;player)</var></comment></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>null</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_WAR_DEFENDSECTOR</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_WAR_INVADESECTORS</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><var>$upgrade&#160;=&#160;</var><var>Interplanetary&#160;Drive&#160;System</var></line>
+<line indent=""><text>set&#160;script&#160;command&#160;upgrade:&#160;command=</text><var>COMMAND_INTERPLANETARY</var><text>&#160;&#160;upgrade=</text><var>$upgrade</var></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;equipment&#160;install&#160;script:&#160;ware=</text><var>Missile&#160;Defence&#160;System</var><text>,&#160;script=</text><call>plugin.missiledef.run</call><text>,&#160;task=</text><var>[Task.MissileDef]</var></line>
+<line indent=""></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>6:&#160;Removed&#160;Nav&#160;Mk1&#160;requirement&#160;for&#160;jump</var></comment></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!init.ship.commandupgrade"/>
+  <sval type="int" val="69"/>
+  <sval type="string" val="Init script for the map ship command to needed upgrade. For player owned ships."/>
+  <sval type="int" val="10"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="1">
+    <sval type="string" val="upgrade"/>
+  </sval>
+  <sval type="array" size="167">
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="27"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100021"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100026"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="75"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="56"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="57"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="17"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="19"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="71"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="69"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="78"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="79"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100020"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="37"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="85"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100001"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="37"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048611"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100010"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100012"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100009"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100013"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100006"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100007"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100005"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100016"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100015"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100019"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100022"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100025"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100024"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100023"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="72"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048695"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100027"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100027"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048677"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100008"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="77"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="77"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048631"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="77"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048656"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048697"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="154"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="94"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="string" val="!ship.cmdcheck.notplayership"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048629"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="38"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="39"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="90"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="91"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100033"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100039"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="38"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048611"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="39"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048611"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="91"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048611"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100033"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048611"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048632"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="54"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="55"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="86"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="87"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="88"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048633"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="23"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="58"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="26"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="67"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="64"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="70"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="73"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="74"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="80"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="89"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="93"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048630"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="28"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="81"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="82"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100028"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100029"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048631"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="29"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100030"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048634"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="30"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="24"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="40"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="59"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="154"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="96"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="string" val="!ship.cmdcheck.hq"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="154"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="95"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="string" val="!ship.cmdcheck.hq.repair"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="154"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="97"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="string" val="!ship.cmdcheck.hq"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="154"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100000"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="string" val="!ship.cmdcheck.hq"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100038"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="59"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048615"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="40"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048623"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="63"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048615"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048705"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="53"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="53"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048623"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="41"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048634"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="41"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048623"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="41"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048588"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="49"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="49"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048588"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="49"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048623"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100034"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100034"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048588"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100034"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048623"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048658"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="46"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="48"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="47"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="76"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="76"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048588"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048657"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="45"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="43"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="44"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="42"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048590"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="60"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="61"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="62"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="61"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048608"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2041"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="62"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048609"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048660"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100002"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100003"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="99999"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048659"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="50"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="51"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="52"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048712"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="154"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="31"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="string" val="!ship.cmdcheck.notplayership"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048698"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100036"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="83"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="84"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048610"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="92"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048589"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100014"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="14">
+      <sval type="int" val="102"/>
+      <sval type="string" val="!plugin.gz.missile.def.mk3.menu"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="refresh"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="299"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="298"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048692"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="98"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2679"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048706"/>
+      <sval type="string" val="plugin.missiledef.run"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="454"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="array" size="67">
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Not Player Commands  -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="9"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Standard Commands  -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="22"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="22"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="101"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="upgrade"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="26"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="40"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="41"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="41"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Drone Command Software -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="48"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="48"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Build Command Software MK 1 -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="50"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="50"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Navigation Command Software MK 1 -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="61"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="61"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Fight Command Software MK 1 -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="70"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="70"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="upgrade"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="70"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="upgrade"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="70"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="70"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Fight Command Software MK 2 -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="86"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="86"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="102"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="upgrade"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="86"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="105"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="upgrade"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="86"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="106"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="upgrade"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="86"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="144"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="107"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="upgrade"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="86"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="86"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Trade Command Software MK 1 -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="93"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="93"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="93"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Trade Command Software MK 2 -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="97"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="97"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Trade Command Software MK 3 -------------"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="97"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="104"/>
+      <sval type="string" val="upgrade"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048647"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="97"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Sector/Unitrader commands see setup.plugin.autotrade"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="97"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="97"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="97"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Special Command Software MK 1 -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="110"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="110"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Mining Command Software MK 1 -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="122"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="122"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="---  Explorer Command Software  -------------"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="124"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="154"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="48"/>
+      <sval type="int" val="131074"/>
+      <sval type="string" val="upgrade"/>
+      <sval type="string" val="!ship.cmdcheck.deploysats"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="128"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="128"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="---  Resupply Command Software  -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="133"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="133"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="---  Manual Trade Commands  -------------"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="139"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="104"/>
+      <sval type="string" val="upgrade"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048608"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="139"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="104"/>
+      <sval type="string" val="upgrade"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048609"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="139"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="139"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="---  Carrier Command Software  -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="144"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="144"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="---  Patrol Command Software  -------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="148"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="150"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="152"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="152"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="--- Fleet commands ------------------"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="157"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="159"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="160"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="This assigns command wares to the turret commands."/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="160"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="Which wares are required depends on what the player &quot;builds into&quot; his scripts."/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="160"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="160"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="war commands (not used by player)"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="163"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="165"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="166"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="167"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="167"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="6: Removed Nav Mk1 requirement for jump"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>7592</nosignature>
+</script>

@@ -1,0 +1,138 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!init.wing.commandpreload</name>
+<version>4</version>
+<engineversion>63</engineversion>
+<description>Preload argument scripts for wings</description>
+<arguments>
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  set wing command preload script: wing command=COMMAND_WING_ATTACK_SHIELDS script=!wing.cmd.attackshield.pl
+  set wing command preload script: wing command=COMMAND_WING_ATTACK_NEAREST script=!wing.cmd.attacknearest.pl
+  set wing command preload script: wing command=COMMAND_WING_ATTACK_SAME script=!wing.cmd.attacksame.pl
+  set wing command preload script: wing command=COMMAND_WING_PATROL script=!wing.cmd.patrol.multi.pl
+  set wing command preload script: wing command=COMMAND_WING_SUPPLY script=!wing.cmd.supply.pl
+  
+  set wing command menu script: wing command=COMMAND_WING_MOVE_SECTOR, script=!wing.cmd.movesector.menu, cmdcheck=[FALSE]
+  set wing command menu script: wing command=COMMAND_WING_DOCKAT, script=!wing.cmd.movestation.menu, cmdcheck=[FALSE]
+  set wing command menu script: wing command=COMMAND_WING_FOLLOW, script=!wing.cmd.follow.menu, cmdcheck=[FALSE]
+  set wing command menu script: wing command=COMMAND_WING_JUMP, script=!wing.cmd.jump.menu, cmdcheck=[FALSE]
+  set wing command menu script: wing command=COMMAND_WING_PROTECT, script=!wing.cmd.protect.pl, cmdcheck=[FALSE]
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><text>set&#160;wing&#160;command&#160;preload&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_ATTACK_SHIELDS</var><text>&#160;script=</text><call>!wing.cmd.attackshield.pl</call></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;preload&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_ATTACK_NEAREST</var><text>&#160;script=</text><call>!wing.cmd.attacknearest.pl</call></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;preload&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_ATTACK_SAME</var><text>&#160;script=</text><call>!wing.cmd.attacksame.pl</call></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;preload&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_PATROL</var><text>&#160;script=</text><call>!wing.cmd.patrol.multi.pl</call></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;preload&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_SUPPLY</var><text>&#160;script=</text><call>!wing.cmd.supply.pl</call></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;menu&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_MOVE_SECTOR</var><text>,&#160;script=</text><call>!wing.cmd.movesector.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;menu&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_DOCKAT</var><text>,&#160;script=</text><call>!wing.cmd.movestation.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;menu&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_FOLLOW</var><text>,&#160;script=</text><call>!wing.cmd.follow.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;menu&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_JUMP</var><text>,&#160;script=</text><call>!wing.cmd.jump.menu</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>set&#160;wing&#160;command&#160;menu&#160;script:&#160;wing&#160;command=</text><var>COMMAND_WING_PROTECT</var><text>,&#160;script=</text><call>!wing.cmd.protect.pl</call><text>,&#160;cmdcheck=</text><var>[FALSE]</var></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!init.wing.commandpreload"/>
+  <sval type="int" val="63"/>
+  <sval type="string" val="Preload argument scripts for wings"/>
+  <sval type="int" val="4"/>
+  <sval type="int" val="0"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="11">
+    <sval type="array" size="4">
+      <sval type="int" val="1467"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="19"/>
+      <sval type="string" val="!wing.cmd.attackshield.pl"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1467"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="9"/>
+      <sval type="string" val="!wing.cmd.attacknearest.pl"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1467"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="8"/>
+      <sval type="string" val="!wing.cmd.attacksame.pl"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1467"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="14"/>
+      <sval type="string" val="!wing.cmd.patrol.multi.pl"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1467"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="18"/>
+      <sval type="string" val="!wing.cmd.supply.pl"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1699"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="2"/>
+      <sval type="string" val="!wing.cmd.movesector.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1699"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="!wing.cmd.movestation.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1699"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="6"/>
+      <sval type="string" val="!wing.cmd.follow.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1699"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="12"/>
+      <sval type="string" val="!wing.cmd.jump.menu"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1699"/>
+      <sval type="int" val="25"/>
+      <sval type="int" val="7"/>
+      <sval type="string" val="!wing.cmd.protect.pl"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="array" size="1">
+    <sval type="array" size="2">
+      <sval type="int" val="5"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>9511</nosignature>
+</script>

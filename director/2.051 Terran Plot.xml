@@ -1,0 +1,2022 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="director.xsl" type="text/xsl" ?>
+<director name="template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="director.xsd">
+  <documentation>
+    <author name="Ketraar" alias="Ketraar" contact="ketraar@egosoft.com"/>
+    <content reference="L2M051" name="Terran Plot" description="Terran Plot for late game"/>
+    <version number="0.1" date="14/06/2020" status="development"/>
+  </documentation>
+  <cues>
+	  <cue name="L2M051_CompleteCustom" comment="Completes the terran plot from the custom start">
+		  <condition>
+			  <script_event name="terran.link"/>
+		  </condition>
+		  <action>
+			  <do_all>
+	    		  <cancel_cue cue="L2M051"/>
+    			  <set_value name="L2M051.ChapterUnlock" exact="10"/>
+			  </do_all>
+		  </action>
+	  </cue>
+    <cue name="L2M051">
+      <documentation>
+        <history>
+          <change author="Ketraar" date="14/06/2020" description="Initial version"/>
+        </history>
+      </documentation>
+      <condition>
+        <check_any>
+          <script_event name="terran.plot"/>
+        </check_any>
+      </condition>
+      <action>
+        <do_all>
+          <!--plot sectors-->
+          <find_sector name="L2M051.BTalpha" x="4" y="6"/>
+          <find_sector name="L2M051.BTgamma" x="4" y="7"/>
+          <find_sector name="L2M051.BTdelta" x="7" y="6"/>
+          <find_sector name="L2M051.DannaChance" x="4" y="8"/>
+          <find_sector name="L2M051.NopileusMemorial" x="5" y="7"/>
+          <find_sector name="L2M051.AtreusClouds" x="3" y="2"/>
+          <find_sector name="L2M051.RolksFate" x="3" y="1"/>
+          <find_sector name="L2M051.TheHole" x="2" y="2"/>
+          <find_sector name="L2M051.FreedomsReach" x="4" y="9"/>
+          <find_sector name="L2M051.EFalpha" x="3" y="5"/>
+          <find_sector name="L2M051.EFbeta" x="3" y="6"/>
+          <find_sector name="L2M051.LightofHeart" x="7" y="8"/>
+          <find_sector name="L2M051.Neptune" x="10" y="1"/>
+          <find_sector name="L2M051.CloudBaseSE" x="2" y="7"/>
+
+          <!--plot stations-->
+          <do_any>
+            <find_station name="L2M051.EGCStation" group="L2M051.Plotstations" class="trade">
+              <sector sector="L2M051.NopileusMemorial"/>
+              <jumps exact="0"/>
+            </find_station>
+            <find_station name="L2M051.EGCStation" group="L2M051.Plotstations" class="trade">
+              <sector sector="L2M051.AtreusClouds"/>
+              <jumps exact="0"/>
+            </find_station>
+            <find_station name="L2M051.EGCStation" group="L2M051.Plotstations" class="trade">
+              <sector sector="L2M051.RolksFate"/>
+              <jumps exact="0"/>
+            </find_station>
+            <find_station name="L2M051.EGCStation" group="L2M051.Plotstations" class="trade">
+              <sector sector="L2M051.TheHole"/>
+              <jumps exact="0"/>
+            </find_station>
+            <find_station name="L2M051.EGCStation" group="L2M051.Plotstations" class="trade">
+              <sector sector="L2M051.FreedomsReach"/>
+              <jumps exact="0"/>
+            </find_station>
+            <find_station name="L2M051.EGCStation" group="L2M051.Plotstations" class="trade">
+              <sector sector="L2M051.EFalpha"/>
+              <jumps exact="0"/>
+            </find_station>
+          </do_any>
+          <do_if value="{object.exists@L2M051.EGCStation}" exact="0">
+            <create_station name="L2M051.EGCStation" group="L2M051.Plotstations" race="argon" typename="SS_DOCK_A_TRADE">
+              <position x="0" y="0" z="0" min="5km" max="10km"/>
+              <sector sector="L2M051.EFbeta"/>
+              <equipment loadout="default"/>
+              <tradables>
+                <ware typename="SS_WARE_F217" min="12" max="64"/>
+                <ware typename="SS_WARE_F218" min="34" max="150"/>
+                <ware typename="SS_WARE_F247" min="9" max="90"/>
+                <ware typename="SS_WARE_TECH204" min="2" max="15"/>
+                <ware typename="SS_WARE_TECH207" min="15" max="124"/>
+                <ware typename="SS_WARE_SATELLITE" min="1" max="14"/>
+                <ware typename="SS_WARE_ORBITALLASER" min="2" max="10"/>
+                <ware typename="SS_WARE_FIGHTDRONE" min="1" max="7"/>
+                <ware typename="SS_WARE_TECH251" exact="1"/>
+                <ware typename="SS_WARE_TECH213" exact="1"/>
+                <ware typename="SS_WARE_TECH246" exact="1"/>
+                <ware typename="SS_WARE_TECH231" exact="1"/>
+                <ware typename="SS_WARE_L_A" exact="1"/>
+              </tradables>
+            </create_station>
+          </do_if>
+          <set_relation object="{player.ship}">
+            <relation mutual="1" object="L2M051.EGCStation" relation="friend"/>
+          </set_relation>
+
+          <set_group_invincible group="L2M051.Plotstations" invincible="1"/>
+
+          <!--plot actors-->
+          <create_actor name="L2M051.Betty" character="{player.ship}" race="argon" voice="13"/>
+          <create_actor name="L2M051.EGC" character="{3227,1}" voice="3259" race="argon" face="105" gender="female" location="crew" object="L2M051.EGCStation" invincible="1" />
+
+
+          <!--values-->
+          <set_value name="L2M051.ChapterUnlock" exact="0"/>
+
+          <!-- Misc-->
+          <find_gate name="L2M051.HSGateBT" typename="SS_WG_HYPERSPEED">
+            <sector sector="L2M051.BTalpha"/>
+            <jumps max="0"/>
+          </find_gate>
+          <set_discoverable object="L2M051.HSGateBT" discoverable="0"/>
+        </do_all>
+      </action>
+      <cues>
+        <cue name="L2M051_FirstContact" delay="879">
+          <condition>
+            <check_all>
+              <cue_is_complete cue="L2M051"/>
+            </check_all>
+          </condition>
+          <action>
+            <do_all>
+              <incoming_message author="{actor.name@L2M051.EGC}" text="{3227,2}"/>
+              <create_offer actor="L2M051.EGC" conversation="L2M051_EGC_1" cue="L2M051" discipline="XXXXP"/>
+              <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" background="39_BTAlpha.tga">
+                <mission discipline="XXXXP" level="easy"/>
+                <objectives>
+                  <objective step="1">
+                    <talkto actor="L2M051.EGC"/>
+                  </objective>
+                </objectives>
+              </create_briefing>
+              <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" noabort="1" >
+                <briefing cue="L2M051" step="1"/>
+                <mission discipline="XXXXP" level="easy"/>
+                <talkto actor="L2M051.EGC"/>
+              </set_objective>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="L2M051_EGC_Contact">
+              <condition>
+                <conversation_completed conversation="L2M051_EGC_1" actor="L2M051.EGC" answer="accept"/>
+              </condition>
+              <action>
+                <do_all>
+                  <remove_offer actor="L2M051.EGC" conversation="L2M051_EGC_1" discipline="XXXXP"/>
+                  <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" background="39_BTAlpha.tga">
+                    <mission discipline="XXXXP" level="easy"/>
+                    <objectives>
+                      <objective step="2">
+                        <flyto>
+                          <sector sector="L2M051.BTalpha"/>
+                        </flyto>
+                      </objective>
+                    </objectives>
+                  </create_briefing>
+                  <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" noabort="1" >
+                    <briefing cue="L2M051" step="2"/>
+                    <mission discipline="XXXXP" level="easy"/>
+                    <flyto>
+                      <sector sector="L2M051.BTalpha"/>
+                    </flyto>
+                  </set_objective>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L2M051_BTInvestigation">
+                  <condition>
+                    <check_all>
+                      <cue_is_complete cue="L2M051_EGC_Contact"/>
+                      <object_changed_sector param="{sector@L2M051.BTalpha}"/>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <create_ship name="L2M051.USCShip" typename="SS_SH_USC_TS" communicates="0" invincible="1" highlight="1" racelogic="0" race="terran" warp="0">
+                        <position x="25km" y="0" z="0"/>
+                        <sector sector="L2M051.BTalpha"/>
+                        <equipment loadout="maximum" loadoutmask="all"/>
+                        <command command="moveposition">
+                          <position x="55km" y="0" z="2km"/>
+                          <sector sector="L2M051.BTalpha"/>
+                        </command>
+                      </create_ship>
+                      <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" background="39_BTBaldric.tga">
+                        <mission discipline="XXXXP" level="easy"/>
+                        <objectives>
+                          <objective step="3">
+                            <follow object="L2M051.USCShip"/>
+                          </objective>
+                        </objectives>
+                      </create_briefing>
+                      <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" noabort="1" >
+                        <briefing cue="L2M051" step="3"/>
+                        <mission discipline="XXXXP" level="easy"/>
+                        <follow object="L2M051.USCShip"/>
+                      </set_objective>
+                    </do_all>
+                  </action>
+                  <cues>
+                    <cue name="L2M051_BT_FollowShip" delay="2s">
+                      <condition>
+                        <check_all>
+                          <cue_is_complete cue="L2M051_BTInvestigation"/>
+                          <object_position object="L2M051.USCShip" max="2km">
+                            <position x="55km" y="0" z="2km"/>
+                            <sector sector="L2M051.BTalpha"/>
+                          </object_position>
+                        </check_all>
+                      </condition>
+                      <action>
+                        <do_all>
+                          <play_cutscene file="L2M051_Cut1">
+                            <object object="L2M051.USCShip"/>
+                          </play_cutscene>
+                        </do_all>
+                      </action>
+                      <cues>
+                        <cue name="L2M051_BT_FollowShip_Warp">
+                          <condition>
+                            <cutscene_started key="L2M051_Cut1"/>
+                          </condition>
+                          <timing>
+                            <time exact="10s"/>
+                          </timing>
+                          <action>
+                            <do_all>
+                              <destroy_object object="L2M051.USCShip" warp="1"/>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L2M051_BT_FollowShip_HSAP">
+                              <condition>
+                                <check_all>
+                                  <cutscene_stopped key="L2M051_Cut1"/>
+                                </check_all>
+                              </condition>
+                              <timing>
+                                <time exact="3s"/>
+                              </timing>
+                              <action>
+                                <do_all>
+                                  <set_discoverable discoverable="1" object="L2M051.HSGateBT"/>
+                                  <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" background="39_BTAlpha.tga">
+                                    <mission discipline="XXXXP" level="average"/>
+                                    <objectives>
+                                      <objective step="4">
+                                        <custom action="{35,2006}" text="{17,3731}" icon="find"/>
+                                      </objective>
+                                    </objectives>
+                                  </create_briefing>
+                                  <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" noabort="1" >
+                                    <briefing cue="L2M051" step="4"/>
+                                    <mission discipline="XXXXP" level="average"/>
+                                    <custom action="{35,2006}" text="{17,3731}" icon="find"/>
+                                  </set_objective>
+                                </do_all>
+                              </action>
+                              <cues>
+                                <cue name="L2M051_BT_FollowShip_HSAP_found">
+                                  <condition>
+                                    <check_all>
+                                      <access_point_found/>
+                                      <match_sector sector="{object.sector@L2M051.HSGateBT}" exact="{player.sector}"/>
+                                    </check_all>
+                                  </condition>
+                                  <action>
+                                    <do_all>
+                                      <remove_briefing cue="L2M051"/>
+                                      <remove_objective cue="L2M051"/>
+                                    </do_all>
+                                  </action>
+                                  <cues>
+                                    <cue name="L2M051_EGC_IPDS">
+                                      <condition>
+                                        <check_all>
+                                          <access_point_activated/>
+                                          <match_sector sector="{object.sector@L2M051.HSGateBT}" exact="{player.sector}"/>
+                                        </check_all>
+                                      </condition>
+                                      <action>
+                                        <do_all>
+                                          <reward_player>
+                                            <cargo>
+                                              <ware exact="-1" typename="SS_WARE_INTERPLANETARY"/>
+                                            </cargo>
+                                          </reward_player>
+                                          <play_text actor="L2M051.Betty" priority="99">
+                                            <line pageid="13" textid="1351"/>
+                                          </play_text>
+                                          <create_offer actor="L2M051.EGC" conversation="L2M051_EGC_2" cue="L2M051" discipline="XXXXP"/>
+                                          <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" background="39_BTAlpha.tga">
+                                            <mission discipline="XXXXP" level="trivial"/>
+                                            <objectives>
+                                              <objective step="1">
+                                                <talkto actor="L2M051.EGC"/>
+                                              </objective>
+                                            </objectives>
+                                          </create_briefing>
+                                          <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" noabort="1" >
+                                            <briefing cue="L2M051" step="1"/>
+                                            <mission discipline="XXXXP" level="trivial"/>
+                                            <talkto actor="L2M051.EGC"/>
+                                          </set_objective>
+                                        </do_all>
+                                      </action>
+                                      <cues>
+                                        <cue name="L2M051_EGC_Report">
+                                          <condition>
+                                            <conversation_completed conversation="L2M051_EGC_2" actor="L2M051.EGC" answer="accept"/>
+                                          </condition>
+                                          <action>
+                                            <do_all>
+                                              <remove_offer actor="L2M051.EGC" conversation="L2M051_EGC_2" discipline="XXXXP"/>
+                                              <remove_briefing cue="L2M051"/>
+                                              <remove_objective cue="L2M051" status="complete"/>
+                                              <set_value name="L2M051.ChapterUnlock" exact="1"/>
+                                            </do_all>
+                                          </action>
+                                        </cue>
+                                      </cues>
+                                    </cue>
+                                  </cues>
+                                </cue>
+                              </cues>
+                            </cue>
+                          </cues>
+                        </cue>
+                      </cues>
+                    </cue>
+                  </cues>
+                </cue>
+              </cues>
+            </cue>
+          </cues>
+        </cue>
+        <cue name="L2M051_C2" delay="4s">
+          <condition>
+            <check_all>
+              <cue_is_complete cue="L2M051"/>
+              <check_value value="{value@L2M051.ChapterUnlock}" exact="1"/>
+            </check_all>
+          </condition>
+          <timing>
+            <time min="15s" max="25s"/>
+          </timing>
+          <action>
+            <do_all>
+              <set_value name="L2M051.TLSpawnTimer" exact="60"/>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="L2M051_C2_TL" delay="2s">
+              <condition>
+                <check_all>
+                  <cue_is_complete cue="L2M051_C2"/>
+                </check_all>
+              </condition>
+              <action>
+                <do_all>
+                  <create_ship name="L2M051.EGCTL" highlight="1" boardable="0" race="argon" racelogic="0" typename="SS_SH_A_TL">
+                    <position x="-5km" y="5km" z="0"/>
+                    <sector sector="L2M051.CloudBaseSE"/>
+                    <equipment loadout="maximum" loadoutmask="all"/>
+                    <command command="moveposition">
+                      <position x="65km" y="0" z="0"/>
+                      <sector sector="L2M051.BTalpha"/>
+                    </command>
+                    <pilot morale="100" shipname="{1000,10019}"/>
+                  </create_ship>
+                  <add_cargo object="L2M051.EGCTL">
+                    <ware exact="-1" typename="SS_WARE_WARPING"/>
+                  </add_cargo>
+                  <create_actor name="L2M051.TLDelivery" character="{random.pilot.argon}" voiceflags="32" race="argon" location="crew" object="L2M051.EGCTL"/>
+                  <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9022}" text="{3227,9023}" background="39_AHTL.tga">
+                    <mission discipline="XXXXP" level="hard"/>
+                    <objectives>
+                      <objective step="1">
+                        <protect object="L2M051.EGCTL"/>
+                      </objective>
+                    </objectives>
+                  </create_briefing>
+                  <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9022}" text="{3227,9023}" noabort="1" >
+                    <briefing cue="L2M051" step="1"/>
+                    <mission discipline="XXXXP" level="hard"/>
+                    <protect object="L2M051.EGCTL"/>
+                  </set_objective>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L2M051_C2_TL_Destroyed">
+                  <condition>
+                    <check_all>
+                      <cue_is_complete cue="L2M051_C2_TL"/>
+                      <check_any>
+                        <object_destroyed object="L2M051.EGCTL"/>
+                        <object_destroyed_by_player object="L2M051.EGCTL"/>
+                      </check_any>
+                    </check_all>
+                  </condition>
+                  <action>
+                    <do_all>
+                      <play_text priority="99" actor="L2M051.EGC">
+                        <line pageid="111" textid="852"/>
+                      </play_text>
+                      <cancel_cue cue="L2M051_C2_Delivery"/>
+                      <cancel_cue cue="L2M051_C2_TL_Attacks"/>
+                      <remove_briefing cue="L2M051"/>
+                      <remove_objective cue="L2M051" status="failed"/>
+                      <remove_briefing cue="L2M051_C2_Delivery"/>
+                      <remove_objective cue="L2M051_C2_Delivery" status="aborted"/>
+                      <incoming_message author="{actor.name@L2M051.EGC}" text="{3227,11}"/>
+                      <set_value name="L2M051.TLSpawnTimer" operation="add" exact="120"/>
+                    </do_all>
+                  </action>
+                  <cues>
+                    <cue name="L2M051_C2_TL_Reset" delay="2s">
+                      <condition>
+                        <check_all>
+                          <cue_is_complete cue="L2M051_C2_TL_Destroyed"/>
+                        </check_all>
+                      </condition>
+                      <timing>
+                        <time exact="{value@L2M051.TLSpawnTimer}s"/>
+                      </timing>
+                      <action>
+                        <do_all>
+                          <reset_cue cue="L2M051_C2_TL"/>
+                          <reset_cue cue="L2M051_C2_Delivery"/>
+                        </do_all>
+                      </action>
+                    </cue>
+                  </cues>
+                </cue>
+              </cues>
+            </cue>
+
+            <cue name="L2M051_C2_TL_Attacks" delay="3s">
+              <condition>
+                <check_all>
+                  <cue_is_complete cue="L2M051_C2"/>
+                  <object_exists object="L2M051.EGCTL"/>
+                </check_all>
+              </condition>
+              <action>
+                <do_all>
+                  <find_gate name="L2M051_C2_TL_Attacks.SpawnGate">
+                    <position object="L2M051.EGCTL" min="15km" />
+                    <sector sector="{object.sector@L2M051.EGCTL}"/>
+                  </find_gate>
+                  <set_value name="L2M051.Resetvalue" exact="0"/>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L2M051_C2_TL_Attacks OBS Finished"/>
+                <cue ref="OBS">
+                  <params>
+                    <param name="OBS Cue" value="L2M051_C2_TL_Attacks"/>
+                    <param name="OBS Cancel Cue" value="L2M051_C2_TL_Attacks OBS Finished"/>
+                    <param name="OBS Fleet Group Name" value="PirateAttackers"/>
+                    <param name="OBSFleetRace" value="{lookup.race@pirate}"/>
+                    <param name="OBSFleetPilotsRace" value="{lookup.race@pirate}"/>
+                    <param name="CheckCurrentEnemies" value="1"/>
+                    <param name="OBSFleetJobTextID" value="30016"/>
+                    <param name="OBSMissionRank" value="{player.fightrank.rank}"/>
+                    <param name="OBSDifficultyRank" value="{lookup.level@hard}"/>
+                    <param name="OBSSector" value="{object.sector@L2M051.EGCTL}"/>
+                    <param name="OBSPosition" value="50m"/>
+                    <param name="OBSFleetPositionObject" value="L2M051_C2_TL_Attacks.SpawnGate"/>
+                    <param name="OBSFleetCapturable" value="0"/>
+                    <param name="OBSFleetCommunicates" value="1"/>
+                    <param name="OBSFleetCovered" value="0"/>
+                    <param name="OBS Dock Support" value="1"/>
+                    <param name="OBS Support Overflow" value="0"/>
+                    <param name="OBSFleetRelation" value="-1"/>
+                  </params>
+                </cue>
+                <cue name="L2M051_C2_TL_Attacks OBS Done">
+                  <condition>
+                    <cue_cancelled cue="L2M051_C2_TL_Attacks OBS Finished"/>
+                  </condition>
+                  <action>
+                    <set_group_command group="L2M051_C2_TL_Attacks.PirateAttackers" command="attack" commandobject="L2M051.EGCTL"/>
+                  </action>
+                  <cues>
+                    <cue name="L2M051_C2_TL_Attacks_Destroyed" instantiate="static">
+                      <condition>
+                        <check_all>
+                          <check_any>
+                            <any_object_destroyed_by_player group="L2M051_C2_TL_Attacks.PirateAttackers"/>
+                            <any_object_destroyed group="L2M051_C2_TL_Attacks.PirateAttackers"/>
+                          </check_any>
+                        </check_all>
+                      </condition>
+                      <action>
+                        <do_all>
+                          <do_choose>
+                            <do_when value="{group.object.count@L2M051_C2_TL_Attacks.PirateAttackers}" max="1">
+                              <set_value name="L2M051.Resetvalue" exact="1"/>
+                            </do_when>
+                            <do_otherwise>
+                              <cancel_cue cue="L2M051_C2_TL_Attacks_reset"/>
+                            </do_otherwise>
+                          </do_choose>
+                        </do_all>
+                      </action>
+                    </cue>
+                    <cue name="L2M051_C2_TL_Attacks_reset" delay="2s">
+                      <condition>
+                        <check_all>
+                          <cue_is_complete cue="L2M051_C2_TL_Attacks_Destroyed"/>
+                          <check_value value="{value@L2M051.Resetvalue}" exact="1"/>
+                        </check_all>
+                      </condition>
+                      <timing>
+                        <time min="300s" max="600s" profile="increasing"/>
+                      </timing>
+                      <action>
+                        <do_all>
+                          <cancel_cue cue="L2M051_C2_TL_Attacks_Destroyed" instantiate="static"/>
+                          <reset_cue cue="L2M051_C2_TL_Attacks"/>
+                        </do_all>
+                      </action>
+                    </cue>
+                  </cues>
+                </cue>
+              </cues>
+            </cue>
+
+
+            <cue name="L2M051_C2_Delivery" delay="4s">
+              <condition>
+                <check_all>
+                  <cue_is_complete cue="L2M051_C2"/>
+                  <object_exists object="L2M051.EGCTL"/>
+                </check_all>
+              </condition>
+              <action>
+                <do_all>
+                  <set_value name="L2M051.Ware1" exact="{lookup.type@SS_WARE_ENERGY}" comment="Energy Cells"/>
+                  <set_value name="L2M051.Ware1_Amt" exact="3850"/>
+                  <set_value name="L2M051.Ware2" exact="{lookup.type@SS_WARE_ORE}" comment="Ore"/>
+                  <set_value name="L2M051.Ware2_Amt" exact="750"/>
+                  <set_value name="L2M051.Ware3" exact="{lookup.type@SS_WARE_F228}" comment="BoFu"/>
+                  <set_value name="L2M051.Ware3_Amt" exact="650"/>
+                  <set_value name="L2M051.Reward" exact="0"/>
+                  <create_briefing cue="L2M051_C2_Delivery" story="{3227,9001}" title="{3227,9022}" text="{3227,9023}" background="39_BTAlpha.tga">
+                    <mission discipline="XXXXP" level="average"/>
+                    <objectives>
+                      <objective step="1">
+                        <deliver object="L2M051.EGCTL">
+                          <ware typename="{value@L2M051.Ware1}" exact="{value@L2M051.Ware1_Amt}"/>
+                        </deliver>
+                      </objective>
+                    </objectives>
+                  </create_briefing>
+                  <set_objective cue="L2M051_C2_Delivery" story="{3227,9001}" title="{3227,9022}" text="{3227,9023}" noabort="1" >
+                    <briefing cue="L2M051_C2_Delivery" step="1"/>
+                    <mission discipline="XXXXP" level="average"/>
+                    <deliver object="L2M051.EGCTL">
+                      <ware typename="{value@L2M051.Ware1}" exact="{value@L2M051.Ware1_Amt}"/>
+                    </deliver>
+                  </set_objective>
+                </do_all>
+              </action>
+              <cues>
+                <cue ref="L0M04 B">
+                  <params>
+                    <param name="Cue" value="L2M051_C2_Delivery"/>
+                    <param name="ID" value="1"/>
+                    <param name="OfferRace" value="{lookup.race@argon}"/>
+                    <param name="Lv1Guide" value="{actor@L2M051.TLDelivery}"/>
+                    <param name="Difficulty" value="{lookup.level@average}"/>
+                    <param name="RewardCr" value="L2M051.Reward"/>
+                    <param name="Buyer" value="L2M051.TLDelivery"/>
+                    <param name="Ware1" value="{value@L2M051.Ware1}"/>
+                    <param name="Ware1Amt" value="{value@L2M051.Ware1_Amt}"/>
+                    <param name="Ware2" value="{value@L2M051.Ware2}"/>
+                    <param name="Ware2Amt" value="{value@L2M051.Ware2_Amt}"/>
+                    <param name="Ware3" value="{value@L2M051.Ware3}"/>
+                    <param name="Ware3Amt" value="{value@L2M051.Ware3_Amt}"/>
+                    <param name="RoundReward" value="1"/>
+                    <param name="LeaveTitle" value="1"/>
+                    <param name="IsPlot" value="1"/>
+                    <param name="Step" value="1"/>
+                  </params>
+                </cue>
+                <cue name="L2M051_C2_Delivery_Wait">
+                  <condition>
+                    <cue_is_complete cue="L0M04 B"/>
+                  </condition>
+                  <cues>
+                    <cue ref="L0M04">
+                      <params>
+                        <param name="Cue" value="L2M051_C2_Delivery"/>
+                        <param name="ID" value="1"/>
+                        <param name="OfferRace" value="{lookup.race@argon}"/>
+                        <param name="Lv1Guide" value="{actor@L2M051.TLDelivery}"/>
+                        <param name="AddText" value="0"/>
+                        <param name="NoMessage" value="1"/>
+                        <param name="Difficulty" value="{lookup.level@average}"/>
+                        <param name="RewardCr" value="L2M051.Reward"/>
+                        <param name="AddToStation" value="0"/>
+                        <param name="LeaveTitle" value="1"/>
+                        <param name="IsPlot" value="1"/>
+                        <param name="Step" value="1"/>
+                      </params>
+                    </cue>
+                    <cue name="L2M051_C2_Delivery_Finished" delay="2s">
+                      <condition>
+                        <check_all>
+                          <check_value value="{value@L2M051_C2_Delivery.1 L0M04 Progress}" min="1"/>
+                        </check_all>
+                      </condition>
+                      <action>
+                        <do_all>
+                          <reward_player>
+                            <money exact="{value@L2M051.Reward}"/>
+                          </reward_player>
+                          <remove_briefing cue="L2M051_C2_Delivery"/>
+                          <remove_objective cue="L2M051_C2_Delivery" status="complete"/>
+                          <play_text priority="99" actor="L2M051.EGC">
+                            <line pageid="111" textid="840"/>
+                          </play_text>
+                          <set_command object="L2M051.EGCTL" command="moveposition">
+                            <position x="65km" y="0" z="0"/>
+                            <sector sector="L2M051.BTalpha"/>
+                          </set_command>
+                        </do_all>
+                      </action>
+                      <cues>
+                        <cue name="L2M051_C2_GateFinish" delay="2s">
+                          <condition>
+                            <check_all>
+                              <cue_is_complete cue="L2M051_C2_Delivery_Finished"/>
+                              <object_position object="L2M051.EGCTL" max="10km">
+                                <position object="L2M051.HSGateBT"/>
+                                <sector sector="L2M051.BTalpha"/>
+                              </object_position>
+                            </check_all>
+                          </condition>
+                          <action>
+                            <do_all>
+                              <destroy_actor actor="L2M051.EGC"/>
+                              <set_invincible invincible="1" object="L2M051.EGCTL"/>
+                              <cancel_cue cue="L2M051_C2_TL_Destroyed"/>
+                              <cancel_cue cue="L2M051_C2_TL_Attacks"/>
+                              <remove_briefing cue="L2M051"/>
+                              <remove_objective cue="L2M051" status="complete"/>
+                              <create_gate typename="SS_WG_TJ_SOUTH" gate="south" safety="0">
+                                <position x="-38km" y="0km" z="-46km"/>
+                                <sector sector="L2M051.Neptune"/>
+                                <destination gate="north" sector="L2M051.BTdelta"/>
+                              </create_gate>
+                              <create_gate typename="SS_WG_NORTH" gate="north" safety="0">
+                                <position x="25km" y="0km" z="46km"/>
+                                <sector sector="L2M051.BTdelta"/>
+                                <destination gate="south" sector="L2M051.Neptune"/>
+                              </create_gate>
+                              <convert_gate gatetype="terran" gate="L2M051.HSGateBT"/>
+                              <reward_player>
+                                <notoriety>
+                                  <relation mutual="1" race="terran" operation="set" exact="notop2" force="1"/>
+                                  <relation mutual="1" race="atf" operation="set" exact="notop2" force="1"/>
+                                </notoriety>
+                              </reward_player>
+                              <create_ship name="L2M051.TerranM1" boardable="0" race="terran" racelogic="0" typename="SS_SH_TR_M2P" invincible="1" safety="0">
+                                <position x="45km" y="0" z="0"/>
+                                <sector sector="L2M051.BTalpha"/>
+                                <equipment loadout="maximum" loadoutmask="all"/>
+                                <command command="killenemiesrange">
+                                  <position x="45km" y="0" z="0" max="10km"/>
+                                  <sector sector="L2M051.BTalpha"/>
+                                </command>
+                              </create_ship>
+                              <set_sector_owner sector="L2M051.BTdelta" race="terran"/>
+                              <enable_plotflag plotflag="terran"/>
+                              <set_owner object="L2M051.EGCTL" race="terran"/>
+                              <create_actor name="L2M051.EGC" character="{3227,1}" voice="3259" race="terran" face="105" gender="female" location="crew" object="L2M051.EGCTL" invincible="1" />
+                              <create_offer actor="L2M051.EGC" conversation="L2M051_EGC_3" cue="L2M051" discipline="XXXXP"/>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L2M051_C2_Choice" delay="5s">
+                              <condition>
+                                <check_all>
+                                  <check_all>
+                                    <cue_is_complete cue="L2M051_C2_GateFinish"/>
+                                  </check_all>
+                                </check_all>
+                              </condition>
+                              <timing>
+                                <time exact="3s"/>
+                              </timing>
+                              <action>
+                                <do_all>
+                                  <unlock_achievement name="PHASE2"/>
+                                  <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9022}" text="{3227,9023}" background="39_BTAlpha.tga">
+                                    <mission discipline="XXXXP" level="easy"/>
+                                    <objectives>
+                                      <objective step="1">
+                                        <talkto actor="L2M051.EGC"/>
+                                      </objective>
+                                    </objectives>
+                                  </create_briefing>
+                                  <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9022}" text="{3227,9023}" noabort="1" >
+                                    <briefing cue="L2M051" step="1"/>
+                                    <mission discipline="XXXXP" level="easy"/>
+                                    <talkto actor="L2M051.EGC"/>
+                                  </set_objective>
+                                </do_all>
+                              </action>
+                              <cues>
+                                <cue name="L2M051_C2_Choice_TER">
+                                  <condition>
+                                    <conversation_completed actor="L2M051.EGC" conversation="L2M051_EGC_3" answer="terran"/>
+                                  </condition>
+                                  <action>
+                                    <do_all>
+                                      <destroy_actor actor="L2M051.TLDelivery"/>
+                                      <remove_briefing cue="L2M051"/>
+                                      <remove_objective cue="L2M051" status="complete"/>
+                                      <cancel_cue cue="L2M051_C2_Choice_ARG"/>
+                                      <cancel_cue cue="L2M051_C3_Argon"/>
+                                      <remove_offer actor="L2M051.EGC" conversation="L2M051_EGC_3" discipline="XXXXP"/>
+                                      <play_text actor="L2M051.EGC" priority="99">
+                                        <line pageid="110" textid="817"/>
+                                      </play_text>
+                                      <reward_player>
+                                        <notoriety>
+                                          <relation mutual="1" race="terran" operation="set" exact="notop4" force="1"/>
+                                          <relation mutual="1" race="atf" operation="set" exact="notop4" force="1"/>
+                                        </notoriety>
+                                        <cargo>
+                                          <ware exact="1" typename="SS_WARE_INTERPLANETARY"/>
+                                        </cargo>
+                                      </reward_player>
+                                      <set_command command="moveposition" object="L2M051.EGCTL">
+                                        <position x="10km" y="0km" z="10km" max="5km"/>
+                                        <sector sector="L2M051.BTdelta"/>
+                                      </set_command>
+                                      <incoming_message author="{actor.name@L2M051.EGC}" text="{3227,46}"/>
+                                      <unlock_achievement name="TSPY"/>
+                                      <set_value name="L2M051.ChapterUnlock" exact="2"/>
+                                    </do_all>
+                                  </action>
+                                </cue>
+
+                                <cue name="L2M051_C2_Choice_ARG">
+                                  <condition>
+                                    <conversation_completed actor="L2M051.EGC" conversation="L2M051_EGC_3" answer="argon"/>
+                                  </condition>
+                                  <action>
+                                    <do_all>
+                                      <remove_briefing cue="L2M051"/>
+                                      <remove_objective cue="L2M051" status="aborted"/>
+                                      <set_actor_location actor="L2M051.EGC" location="crew" object="L2M051.TerranM1"/>
+                                      <cancel_cue cue="L2M051_C2_Choice_TER"/>
+                                      <cancel_cue cue="L2M051_C3_Terran"/>
+                                      <remove_offer actor="L2M051.EGC" conversation="L2M051_EGC_3" discipline="XXXXP"/>
+                                      <play_text actor="L2M051.EGC" priority="99">
+                                        <line pageid="110" textid="846"/>
+                                      </play_text>
+                                      <reward_player>
+                                        <notoriety>
+                                          <relation mutual="1" race="terran" operation="set" exact="noton2" force="1"/>
+                                          <relation mutual="1" race="atf" operation="set" exact="noton2" force="1"/>
+                                        </notoriety>
+                                      </reward_player>
+                                      <set_relation>
+                                        <relation mutual="1" object="L2M051.TerranM1" relation="enemy"/>
+                                      </set_relation>
+                                      <reward_player>
+                                        <cargo>
+                                          <ware exact="1" typename="SS_WARE_INTERPLANETARY"/>
+                                        </cargo>
+                                      </reward_player>
+                                      <unlock_achievement name="CWSPY"/>
+                                      <set_value name="L2M051.ChapterUnlock" exact="3"/>
+                                    </do_all>
+                                  </action>
+                                </cue>
+                              </cues>
+                            </cue>
+                          </cues>
+                        </cue>
+                      </cues>
+                    </cue>
+                  </cues>
+                </cue>
+              </cues>
+            </cue>
+          </cues>
+        </cue>
+
+        <!-- Chapter 3 -->
+        <cue name="L2M051_C3_Terran" delay="3s">
+          <condition>
+            <check_all>
+              <cue_is_complete cue="L2M051"/>
+              <check_value value="{value@L2M051.ChapterUnlock}" exact="2"/>
+            </check_all>
+          </condition>
+          <timing>
+            <time min="60s" max="90s"/>
+          </timing>
+          <action>
+            <do_all>
+              <create_actor name="L2M051.TLDelivery" character="{random.pilot.terran}" voiceflags="32" race="terran" location="crew" object="L2M051.EGCTL"/>
+              <create_ship name="L2M051.Flagship" race="terran" racelogic="0" boardable="0" invincible="1" typename="SS_SH_FLAGSHIP">
+                <sector sector="L2M051.BTdelta"/>
+                <equipment loadout="maximum" loadoutmask="all"/>
+                <command command="protect" commandobject="L2M051.EGCTL"/>
+              </create_ship>
+              <set_value name="L2M051_C3_Terran.Ware1" exact="{lookup.type@SS_WARE_ENERGY}" comment="Energy Cells"/>
+              <set_value name="L2M051_C3_Terran.Ware1_Amt" exact="35000"/>
+              <set_value name="L2M051_C3_Terran.Ware2" exact="{lookup.type@SS_WARE_TECH205}" comment="Quantum Tubes"/>
+              <set_value name="L2M051_C3_Terran.Ware2_Amt" exact="4200"/>
+              <set_value name="L2M051_C3_Terran.Ware3" exact="{lookup.type@SS_WARE_TECH207}" comment="Micro Chips"/>
+              <set_value name="L2M051_C3_Terran.Ware3_Amt" exact="1300"/>
+              <set_value name="L2M051_C3_Terran.Reward" exact="0"/>
+              <create_briefing cue="L2M051_C3_Terran" story="{3227,9001}" title="{3227,9032}" text="{3227,9033}" background="39_BTDeltaODS.tga">
+                <mission discipline="XXXXP" level="hard"/>
+                <objectives>
+                  <objective step="1">
+                    <deliver object="L2M051.EGCTL">
+                      <ware typename="{value@L2M051_C3_Terran.Ware1}" exact="{value@L2M051_C3_Terran.Ware1_Amt}"/>
+                    </deliver>
+                  </objective>
+                </objectives>
+              </create_briefing>
+              <set_objective cue="L2M051_C3_Terran" story="{3227,9001}" title="{3227,9032}" text="{3227,9033}" noabort="1" >
+                <briefing cue="L2M051_C3_Terran" step="1"/>
+                <mission discipline="XXXXP" level="hard"/>
+                <deliver object="L2M051.EGCTL">
+                  <ware typename="{value@L2M051_C3_Terran.Ware1}" exact="{value@L2M051_C3_Terran.Ware1_Amt}"/>
+                </deliver>
+              </set_objective>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="L2M051_C3_Terran_Delivery" delay="2s">
+              <condition>
+                <cue_is_complete cue="L2M051_C3_Terran"/>
+              </condition>
+              <cues>
+                <cue ref="L0M04 B">
+                  <params>
+                    <param name="Cue" value="L2M051_C3_Terran"/>
+                    <param name="ID" value="1"/>
+                    <param name="OfferRace" value="{lookup.race@terran}"/>
+                    <param name="Lv1Guide" value="{actor@L2M051.EGC}"/>
+                    <param name="Difficulty" value="{lookup.level@hard}"/>
+                    <param name="RewardCr" value="L2M051_C3_Terran.Reward"/>
+                    <param name="Buyer" value="L2M051.TLDelivery"/>
+                    <param name="Ware1" value="{value@L2M051_C3_Terran.Ware1}"/>
+                    <param name="Ware1Amt" value="{value@L2M051_C3_Terran.Ware1_Amt}"/>
+                    <param name="Ware2" value="{value@L2M051_C3_Terran.Ware2}"/>
+                    <param name="Ware2Amt" value="{value@L2M051_C3_Terran.Ware2_Amt}"/>
+                    <param name="Ware3" value="{value@L2M051_C3_Terran.Ware3}"/>
+                    <param name="Ware3Amt" value="{value@L2M051_C3_Terran.Ware3_Amt}"/>
+                    <param name="RoundReward" value="1"/>
+                    <param name="LeaveTitle" value="1"/>
+                    <param name="IsPlot" value="1"/>
+                    <param name="Step" value="1"/>
+                  </params>
+                </cue>
+                <cue name="L2M051_C3_Terran_Wait">
+                  <condition>
+                    <cue_is_complete cue="L0M04 B"/>
+                  </condition>
+                  <cues>
+                    <cue ref="L0M04">
+                      <params>
+                        <param name="Cue" value="L2M051_C3_Terran"/>
+                        <param name="ID" value="1"/>
+                        <param name="OfferRace" value="{lookup.race@terran}"/>
+                        <param name="Lv1Guide" value="{actor@L2M051.EGC}"/>
+                        <param name="AddText" value="0"/>
+                        <param name="NoMessage" value="1"/>
+                        <param name="Difficulty" value="{lookup.level@hard}"/>
+                        <param name="RewardCr" value="L2M051_C3_Terran.Reward"/>
+                        <param name="AddToStation" value="0"/>
+                        <param name="LeaveTitle" value="1"/>
+                        <param name="IsPlot" value="1"/>
+                        <param name="Step" value="1"/>
+                      </params>
+                    </cue>
+                    <cue name="L2M051_C3_Terran_Finished" delay="2s">
+                      <condition>
+                        <check_all>
+                          <check_value value="{value@L2M051_C3_Terran.1 L0M04 Progress}" min="1"/>
+                        </check_all>
+                      </condition>
+                      <action>
+                        <do_all>
+                          <reward_player>
+                            <money exact="{value@L2M051_C3_Terran.Reward}"/>
+                          </reward_player>
+                          <remove_briefing cue="L2M051_C3_Terran"/>
+                          <remove_objective cue="L2M051_C3_Terran" status="complete"/>
+                          <incoming_message author="{actor.name@L2M051.EGC}" text="{3227,58}"/>
+                        </do_all>
+                      </action>
+                      <cues>
+                        <cue name="L2M051_C3_Terran_EGCwait" delay="5s">
+                          <condition>
+                            <check_all>
+                              <cue_is_complete cue="L2M051_C3_Terran_Finished"/>
+                            </check_all>
+                          </condition>
+                          <timing>
+                            <time min="600" max="900"/>
+                          </timing>
+                          <action>
+                            <do_all>
+                              <set_value name="this.value" exact="42"/>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L2M051_C3_Terran_EGCpatrol" delay="5s">
+                              <condition>
+                                <check_all>
+                                  <cue_is_complete cue="L2M051_C3_Terran_EGCwait"/>
+                                  <check_value value="{sector@L2M051.BTdelta}" exact="{player.sector}" negate="1"/>
+                                  <check_value value="{sector@L2M051.BTalpha}" exact="{player.sector}" negate="1"/>
+                                </check_all>
+                              </condition>
+                              <action>
+                                <do_all>
+                                  <set_actor_location actor="L2M051.EGC" location="crew" object="L2M051.Flagship"/>
+                                  <warp_object object="L2M051.Flagship">
+                                    <position x="40km" y="0" z="-50km"/>
+                                    <sector sector="L2M051.BTalpha"/>
+                                  </warp_object>
+                                  <set_command command="idle" object="L2M051.Flagship"/>
+                                  <destroy_object object="L2M051.EGCTL" explosion="0"/>
+                                  <incoming_message author="{actor.name@L2M051.EGC}" text="{3227,47}"/>
+                                  <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9022}" text="{3227,9023}" background="39_BTFlagship.tga">
+                                    <mission discipline="XXXXP" level="average"/>
+                                    <objectives>
+                                      <objective step="1">
+                                        <protect object="L2M051.Flagship"/>
+                                      </objective>
+                                    </objectives>
+                                  </create_briefing>
+                                  <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" noabort="1" >
+                                    <briefing cue="L2M051" step="1"/>
+                                    <mission discipline="XXXXP" level="average"/>
+                                    <protect object="L2M051.Flagship"/>
+                                  </set_objective>
+                                  <do_any min="4" max="6">
+                                    <create_station typename="SS_FAC_TR_ORE" buildtype="proposed" race="terran" chance="10">
+                                      <position x="0" y="0" z="0" min="20km" max="100km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                    </create_station>
+                                    <create_station typename="SS_FAC_TR_ORE_1" buildtype="proposed" race="terran" chance="10">
+                                      <position x="0" y="0" z="0" min="20km" max="100km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                    </create_station>
+                                    <create_station typename="SS_FAC_TR_POWER" buildtype="proposed" race="terran" chance="20">
+                                      <position x="0" y="0" z="0" min="20km" max="100km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                    </create_station>
+                                    <create_station typename="SS_FAC_TR_POWER_1" buildtype="proposed" race="terran" chance="10">
+                                      <position x="0" y="0" z="0" min="20km" max="100km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                    </create_station>
+                                  </do_any>
+                                  <create_station name="L2M051.BTOrbital" group="L2M051.Plotstations" typename="SS_DOCK_ATF_MILITARY_2" buildtype="respawn" race="terran" invincible="1">
+                                    <position x="30km" y="0km" z="24km" max="5km"/>
+                                    <sector sector="L2M051.BTdelta"/>
+                                    <equipment loadout="default"/>
+                                    <tradables>
+                                      <ware typename="SS_WARE_ENERGY" min="1" max="5"/>
+                                      <ware typename="SS_LASER_EMP" min="1" max="5"/>
+                                      <ware typename="SS_LASER_MAM" min="1" max="6"/>
+                                      <ware typename="SS_LASER_TERRANANTIFIGHTER" min="1" max="15"/>
+                                      <ware typename="SS_LASER_PSP" min="1" max="12"/>
+                                      <ware typename="SS_MISSILE_A" min="1" max="25"/>
+                                      <ware typename="SS_MISSILE_WRAITH" min="1" max="30"/>
+                                      <ware typename="SS_MISSILE_POLTERGEIST" min="1" max="50"/>
+                                      <ware typename="SS_MISSILE_SPECTRE" min="1" max="20"/>
+                                      <ware typename="SS_MISSILE_USC_BOMBER" min="1" max="5"/>
+                                      <ware typename="SS_MISSILE_USC_TORP_CAPITAL" min="1" max="10"/>
+                                      <ware typename="SS_MISSILE_USC_AF_CAPITAL" min="1" max="5"/>
+                                      <ware typename="SS_WARE_TECH276" exact="1"/>
+                                      <ware typename="SS_WARE_TECH277" exact="1"/>
+                                      <ware typename="SS_WARE_TECH251" exact="1"/>
+                                      <ware typename="SS_WARE_TECH213" exact="1"/>
+                                      <ware typename="SS_WARE_TECH246" exact="1"/>
+                                      <ware typename="SS_WARE_TECH231" exact="1"/>
+                                      <ware typename="SS_WARE_BEAMING" exact="1"/>
+                                      <ware typename="SS_WARE_BOOST" exact="1"/>
+                                      <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                                      <ware typename="SS_WARE_SW_NAV_1" exact="1"/>
+                                      <ware typename="SS_WARE_SW_FIGHT_1" exact="1"/>
+                                      <ware typename="SS_WARE_SW_FIGHT_2" exact="1"/>
+                                      <ware typename="SS_WARE_SW_SPECIAL_1" exact="1"/>
+                                      <ware typename="SS_WARE_SW_PATROL_1" exact="1"/>
+                                      <ware typename="SS_WARE_TR_TECH7" exact="1"/>
+                                      <ware typename="SS_WARE_TR_TECH8" exact="1"/>
+                                      <ware typename="SS_WARE_TR_ARMS" exact="1"/>
+                                      <ware typename="SS_WARE_TR_MINE" exact="1"/>
+                                      <ware typename="SS_WARE_USC_DRONE" min="1" max="6"/>
+                                      <ware typename="SS_WARE_TR_ORBITALLASER" min="1" max="8"/>
+                                    </tradables>
+                                  </create_station>
+                                </do_all>
+                              </action>
+                              <cues>
+                                <cue name="L2M051_C3_Terran_EGCEscort">
+                                  <condition>
+                                    <check_all>
+                                      <object_changed_sector/>
+                                      <check_value value="{sector@L2M051.BTalpha}" exact="{player.sector}"/>
+                                    </check_all>
+                                  </condition>
+                                  <timing>
+                                    <time exact="10s"/>
+                                  </timing>
+                                  <action>
+                                    <do_all>
+                                      <set_command command="dock" object="L2M051.Flagship" commandobject="L2M051.BTOrbital"/>
+                                      <do_any min="6" max="10">
+                                        <create_ship group="L2M051.FlagshipAttackers" race="argon" racelogic="0" typename="SS_SH_A_M3" chance="20">
+                                          <position object="L2M051.Flagship" min="10km" max="15km"/>
+                                          <sector sector="L2M051.BTalpha"/>
+                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                          <command command="attack" commandobject="L2M051.Flagship"/>
+                                        </create_ship>
+                                        <create_ship group="L2M051.FlagshipAttackers" race="boron" racelogic="0" typename="SS_SH_B_M3" chance="20">
+                                          <position object="L2M051.Flagship" min="10km" max="15km"/>
+                                          <sector sector="L2M051.BTalpha"/>
+                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                          <command command="attack" commandobject="L2M051.Flagship"/>
+                                        </create_ship>
+                                        <create_ship group="L2M051.FlagshipAttackers" race="teladi" racelogic="0" typename="SS_SH_T_M3" chance="20">
+                                          <position object="L2M051.Flagship" min="10km" max="15km"/>
+                                          <sector sector="L2M051.BTalpha"/>
+                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                          <command command="attack" commandobject="L2M051.Flagship"/>
+                                        </create_ship>
+                                        <create_ship group="L2M051.FlagshipAttackers" race="argon" racelogic="0" typename="SS_SH_A_M6" chance="5">
+                                          <position object="L2M051.Flagship" min="10km" max="15km"/>
+                                          <sector sector="L2M051.BTalpha"/>
+                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                          <command command="attack" commandobject="L2M051.Flagship"/>
+                                        </create_ship>
+                                        <create_ship group="L2M051.FlagshipAttackers" race="boron" racelogic="0" typename="SS_SH_B_M6" chance="5">
+                                          <position object="L2M051.Flagship" min="10km" max="15km"/>
+                                          <sector sector="L2M051.BTalpha"/>
+                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                          <command command="attack" commandobject="L2M051.Flagship"/>
+                                        </create_ship>
+                                        <create_ship group="L2M051.FlagshipAttackers" race="teladi" racelogic="0" typename="SS_SH_T_M6" chance="5">
+                                          <position object="L2M051.Flagship" min="10km" max="15km"/>
+                                          <sector sector="L2M051.BTalpha"/>
+                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                          <command command="attack" commandobject="L2M051.Flagship"/>
+                                        </create_ship>
+                                      </do_any>
+                                    </do_all>
+                                  </action>
+                                  <cues>
+                                    <cue name="L2M051_C3_Terran_EGCEscort_Docked" delay="2s">
+                                      <condition>
+                                        <check_all>
+                                          <cue_is_complete cue="L2M051_C3_Terran_EGCEscort"/>
+                                          <object_is_docked object="L2M051.Flagship" dockobject="L2M051.BTOrbital"/>
+                                        </check_all>
+                                      </condition>
+                                      <action>
+                                        <do_all>
+                                          <set_value name="L2M051.C3Ready" exact="0"/>
+                                          <create_actor name="L2M051.USCCommander" character="{3227,201}" race="terran" location="crew" object="L2M051.BTOrbital" invincible="1" voice="3261" face="1139"/>
+                                          <create_offer actor="L2M051.USCCommander" conversation="L2M051_USCCommander" cue="L2M051" discipline="XXXXP"/>
+                                          <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9032}" text="{3227,9033}" background="39_BTDeltaODS.tga">
+                                            <mission discipline="XXXXP" level="trivial"/>
+                                            <objectives>
+                                              <objective step="2">
+                                                <talkto actor="L2M051.USCCommander"/>
+                                              </objective>
+                                            </objectives>
+                                          </create_briefing>
+                                          <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9032}" text="{3227,9033}" noabort="1" >
+                                            <briefing cue="L2M051" step="2"/>
+                                            <mission discipline="XXXXP" level="trivial"/>
+                                            <talkto actor="L2M051.USCCommander"/>
+                                          </set_objective>
+                                        </do_all>
+                                      </action>
+                                      <cues>
+                                        <cue name="L2M051_C3_Terran_USCC">
+                                          <condition>
+                                            <conversation_completed actor="L2M051.USCCommander" conversation="L2M051_USCCommander" answer="accept"/>
+                                          </condition>
+                                          <action>
+                                            <do_all>
+                                              <set_command object="L2M051.TerranM1" command="killenemies">
+                                                <sector sector="L2M051.BTdelta"/>
+                                              </set_command>
+                                              <remove_offer actor="L2M051.USCCommander" discipline="XXXXP" conversation="L2M051_USCCommander"/>
+                                              <remove_briefing cue="L2M051"/>
+                                              <remove_objective cue="L2M051" status="complete"/>
+                                            </do_all>
+                                          </action>
+                                          <cues>
+                                            <cue name="L2M051_C3_Terran_USCC_Wait" delay="5s">
+                                              <condition>
+                                                <cue_is_complete cue="L2M051_C3_Terran_USCC"/>
+                                              </condition>
+                                              <timing>
+                                                <time min="300" max="600"/>
+                                              </timing>
+                                              <action>
+                                                <do_all>
+                                                  <set_value name="L2M051.C3Ready" exact="1"/>
+                                                </do_all>
+                                              </action>
+                                              <cues>
+                                                <cue name="L2M051_C3_Terran_Fleets" delay="2s">
+                                                  <condition>
+                                                    <check_all>
+                                                      <cue_is_complete cue="L2M051_C3_Terran_USCC_Wait"/>
+                                                      <check_value value="{value@L2M051.C3Ready}" exact="1"/>
+                                                      <check_value value="{sector@L2M051.BTdelta}" exact="{player.sector}" negate="1"/>
+                                                    </check_all>
+                                                  </condition>
+                                                  <action>
+                                                    <do_all>
+                                                      <destroy_actor actor="L2M051.EGC"/>
+                                                      <destroy_object object="L2M051.Flagship" warp="1"/>
+                                                      <do_any min="20" max="30">
+                                                        <create_ship group="L2M051.M1Escorts" race="terran" racelogic="0" typename="SS_SH_TR_M5" chance="10">
+                                                          <position object="L2M051.TerranM1" min="5km" max="7km"/>
+                                                          <sector sector="{object.sector@L2M051.TerranM1}"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                          <command command="protect" commandobject="L2M051.TerranM1"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.M1Escorts" race="terran" racelogic="0" typename="SS_SH_TR_M4" chance="30">
+                                                          <position object="L2M051.TerranM1" min="5km" max="7km"/>
+                                                          <sector sector="{object.sector@L2M051.TerranM1}"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                          <command command="protect" commandobject="L2M051.TerranM1"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.M1Escorts" race="terran" racelogic="0" typename="SS_SH_TR_M3" chance="20">
+                                                          <position object="L2M051.TerranM1" min="5km" max="7km"/>
+                                                          <sector sector="{object.sector@L2M051.TerranM1}"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                          <command command="protect" commandobject="L2M051.TerranM1"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.M1Escorts" race="terran" racelogic="0" typename="SS_SH_TR_M6" chance="5">
+                                                          <position object="L2M051.TerranM1" min="5km" max="7km"/>
+                                                          <sector sector="{object.sector@L2M051.TerranM1}"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                          <command command="protect" commandobject="L2M051.TerranM1"/>
+                                                        </create_ship>
+                                                      </do_any>
+                                                      <do_any min="2" max="3">
+                                                        <create_ship group="L2M051.M1Escorts" race="terran" racelogic="0" typename="SS_SH_TR_M1H" chance="10">
+                                                          <position max="20km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                          <command command="killenemies">
+                                                            <sector sector="L2M051.BTdelta"/>
+                                                          </command>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.M1Escorts" race="terran" racelogic="0" typename="SS_SH_TR_M2P" chance="40">
+                                                          <position max="20km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                          <command command="killenemiesrange" distance="50km">
+                                                            <position x="0" y="0" z="0"/>
+                                                            <sector sector="L2M051.BTdelta"/>
+                                                          </command>
+                                                        </create_ship>
+                                                      </do_any>
+
+                                                      <do_all min="6" max="10">
+                                                        <create_ship group="L2M051.CWCapFleet" race="argon" typename="SS_SH_A_M2" racelogic="0" warp="0">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWCapFleet" race="boron" typename="SS_SH_B_M2" racelogic="0" warp="0">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                      </do_all>
+                                                      <set_group_relation group="L2M051.CWCapFleet">
+                                                        <relation mutual="1" relation="enemy" group="L2M051.M1Escorts"/>
+                                                        <relation mutual="1" relation="enemy" object="{player.ship}"/>
+                                                      </set_group_relation>
+                                                      <set_group_command group="L2M051.CWCapFleet" command="killenemies">
+                                                        <sector sector="L2M051.BTdelta"/>
+                                                      </set_group_command>
+                                                      <do_any min="32" max="48">
+                                                        <create_ship group="L2M051.CWFleet" race="argon" typename="SS_SH_A_M3" racelogic="0" warp="0" chance="40">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWFleet" race="boron" typename="SS_SH_B_M3" racelogic="0" warp="0" chance="40">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWFleet" race="teladi" typename="SS_SH_T_M3" racelogic="0" warp="0" chance="40">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWFleet" race="argon" typename="SS_SH_A_M4" racelogic="0" warp="0" chance="30">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWFleet" race="boron" typename="SS_SH_B_M4" racelogic="0" warp="0" chance="30">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWFleet" race="teladi" typename="SS_SH_T_M4" racelogic="0" warp="0" chance="30">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWFleet" race="argon" typename="SS_SH_A_M3" racelogic="0" warp="0" chance="20">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWFleet" race="boron" typename="SS_SH_B_M3" racelogic="0" warp="0" chance="20">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                        <create_ship group="L2M051.CWFleet" race="teladi" typename="SS_SH_T_M3" racelogic="0" warp="0" chance="20">
+                                                          <position x="-20km" y="0km" z="15km" max="10km"/>
+                                                          <sector sector="L2M051.BTdelta"/>
+                                                          <equipment loadout="maximum" loadoutmask="all"/>
+                                                        </create_ship>
+                                                      </do_any>
+
+                                                      <set_group_relation group="L2M051.CWFleet">
+                                                        <relation mutual="1" relation="enemy" object="{player.ship}"/>
+                                                        <relation mutual="1" relation="enemy" group="L2M051.M1Escorts"/>
+                                                      </set_group_relation>
+                                                      <set_group_command group="L2M051.CWFleet" command="killenemies">
+                                                        <sector sector="L2M051.BTdelta"/>
+                                                      </set_group_command>
+                                                    </do_all>
+                                                  </action>
+                                                  <cues>
+                                                    <cue name="L2M051_C3_Terran_USCC_Help" delay="2s">
+                                                      <condition>
+                                                        <check_all>
+                                                          <cue_is_complete cue="L2M051_C3_Terran_Fleets"/>
+                                                        </check_all>
+                                                      </condition>
+                                                      <action>
+                                                        <do_all>
+                                                          <incoming_message author="{actor.name@L2M051.USCCommander}" text="{3227,54}"/>
+                                                          <create_ship name="L2M051.Flagship" race="player" racelogic="0" typename="SS_SH_FLAGSHIP" dockobject="L2M051.BTOrbital">
+                                                            <sector sector="L2M051.BTdelta"/>
+                                                            <equipment loadout="maximum" loadoutmask="all"/>
+                                                          </create_ship>
+                                                          <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9032}" text="{3227,9033}" background="39_BTDeltaODS.tga">
+                                                            <mission discipline="XXXXP" level="veryhard"/>
+                                                            <objectives>
+                                                              <objective step="1">
+                                                                <custom action="{35,2036}" text="{sector.name@L2M051.BTdelta}" guidance="{sector@L2M051.BTdelta}"/>
+                                                              </objective>
+                                                            </objectives>
+                                                          </create_briefing>
+                                                          <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9032}" text="{3227,9033}" noabort="1" >
+                                                            <briefing cue="L2M051" step="1"/>
+                                                            <mission discipline="XXXXP" level="veryhard"/>
+                                                            <custom action="{35,2036}" text="{sector.name@L2M051.BTdelta}" guidance="{sector@L2M051.BTdelta}"/>
+                                                          </set_objective>
+                                                          <set_value name="L2M051.PlayerKills" exact="0"/>
+                                                          <unlock_achievement name="YACHT"/>
+                                                          <add_blueprints_to_headquarters typename="SS_SH_FLAGSHIP"/>
+                                                        </do_all>
+                                                      </action>
+                                                      <cues>
+                                                        <cue name="L2M051_C3_Terran_PlayerKills" instantiate="static">
+                                                          <condition>
+                                                            <check_any>
+                                                              <any_object_destroyed_by_player group="CWCapFleet"/>
+                                                              <any_object_destroyed group="CWCapFleet"/>
+                                                              <any_object_destroyed_by_player group="L2M051.CWFleet"/>
+                                                              <any_object_destroyed group="L2M051.CWFleet"/>
+                                                            </check_any>
+                                                          </condition>
+                                                          <action>
+                                                            <do_all>
+                                                              <do_if value="{object.race@{event.param2}}" exact="{lookup.race@player}">
+                                                                <do_choose>
+                                                                  <do_when value="{object.class@{event.object}}" exact="{lookup.class@m4}">
+                                                                    <set_value name="L2M051.PlayerKills" operation="add" exact="75"/>
+                                                                  </do_when>
+                                                                  <do_when value="{object.class@{event.object}}" exact="{lookup.class@m3}">
+                                                                    <set_value name="L2M051.PlayerKills" operation="add" exact="150"/>
+                                                                  </do_when>
+                                                                  <do_when value="{object.class@{event.object}}" exact="{lookup.class@m2}">
+                                                                    <set_value name="L2M051.PlayerKills" operation="add" exact="500"/>
+                                                                  </do_when>
+                                                                  <do_when value="{object.class@{event.object}}" exact="{lookup.class@m1}">
+                                                                    <set_value name="L2M051.PlayerKills" operation="add" exact="400"/>
+                                                                  </do_when>
+                                                                  <do_otherwise>
+                                                                    <set_value name="L2M051.PlayerKills" operation="add" exact="50"/>
+                                                                  </do_otherwise>
+                                                                </do_choose>
+                                                              </do_if>
+                                                            </do_all>
+                                                          </action>
+                                                        </cue>
+
+                                                        <cue name="L2M051_C3_Terran_CWFleetCaptured" instantiate="static">
+                                                          <condition>
+                                                            <check_all>
+                                                              <cue_is_complete cue="L2M051_C3_Terran_USCC_Help"/>
+                                                              <check_any>
+                                                                <any_object_captured group="L2M051.CWFleet"/>
+                                                                <any_object_claimed group="L2M051.CWFleet"/>
+                                                              </check_any>
+                                                            </check_all>
+                                                          </condition>
+                                                          <action>
+                                                            <remove_object_from_group object="{event.object}" group="L2M051.CWFleet"/>
+                                                          </action>
+                                                        </cue>
+
+                                                        <cue name="L2M051_C3_Terran_CWFleetDestroyed" delay="5s" version="2">
+                                                          <condition>
+                                                            <check_all>
+                                                              <cue_is_complete cue="L2M051_C3_Terran_USCC_Help"/>
+                                                              <check_value value="{group.object.count@L2M051.CWCapFleet}" max="2"/>
+                                                            </check_all>
+                                                          </condition>
+                                                          <timing>
+                                                            <time min="5s" max="10s"/>
+                                                          </timing>
+                                                          <action>
+                                                            <do_all>
+                                                              <cancel_cue cue="L2M051_C3_Terran_CWFleetCaptured" instantiate="static"/>
+                                                              <cancel_cue cue="L2M051_C3_Terran_PlayerKills" instantiate="static"/>
+                                                              <destroy_group warp="1" group="L2M051.CWFleet"/>
+                                                              <do_choose>
+                                                                <do_when value="{value@L2M051.PlayerKills}" min="1">
+                                                                  <remove_briefing cue="L2M051"/>
+                                                                  <remove_objective cue="L2M051" status="complete"/>
+                                                                  <incoming_message author="{actor.name@L2M051.USCCommander}" text="{3227,55}"/>
+                                                                  <reward_player>
+                                                                    <notoriety>
+                                                                      <relation race="terran" operation="add" exact="{value@L2M051.PlayerKills}"/>
+                                                                    </notoriety>
+                                                                  </reward_player>
+                                                                </do_when>
+                                                                <do_otherwise>
+                                                                  <remove_briefing cue="L2M051"/>
+                                                                  <remove_objective cue="L2M051" status="aborted"/>
+                                                                  <incoming_message author="{actor.name@L2M051.USCCommander}" text="{3227,57}"/>
+                                                                  <reward_player>
+                                                                    <notoriety>
+                                                                      <relation race="terran" operation="add" exact="notop3"/>
+                                                                    </notoriety>
+                                                                  </reward_player>
+                                                                </do_otherwise>
+                                                              </do_choose>
+                                                            </do_all>
+                                                          </action>
+                                                          <cues>
+                                                            <cue name="L2M051_C3_Terran_Conclusion" delay="5s">
+                                                              <condition>
+                                                                <check_all>
+                                                                  <cue_is_complete cue="L2M051_C3_Terran_CWFleetDestroyed"/>
+                                                                </check_all>
+                                                              </condition>
+                                                              <timing>
+                                                                <time min="20s" max="30s"/>
+                                                              </timing>
+                                                              <action>
+                                                                <do_all>
+                                                                  <destroy_group warp="1" group="L2M051.M1Escorts"/>
+                                                                  <incoming_message author="{actor.name@L2M051.USCCommander}" text="{3227,56}"/>
+                                                                  <set_value name="L2M051.ChapterUnlock" exact="10"/>
+                                                                </do_all>
+                                                              </action>
+                                                            </cue>
+                                                          </cues>
+                                                        </cue>
+                                                      </cues>
+                                                    </cue>
+                                                  </cues>
+                                                </cue>
+                                              </cues>
+                                            </cue>
+                                          </cues>
+                                        </cue>
+                                      </cues>
+                                    </cue>
+                                  </cues>
+                                </cue>
+                              </cues>
+                            </cue>
+                          </cues>
+                        </cue>
+                      </cues>
+                    </cue>
+                  </cues>
+                </cue>
+              </cues>
+            </cue>
+          </cues>
+        </cue>
+
+        <cue name="L2M051_C3_Argon" delay="3s">
+          <condition>
+            <check_all>
+              <cue_is_complete cue="L2M051"/>
+              <check_value value="{value@L2M051.ChapterUnlock}" exact="3"/>
+              <check_any>
+                <check_value value="{player.notoriety.argon}" min="{lookup.notoriety@noto0}"/>
+                <check_value value="{player.notoriety.boron}" min="{lookup.notoriety@noto0}"/>
+                <check_value value="{player.notoriety.teladi}" min="{lookup.notoriety@noto0}"/>
+              </check_any>
+            </check_all>
+          </condition>
+          <timing>
+            <time min="60s" max="90s"/>
+          </timing>
+          <action>
+            <do_all>
+              <find_station name="L2M051.CMSOutpost" typename="{lookup.type@SS_DOCK_A_MILITARY|SS_DOCK_B_MILITARY|SS_DOCK_T_MILITARY}" dockingallowed="1" nearest="1">
+                <sector sector="{player.sector}"/>
+                <jumps min="2"/>
+              </find_station>
+              <create_actor name="L2M051.CMC" character="{3227,101}" race="argon" gender="male" voice="3260" face="102" location="crew" object="L2M051.CMSOutpost" invincible="1"/>
+              <create_offer actor="L2M051.CMC" conversation="L2M051_CMC" cue="L2M051" discipline="XXXXP"/>
+              <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" background="39_BTAlpha.tga">
+                <mission discipline="XXXXP" level="trivial"/>
+                <objectives>
+                  <objective step="1">
+                    <talkto actor="L2M051.CMC"/>
+                  </objective>
+                </objectives>
+              </create_briefing>
+              <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" noabort="1" >
+                <briefing cue="L2M051" step="1"/>
+                <mission discipline="XXXXP" level="trivial"/>
+                <talkto actor="L2M051.CMC"/>
+              </set_objective>
+            </do_all>
+          </action>
+          <cues>
+            <cue name="L2M051_C3_Argon_CMC" delay="2s">
+              <condition>
+                <check_all>
+                  <conversation_completed actor="L2M051.CMC" conversation="L2M051_CMC" answer="accept"/>
+                </check_all>
+              </condition>
+              <action>
+                <do_all>
+                  <destroy_object object="L2M051.EGCTL" warp="1"/>
+                  <remove_offer actor="L2M051.CMC" conversation="L2M051_CMC" discipline="XXXXP"/>
+                  <remove_briefing cue="L2M051"/>
+                  <remove_objective cue="L2M051" status="complete"/>
+                  <incoming_message author="{actor.name@L2M051.CMC}" text="{3227,36}"/>
+                </do_all>
+              </action>
+              <cues>
+                <cue name="L2M051_C3_Argon_EGCCapture" delay="3s">
+                  <condition>
+                    <check_all>
+                      <cue_is_complete cue="L2M051_C3_Argon_CMC"/>
+                    </check_all>
+                  </condition>
+                  <timing>
+                    <time min="600s" max="1200s"/>
+                  </timing>
+                  <action>
+                    <do_all>
+                      <create_ship name="L2M051.Flagship" race="terran" racelogic="0" boardable="1" invincible="1" typename="SS_SH_FLAGSHIP" easyboard="1">
+                        <position object="L2M051.TerranM1" min="10km" max="15km"/>
+                        <sector sector="L2M051.BTalpha"/>
+                        <equipment loadout="maximum" loadoutmask="all"/>
+                        <command command="idle"/>
+                      </create_ship>
+                      <do_any min="5" max="12">
+                        <create_ship group="L2M051.FlagshipEscorts" race="terran" racelogic="0" typename="SS_SH_TR_M5" chance="20">
+                          <position object="L2M051.Flagship" min="5km" max="7km"/>
+                          <sector sector="L2M051.BTalpha"/>
+                          <equipment loadout="maximum" loadoutmask="all"/>
+                          <command command="protect" commandobject="L2M051.Flagship"/>
+                        </create_ship>
+                        <create_ship group="L2M051.FlagshipEscorts" race="terran" racelogic="0" typename="SS_SH_TR_M4" chance="30">
+                          <position object="L2M051.Flagship" min="5km" max="7km"/>
+                          <sector sector="L2M051.BTalpha"/>
+                          <equipment loadout="maximum" loadoutmask="all"/>
+                          <command command="protect" commandobject="L2M051.Flagship"/>
+                        </create_ship>
+                        <create_ship group="L2M051.FlagshipEscorts" race="terran" racelogic="0" typename="SS_SH_TR_M3" chance="50">
+                          <position object="L2M051.Flagship" min="5km" max="7km"/>
+                          <sector sector="L2M051.BTalpha"/>
+                          <equipment loadout="maximum" loadoutmask="all"/>
+                          <command command="protect" commandobject="L2M051.Flagship"/>
+                        </create_ship>
+                        <create_ship group="L2M051.FlagshipEscorts" race="terran" racelogic="0" typename="SS_SH_TR_M6" chance="10">
+                          <position object="L2M051.Flagship" min="5km" max="7km"/>
+                          <sector sector="L2M051.BTalpha"/>
+                          <equipment loadout="maximum" loadoutmask="all"/>
+                          <command command="protect" commandobject="L2M051.Flagship"/>
+                        </create_ship>
+                      </do_any>
+                      <set_actor_location actor="L2M051.EGC" location="crew" object="L2M051.Flagship"/>
+                      <create_ship name="L2M051.MarineTP" race="player" racelogic="0" typename="SS_SH_A_TP" dockobject="L2M051.CMSOutpost">
+                        <sector sector="{object.sector@L2M051.CMSOutpost}"/>
+                        <equipment loadout="maximum" loadoutmask="all"/>
+                      </create_ship>
+                      <do_all exact="5">
+                        <create_actor character="{random.pilot.argon}" face="102" gender="male" race="argon" location="passenger" object="L2M051.MarineTP">
+                          <skills>
+                            <fighting min="51" max="80"/>
+                            <hacking min="51" max="80"/>
+                            <engineering min="51" max="80"/>
+                            <mechanical min="51" max="80"/>
+                          </skills>
+                        </create_actor>
+                      </do_all>
+                      <incoming_message author="{actor.name@L2M051.CMC}" text="{3227,37}"/>
+                      <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" background="39_BTFlagship.tga">
+                        <mission discipline="XXXXP" level="hard"/>
+                        <objectives>
+                          <objective step="1">
+                            <custom action="{35,2071}" text="{object.name@L2M051.Flagship}" object="L2M051.Flagship"/>
+                          </objective>
+                        </objectives>
+                      </create_briefing>
+                      <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" noabort="1" >
+                        <briefing cue="L2M051" step="1"/>
+                        <mission discipline="XXXXP" level="hard"/>
+                        <custom action="{35,2071}" text="{object.name@L2M051.Flagship}" object="L2M051.Flagship"/>
+                      </set_objective>
+                    </do_all>
+                  </action>
+                  <cues>
+                    <cue name="L2M051_C3_Argon_EGCDeliver" version="2">
+                      <condition>
+                        <check_all>
+                          <check_any>
+                            <object_captured object="L2M051.Flagship"/>
+                            <check_value value="{object.race@L2M051.Flagship}" exact="{lookup.race@player}"/>
+                          </check_any>
+                        </check_all>
+                      </condition>
+                      <action>
+                        <do_all>
+                          <create_actor name="L2M051.EGC" character="{3227,1}" voice="3259" race="terran" face="105" gender="female" location="passenger" object="L2M051.Flagship" invincible="1" />
+                          <set_invincible object="L2M051.Flagship" invincible="0"/>
+                          <unlock_achievement name="YACHT"/>
+                          <add_blueprints_to_headquarters typename="SS_SH_FLAGSHIP"/>
+                          <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" background="39_Outpost.tga">
+                            <mission discipline="XXXXP" level="average"/>
+                            <objectives>
+                              <objective step="2">
+                                <custom action="{35,2003}" text="{actor.name@L2M051.EGC}" object="L2M051.CMSOutpost"/>
+                              </objective>
+                            </objectives>
+                          </create_briefing>
+                          <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" noabort="1" >
+                            <briefing cue="L2M051" step="2"/>
+                            <mission discipline="XXXXP" level="average"/>
+                            <custom action="{35,2003}" text="{actor.name@L2M051.EGC}" object="L2M051.CMSOutpost"/>
+                          </set_objective>
+                        </do_all>
+                      </action>
+                      <cues>
+                        <cue name="L2M051_C3_Argon_EGCIterrogation" delay="2s">
+                          <condition>
+                            <check_all>
+                              <cue_is_complete cue="L2M051_C3_Argon_EGCDeliver"/>
+                              <object_is_docked object="{player.ship}" dockobject="L2M051.CMSOutpost"/>
+                              <check_value value="{actor.ship@L2M051.EGC}" exact="{player.ship}"/>
+                            </check_all>
+                          </condition>
+                          <timing>
+                            <time exact="10s"/>
+                          </timing>
+                          <action>
+                            <do_all>
+                              <destroy_actor actor="L2M051.EGC"/>
+                              <create_offer actor="L2M051.CMC" conversation="L2M051_CMC_2" cue="L2M051" discipline="XXXXP"/>
+                              <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" background="39_Outpost.tga">
+                                <mission discipline="XXXXP" level="average"/>
+                                <objectives>
+                                  <objective step="3">
+                                    <talkto actor="L2M051.CMC"/>
+                                  </objective>
+                                </objectives>
+                              </create_briefing>
+                              <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9002}" text="{3227,9003}" noabort="1" >
+                                <briefing cue="L2M051" step="3"/>
+                                <mission discipline="XXXXP" level="average"/>
+                                <talkto actor="L2M051.CMC"/>
+                              </set_objective>
+                              <do_any min="4" max="6">
+                                <create_station typename="SS_FAC_TR_ORE" buildtype="proposed" race="terran" chance="10">
+                                  <position x="0" y="0" z="0" min="20km" max="100km"/>
+                                  <sector sector="L2M051.BTdelta"/>
+                                </create_station>
+                                <create_station typename="SS_FAC_TR_ORE_1" buildtype="proposed" race="terran" chance="10">
+                                  <position x="0" y="0" z="0" min="20km" max="100km"/>
+                                  <sector sector="L2M051.BTdelta"/>
+                                </create_station>
+                                <create_station typename="SS_FAC_TR_POWER" buildtype="proposed" race="terran" chance="20">
+                                  <position x="0" y="0" z="0" min="20km" max="100km"/>
+                                  <sector sector="L2M051.BTdelta"/>
+                                </create_station>
+                                <create_station typename="SS_FAC_TR_POWER_1" buildtype="proposed" race="terran" chance="10">
+                                  <position x="0" y="0" z="0" min="20km" max="100km"/>
+                                  <sector sector="L2M051.BTdelta"/>
+                                </create_station>
+                              </do_any>
+                              <create_station name="L2M051.BTOrbital" group="L2M051.Plotstations" typename="SS_DOCK_ATF_MILITARY_2" buildtype="respawn" race="terran" invincible="1">
+                                <position x="30km" y="0km" z="24km" max="5km"/>
+                                <sector sector="L2M051.BTdelta"/>
+                                <equipment loadout="default"/>
+                                <tradables>
+                                  <ware typename="SS_LASER_EMP" min="1" max="5"/>
+                                  <ware typename="SS_LASER_MAM" min="1" max="6"/>
+                                  <ware typename="SS_LASER_TERRANANTIFIGHTER" min="1" max="15"/>
+                                  <ware typename="SS_LASER_PSP" min="1" max="12"/>
+                                  <ware typename="SS_MISSILE_A" min="1" max="25"/>
+                                  <ware typename="SS_MISSILE_WRAITH" min="1" max="30"/>
+                                  <ware typename="SS_MISSILE_POLTERGEIST" min="1" max="50"/>
+                                  <ware typename="SS_MISSILE_SPECTRE" min="1" max="20"/>
+                                  <ware typename="SS_MISSILE_USC_BOMBER" min="1" max="5"/>
+                                  <ware typename="SS_MISSILE_USC_TORP_CAPITAL" min="1" max="10"/>
+                                  <ware typename="SS_MISSILE_USC_AF_CAPITAL" min="1" max="5"/>
+                                  <ware typename="SS_WARE_TECH276" exact="1"/>
+                                  <ware typename="SS_WARE_TECH277" exact="1"/>
+                                  <ware typename="SS_WARE_TECH251" exact="1"/>
+                                  <ware typename="SS_WARE_TECH213" exact="1"/>
+                                  <ware typename="SS_WARE_TECH246" exact="1"/>
+                                  <ware typename="SS_WARE_TECH231" exact="1"/>
+                                  <ware typename="SS_WARE_BEAMING" exact="1"/>
+                                  <ware typename="SS_WARE_BOOST" exact="1"/>
+                                  <ware typename="SS_WARE_SCANNER3" exact="1"/>
+                                  <ware typename="SS_WARE_SW_NAV_1" exact="1"/>
+                                  <ware typename="SS_WARE_SW_FIGHT_1" exact="1"/>
+                                  <ware typename="SS_WARE_SW_FIGHT_2" exact="1"/>
+                                  <ware typename="SS_WARE_SW_SPECIAL_1" exact="1"/>
+                                  <ware typename="SS_WARE_SW_PATROL_1" exact="1"/>
+                                  <ware typename="SS_WARE_TR_TECH7" exact="1"/>
+                                  <ware typename="SS_WARE_TR_TECH8" exact="1"/>
+                                  <ware typename="SS_WARE_TR_ARMS" exact="1"/>
+                                  <ware typename="SS_WARE_TR_MINE" exact="1"/>
+                                  <ware typename="SS_WARE_USC_DRONE" min="1" max="6"/>
+                                  <ware typename="SS_WARE_TR_ORBITALLASER" min="1" max="8"/>
+                                </tradables>
+                              </create_station>
+                            </do_all>
+                          </action>
+                          <cues>
+                            <cue name="L2M051_C3_Argon_TerranFleetS" delay="2s">
+                              <condition>
+                                <check_all>
+                                  <cue_is_complete cue="L2M051_C3_Argon_EGCIterrogation"/>
+                                </check_all>
+                              </condition>
+                              <action>
+                                <do_all>
+                                  <do_any min="20" max="40">
+                                    <create_ship group="L2M051.TerranFleetS" race="terran" racelogic="0" typename="SS_SH_TR_M5" chance="50">
+                                      <position max="20km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                      <equipment loadout="maximum" loadoutmask="all"/>
+                                      <command command="killenemiesrange" distance="40km">
+                                        <position x="35km" y="0" z="0"/>
+                                        <sector sector="L2M051.BTalpha"/>
+                                      </command>
+                                    </create_ship>
+                                    <create_ship group="L2M051.TerranFleetS" race="terran" racelogic="0" typename="SS_SH_TR_M4" chance="40">
+                                      <position max="20km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                      <equipment loadout="maximum" loadoutmask="all"/>
+                                      <command command="killenemiesrange" distance="40km">
+                                        <position x="35km" y="0" z="0"/>
+                                        <sector sector="L2M051.BTalpha"/>
+                                      </command>
+                                    </create_ship>
+                                    <create_ship group="L2M051.TerranFleetS" race="terran" racelogic="0" typename="SS_SH_TR_M3" chance="30 ">
+                                      <position max="20km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                      <equipment loadout="maximum" loadoutmask="all"/>
+                                      <command command="killenemiesrange" distance="40km">
+                                        <position x="35km" y="0" z="0"/>
+                                        <sector sector="L2M051.BTalpha"/>
+                                      </command>
+                                    </create_ship>
+                                    <create_ship group="L2M051.TerranFleetS" race="terran" racelogic="0" typename="SS_SH_TR_M6" chance="20">
+                                      <position max="20km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                      <equipment loadout="maximum" loadoutmask="all"/>
+                                      <command command="killenemiesrange" distance="40km">
+                                        <position x="35km" y="0" z="0"/>
+                                        <sector sector="L2M051.BTalpha"/>
+                                      </command>
+                                    </create_ship>
+                                    <create_ship group="L2M051.TerranFleetS" race="terran" racelogic="0" typename="SS_SH_TR_M7" chance="5">
+                                      <position max="20km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                      <equipment loadout="maximum" loadoutmask="all"/>
+                                      <command command="killenemiesrange" distance="40km">
+                                        <position x="35km" y="0" z="0"/>
+                                        <sector sector="L2M051.BTalpha"/>
+                                      </command>
+                                    </create_ship>
+                                    <set_group_relation group="L2M051.TerranFleetS">
+                                      <relation relation="enemy" mutual="1" object="{player.ship}"/>
+                                    </set_group_relation>
+                                  </do_any>
+                                </do_all>
+                              </action>
+                              <cues>
+                                <cue name="L2M051_C3_Argon_TerranFleetS_reset" delay="3s">
+                                  <condition>
+                                    <check_all>
+                                      <cue_is_complete cue="L2M051_C3_Argon_TerranFleetS"/>
+                                      <check_value value="{group.object.count@L2M051.TerranFleetS}" max="10"/>
+                                    </check_all>
+                                  </condition>
+                                  <action>
+                                    <do_all>
+                                      <reset_cue cue="L2M051_C3_Argon_TerranFleetS"/>
+                                    </do_all>
+                                  </action>
+                                </cue>
+                              </cues>
+                            </cue>
+
+                            <cue name="L2M051_C3_Argon_TerranFleetXL" delay="2s">
+                              <condition>
+                                <check_all>
+                                  <cue_is_complete cue="L2M051_C3_Argon_EGCIterrogation"/>
+                                </check_all>
+                              </condition>
+                              <action>
+                                <do_all>
+                                  <do_any min="6" max="10">
+                                    <create_ship group="L2M051.TerranFleetXL" race="terran" racelogic="0" typename="SS_SH_TR_M1H" chance="10">
+                                      <position max="20km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                      <equipment loadout="maximum" loadoutmask="all"/>
+                                      <command command="killenemies">
+                                        <sector sector="L2M051.BTdelta"/>
+                                      </command>
+                                    </create_ship>
+                                    <create_ship group="L2M051.TerranFleetXL" race="terran" racelogic="0" typename="SS_SH_TR_M2P" chance="40">
+                                      <position max="20km"/>
+                                      <sector sector="L2M051.BTdelta"/>
+                                      <equipment loadout="maximum" loadoutmask="all"/>
+                                      <command command="killenemiesrange" distance="50km">
+                                        <position x="45km" y="0" z="0"/>
+                                        <sector sector="L2M051.BTalpha"/>
+                                      </command>
+                                    </create_ship>
+                                    <set_group_relation group="L2M051.TerranFleetXL">
+                                      <relation relation="enemy" mutual="1" object="{player.ship}"/>
+                                    </set_group_relation>
+                                  </do_any>
+                                </do_all>
+                              </action>
+                              <cues>
+                                <cue name="L2M051_C3_Argon_TerranFleetXL_reset" delay="3s">
+                                  <condition>
+                                    <check_all>
+                                      <cue_is_complete cue="L2M051_C3_Argon_TerranFleetXL"/>
+                                      <check_value value="{group.object.count@L2M051.TerranFleetXL}" max="2"/>
+                                    </check_all>
+                                  </condition>
+                                  <action>
+                                    <do_all>
+                                      <reset_cue cue="L2M051_C3_Argon_TerranFleetXL"/>
+                                    </do_all>
+                                  </action>
+                                </cue>
+                              </cues>
+                            </cue>
+
+                            <cue name="L2M051_C3_Argon_CMCPrepare">
+                              <condition>
+                                <conversation_completed actor="L2M051.CMC" conversation="L2M051_CMC_2" answer="accept"/>
+                              </condition>
+                              <action>
+                                <do_all>
+                                  <remove_briefing cue="L2M051"/>
+                                  <remove_objective cue="L2M051" status="complete"/>
+                                  <remove_offer actor="L2M051.CMC" conversation="L2M051_CMC_2" discipline="XXXXP"/>
+                                </do_all>
+                              </action>
+                              <cues>
+                                <cue name="L2M051_C3_Argon_Wait" delay="5s">
+                                  <condition>
+                                    <check_all>
+                                      <cue_is_complete cue="L2M051_C3_Argon_CMCPrepare"/>
+                                    </check_all>
+                                  </condition>
+                                  <timing>
+                                    <time min="180s" max="300s"/>
+                                  </timing>
+                                  <action>
+                                    <set_value name="this.value" exact="42"/>
+                                  </action>
+                                  <cues>
+                                    <cue name="L2M051_C3_Argon_CMFleet" delay="2s">
+                                      <condition>
+                                        <check_all>
+                                          <cue_is_complete cue="L2M051_C3_Argon_Wait"/>
+                                          <check_value value="{sector@L2M051.BTalpha}" exact="{player.sector}" negate="1"/>
+                                        </check_all>
+                                      </condition>
+                                      <action>
+                                        <do_all>
+                                          <incoming_message author="{actor.name@L2M051.CMC}" text="{3227,43}"/>
+                                          <create_briefing cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" background="39_BTAlpha.tga">
+                                            <mission discipline="XXXXP" level="veryhard"/>
+                                            <objectives>
+                                              <objective step="1">
+                                                <custom action="{35,2036}" text="{sector.name@L2M051.BTalpha}" guidance="{sector@L2M051.BTalpha}"/>
+                                              </objective>
+                                            </objectives>
+                                          </create_briefing>
+                                          <set_objective cue="L2M051" story="{3227,9001}" title="{3227,9042}" text="{3227,9043}" noabort="1" >
+                                            <briefing cue="L2M051" step="1"/>
+                                            <mission discipline="XXXXP" level="veryhard"/>
+                                            <custom action="{35,2036}" text="{sector.name@L2M051.BTalpha}" guidance="{sector@L2M051.BTalpha}"/>
+                                          </set_objective>
+                                          <do_all min="2" max="3">
+                                            <create_ship group="L2M051.CWCapFleet" race="argon" typename="SS_SH_A_M2" racelogic="0" warp="0">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWCapFleet" race="boron" typename="SS_SH_B_M2" racelogic="0" warp="0">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWCapFleet" race="teladi" typename="SS_SH_T_M2" racelogic="0" warp="0">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                          </do_all>
+                                          <set_group_relation group="L2M051.CWCapFleet">
+                                            <relation mutual="1" relation="enemy" group="L2M051.TerranFleetXL"/>
+                                          </set_group_relation>
+                                          <set_group_command group="L2M051.CWCapFleet" command="killenemies">
+                                            <sector sector="L2M051.BTalpha"/>
+                                          </set_group_command>
+                                          <do_any min="20" max="30">
+                                            <create_ship group="L2M051.CWFleet" race="argon" typename="SS_SH_A_M3" racelogic="0" warp="0" chance="40">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWFleet" race="boron" typename="SS_SH_B_M3" racelogic="0" warp="0" chance="40">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWFleet" race="teladi" typename="SS_SH_T_M3" racelogic="0" warp="0" chance="40">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWFleet" race="argon" typename="SS_SH_A_M4" racelogic="0" warp="0" chance="30">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWFleet" race="boron" typename="SS_SH_B_M4" racelogic="0" warp="0" chance="30">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWFleet" race="teladi" typename="SS_SH_T_M4" racelogic="0" warp="0" chance="30">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWFleet" race="argon" typename="SS_SH_A_M3" racelogic="0" warp="0" chance="20">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWFleet" race="boron" typename="SS_SH_B_M3" racelogic="0" warp="0" chance="20">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                            <create_ship group="L2M051.CWFleet" race="teladi" typename="SS_SH_T_M3" racelogic="0" warp="0" chance="20">
+                                              <position x="-10km" y="0km" z="15km" max="5km"/>
+                                              <sector sector="L2M051.BTalpha"/>
+                                              <equipment loadout="maximum" loadoutmask="all"/>
+                                            </create_ship>
+                                          </do_any>
+
+                                          <set_group_relation group="L2M051.CWFleet">
+                                            <relation mutual="1" relation="enemy" group="L2M051.TerranFleetXL"/>
+                                          </set_group_relation>
+                                          <set_group_command group="L2M051.CWFleet" command="killenemies">
+                                            <sector sector="L2M051.BTalpha"/>
+                                          </set_group_command>
+                                        </do_all>
+                                      </action>
+                                      <cues>
+                                        <cue name="L2M051_C3_Argon_Defeat" delay="5s" version="2">
+                                          <condition>
+                                            <check_all>
+                                              <cue_is_complete cue="L2M051_C3_Argon_Wait"/>
+                                              <cue_is_complete cue="L2M051_C3_Argon_CMFleet"/>
+                                              <check_value value="{group.object.count@L2M051.CWCapFleet}" max="1"/>
+                                            </check_all>
+                                          </condition>
+                                          <action>
+                                            <do_all>
+                                              <incoming_message author="{actor.name@L2M051.CMC}" text="{3227,44}"/>
+                                              <remove_briefing cue="L2M051"/>
+                                              <remove_objective cue="L2M051" status="failed"/>
+                                              <destroy_group warp="1" group="L2M051.CWCapFleet"/>
+                                              <destroy_group warp="1" group="L2M051.CWFleet"/>
+                                            </do_all>
+                                          </action>
+                                          <cues>
+                                            <cue name="L2M051_C3_Argon_Conclusion" delay="5s">
+                                              <condition>
+                                                <check_all>
+                                                  <cue_is_complete cue="L2M051_C3_Argon_Defeat"/>
+                                                </check_all>
+                                              </condition>
+                                              <timing>
+                                                <time min="180s" max="300s"/>
+                                              </timing>
+                                              <action>
+                                                <do_all>
+                                                  <destroy_group warp="1" group="L2M051.TerranFleetXL"/>
+                                                  <destroy_group warp="1" group="L2M051.TerranFleetS"/>
+                                                  <incoming_message author="{actor.name@L2M051.CMC}" text="{3227,45}"/>
+                                                  <set_value name="L2M051.ChapterUnlock" exact="10"/>
+													<destroy_actor actor="L2M051.CMC"/>
+                                                </do_all>
+                                              </action>
+                                            </cue>
+                                          </cues>
+                                        </cue>
+                                      </cues>
+                                    </cue>
+                                  </cues>
+                                </cue>
+                              </cues>
+                            </cue>
+                          </cues>
+                        </cue>
+                      </cues>
+                    </cue>
+                  </cues>
+                </cue>
+              </cues>
+            </cue>
+          </cues>
+        </cue>
+
+        <cue name="L2M051_Cleanup" delay="3s">
+          <condition>
+            <check_all>
+              <cue_is_complete cue="L2M051"/>
+              <check_value value="{value@L2M051.ChapterUnlock}" exact="10"/>
+              <check_value value="{player.menu.exists}" exact="0"/>
+            </check_all>
+          </condition>
+          <timing>
+            <time min="10s" max="20s"/>
+          </timing>
+          <action>
+            <do_all>
+              <unlock_achievement name="PHASE3"/>
+              <set_group_invincible group="L2M051.Plotstations" invincible="0"/>
+            </do_all>
+          </action>
+        </cue>
+
+        <cue name="L2M051_Cleanup_Kyoto" delay="2s">
+          <condition>
+            <check_all>
+              <cue_is_complete cue="L2M051"/>
+              <cue_is_complete cue="L2M051_Cleanup"/>
+            </check_all>
+          </condition>
+          <action>
+            <set_invincible object="L2M051.TerranM1" invincible="0"/>
+          </action>
+        </cue>
+      </cues>
+    </cue>
+  </cues>
+  <signature>nV5IEc0vlrAhxjTK1/i/HwjyTHS8/d5HkDUr/uCPyoryqzvAcLeJ1SMYevNuS2txfZsh3zAPTNbojE8wN4IxxUYgoT+FoJtzqRsa4c7kkWSAS2See5QBl0AT29DNkR37/+Ub3W+H6JRuD2fMGy7Wtpxnvm3BLeKJXg/dBO0w+FtbbtcYLi9v10daNO/qvCbyNJN1rPFXDUxNOupIvF24I2NH78Qic2taSCceXi//gNwza433VAZddJU7V4vzhQcovvXc5sSk0nXF9Bbrlos1TLIVfdw/gWoCBk3sxvkCJCtvjIBAjdQNQgNI+oVQH5IOmlWNOcGli5gIr7jiftGQrw==</signature>
+</director>

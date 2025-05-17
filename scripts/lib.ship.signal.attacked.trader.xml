@@ -1,0 +1,813 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>lib.ship.signal.attacked.trader</name>
+<version>5</version>
+<engineversion>61</engineversion>
+<description>Asynchronous signal. attacked for Traders</description>
+<arguments>
+<argument index="1" name="attacker" type="Var/Ship/Station" desc="the attacker" />
+<argument index="2" name="action" type="Var/Number" desc="action" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  * starting from secondary
+  if get task ID
+  * dont replace if we are already running the signal
+    do if [THIS] -> is script lib.ship.signal.attacked.trader on stack of task=0
+      return null
+  * only do it for MK3 trader
+    if not [THIS] -> is script plugin.autotrade.run on stack of task=0
+      [THIS] ->remove secondary signal: signal=SIGNAL_KILLED, name='autotrade.killed'
+      [THIS] ->remove secondary signal: signal=SIGNAL_ATTACKED, name='autotrade.attacked'
+      [THIS] ->set ship command/signal SIGNAL_ATTACKED to global default behaviour
+      [THIS] ->set ship command/signal SIGNAL_KILLED to global default behaviour
+      return null
+    end
+    
+    $task = get task ID
+    if $task == 18
+      $running.task = [THIS] -> get local variable: name='mk3.attack.task'
+      if $running.task
+        do if [THIS] -> is script lib.ship.signal.attacked.trader on stack of task=$running.task
+          return null
+      end
+      $task = [THIS] -> get next available task: starting=[Task.StartFree]
+      [THIS] ->set local variable: name='mk3.attack.task' value=$task
+      [THIS] ->start task $task with script lib.ship.signal.attacked.trader and prio 50: arg1=$attacker arg2=$action arg3=null arg4=null arg5=null
+      return null
+    else
+@     = wait 500 ms
+      [THIS] ->interrupt task 0 with script lib.ship.signal.attacked.trader and prio 100: arg1=$attacker arg2=$action arg3=null arg4=null
+      return null
+    end
+  end
+  
+  [THIS] ->set local variable: name='mk3.attack.task' value=null
+@ = [THIS] -> call script plugin.autotrade.blacklistsector :  Add Sector=[SECTOR]  Is Local=[FALSE]
+  $sector = [SECTOR]
+  
+  do if [THIS] -> get amount of ware Jumpdrive in cargo bay
+@   = [THIS] -> call script !lib.emergency.jump.run :  Force=[TRUE]
+  
+  if $sector == [SECTOR]
+    $do.drones = [THIS] ->get should drop drones
+    if [OWNER] != Player OR $do.drones
+      $random = random value from 4 to 10 - 1
+      $random = [THIS] -> launch $random fight drones: protect me or attack target=null
+    end
+    
+    $flags = [Find.Friend] | [Find.Neutral] | [Find.Nearest]
+    $station.nearest = find station: sector=[SECTOR] class or type=Station race=null flags=$flags refobj=[THIS] maxdist=100000 maxnum=null refpos=null
+    $gate.nearest = find gate: flags=[Find.Nearest], refobj=[THIS], max dist=100000, refpos=null
+    if $station.nearest AND $gate.nearest
+      $gate.dist = get distance between [THIS] and $gate.nearest
+      $station.dist = get distance between [THIS] and $station.nearest
+      if $gate.dist < $station.dist
+        $nearest = $gate.dist
+      else
+        $nearest = $station.nearest
+      end
+    else if $station.nearest
+      $nearest = $station.nearest
+    else if $gate.nearest
+      $nearest = $gate.dist
+    end
+    
+    if $nearest -> exists
+      if $nearest -> is of class Gate
+        $dest.sector = $nearest -> get gate destination: return sector=[TRUE]
+        $nearest = find station: sector=$dest.sector class or type=Station race=null flags=$flags refobj=[THIS] maxdist=null maxnum=null refpos=null
+      end
+@     = [THIS] -> call script lib.ship.sh.attack.trader.flee :  the attacker=$attacker  station to dock at=$nearest
+    end
+  end
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><comment><text>*&#160;</text><var>starting&#160;from&#160;secondary</var></comment></line>
+<line indent=""><var>if&#160;</var><text>get&#160;task&#160;ID</text></line>
+<line indent=""><comment><text>*&#160;</text><var>dont&#160;replace&#160;if&#160;we&#160;are&#160;already&#160;running&#160;the&#160;signal</var></comment></line>
+<line indent="&#160;"><var>do&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;is&#160;script&#160;</text><call>lib.ship.signal.attacked.trader</call><text>&#160;on&#160;stack&#160;of&#160;task=</text><var>0</var></line>
+<line indent="&#160;&#160;"><text>return&#160;</text><var>null</var></line>
+<line indent=""><comment><text>*&#160;</text><var>only&#160;do&#160;it&#160;for&#160;MK3&#160;trader</var></comment></line>
+<line indent="&#160;"><var>if&#160;not&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;is&#160;script&#160;</text><call>plugin.autotrade.run</call><text>&#160;on&#160;stack&#160;of&#160;task=</text><var>0</var></line>
+<line indent="&#160;&#160;"><var>[THIS]&#160;-&gt;</var><text>remove&#160;secondary&#160;signal:&#160;signal=</text><var>SIGNAL_KILLED</var><text>,&#160;name=</text><var>'autotrade.killed'</var></line>
+<line indent="&#160;&#160;"><var>[THIS]&#160;-&gt;</var><text>remove&#160;secondary&#160;signal:&#160;signal=</text><var>SIGNAL_ATTACKED</var><text>,&#160;name=</text><var>'autotrade.attacked'</var></line>
+<line indent="&#160;&#160;"><var>[THIS]&#160;-&gt;</var><text>set&#160;ship&#160;command/signal&#160;</text><var>SIGNAL_ATTACKED</var><text>&#160;to&#160;global&#160;default&#160;behaviour</text></line>
+<line indent="&#160;&#160;"><var>[THIS]&#160;-&gt;</var><text>set&#160;ship&#160;command/signal&#160;</text><var>SIGNAL_KILLED</var><text>&#160;to&#160;global&#160;default&#160;behaviour</text></line>
+<line indent="&#160;&#160;"><text>return&#160;</text><var>null</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"></line>
+<line indent="&#160;"><var>$task&#160;=&#160;</var><text>get&#160;task&#160;ID</text></line>
+<line indent="&#160;"><var>if&#160;</var><var>$task</var><text>&#160;</text><var>==</var><text>&#160;</text><var>18</var></line>
+<line indent="&#160;&#160;"><var>$running.task&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;get&#160;local&#160;variable:&#160;name=</text><var>'mk3.attack.task'</var></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$running.task</var></line>
+<line indent="&#160;&#160;&#160;"><var>do&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;is&#160;script&#160;</text><call>lib.ship.signal.attacked.trader</call><text>&#160;on&#160;stack&#160;of&#160;task=</text><var>$running.task</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><text>return&#160;</text><var>null</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><var>$task&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;get&#160;next&#160;available&#160;task:&#160;starting=</text><var>[Task.StartFree]</var></line>
+<line indent="&#160;&#160;"><var>[THIS]&#160;-&gt;</var><text>set&#160;local&#160;variable:&#160;name=</text><var>'mk3.attack.task'</var><text>&#160;value=</text><var>$task</var></line>
+<line indent="&#160;&#160;"><var>[THIS]&#160;-&gt;</var><text>start&#160;task&#160;</text><var>$task</var><text>&#160;with&#160;script&#160;</text><call>lib.ship.signal.attacked.trader</call><text>&#160;and&#160;prio&#160;</text><var>50</var><text>:&#160;arg1=</text><var>$attacker</var><text>&#160;arg2=</text><var>$action</var><text>&#160;arg3=</text><var>null</var><text>&#160;arg4=</text><var>null</var><text>&#160;arg5=</text><var>null</var></line>
+<line indent="&#160;&#160;"><text>return&#160;</text><var>null</var></line>
+<line indent="&#160;"><text>else</text></line>
+<line interruptable="@" indent="&#160;&#160;"><var>=&#160;</var><text>wait&#160;</text><var>500</var><text>&#160;ms</text></line>
+<line indent="&#160;&#160;"><var>[THIS]&#160;-&gt;</var><text>interrupt&#160;task&#160;</text><var>0</var><text>&#160;with&#160;script&#160;</text><call>lib.ship.signal.attacked.trader</call><text>&#160;and&#160;prio&#160;</text><var>100</var><text>:&#160;arg1=</text><var>$attacker</var><text>&#160;arg2=</text><var>$action</var><text>&#160;arg3=</text><var>null</var><text>&#160;arg4=</text><var>null</var></line>
+<line indent="&#160;&#160;"><text>return&#160;</text><var>null</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><var>[THIS]&#160;-&gt;</var><text>set&#160;local&#160;variable:&#160;name=</text><var>'mk3.attack.task'</var><text>&#160;value=</text><var>null</var></line>
+<line interruptable="@" indent=""><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>plugin.autotrade.blacklistsector</call><text>&#160;:&#160;</text><text>&#160;Add&#160;Sector=</text><var>[SECTOR]</var><text>&#160;</text><text>&#160;Is&#160;Local=</text><var>[FALSE]</var></line>
+<line indent=""><var>$sector&#160;=&#160;</var><var>[SECTOR]</var></line>
+<line indent=""></line>
+<line indent=""><var>do&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;get&#160;amount&#160;of&#160;ware&#160;</text><var>Jumpdrive</var><text>&#160;in&#160;cargo&#160;bay</text></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!lib.emergency.jump.run</call><text>&#160;:&#160;</text><text>&#160;Force=</text><var>[TRUE]</var></line>
+<line indent=""></line>
+<line indent=""><var>if&#160;</var><var>$sector</var><text>&#160;</text><var>==</var><text>&#160;</text><var>[SECTOR]</var></line>
+<line indent="&#160;"><var>$do.drones&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>get&#160;should&#160;drop&#160;drones</text></line>
+<line indent="&#160;"><var>if&#160;</var><var>[OWNER]</var><text>&#160;</text><var>!=</var><text>&#160;</text><var>Player</var><text>&#160;</text><var>OR</var><text>&#160;</text><var>$do.drones</var></line>
+<line indent="&#160;&#160;"><var>$random&#160;=&#160;</var><text>random&#160;value&#160;from&#160;</text><var>4</var><text>&#160;to&#160;</text><var>10</var><text>&#160;-&#160;1</text></line>
+<line indent="&#160;&#160;"><var>$random&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;launch&#160;</text><var>$random</var><text>&#160;fight&#160;drones:&#160;protect&#160;me&#160;or&#160;attack&#160;target=</text><var>null</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"></line>
+<line indent="&#160;"><var>$flags&#160;=&#160;</var><var>[Find.Friend]</var><text>&#160;</text><var>|</var><text>&#160;</text><var>[Find.Neutral]</var><text>&#160;</text><var>|</var><text>&#160;</text><var>[Find.Nearest]</var></line>
+<line indent="&#160;"><var>$station.nearest&#160;=&#160;</var><text>find&#160;station:&#160;sector=</text><var>[SECTOR]</var><text>&#160;class&#160;or&#160;type=</text><var>Station</var><text>&#160;race=</text><var>null</var><text>&#160;flags=</text><var>$flags</var><text>&#160;refobj=</text><var>[THIS]</var><text>&#160;maxdist=</text><var>100000</var><text>&#160;maxnum=</text><var>null</var><text>&#160;refpos=</text><var>null</var></line>
+<line indent="&#160;"><var>$gate.nearest&#160;=&#160;</var><text>find&#160;gate:&#160;flags=</text><var>[Find.Nearest]</var><text>,&#160;refobj=</text><var>[THIS]</var><text>,&#160;max&#160;dist=</text><var>100000</var><text>,&#160;refpos=</text><var>null</var></line>
+<line indent="&#160;"><var>if&#160;</var><var>$station.nearest</var><text>&#160;</text><var>AND</var><text>&#160;</text><var>$gate.nearest</var></line>
+<line indent="&#160;&#160;"><var>$gate.dist&#160;=&#160;</var><text>get&#160;distance&#160;between&#160;</text><var>[THIS]</var><text>&#160;and&#160;</text><var>$gate.nearest</var></line>
+<line indent="&#160;&#160;"><var>$station.dist&#160;=&#160;</var><text>get&#160;distance&#160;between&#160;</text><var>[THIS]</var><text>&#160;and&#160;</text><var>$station.nearest</var></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$gate.dist</var><text>&#160;</text><var>&lt;</var><text>&#160;</text><var>$station.dist</var></line>
+<line indent="&#160;&#160;&#160;"><var>$nearest&#160;=&#160;</var><var>$gate.dist</var></line>
+<line indent="&#160;&#160;"><text>else</text></line>
+<line indent="&#160;&#160;&#160;"><var>$nearest&#160;=&#160;</var><var>$station.nearest</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;"><var>else&#160;if&#160;</var><var>$station.nearest</var></line>
+<line indent="&#160;&#160;"><var>$nearest&#160;=&#160;</var><var>$station.nearest</var></line>
+<line indent="&#160;"><var>else&#160;if&#160;</var><var>$gate.nearest</var></line>
+<line indent="&#160;&#160;"><var>$nearest&#160;=&#160;</var><var>$gate.dist</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent="&#160;"></line>
+<line indent="&#160;"><var>if&#160;</var><var>$nearest&#160;-&gt;</var><text>&#160;exists</text></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$nearest&#160;-&gt;</var><text>&#160;is&#160;of&#160;class&#160;</text><var>Gate</var></line>
+<line indent="&#160;&#160;&#160;"><var>$dest.sector&#160;=&#160;</var><var>$nearest&#160;-&gt;</var><text>&#160;get&#160;gate&#160;destination:&#160;return&#160;sector=</text><var>[TRUE]</var></line>
+<line indent="&#160;&#160;&#160;"><var>$nearest&#160;=&#160;</var><text>find&#160;station:&#160;sector=</text><var>$dest.sector</var><text>&#160;class&#160;or&#160;type=</text><var>Station</var><text>&#160;race=</text><var>null</var><text>&#160;flags=</text><var>$flags</var><text>&#160;refobj=</text><var>[THIS]</var><text>&#160;maxdist=</text><var>null</var><text>&#160;maxnum=</text><var>null</var><text>&#160;refpos=</text><var>null</var></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line interruptable="@" indent="&#160;&#160;"><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>lib.ship.sh.attack.trader.flee</call><text>&#160;:&#160;</text><text>&#160;the&#160;attacker=</text><var>$attacker</var><text>&#160;</text><text>&#160;station&#160;to&#160;dock&#160;at=</text><var>$nearest</var></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="lib.ship.signal.attacked.trader"/>
+  <sval type="int" val="61"/>
+  <sval type="string" val="Asynchronous signal. attacked for Traders"/>
+  <sval type="int" val="5"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="14">
+    <sval type="string" val="attacker"/>
+    <sval type="string" val="action"/>
+    <sval type="string" val="task"/>
+    <sval type="string" val="running.task"/>
+    <sval type="string" val="sector"/>
+    <sval type="string" val="do.drones"/>
+    <sval type="string" val="random"/>
+    <sval type="string" val="flags"/>
+    <sval type="string" val="station.nearest"/>
+    <sval type="string" val="gate.nearest"/>
+    <sval type="string" val="gate.dist"/>
+    <sval type="string" val="station.dist"/>
+    <sval type="string" val="nearest"/>
+    <sval type="string" val="dest.sector"/>
+  </sval>
+  <sval type="array" size="55">
+    <sval type="array" size="2">
+      <sval type="int" val="147"/>
+      <sval type="int" val="-1610606845"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="1072"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610611960"/>
+      <sval type="string" val="lib.ship.signal.attacked.trader"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="1072"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-536868604"/>
+      <sval type="string" val="plugin.autotrade.run"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="1340"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1001"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="autotrade.killed"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="1340"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1000"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="autotrade.attacked"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="114"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1000"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="114"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="1001"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="147"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610607613"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="156"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="mk3.attack.task"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608893"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="1072"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610608888"/>
+      <sval type="string" val="lib.ship.signal.attacked.trader"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1462"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="443"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="155"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="mk3.attack.task"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="18">
+      <sval type="int" val="1017"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="lib.ship.signal.attacked.trader"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="50"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="23"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="105"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="500"/>
+    </sval>
+    <sval type="array" size="16">
+      <sval type="int" val="1016"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="lib.ship.signal.attacked.trader"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="155"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="mk3.attack.task"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="102"/>
+      <sval type="string" val="plugin.autotrade.blacklistsector"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="618"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610605560"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1048611"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="!lib.emergency.jump.run"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610598909"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2692"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="19">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610604285"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-2"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="-4"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="110"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="546"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="19">
+      <sval type="int" val="104"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="110"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="109"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="106"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="-2"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="-4"/>
+    </sval>
+    <sval type="array" size="18">
+      <sval type="int" val="794"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2016"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100000"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="1336"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="106"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="100000"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610601469"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="738"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="738"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610601981"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="43"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="49"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610600699"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="49"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610600187"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="706"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="-1610598909"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="705"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="-1610599165"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2014"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1057"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="18">
+      <sval type="int" val="794"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2016"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="102"/>
+      <sval type="string" val="lib.ship.sh.attack.trader.flee"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="array" size="2">
+    <sval type="array" size="2">
+      <sval type="int" val="22"/>
+      <sval type="string" val="the attacker"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val="action"/>
+    </sval>
+  </sval>
+  <sval type="array" size="21">
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="starting from secondary"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="dont replace if we are already running the signal"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="only do it for MK3 trader"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="15"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="23"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="23"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="23"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="26"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="28"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="33"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="33"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="42"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="43"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="49"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="49"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="53"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="54"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="54"/>
+      <sval type="int" val="4"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>2020</nosignature>
+</script>

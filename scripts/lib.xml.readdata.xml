@@ -1,0 +1,383 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>lib.xml.readdata</name>
+<version>1</version>
+<engineversion>61</engineversion>
+<description>XML Data, read to datatype</description>
+<arguments>
+<argument index="1" name="a.filename" type="Var/String" desc="Filename" />
+<argument index="2" name="a.dir" type="Var/String" desc="Directory" />
+<argument index="3" name="a.node" type="Var/String" desc="Node" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  $a.filename = $a.filename + '.xml'
+  $fileData = read file data: filename=$a.filename, directory=$a.dir
+  if $fileData
+    $xmlData = parse xml data: $fileData
+    if $xmlData
+      $top.node = xml get node string: $xmlData
+      if $top.node == $a.node
+        $children = xml get number of children: $xmlData
+        $ret.array = array alloc: size=$children
+        $i = 0
+        while $i < $children
+          $child = xml get child: $xmlData, id=0
+@         $ret = [THIS] -> call script lib.xml.get.data :  XML Data=$child
+          do if is datatype[ $ret ] == DATATYPE_ARRAY
+            $ret = $ret[1]
+          $ret.array[$i] = $ret
+          inc $i = 
+        end
+      end
+    end
+  end
+  
+  $size = size of array $ret.array
+  if not $size
+    return null
+  else if $size == 1
+    $ret = $ret.array[0]
+    return $ret
+  else
+    return $ret
+  end
+  
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>$a.filename&#160;=&#160;</var><var>$a.filename</var><text>&#160;</text><var>+</var><text>&#160;</text><var>'.xml'</var></line>
+<line indent=""><var>$fileData&#160;=&#160;</var><text>read&#160;file&#160;data:&#160;filename=</text><var>$a.filename</var><text>,&#160;directory=</text><var>$a.dir</var></line>
+<line indent=""><var>if&#160;</var><var>$fileData</var></line>
+<line indent="&#160;"><var>$xmlData&#160;=&#160;</var><text>parse&#160;xml&#160;data:&#160;</text><var>$fileData</var></line>
+<line indent="&#160;"><var>if&#160;</var><var>$xmlData</var></line>
+<line indent="&#160;&#160;"><var>$top.node&#160;=&#160;</var><text>xml&#160;get&#160;node&#160;string:&#160;</text><var>$xmlData</var></line>
+<line indent="&#160;&#160;"><var>if&#160;</var><var>$top.node</var><text>&#160;</text><var>==</var><text>&#160;</text><var>$a.node</var></line>
+<line indent="&#160;&#160;&#160;"><var>$children&#160;=&#160;</var><text>xml&#160;get&#160;number&#160;of&#160;children:&#160;</text><var>$xmlData</var></line>
+<line indent="&#160;&#160;&#160;"><var>$ret.array&#160;=&#160;</var><text>array&#160;alloc:&#160;size=</text><var>$children</var></line>
+<line indent="&#160;&#160;&#160;"><var>$i&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;&#160;&#160;"><var>while&#160;</var><var>$i</var><text>&#160;</text><var>&lt;</var><text>&#160;</text><var>$children</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$child&#160;=&#160;</var><text>xml&#160;get&#160;child:&#160;</text><var>$xmlData</var><text>,&#160;id=</text><var>0</var></line>
+<line interruptable="@" indent="&#160;&#160;&#160;&#160;"><var>$ret&#160;=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>lib.xml.get.data</call><text>&#160;:&#160;</text><text>&#160;XML&#160;Data=</text><var>$child</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>do&#160;if&#160;</var><text>is&#160;datatype[&#160;</text><var>$ret</var><text>&#160;]&#160;==&#160;</text><var>DATATYPE_ARRAY</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$ret&#160;=&#160;</var><var>$ret</var><text>[</text><var>1</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$ret.array</var><text>[</text><var>$i</var><text>]&#160;=&#160;</text><var>$ret</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><text>inc&#160;</text><var>$i&#160;=&#160;</var></line>
+<line indent="&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><var>$size&#160;=&#160;</var><text>size&#160;of&#160;array&#160;</text><var>$ret.array</var></line>
+<line indent=""><var>if&#160;not&#160;</var><var>$size</var></line>
+<line indent="&#160;"><text>return&#160;</text><var>null</var></line>
+<line indent=""><var>else&#160;if&#160;</var><var>$size</var><text>&#160;</text><var>==</var><text>&#160;</text><var>1</var></line>
+<line indent="&#160;"><var>$ret&#160;=&#160;</var><var>$ret.array</var><text>[</text><var>0</var><text>]</text></line>
+<line indent="&#160;"><text>return&#160;</text><var>$ret</var></line>
+<line indent=""><text>else</text></line>
+<line indent="&#160;"><text>return&#160;</text><var>$ret</var></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="lib.xml.readdata"/>
+  <sval type="int" val="61"/>
+  <sval type="string" val="XML Data, read to datatype"/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="12">
+    <sval type="string" val="a.filename"/>
+    <sval type="string" val="a.dir"/>
+    <sval type="string" val="a.node"/>
+    <sval type="string" val="fileData"/>
+    <sval type="string" val="xmlData"/>
+    <sval type="string" val="top.node"/>
+    <sval type="string" val="children"/>
+    <sval type="string" val="ret.array"/>
+    <sval type="string" val="i"/>
+    <sval type="string" val="child"/>
+    <sval type="string" val="ret"/>
+    <sval type="string" val="size"/>
+  </sval>
+  <sval type="array" size="28">
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val=".xml"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2946"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608125"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2948"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608125"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2951"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608125"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2949"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="128"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608119"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="2950"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="102"/>
+      <sval type="string" val="lib.xml.get.data"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="125"/>
+      <sval type="int" val="-1610608888"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="20"/>
+      <sval type="int" val="21"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="142"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="131"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536865276"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="27"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610606075"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="27"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="array" size="3">
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="string" val="Filename"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="string" val="Directory"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="string" val="Node"/>
+    </sval>
+  </sval>
+  <sval type="array" size="8">
+    <sval type="array" size="2">
+      <sval type="int" val="18"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="18"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="18"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="18"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="18"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="26"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="27"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="27"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>5166</nosignature>
+</script>

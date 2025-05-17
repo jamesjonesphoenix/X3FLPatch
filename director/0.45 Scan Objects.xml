@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<?xml-stylesheet href="director.xsl" type="text/xsl" ?>
+<director name="Scan Objects Library" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="director.xsd">
+  <documentation>
+    <author name="Chris" alias="XGamer" contact="EMail, Skype, ForumPM" />
+    <content reference="L0M45" name="Scan Objects" description="Mission library for scanning a group of objects." />
+    <version number="1.0" date="17/09/2008" status="release"/>
+  </documentation>
+  <cues>
+    <cue name="L0M45 B" library="1" check="cancel" version="2">
+      <documentation>
+        <params>
+          <param name="Cue" type="cuename" description="The cue where the briefing will be localised"/>
+          <param name="Step" type="valuename" description="The initial objective step"/>
+          <param name="PageID" type="number" description="The PageID of the text"/>
+          <param name="TextID Title" type="number" description="The briefing title ID"/>
+          <param name="TextID Text Single Object" type="number" description="The briefing text ID for a single object"/>
+          <param name="TextID Text Multi Sectors" type="number" description="The briefing text ID for multi objects in multi sectors"/>
+          <param name="TextID Text Multi Objects" type="number" description="The briefing text ID for multi objects in a single sector"/>
+          <param name="Scan Multi B Text" type="number" description="The multiple object objective text ID for the briefing"/>
+          <param name="Scan Single B Text" type="number" description="The single object objective text ID for the briefing"/>
+          <param name="Scan Multi Text" type="number" description="The multiple object objective text ID"/>
+          <param name="Scan Single Text" type="number" description="The single object objective text ID"/>
+          <param name="OfferRace" type="number" description="Offer Race ID"/>
+          <param name="Difficulty" type="number" description="The value address for the difficulty"/>
+          <param name="StoryID" type="number" description="The textID for the StoryID"/>
+          <param name="ChapterID" type="number" description="The textID for the ChapterID"/>
+          <param name="Preview" type="boolean" description="Is the briefing a preview"/>
+          <param name="SetObjectives" type="boolean" description="Set the objectives and run the Objective library"/>
+          <param name="Complete Briefing" type="boolean" description="Run the briefing completion library"/>
+          <param name="IsPlot" type="boolean" compulsory="0" description="Is this a plot mission"/>
+          <param name="UseTimer" type="boolean" compulsory="0" description="Override the plot signal and use a timer"/>
+          <param name="Duration" type="valuename" compulsory="0" description="Mission Time"/>
+          <param name="StartTime" type="valuename" compulsory="0" description="Start Time"/>
+          <param name="EndTime" type="valuename" compulsory="0" description="End Time"/>
+          <!--Mission Params-->
+          <param name="GroupName" type="groupname" description="Object Group"/>
+          <param name="ScannedCounter" type="valuename" description="Address to save the scanned count too"/>
+          <!--reward parameters (in priority order)-->
+          <param name="RoundReward" type="number" compulsory="0" description="Round the reward to a reasonable value? Factor to round by - 1, 2, 4 or 5 are sensible."/>
+          <param name="NoReward" type="boolean" compulsory="0" description="Do not add a reward"/>
+          <param name="RewardCr" type="valuename" compulsory="0" description="Reward - credits"/>
+          <param name="RewardFree" type="boolean" compulsory="0" description="Reward - use free text"/>
+          <param name="RewardObj" type="objectname" compulsory="0" description="Reward - object"/>
+          <param name="RewardWare" type="valuename" compulsory="0" description="Reward - wares"/>
+          <param name="RewardAmt" type="valuename" compulsory="0" description="Reward - wares amount"/>
+        </params>
+      </documentation>
+      <condition>
+        <check_value value="{group.object.count@{param@GroupName}}" min="1"/>
+      </condition>
+      <action>
+        <do_all>
+          <do_if value="{param@IsPlot}" exact="1" negate="1">
+            <remove_briefing cue="{param@Cue}"/>
+          </do_if>
+          <set_value name="{param@Cue}.Briefing Background Set" exact="0"/>
+          <set_value name="L0M45 B.Step" exact="{value@{param@Step}}"/>
+          <set_value name="L0M45 B.Initial Step" exact="{value@{param@Step}}"/>
+          <do_choose>
+            <do_when value="{param.exists@Duration}" exact="1">
+              <do_if value="{value@{param@Duration}}" exact="0">
+                <set_value name="{param@Duration}" min="5800" max="6000"/>
+                <set_value name="{param@Duration}" operation="divide" exact="{param@Difficulty}"/>
+              </do_if>
+            </do_when>
+            <do_when value="{param.exists@EndTime}" exact="1">
+              <do_if value="{value@{param@EndTime}}" exact="0">
+                <set_value name="{param@EndTime}" min="5800" max="6000"/>
+                <set_value name="{param@EndTime}" exact="({value@{param@EndTime}}/{param@Difficulty})+{player.age}"/>
+              </do_if>
+            </do_when>
+          </do_choose>
+          <do_choose>
+            <do_when value="{param.exists@StartTime}" exact="1">
+              <set_value name="L0M45 B.StartTime" exact="{param@StartTime}"/>
+            </do_when>
+            <do_otherwise>
+              <do_if value="{value@{param@Duration}}" min="1">
+                <do_choose>
+                  <do_when value="{param@Preview}" exact="1">
+                    <set_value name="L0M45 B.StartTime" exact="5000+{player.age}+{value@{param@Duration}}"/>
+                  </do_when>
+                  <do_otherwise>
+                    <set_value name="L0M45 B.StartTime" exact="{player.age}"/>
+                  </do_otherwise>
+                </do_choose>
+              </do_if>
+            </do_otherwise>
+          </do_choose>
+          <do_if value="{param.exists@RewardCr}" exact="1">
+            <do_choose>
+              <do_when value="{param@Difficulty}" min="1">
+                <do_if value="{value@{param@RewardCr}}" exact="0">
+                  <set_value name="{param@RewardCr}" exact="{reward.money.{param@OfferRace}@{param@Difficulty}.XXXT}"/>
+                </do_if>
+              </do_when>
+              <do_otherwise>
+                <do_if value="{value@{param@RewardCr}}" exact="0">
+                  <set_value name="{param@RewardCr}" exact="{reward.money}"/>
+                </do_if>
+              </do_otherwise>
+            </do_choose>
+          </do_if>
+
+          <!-- Now lets count the Sectors -->
+          <do_all exact="{group.object.count@{param@GroupName}}" counter="count" comment="Count how many Different Sectors we have and how many objects in each">
+            <set_value name="this.TempSector" exact="{group.object.{counter@count}.sector@{param@GroupName}}"/>
+            <set_value name="this.Sectorcount {value@this.TempSector}" operation="add"/>
+            <do_if value="{value@this.TempSector}" exact="{player.sector}" comment="To find the closest object in the player sector. group.nearest can be though a gate">
+              <do_choose>
+                <do_when value="{value@this.Nearest Dist}" exact="0">
+                  <set_object name="this.Nearest" value="{group.object.{counter@count}@{param@GroupName}}"/>
+                  <set_value name="this.Nearest Dist" exact="{group.object.{counter@count}.distance@{param@GroupName}}"/>
+                </do_when>
+                <do_otherwise>
+                  <do_if value="{group.object.{counter@count}.distance@{param@GroupName}}" max="{value@this.Nearest Dist}">
+                    <set_object name="this.Nearest" value="{group.object.{counter@count}@{param@GroupName}}"/>
+                    <set_value name="this.Nearest Dist" exact="{group.object.{counter@count}.distance@{param@GroupName}}"/>
+                  </do_if>
+                </do_otherwise>
+              </do_choose>
+            </do_if>
+            <do_if value="{value@this.Sectorcount {value@this.TempSector}}" max="1">
+              <set_value name="this.DiffCount" operation="add"/>
+              <set_sector name="this.Sector {value@this.DiffCount}" value="{value@this.TempSector}"/>
+            </do_if>
+          </do_all>
+          <do_if value="{object.exists@this.Nearest}" exact="0">
+            <set_object name="this.Nearest" value="{group.nearest@{param@GroupName}}"/>
+          </do_if>
+          <do_if value="{object.sector@this.Nearest}" exact="{player.sector}" negate="1">
+            <set_value name="L0M45 B.Step" operation="add"/>
+          </do_if>
+          <set_value name="this.Sector Step {object.sector@this.Nearest}" exact="{value@L0M45 B.Step}"/>
+          <set_value name="L0M45 B.Step" operation="add"/>
+          <do_all exact="{value@this.DiffCount}" counter="count">
+            <do_if value="{value@this.Sector Step {sector@this.Sector {counter@count}}}" exact="0">
+              <set_value name="this.Sector Step {sector@this.Sector {counter@count}}" exact="{value@L0M45 B.Step}"/>
+              <set_value name="L0M45 B.Step" operation="add"/>
+            </do_if>
+          </do_all>
+
+          <set_value name="L0M45 B.B Title PageID" exact="{param@PageID}"/>
+          <set_value name="L0M45 B.B Title TextID" exact="{param@TextID Title}"/>
+          <do_if value="{text.exists@{value@L0M45 B.B Title PageID},{value@L0M45 B.B Title TextID}}" exact="0">
+            <do_if value="{param@IsPlot}" exact="1" negate="1">
+              <set_value name="L0M45 B.B Title PageID" exact="3645"/>
+              <do_choose>
+                <do_when value="{param@Preview}" exact="1">
+                  <set_value name="L0M45 B.B Title TextID" exact="1001"/>
+                </do_when>
+                <do_otherwise>
+                  <set_value name="L0M45 B.B Title TextID" exact="1007"/>
+                </do_otherwise>
+              </do_choose>
+            </do_if>
+          </do_if>
+
+          <do_choose>
+            <do_when value="{value@this.DiffCount}" min="2">
+              <set_value name="L0M45 B.B Text PageID" exact="{param@PageID}"/>
+              <set_value name="L0M45 B.B Text TextID" exact="{param@TextID Text Multi Sectors}"/>
+              <do_if value="{text.exists@{value@L0M45 B.B Text PageID},{value@L0M45 B.B Text TextID}}" exact="0">
+                <do_if value="{param@IsPlot}" exact="1" negate="1">
+                  <set_value name="L0M45 B.B Text PageID" exact="3645"/>
+                  <do_choose>
+                    <do_when value="{param@Preview}" exact="1">
+                      <set_value name="L0M45 B.B Text TextID" exact="1002"/>
+                    </do_when>
+                    <do_otherwise>
+                      <set_value name="L0M45 B.B Text TextID" exact="1008"/>
+                    </do_otherwise>
+                  </do_choose>
+                </do_if>
+              </do_if>
+            </do_when>
+            <do_otherwise>
+              <do_choose>
+                <do_when value="{group.object.count@{param@GroupName}}" min="2">
+                  <set_value name="L0M45 B.B Text PageID" exact="{param@PageID}"/>
+                  <set_value name="L0M45 B.B Text TextID" exact="{param@TextID Text Multi Objects}"/>
+                  <do_if value="{text.exists@{value@L0M45 B.B Text PageID},{value@L0M45 B.B Text TextID}}" exact="0">
+                    <do_if value="{param@IsPlot}" exact="1" negate="1">
+                      <set_value name="L0M45 B.B Text PageID" exact="3645"/>
+                      <do_choose>
+                        <do_when value="{param@Preview}" exact="1">
+                          <set_value name="L0M45 B.B Text TextID" exact="1003"/>
+                        </do_when>
+                        <do_otherwise>
+                          <set_value name="L0M45 B.B Text TextID" exact="1009"/>
+                        </do_otherwise>
+                      </do_choose>
+                    </do_if>
+                  </do_if>
+                </do_when>
+                <do_otherwise>
+                  <set_value name="L0M45 B.B Text PageID" exact="{param@PageID}"/>
+                  <set_value name="L0M45 B.B Text TextID" exact="{param@TextID Text Single Object}"/>
+                  <do_if value="{text.exists@{value@L0M45 B.B Text PageID},{value@L0M45 B.B Text TextID}}" exact="0">
+                    <do_if value="{param@IsPlot}" exact="1" negate="1">
+                      <set_value name="L0M45 B.B Text PageID" exact="3645"/>
+                      <do_choose>
+                        <do_when value="{param@Preview}" exact="1">
+                          <set_value name="L0M45 B.B Text TextID" exact="1004"/>
+                        </do_when>
+                        <do_otherwise>
+                          <set_value name="L0M45 B.B Text TextID" exact="1010"/>
+                        </do_otherwise>
+                      </do_choose>
+                    </do_if>
+                  </do_if>
+                </do_otherwise>
+              </do_choose>
+            </do_otherwise>
+          </do_choose>
+
+          <set_value name="L0M45 B.B Scan Multi PageID" exact="{param@PageID}"/>
+          <set_value name="L0M45 B.B Scan Multi TextID" exact="{param@Scan Multi B Text}"/>
+          <do_if value="{text.exists@{value@L0M45 B.B Scan Multi PageID},{value@L0M45 B.B Scan Multi TextID}}" exact="0">
+            <set_value name="L0M45 B.B Scan Multi PageID" exact="3645"/>
+            <do_choose>
+              <do_when value="{param@Preview}" exact="1">
+                <set_value name="L0M45 B.B Scan Multi TextID" exact="1005"/>
+              </do_when>
+              <do_otherwise>
+                <set_value name="L0M45 B.B Scan Multi TextID" exact="1011"/>
+              </do_otherwise>
+            </do_choose>
+          </do_if>
+
+          <set_value name="L0M45 B.B Scan Single PageID" exact="{param@PageID}"/>
+          <set_value name="L0M45 B.B Scan Single TextID" exact="{param@Scan Single B Text}"/>
+          <do_if value="{text.exists@{value@L0M45 B.B Scan Single PageID},{value@L0M45 B.B Scan Single TextID}}" exact="0">
+            <set_value name="L0M45 B.B Scan Single PageID" exact="3645"/>
+            <do_choose>
+              <do_when value="{param@Preview}" exact="1">
+                <set_value name="L0M45 B.B Scan Single TextID" exact="1006"/>
+              </do_when>
+              <do_otherwise>
+                <set_value name="L0M45 B.B Scan Single TextID" exact="1012"/>
+              </do_otherwise>
+            </do_choose>
+          </do_if>
+
+          <set_value name="L0M45 B.Scan Multi PageID" exact="{param@PageID}"/>
+          <set_value name="L0M45 B.Scan Multi TextID" exact="{param@Scan Multi Text}"/>
+          <do_if value="{text.exists@{value@L0M45 B.Scan Multi PageID},{value@L0M45 B.Scan Multi TextID}}" exact="0">
+            <set_value name="L0M45 B.Scan Multi PageID" exact="3645"/>
+            <set_value name="L0M45 B.Scan Multi TextID" exact="1013"/>
+          </do_if>
+
+          <set_value name="L0M45 B.Scan Single PageID" exact="{param@PageID}"/>
+          <set_value name="L0M45 B.Scan Single TextID" exact="{param@Scan Single Text}"/>
+          <do_if value="{text.exists@{value@L0M45 B.Scan Single PageID},{value@L0M45 B.Scan Single TextID}}" exact="0">
+            <set_value name="L0M45 B.Scan Single PageID" exact="3645"/>
+            <set_value name="L0M45 B.Scan Single TextID" exact="1014"/>
+          </do_if>
+
+          <do_choose>
+            <do_when value="{param@IsPlot}" exact="1">
+              <do_choose>
+                <do_when value="{group.object.count@{param@GroupName}}" min="2">
+                  <set_value name="L0M45 B.B Objective PageID" exact="{value@L0M45 B.B Scan Multi PageID}"/>
+                  <set_value name="L0M45 B.B Objective TextID" exact="{value@L0M45 B.B Scan Multi TextID}"/>
+                </do_when>
+                <do_otherwise>
+                  <set_value name="L0M45 B.B Objective PageID" exact="{value@L0M45 B.B Scan Single PageID}"/>
+                  <set_value name="L0M45 B.B Objective TextID" exact="{value@L0M45 B.B Scan Single TextID}"/>
+                </do_otherwise>
+              </do_choose>
+              <create_briefing cue="{param@Cue}">
+				  <requirements>
+					  <requirement type="equipment" value="SS_WARE_TECH275"/>
+				  </requirements>
+                <objectives>
+                  <objective step="{value@L0M45 B.Initial Step}">
+                    <custom action="{35,2026}" text="{{value@L0M45 B.B Objective PageID},{value@L0M45 B.B Objective TextID}}" icon="find"/>
+                  </objective>
+                </objectives>
+              </create_briefing>
+            </do_when>
+            <do_otherwise>
+              <do_if value="{object.sector@this.Nearest}" exact="{player.sector}" negate="1">
+                <create_briefing cue="{param@Cue}">
+				  <requirements>
+					  <requirement type="equipment" value="SS_WARE_TECH275"/>
+				  </requirements>
+                  <objectives>
+                    <objective step="{value@L0M45 B.Initial Step}">
+                      <flyto>
+                        <sector sector="{object.sector@this.Nearest}"/>
+                      </flyto>
+                    </objective>
+                  </objectives>
+                </create_briefing>
+              </do_if>
+              <do_all exact="{value@this.DiffCount}" counter="count">
+                <do_choose>
+                  <do_when value="{value@this.Sectorcount {sector@this.Sector {counter@count}}}" min="2">
+                    <set_value name="L0M45 B.B Objective PageID" exact="{value@L0M45 B.B Scan Multi PageID}"/>
+                    <set_value name="L0M45 B.B Objective TextID" exact="{value@L0M45 B.B Scan Multi TextID}"/>
+                  </do_when>
+                  <do_otherwise>
+                    <set_value name="L0M45 B.B Objective PageID" exact="{value@L0M45 B.B Scan Single PageID}"/>
+                    <set_value name="L0M45 B.B Objective TextID" exact="{value@L0M45 B.B Scan Single TextID}"/>
+                  </do_otherwise>
+                </do_choose>
+                <create_briefing cue="{param@Cue}">
+					<requirements>
+						<requirement type="equipment" value="SS_WARE_TECH275"/>
+					</requirements>
+					<objectives>
+                    <objective step="{value@this.Sector Step {sector@this.Sector {counter@count}}}">
+                      <custom action="{35,2026}" text="{{value@L0M45 B.B Objective PageID},{value@L0M45 B.B Objective TextID}}" icon="find"/>
+                    </objective>
+                  </objectives>
+                </create_briefing>
+              </do_all>
+            </do_otherwise>
+          </do_choose>
+          <do_if value="{text.exists@{value@L0M45 B.B Title PageID},{value@L0M45 B.B Title TextID}}" exact="1">
+            <do_if value="{text.exists@{value@L0M45 B.B Text PageID},{value@L0M45 B.B Text TextID}}" exact="1">
+              <create_briefing cue="{param@Cue}" title="{{value@L0M45 B.B Title PageID},{value@L0M45 B.B Title TextID}}" text="{{value@L0M45 B.B Text PageID},{value@L0M45 B.B Text TextID}}"/>
+            </do_if>
+          </do_if>
+          <do_if value="{param@SetObjectives}" exact="1">
+            <do_choose>
+              <do_when value="{param@IsPlot}" exact="1">
+                <do_choose>
+                  <do_when value="{group.object.count@{param@GroupName}}" min="2">
+                    <set_objective cue="{param@Cue}">
+                      <briefing cue="{param@Cue}" step="{value@L0M45 B.Initial Step}"/>
+                      <custom action="{35,2026}" text="{{value@L0M45 B.Scan Multi PageID},{value@L0M45 B.Scan Multi TextID}}" icon="find" object="{object@this.Nearest}"/>
+                    </set_objective>
+                  </do_when>
+                  <do_otherwise>
+                    <set_objective cue="{param@Cue}">
+                      <briefing cue="{param@Cue}" step="{value@L0M45 B.Initial Step}"/>
+                      <custom action="{35,2026}" text="{{value@L0M45 B.Scan Single PageID},{value@L0M45 B.Scan Single TextID}}" icon="find" object="{object@this.Nearest}"/>
+                    </set_objective>
+                  </do_otherwise>
+                </do_choose>
+              </do_when>
+              <do_otherwise>
+                <do_choose>
+                  <do_when value="{object.sector@this.Nearest}" exact="{player.sector}">
+                    <do_choose>
+                      <do_when value="{value@this.Sectorcount {object.sector@this.Nearest}}" min="2">
+                        <set_objective cue="{param@Cue}">
+                          <briefing cue="{param@Cue}" step="{value@L0M45 B.Initial Step}"/>
+                          <custom action="{35,2026}" text="{{value@L0M45 B.Scan Multi PageID},{value@L0M45 B.Scan Multi TextID}}" icon="find" object="{object@this.Nearest}"/>
+                        </set_objective>
+                      </do_when>
+                      <do_otherwise>
+                        <set_objective cue="{param@Cue}">
+                          <briefing cue="{param@Cue}" step="{value@L0M45 B.Initial Step}"/>
+                          <custom action="{35,2026}" text="{{value@L0M45 B.Scan Single PageID},{value@L0M45 B.Scan Single TextID}}" icon="find" object="{object@this.Nearest}"/>
+                        </set_objective>
+                      </do_otherwise>
+                    </do_choose>
+                  </do_when>
+                  <do_otherwise>
+                    <set_objective cue="{param@Cue}">
+                      <briefing cue="{param@Cue}" step="{value@L0M45 B.Initial Step}"/>
+                      <flyto>
+                        <sector sector="{object.sector@this.Nearest}"/>
+                      </flyto>
+                    </set_objective>
+                  </do_otherwise>
+                </do_choose>
+              </do_otherwise>
+            </do_choose>
+            <do_if value="{text.exists@{value@L0M45 B.B Title PageID},{value@L0M45 B.B Title TextID}}" exact="1">
+              <do_if value="{text.exists@{value@L0M45 B.B Text PageID},{value@L0M45 B.B Text TextID}}" exact="1">
+                <set_objective cue="{param@Cue}" title="{{value@L0M45 B.B Title PageID},{value@L0M45 B.B Title TextID}}" text="{{value@L0M45 B.B Text PageID},{value@L0M45 B.B Text TextID}}"/>
+              </do_if>
+            </do_if>
+          </do_if>
+        </do_all>
+      </action>
+      <cues>
+        <cue name="L0M45 B Finish Briefing" check="cancel">
+          <condition>
+            <check_all>
+              <cue_completed cue="L0M45 B"/>
+              <check_value value="{param@Complete Briefing}" exact="1"/>
+            </check_all>
+          </condition>
+          <cues>
+            <cue ref="LUM04">
+              <params>
+                <param name="Discipline" value="XXXT" comment="The mission discipline"/>
+                <param name="StartTime" value="L0M45 B.StartTime"/>
+              </params>
+            </cue>
+            <cue name="L0M45 B Set Objectives" check="cancel">
+              <condition>
+                <check_value value="{param@SetObjectives}" exact="1"/>
+              </condition>
+              <cues>
+                <cue ref="LUM05">
+                  <params>
+                    <param name="Discipline" value="XXXT" comment="The mission discipline"/>
+                    <param name="StartTime" value="L0M45 B.StartTime"/>
+                  </params>
+                </cue>
+              </cues>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+
+    <cue name="L0M45" library="1">
+      <documentation>
+        <params>
+          <param name="GroupName" type="groupname" compulsory="1" description="The Objects that needs to be scanned"/>
+          <param name="Cue" type="cuename" compulsory="1" description="Cue Name for the Briefing"/>
+          <param name="ScannedGroup" type="groupname" compulsory="0" description="The group which will hold the scanned objects"/>
+          <param name="CurrentScanned" type="objectname" compulsory="0" description="The current object which was scanned"/>
+          <param name="Step" type="valuename" description="The Start Step"/>
+          <param name="ScannedCounter" type="valuename" description="Address to save the scanned count too"/>
+          <param name="FeedbackName" type="valuename" description="Where the feedback value will be saved"/>
+        </params>
+        <returns>
+          <return name="L0M45.Complete" type="boolean" description="1 If all objects have been scanned."/>
+          <return name="L0M45.ScanCount" type="number" description="Number of Objects already scanned"/>
+        </returns>
+      </documentation>
+      <action>
+        <do_all>
+          <do_if value="{value@{param@Duration}}" exact="0" negate="1">
+            <set_value name="L0M45.Duration" exact="{value@{param@Duration}}+{player.age}"/>
+          </do_if>
+          <set_value name="L0M45.EndTime" exact="{value@{param@EndTime}}"/>
+        </do_all>
+      </action>
+      <cues>
+        <cue ref="L0M45 B">
+          <params>
+            <param name="SetObjectives" value="1" comment="Set the objective"/>
+          </params>
+        </cue>
+        <cue name="L0M45 Object Is Scanned" delay="2008" instantiate="static">
+          <condition>
+            <check_any exact="{group.object.count@{param@GroupName}}" counter="count">
+              <check_value value="{group.object.{counter@count}.scanned@{param@GroupName}}" exact="1"/>
+            </check_any>
+          </condition>
+          <action>
+            <do_all>
+              <do_all exact="{group.object.count@{param@GroupName}}" counter="count">
+                <do_if value="{group.object.{counter@count}.scanned@{param@GroupName}}" exact="1">
+                  <do_if value="{param.exists@CurrentScanned}" exact="1">
+                    <set_object name="{param@CurrentScanned}" value="{group.object.{counter@count}@{param@GroupName}}"/>
+                  </do_if>
+                  <do_if value="{param.exists@ScannedGroup}" exact="1">
+                    <set_object group="{param@ScannedGroup}" value="{group.object.{counter@count}@{param@GroupName}}" name="{param@ScannedGroup} {group.object.{counter@count}@{param@GroupName}}"/>
+                  </do_if>
+                  <set_object group="this.TempGroup" value="{group.object.{counter@count}@{param@GroupName}}" name="this.TempGroup {group.object.{counter@count}@{param@GroupName}}"/>
+                  <do_if value="{param.exists@ScannedCounter}" exact="1">
+                    <set_value name="{param@ScannedCounter}" operation="add"/>
+                  </do_if>
+                </do_if>
+              </do_all>
+              <do_all exact="{group.object.count@this.TempGroup}" counter="count">
+                <remove_object_from_group group="{param@GroupName}" object="{group.object.{counter@count}@this.TempGroup}"/>
+              </do_all>
+              <remove_group group="this.TempGroup"/>
+              <do_if value="{group.object.count@{param@GroupName}}" exact="0">
+                <cancel_cue cue="L0M45 Object Is Scanned" instantiate="static"/>
+              </do_if>
+            </do_all>
+          </action>
+          <cues>
+            <cue ref="L0M45 B">
+              <params>
+                <param name="SetObjectives" value="1" comment="Set the objective"/>
+              </params>
+            </cue>
+          </cues>
+        </cue>
+        <cue name="L0M45 Check Time" delay="1s">
+          <condition>
+            <check_all>
+              <check_any>
+                <check_all>
+                  <check_value value="{value@L0M45.Duration}" min="1"/>
+                  <check_time value="{player.age}" min="{value@L0M45.Duration}"/>
+                </check_all>
+                <check_all>
+                  <check_value value="{value@L0M45.EndTime}" min="1"/>
+                  <check_time value="{player.age}" min="{value@L0M45.EndTime}"/>
+                </check_all>
+              </check_any>
+              <check_any>
+                <check_all>
+                  <check_value value="{param@IsPlot}" exact="1"/>
+                  <check_value value="{param@UseTimer}" exact="1"/>
+                </check_all>
+                <check_value value="{param@IsPlot}" exact="1" negate="1"/>
+              </check_any>
+            </check_all>
+          </condition>
+          <action>
+            <do_all>
+              <set_value name="{param@FeedbackName}" exact="2"/>
+              <cancel_cue cue="L0M45"/>
+            </do_all>
+          </action>
+        </cue>
+        <cue name="L0M45 Reset Briefing" instantiate="static">
+          <condition>
+            <check_any>
+              <any_object_destroyed group="{param@GroupName}"/>
+              <any_object_destroyed_by_player group="{param@GroupName}"/>
+              <object_changed_sector comment="Update the Briefing to Scan / Fly Next Sector"/>
+            </check_any>
+          </condition>
+          <cues>
+            <cue ref="L0M45 B">
+              <params>
+                <param name="SetObjectives" value="1" comment="Set the objective"/>
+              </params>
+            </cue>
+          </cues>
+        </cue>
+        <cue name="L0M45 Scan Complete" delay="253">
+          <condition>
+            <check_value value="{group.object.count@{param@GroupName}}" exact="0"/>
+          </condition>
+          <action>
+            <do_all>
+              <set_value name="{param@FeedbackName}" exact="1"/>
+              <cancel_cue cue="L0M45"/>
+            </do_all>
+          </action>
+        </cue>
+        <cue name="L0M45 Aborted">
+          <condition>
+            <objective_cancelled cue="{param@Cue}"/>
+          </condition>
+          <action>
+            <do_all>
+              <set_value name="{param@FeedbackName}" exact="99"/>
+              <cancel_cue cue="L0M45"/>
+            </do_all>
+          </action>
+        </cue>
+      </cues>
+    </cue>
+  </cues>
+  <signature>6eazSYA7NMlbqC3Yu6MGbyTpsqjCVzke+XSX+EkWSbOTOaIHM5+y8MTtz2u6E+SDU2Q+UAH2AVXW5h3WCraytC7nC/4CfQWKEPNgoEwqmMM3iOMcJ2EXop9K41J+QYDi1ND0B4l/kHZ5fsDPlFYNk41bdX4+VNlxwsJXEghF1CiDYLWKkRoxxw1Qh1/umE2BLyZMwh/SDPecFw0UJl1kf4f/bCWfDgbMHmFjycm2RFbwPRPXc6t6fEdMAY4hBkMgeUipZZHUknZap9sA4y6uKNTUo+yFs6b8G4wjSlyvJljCLKfeqzaW9qkCniSXgXIzqq+aadNEUSHqGL5dCKb/HQ==</signature>
+</director>

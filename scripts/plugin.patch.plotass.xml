@@ -1,0 +1,264 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>plugin.patch.plotass</name>
+<version>1</version>
+<engineversion>62</engineversion>
+<description>Description</description>
+<arguments>
+<argument index="1" name="a.event" type="String" desc="Event" />
+<argument index="2" name="a.value" type="Value" desc="Value" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  if $a.event == 'plot.ass'
+    inc $a.value = 
+    send script event: name='plot.assistance.switch', object=[PLAYERSHIP], param1=$a.value, param2=null
+    
+  else if $a.event == 'switch.plot.ass'
+    set script selection option: name='plot.ass', value=$a.value
+@   = [THIS] -> call script plugin.patch.plotass :  Event='plot.ass'  Value=$a.value
+    
+  else if $a.event == 'plot.finished'
+    do if $a.value
+      remove script selection option: name='plot.ass'
+    
+  else if $a.event == 'first.time'
+    set script selection option: name='plot.ass', value=1
+@   = wait 5000 ms
+    send script event: name='first.time.load', object=[PLAYERSHIP], param1=null, param2=null
+@   = [THIS] -> call script plugin.patch.plotass :  Event='plot.ass'  Value=1
+  end
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>if&#160;</var><var>$a.event</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'plot.ass'</var></line>
+<line indent="&#160;"><text>inc&#160;</text><var>$a.value&#160;=&#160;</var></line>
+<line indent="&#160;"><text>send&#160;script&#160;event:&#160;name=</text><var>'plot.assistance.switch'</var><text>,&#160;object=</text><var>[PLAYERSHIP]</var><text>,&#160;param1=</text><var>$a.value</var><text>,&#160;param2=</text><var>null</var></line>
+<line indent="&#160;"></line>
+<line indent=""><var>else&#160;if&#160;</var><var>$a.event</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'switch.plot.ass'</var></line>
+<line indent="&#160;"><text>set&#160;script&#160;selection&#160;option:&#160;name=</text><var>'plot.ass'</var><text>,&#160;value=</text><var>$a.value</var></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>plugin.patch.plotass</call><text>&#160;:&#160;</text><text>&#160;Event=</text><var>'plot.ass'</var><text>&#160;</text><text>&#160;Value=</text><var>$a.value</var></line>
+<line indent="&#160;"></line>
+<line indent=""><var>else&#160;if&#160;</var><var>$a.event</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'plot.finished'</var></line>
+<line indent="&#160;"><var>do&#160;if&#160;</var><var>$a.value</var></line>
+<line indent="&#160;&#160;"><text>remove&#160;script&#160;selection&#160;option:&#160;name=</text><var>'plot.ass'</var></line>
+<line indent="&#160;"></line>
+<line indent=""><var>else&#160;if&#160;</var><var>$a.event</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'first.time'</var></line>
+<line indent="&#160;"><text>set&#160;script&#160;selection&#160;option:&#160;name=</text><var>'plot.ass'</var><text>,&#160;value=</text><var>1</var></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><text>wait&#160;</text><var>5000</var><text>&#160;ms</text></line>
+<line indent="&#160;"><text>send&#160;script&#160;event:&#160;name=</text><var>'first.time.load'</var><text>,&#160;object=</text><var>[PLAYERSHIP]</var><text>,&#160;param1=</text><var>null</var><text>,&#160;param2=</text><var>null</var></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>plugin.patch.plotass</call><text>&#160;:&#160;</text><text>&#160;Event=</text><var>'plot.ass'</var><text>&#160;</text><text>&#160;Value=</text><var>1</var></line>
+<line indent=""><text>end</text></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="plugin.patch.plotass"/>
+  <sval type="int" val="62"/>
+  <sval type="string" val="Description"/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="2">
+    <sval type="string" val="a.event"/>
+    <sval type="string" val="a.value"/>
+  </sval>
+  <sval type="array" size="18">
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610611709"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="plot.ass"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="142"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="9">
+      <sval type="int" val="2957"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="plot.assistance.switch"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="17"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610610683"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="switch.plot.ass"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="3230"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="plot.ass"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="102"/>
+      <sval type="string" val="plugin.patch.plotass"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="plot.ass"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="17"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610609659"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="plot.finished"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610609912"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3227"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="plot.ass"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="17"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608379"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="first.time"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="3230"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="plot.ass"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="105"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="5000"/>
+    </sval>
+    <sval type="array" size="9">
+      <sval type="int" val="2957"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="first.time.load"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="102"/>
+      <sval type="string" val="plugin.patch.plotass"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="plot.ass"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="array" size="2">
+    <sval type="array" size="2">
+      <sval type="int" val="2"/>
+      <sval type="string" val="Event"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="9"/>
+      <sval type="string" val="Value"/>
+    </sval>
+  </sval>
+  <sval type="array" size="4">
+    <sval type="array" size="2">
+      <sval type="int" val="3"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="7"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="17"/>
+      <sval type="int" val="4"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>1746</nosignature>
+</script>
