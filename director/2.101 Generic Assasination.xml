@@ -159,7 +159,19 @@
           <action>
             <do_all>
               <set_value name="L2M101 Create St Offer.SectorChanges" exact="0"/>
-              <create_actor name="L2M101 Create St Offer.Guide" race="{value@L2M101.OfferRace}" voiceflags="32" object="L2M101.station" location="crew"/>
+              <do_choose>
+                <do_when value="{value@L2M101.OfferRace}" exact="{lookup.race@goner}">
+                  <do_any>
+                    <create_actor name="L2M101 Create St Offer.Guide" race="goner" voice="110" face="901" object="L2M101.Station" location="crew"/>
+                    <create_actor name="L2M101 Create St Offer.Guide" race="goner" voice="111" face="901" object="L2M101.Station" location="crew"/>
+                    <create_actor name="L2M101 Create St Offer.Guide" race="goner" voice="110" face="902" object="L2M101.Station" location="crew"/>
+                    <create_actor name="L2M101 Create St Offer.Guide" race="goner" voice="111" face="902" object="L2M101.Station" location="crew"/>
+                  </do_any>
+                </do_when>
+                <do_otherwise>
+                  <create_actor name="L2M101 Create St Offer.Guide" race="{value@L2M101.OfferRace}" voiceflags="32" object="L2M101.station" location="crew"/>
+                </do_otherwise>
+              </do_choose>
               <do_choose comment="Create conversation offer">
                 <do_when value="{value@L2M101.Difficulty}" max="{lookup.level@veryeasy}">
                   <create_offer actor="L2M101 Create St Offer.Guide" conversation="L2OfferKillEasy" discipline="XFXX" cue="L2M101 Create St Offer"/>
