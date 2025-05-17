@@ -16,8 +16,9 @@
           <param name="Cue" type="cuename" compulsory="1" description="The cue where the briefing and objectives are stored"/>
           <param name="ID" type="number" compulsory="1" description="The mission Id for dealing with mission chains"/>
           <param name="DummyActor" type="actorname" compulsory="1" description="The Actor dummy name for messages" default="{param@Cue}.{param@ID} L0Mark"/>
-          <param name="OfferRace" type="number" compulsory="1" description="Race offering the mission"/>
-          <param name="EnemyRace" type="number" compulsory="1" description="Race of the enemy"/>
+			<param name="OfferRace" type="number" compulsory="1" description="Race offering the mission"/>
+			<param name="DisplayRace" type="text" description="The race to display on the breifing"/>
+			<param name="EnemyRace" type="number" compulsory="1" description="Race of the enemy"/>
           <param name="PageID" type="number" compulsory="1" description="Page ID of mission description"/>
           <param name="TextID" type="number" compulsory="1" description="Text ID of mission description"/>
           <param name="RewardCr" type="valuename" compulsory="0" description="Reward type" default="Standard credit reward"/>
@@ -79,14 +80,27 @@
               <do_if value="{actor.exists@{param@Passenger}}" exact="1">
                 <set_actor name="{param@Cue}.{param@ID} L0Passenger" value="{actor@{param@Passenger}}"/>
               </do_if>
-              <create_briefing cue="{param@Cue}">
-				  <objectives>
-                  <objective step="{param@Step}">
-                    <kill actor="{param@Cue}.{param@ID} L0Target"/>
-                  </objective>
-                </objectives>
-              </create_briefing>
-              <cancel_cue cue="L0M01 B"/>
+				<do_choose>
+					<do_when value="{param.exists@DisplayRace}" exact="1">
+						<create_briefing cue="{param@Cue}" race="{param@DisplayRace}">
+							<objectives>
+								<objective step="{param@Step}">
+									<kill actor="{param@Cue}.{param@ID} L0Target"/>
+								</objective>
+							</objectives>
+						</create_briefing>
+					</do_when>
+					<do_otherwise>
+						<create_briefing cue="{param@Cue}">
+							<objectives>
+								<objective step="{param@Step}">
+									<kill actor="{param@Cue}.{param@ID} L0Target"/>
+								</objective>
+							</objectives>
+						</create_briefing>
+					</do_otherwise>
+				</do_choose>
+				<cancel_cue cue="L0M01 B"/>
             </do_when>
             <do_otherwise>
               <!--Setup basic mission parameters-->
@@ -99,7 +113,27 @@
               <do_if value="{value@{param@Cue}.{param@ID} L0Step}" min="1" negate="1">
                 <set_value name="{param@Cue}.{param@ID} L0Step" exact="1"/>
               </do_if>
-              <create_briefing cue="{param@Cue}" text="{{param@PageID},{param@TextID}}" title="{3601,{value@{param@Cue}.{param@ID} L0Title}}">
+				<do_choose>
+					<do_when value="{param.exists@DisplayRace}" exact="1">
+						<create_briefing cue="{param@Cue}" text="{{param@PageID},{param@TextID}}" title="{3601,{value@{param@Cue}.{param@ID} L0Title}}" race="{param@DisplayRace}">
+							<objectives>
+								<objective step="{value@{param@Cue}.{param@ID} L0Step}">
+									<kill actor="{param@Cue}.{param@ID} L0Target"/>
+								</objective>
+							</objectives>
+						</create_briefing>
+					</do_when>
+					<do_otherwise>
+						<create_briefing cue="{param@Cue}" text="{{param@PageID},{param@TextID}}" title="{3601,{value@{param@Cue}.{param@ID} L0Title}}">
+							<objectives>
+								<objective step="{value@{param@Cue}.{param@ID} L0Step}">
+									<kill actor="{param@Cue}.{param@ID} L0Target"/>
+								</objective>
+							</objectives>
+						</create_briefing>
+					</do_otherwise>
+				</do_choose>
+				<create_briefing cue="{param@Cue}" text="{{param@PageID},{param@TextID}}" title="{3601,{value@{param@Cue}.{param@ID} L0Title}}">
 				  <objectives>
                   <objective step="{value@{param@Cue}.{param@ID} L0Step}">
                     <kill actor="{param@Cue}.{param@ID} L0Target"/>
@@ -170,7 +204,8 @@
           <param name="Difficulty" type="number" compulsory="1" description="The difficulty of the mission" default="trivial"/>
           <param name="IsPlot" type="boolean" compulsory="0" description="If the mission is a plot mission or not" default="non-plot"/>
           <param name="Cleanup Enemies" type="boolean" compulsory="0" description="Cleanup the enemy ships at the end."/>
-        </params>
+		  <param name="DisplayRace" type="text" description="The race to display on the breifing"/>
+		</params>
         <history>
           <change date="10/08/08" author="al_main" description="Second OBJ01 actor cleaned up"/>
           <change date="14/07/08" author="al_main" description="Fixed MD string for target name in messags bug"/>
@@ -307,10 +342,17 @@
                         <set_value name="{param@Cue}.{param@ID} L0Time" min="{value@{param@Cue}.{param@ID} L0Time}/2" max="({value@{param@Cue}.{param@ID} L0Time}/2)+30"/>
                       </do_if>
                     </do_if>
-                    <find_sector name="this.Sector" sector="{player.sector}" race="{value@{param@Cue}.{param@ID} L0OfferRace}" min="1" max="3"/>
-                    <do_if value="{sector.exists@this.Sector}" exact="0">
-                      <find_sector name="this.Sector" sector="{player.sector}" race="{value@{param@Cue}.{param@ID} L0EnemyRace}" min="1" max="3"/>
-                    </do_if>
+					  <do_choose>
+						  <do_when value="{param.exists@TargetSector}" exact="1">
+							  <set_sector name="this.Sector" value="{param@TargetSector}"/>
+						  </do_when>
+						  <do_otherwise>
+							  <find_sector name="this.Sector" sector="{player.sector}" race="{value@{param@Cue}.{param@ID} L0OfferRace}" min="1" max="3"/>
+						  </do_otherwise>
+					  </do_choose>
+					  <do_if value="{sector.exists@this.Sector}" exact="0">
+                        <find_sector name="this.Sector" sector="{player.sector}" race="{value@{param@Cue}.{param@ID} L0EnemyRace}" min="1" max="3"/>
+                      </do_if>
                     <do_if value="{sector.exists@this.Sector}" exact="0">
                       <find_sector name="this.Sector" sector="{player.sector}" race="pirategroup" min="1" max="3"/>
                     </do_if>
@@ -457,12 +499,28 @@
                       <clear_actor_location actor="{param@Cue}.{param@ID} L0Mark"/>
                       <set_actor_location actor="{param@Cue}.{param@ID} L0Target" object="this.Target" location="pilot"/>
                       <set_covered object="this.Target" covered="0"/>
-                      <set_objective cue="{param@Cue}" title="{3601,{value@{param@Cue}.{param@ID} L0Title}}">
-                        <briefing cue="{param@Cue}" step="{value@this.Step}"/>
-                        <mission level="{param@Difficulty}" discipline="XFXT"/>
-                        <kill actor="{actor@{param@Cue}.{param@ID} L0Target}"/>
-                      </set_objective>
-                      <set_value name="L0M01 Setup Kill 2.StartTime" exact="{player.age}"/>
+						<do_choose>
+							<do_when value="{param.exists@DisplayRace}" exact="1">
+								<set_objective cue="{param@Cue}" title="{3601,{value@{param@Cue}.{param@ID} L0Title}}" race="{param@DisplayRace}">
+									<briefing cue="{param@Cue}" step="{value@this.Step}"/>
+									<mission level="{param@Difficulty}" discipline="XFXT"/>
+									<kill actor="{actor@{param@Cue}.{param@ID} L0Target}"/>
+								</set_objective>
+							</do_when>
+							<do_otherwise>
+								<set_objective cue="{param@Cue}" title="{3601,{value@{param@Cue}.{param@ID} L0Title}}">
+									<briefing cue="{param@Cue}" step="{value@this.Step}"/>
+									<mission level="{param@Difficulty}" discipline="XFXT"/>
+									<kill actor="{actor@{param@Cue}.{param@ID} L0Target}"/>
+								</set_objective>
+							</do_otherwise>
+						</do_choose>
+						<set_objective cue="{param@Cue}" title="{3601,{value@{param@Cue}.{param@ID} L0Title}}">
+							<briefing cue="{param@Cue}" step="{value@this.Step}"/>
+							<mission level="{param@Difficulty}" discipline="XFXT"/>
+							<kill actor="{actor@{param@Cue}.{param@ID} L0Target}"/>
+						</set_objective>
+						<set_value name="L0M01 Setup Kill 2.StartTime" exact="{player.age}"/>
                     </do_all>
                   </action>
                   <cues>
@@ -617,6 +675,9 @@
           <condition>
             <check_value value="{value@{param@Cue}.{param@ID} L0M01 Progress}" min="1"/>
           </condition>
+			<timing>
+				<time exact="2s"/>
+			</timing>
           <!--cleanup cue needs checking-->
           <action>
             <do_all>
@@ -633,7 +694,9 @@
               <do_choose>
                 <do_when value="{param@Cleanup Enemies}">
                   <do_all counter="ship" exact="{group.object.count@L0M01 Setup Kill.EnemyShips}">
-                    <set_object name="L0M01 Cleanup.Ship {counter@ship}" value="{group.object.{counter@ship}@L0M01 Setup Kill.EnemyShips}"/>
+					  <do_if value="{object.race@{group.object.{counter@ship}@L0M01 Setup Kill.EnemyShips}}" exact="{lookup.race@player}" negate="1">
+                        <set_object name="L0M01 Cleanup.Ship {counter@ship}" value="{group.object.{counter@ship}@L0M01 Setup Kill.EnemyShips}"/>
+					  </do_if>
                   </do_all>
                   <set_value name="L0M01 Cleanup.Counter" exact="{group.object.count@L0M01 Setup Kill.EnemyShips}"/>
                 </do_when>
@@ -714,5 +777,4 @@
       </cues>
     </cue>
   </cues>
-  <signature>BjLXf/taisnEoWZPcj6g33Y3xxCFDNITV9+LZsv1tbCTa3QO4jLTmoC0PMrFNPA3tPg9GXqSfDhbVYcwCg9XWbKi4DcPIMZd5oO9N/7z2yrcY24KlYEzFW8x0k7n9DcYKunAgGAqtka7lKPp3KcF/HCH2qgGXZfnBMBLr5NxvJalgg6yHEwimkt2CZkTh6LqthehzPnA0EH8G2s4P1o2hPWcn4Dx1G2mOlTATxFK4TDgz3R+gWjX2Ly+JSTrx3FOOilIjjkUkaFspjOxRGv0v2s1VexxAdEDnfvH5swM1UYnxzSFhvzC+o/4JRWNDc/sXlnJ11BNg9j792Nq8r25LQ==</signature>
 </director>
