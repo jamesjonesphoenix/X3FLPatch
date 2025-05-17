@@ -1,6 +1,6 @@
 *.cat
 *.dat
-/L
+/L/*_dev.obj
 /loadscr
 /mov
 /mods
@@ -18,3 +18,5 @@ scripts/setup.cycrow.cheat.xml
 scripts/setup.cycrow.library.xml
 /scripts/lib.cycrow.*
 /scripts/debug.*
+/BUILD/ZIP
+/BUILD/SPK
