@@ -223,6 +223,12 @@
  <t id="5002">ObjContext.Advanced</t>
  <t id="5003">ObjContext.Sector</t>
  <t id="5004">ObjContext.Orders</t>
+ <t id="5100">Sidebar Submenus</t>
+ <t id="5101">Sidebar.Custom</t>
+ <t id="5102">Sidebar.Empire</t>
+ <t id="5103">Sidebar.StockEx</t>
+ <t id="5104">Sidebar.Messages</t>
+ <t id="5105">Sidebar.Advanced</t>
 </page>
 
 <page id="392003" title="Script Command Names" descr="0" voice="no">
@@ -399,6 +405,8 @@
  <t id="3300">%0 set special object video channel: %1</t>
  <t id="3301">%1%0is station rebuild in owner sector only</t>
  <t id="3302">%0set station rebuild in owner sector only: %1</t>
+ <t id="3303">add sidebar custom entry, personal: id=%0, icon=%1, pageid=%2, textid=%3, submenu=%4, script=%5</t>
+ <t id="3304">add sidebar custom entry, personal: id=%0, icon=%1, pageid=%2, textid=%3, submenu=%4, scriptname=%5</t> 
 </page>
 
 <page id="392008" title="Script Object Commands" descr="0" voice="no">
