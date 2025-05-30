@@ -39184,6 +39184,8 @@
  <t id="4008">Key.BestBuy</t>
  <t id="4009">Key.BestSell</t>
  <t id="4010">Key.ScriptDelete</t>
+ <t id="4011">Key.Autopilot</t>
+ <t id="4012">Key.DockAt</t>
  <t id="4100">Find.Player</t>
  <t id="4101">Find.Hyperspeed</t>
  <t id="4102">Find.ExcludeGates</t>
