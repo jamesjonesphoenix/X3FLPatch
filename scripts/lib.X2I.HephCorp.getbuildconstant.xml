@@ -1,0 +1,686 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>lib.X2I.HephCorp.getbuildconstant</name>
+<version>3</version>
+<engineversion>73</engineversion>
+<description>gets build constants for stations</description>
+<arguments>
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  * reads station sizes from textfile and saves them in a global variable
+  $page.id = get global variable: name='HephaistosCorp.globvar.pageid'
+  $globvar.name = read text: page=$page.id id=7
+  
+  $station.pos.arr = table alloc
+  
+  * x+ = maintype * 10000 + subtype * 10 + 0
+  * x- = maintype * 10000 + subtype * 10 + 1
+  * y+ = maintype * 10000 + subtype * 10 + 2
+  * y- = maintype * 10000 + subtype * 10 + 3
+  * z+ = maintype * 10000 + subtype * 10 + 4
+  * z- = maintype * 10000 + subtype * 10 + 5
+  
+  $filedata = read types file lines: filename='TFacSizes.txt'
+  if $filedata
+    $line.size = size of array $filedata
+    $version = 0
+    $line = 0
+    while $line < $line.size
+      $line.data = $filedata[$line]
+      inc $line = 
+      
+      do if $line mod 50
+@       = wait 0 ms
+      
+      $comment = get substring of $line.data offset=0 length=2
+      do if $comment == '//'
+        continue
+      $comment = get substring of $line.data offset=0 length=1
+      do if $comment == '#'
+        continue
+      
+      $string.vars = split string: $line.data separator=';'
+      
+      if not $version
+        $version = $string.vars[0]
+        $version = string $version to integer
+        if get global variable: name=$globvar.name
+          $current.version = get global variable: name='hephcorp.tfile.version'
+          do if $current.version == $version
+            return null
+        end
+        set global variable: name='hephcorp.tfile.version' value=$version
+      else
+        $temp = size of array $string.vars
+        if $temp == 9
+          $station.type = $string.vars[0]
+          $station.type = get ware from subtype name $station.type
+          $j = 1
+          $pos.arr = array alloc: size=7
+          while $j <= 7
+            $constant = $string.vars[$j]
+            $constant = string $constant to integer
+            $i = $j - 1
+            $pos.arr[$i] = $constant
+            inc $j = 
+          end
+          $station.pos.arr[$station.type] = $pos.arr
+        end
+      end
+    end
+  end
+  
+  set global variable: name=$globvar.name value=$station.pos.arr
+  return null
+  
+  * author: X2-Illuminatus
+  * 09.10.2011 - release
+  * 23.01.2012 - release AP and TC compatible version
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><comment><text>*&#160;</text><var>reads&#160;station&#160;sizes&#160;from&#160;textfile&#160;and&#160;saves&#160;them&#160;in&#160;a&#160;global&#160;variable</var></comment></line>
+<line indent=""><var>$page.id&#160;=&#160;</var><text>get&#160;global&#160;variable:&#160;name=</text><var>'HephaistosCorp.globvar.pageid'</var></line>
+<line indent=""><var>$globvar.name&#160;=&#160;</var><text>read&#160;text:&#160;page=</text><var>$page.id</var><text>&#160;id=</text><var>7</var></line>
+<line indent=""></line>
+<line indent=""><var>$station.pos.arr&#160;=&#160;</var><text>table&#160;alloc</text></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>x+&#160;=&#160;maintype&#160;*&#160;10000&#160;+&#160;subtype&#160;*&#160;10&#160;+&#160;0</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>x-&#160;=&#160;maintype&#160;*&#160;10000&#160;+&#160;subtype&#160;*&#160;10&#160;+&#160;1</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>y+&#160;=&#160;maintype&#160;*&#160;10000&#160;+&#160;subtype&#160;*&#160;10&#160;+&#160;2</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>y-&#160;=&#160;maintype&#160;*&#160;10000&#160;+&#160;subtype&#160;*&#160;10&#160;+&#160;3</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>z+&#160;=&#160;maintype&#160;*&#160;10000&#160;+&#160;subtype&#160;*&#160;10&#160;+&#160;4</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>z-&#160;=&#160;maintype&#160;*&#160;10000&#160;+&#160;subtype&#160;*&#160;10&#160;+&#160;5</var></comment></line>
+<line indent=""></line>
+<line indent=""><var>$filedata&#160;=&#160;</var><text>read&#160;types&#160;file&#160;lines:&#160;filename=</text><var>'TFacSizes.txt'</var></line>
+<line indent=""><var>if&#160;</var><var>$filedata</var></line>
+<line indent="&#160;"><var>$line.size&#160;=&#160;</var><text>size&#160;of&#160;array&#160;</text><var>$filedata</var></line>
+<line indent="&#160;"><var>$version&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;"><var>$line&#160;=&#160;</var><var>0</var></line>
+<line indent="&#160;"><var>while&#160;</var><var>$line</var><text>&#160;</text><var>&lt;</var><text>&#160;</text><var>$line.size</var></line>
+<line indent="&#160;&#160;"><var>$line.data&#160;=&#160;</var><var>$filedata</var><text>[</text><var>$line</var><text>]</text></line>
+<line indent="&#160;&#160;"><text>inc&#160;</text><var>$line&#160;=&#160;</var></line>
+<line indent="&#160;&#160;"></line>
+<line indent="&#160;&#160;"><var>do&#160;if&#160;</var><var>$line</var><text>&#160;</text><var>mod</var><text>&#160;</text><var>50</var></line>
+<line interruptable="@" indent="&#160;&#160;&#160;"><var>=&#160;</var><text>wait&#160;</text><var>0</var><text>&#160;ms</text></line>
+<line indent="&#160;&#160;"></line>
+<line indent="&#160;&#160;"><var>$comment&#160;=&#160;</var><text>get&#160;substring&#160;of&#160;</text><var>$line.data</var><text>&#160;offset=</text><var>0</var><text>&#160;length=</text><var>2</var></line>
+<line indent="&#160;&#160;"><var>do&#160;if&#160;</var><var>$comment</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'//'</var></line>
+<line indent="&#160;&#160;&#160;"><text>continue</text></line>
+<line indent="&#160;&#160;"><var>$comment&#160;=&#160;</var><text>get&#160;substring&#160;of&#160;</text><var>$line.data</var><text>&#160;offset=</text><var>0</var><text>&#160;length=</text><var>1</var></line>
+<line indent="&#160;&#160;"><var>do&#160;if&#160;</var><var>$comment</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'#'</var></line>
+<line indent="&#160;&#160;&#160;"><text>continue</text></line>
+<line indent="&#160;&#160;"></line>
+<line indent="&#160;&#160;"><var>$string.vars&#160;=&#160;</var><text>split&#160;string:&#160;</text><var>$line.data</var><text>&#160;separator=</text><var>';'</var></line>
+<line indent="&#160;&#160;"></line>
+<line indent="&#160;&#160;"><var>if&#160;not&#160;</var><var>$version</var></line>
+<line indent="&#160;&#160;&#160;"><var>$version&#160;=&#160;</var><var>$string.vars</var><text>[</text><var>0</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;"><var>$version&#160;=&#160;</var><text>string&#160;</text><var>$version</var><text>&#160;to&#160;integer</text></line>
+<line indent="&#160;&#160;&#160;"><var>if&#160;</var><text>get&#160;global&#160;variable:&#160;name=</text><var>$globvar.name</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$current.version&#160;=&#160;</var><text>get&#160;global&#160;variable:&#160;name=</text><var>'hephcorp.tfile.version'</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>do&#160;if&#160;</var><var>$current.version</var><text>&#160;</text><var>==</var><text>&#160;</text><var>$version</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><text>return&#160;</text><var>null</var></line>
+<line indent="&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;&#160;"><text>set&#160;global&#160;variable:&#160;name=</text><var>'hephcorp.tfile.version'</var><text>&#160;value=</text><var>$version</var></line>
+<line indent="&#160;&#160;"><text>else</text></line>
+<line indent="&#160;&#160;&#160;"><var>$temp&#160;=&#160;</var><text>size&#160;of&#160;array&#160;</text><var>$string.vars</var></line>
+<line indent="&#160;&#160;&#160;"><var>if&#160;</var><var>$temp</var><text>&#160;</text><var>==</var><text>&#160;</text><var>9</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$station.type&#160;=&#160;</var><var>$string.vars</var><text>[</text><var>0</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$station.type&#160;=&#160;</var><text>get&#160;ware&#160;from&#160;subtype&#160;name&#160;</text><var>$station.type</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$j&#160;=&#160;</var><var>1</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$pos.arr&#160;=&#160;</var><text>array&#160;alloc:&#160;size=</text><var>7</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>while&#160;</var><var>$j</var><text>&#160;</text><var>&lt;=</var><text>&#160;</text><var>7</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$constant&#160;=&#160;</var><var>$string.vars</var><text>[</text><var>$j</var><text>]</text></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$constant&#160;=&#160;</var><text>string&#160;</text><var>$constant</var><text>&#160;to&#160;integer</text></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$i&#160;=&#160;</var><var>$j</var><text>&#160;</text><var>-</var><text>&#160;</text><var>1</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><var>$pos.arr</var><text>[</text><var>$i</var><text>]&#160;=&#160;</text><var>$constant</var></line>
+<line indent="&#160;&#160;&#160;&#160;&#160;"><text>inc&#160;</text><var>$j&#160;=&#160;</var></line>
+<line indent="&#160;&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;&#160;&#160;"><var>$station.pos.arr</var><text>[</text><var>$station.type</var><text>]&#160;=&#160;</text><var>$pos.arr</var></line>
+<line indent="&#160;&#160;&#160;"><text>end</text></line>
+<line indent="&#160;&#160;"><text>end</text></line>
+<line indent="&#160;"><text>end</text></line>
+<line indent=""><text>end</text></line>
+<line indent=""></line>
+<line indent=""><text>set&#160;global&#160;variable:&#160;name=</text><var>$globvar.name</var><text>&#160;value=</text><var>$station.pos.arr</var></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+<line indent=""></line>
+<line indent=""><comment><text>*&#160;</text><var>author:&#160;X2-Illuminatus</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>09.10.2011&#160;-&#160;release</var></comment></line>
+<line indent=""><comment><text>*&#160;</text><var>23.01.2012&#160;-&#160;release&#160;AP&#160;and&#160;TC&#160;compatible&#160;version</var></comment></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="lib.X2I.HephCorp.getbuildconstant"/>
+  <sval type="int" val="73"/>
+  <sval type="string" val="gets build constants for stations"/>
+  <sval type="int" val="3"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="17">
+    <sval type="string" val="page.id"/>
+    <sval type="string" val="globvar.name"/>
+    <sval type="string" val="station.pos.arr"/>
+    <sval type="string" val="filedata"/>
+    <sval type="string" val="line.size"/>
+    <sval type="string" val="version"/>
+    <sval type="string" val="line"/>
+    <sval type="string" val="line.data"/>
+    <sval type="string" val="comment"/>
+    <sval type="string" val="string.vars"/>
+    <sval type="string" val="current.version"/>
+    <sval type="string" val="temp"/>
+    <sval type="string" val="station.type"/>
+    <sval type="string" val="j"/>
+    <sval type="string" val="pos.arr"/>
+    <sval type="string" val="constant"/>
+    <sval type="string" val="i"/>
+  </sval>
+  <sval type="array" size="46">
+    <sval type="array" size="4">
+      <sval type="int" val="158"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="HephaistosCorp.globvar.pageid"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="126"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="7"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="1733"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="2740"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="TFacSizes.txt"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610601469"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="131"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610601463"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="142"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610609400"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="50"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="105"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="1077"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610608632"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="//"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="8">
+      <sval type="int" val="1077"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610607864"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="8"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="#"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="1782"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val=";"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-536863484"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1078"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="158"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610605821"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="158"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="hephcorp.tfile.version"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610605816"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="10"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="157"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="hephcorp.tfile.version"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="43"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="131"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610601725"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="11"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1669"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="128"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="7"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610601975"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="7"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="6">
+      <sval type="int" val="129"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="9"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="1078"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+    </sval>
+    <sval type="array" size="13">
+      <sval type="int" val="104"/>
+      <sval type="int" val="16"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="13"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="15"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="-1"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="-2"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="14"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="16"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="15"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="142"/>
+      <sval type="int" val="13"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="35"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="130"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="14"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="112"/>
+      <sval type="int" val="8"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="157"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="array" size="28">
+    <sval type="array" size="3">
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="reads station sizes from textfile and saves them in a global variable"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="2"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="3"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="x+ = maintype * 10000 + subtype * 10 + 0"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="x- = maintype * 10000 + subtype * 10 + 1"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="y+ = maintype * 10000 + subtype * 10 + 2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="y- = maintype * 10000 + subtype * 10 + 3"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="z+ = maintype * 10000 + subtype * 10 + 4"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="3"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="z- = maintype * 10000 + subtype * 10 + 5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="3"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="11"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="13"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="16"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="19"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="19"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="20"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="27"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="29"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="42"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="43"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="43"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="44"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="44"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="44"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="46"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="46"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="author: X2-Illuminatus"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="46"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="09.10.2011 - release"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="46"/>
+      <sval type="int" val="1"/>
+      <sval type="string" val="23.01.2012 - release AP and TC compatible version"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>9376</nosignature>
+</script>
