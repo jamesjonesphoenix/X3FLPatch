@@ -492,6 +492,13 @@
  <t id="3295">%0get maker race override: shiptype=%1</t>
  <t id="3296">set secondary maker race: shiptype=%0, race=%1</t>
  <t id="3297">%0get secondary maker race: shiptype=%1</t>
+ <t id="3298">set dock type to military: %0</t>
+ <t id="3299">remove dock type as military: %0</t>
+ <t id="3300">%0 set special object video channel: %1</t>
+ <t id="3301">%1%0is station rebuild in owner sector only</t>
+ <t id="3302">%0set station rebuild in owner sector only: %1</t>
+ <t id="3303">add sidebar custom entry, personal: id=%0, icon=%1, pageid=%2, textid=%3, submenu=%4, script=%5</t>
+ <t id="3304">add sidebar custom entry, personal: id=%0, icon=%1, pageid=%2, textid=%3, submenu=%4, scriptname=%5</t> 
 </page>
 
 <page id="393382" title="L2 Tour Of A Lifetime" descr="0" voice="no">
