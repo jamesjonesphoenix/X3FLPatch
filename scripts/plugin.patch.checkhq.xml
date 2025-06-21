@@ -20,7 +20,7 @@
     $y = get max sectors in y direction
     while $y
       dec $y = 
-@     = wait 0 ms
+@     = wait 1 ms
       $sector = get sector from universe index: x=$x, y=$y
       skip if $sector -> exists
         continue
@@ -73,7 +73,7 @@
 <line indent="&#160;"><var>$y&#160;=&#160;</var><text>get&#160;max&#160;sectors&#160;in&#160;y&#160;direction</text></line>
 <line indent="&#160;"><var>while&#160;</var><var>$y</var></line>
 <line indent="&#160;&#160;"><text>dec&#160;</text><var>$y&#160;=&#160;</var></line>
-<line interruptable="@" indent="&#160;&#160;"><var>=&#160;</var><text>wait&#160;</text><var>0</var><text>&#160;ms</text></line>
+<line interruptable="@" indent="&#160;&#160;"><var>=&#160;</var><text>wait&#160;</text><var>1</var><text>&#160;ms</text></line>
 <line indent="&#160;&#160;"><var>$sector&#160;=&#160;</var><text>get&#160;sector&#160;from&#160;universe&#160;index:&#160;x=</text><var>$x</var><text>,&#160;y=</text><var>$y</var></line>
 <line indent="&#160;&#160;"><var>skip&#160;if&#160;</var><var>$sector&#160;-&gt;</var><text>&#160;exists</text></line>
 <line indent="&#160;&#160;&#160;"><text>continue</text></line>
@@ -192,7 +192,7 @@
       <sval type="int" val="105"/>
       <sval type="int" val="-2147483647"/>
       <sval type="int" val="4"/>
-      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
     </sval>
     <sval type="array" size="6">
       <sval type="int" val="800"/>
@@ -483,5 +483,5 @@
 </sval>
 
 </codearray>
-<nosignature>3953</nosignature>
+<nosignature>4323</nosignature>
 </script>
