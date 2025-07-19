@@ -332,43 +332,42 @@
 				  </condition>
 				  <action>
 					  <do_all>
-						  <set_value name="L0M04.CheckDocked" exact="0"/>
-						  <remove_group group="L0M04.DockedShips"/>
+						  <set_value name="{param@Cue}.{param@ID} L0M04_CheckDocked" exact="0"/>
+						  <remove_group group="{param@Cue}.{param@ID} L0M04_DockedShips"/>
 						  <do_all exact="{object.dockedships.count@{param@Cue}.{param@ID} L0M04Station}" counter="Docked">
-							  <set_object name="L0M04.Temp Docked Ship" value="{object.dockedships.{counter@Docked}@{param@Cue}.{param@ID} L0M04Station}"/>
-							  <do_if value="{object.race@L0M04.Temp Docked Ship}" exact="{lookup.race@player}">
+							  <set_object name="{param@Cue}.{param@ID} L0M04_Temp Docked Ship_{counter@Docked}" value="{object.dockedships.{counter@Docked}@{param@Cue}.{param@ID} L0M04Station}"/>
+							  <do_if value="{object.race@{param@Cue}.{param@ID} L0M04_Temp Docked Ship_{counter@Docked}}" exact="{lookup.race@player}">
 								  <do_choose>
-									  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware1}.exists@{object@L0M04.Temp Docked Ship}}*{value@L0M04.Ware1Needed}" min="1">
-								           <add_object_to_group group="L0M04.DockedShips" object="L0M04.Temp Docked Ship"/>      										  
+									  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware1}.exists@{object@{param@Cue}.{param@ID} L0M04_Temp Docked Ship_{counter@Docked}}}*{value@L0M04.Ware1Needed}" min="1">
+										  <add_object_to_group group="{param@Cue}.{param@ID} L0M04_DockedShips" object="{param@Cue}.{param@ID} L0M04_Temp Docked Ship_{counter@Docked}"/>
 									  </do_when>
-									  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware2}.exists@{object@L0M04.Temp Docked Ship}}*{value@L0M04.Ware2Needed}" min="1">
-								           <add_object_to_group group="L0M04.DockedShips" object="L0M04.Temp Docked Ship"/>      										  
+									  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware2}.exists@{object@{param@Cue}.{param@ID} L0M04_Temp Docked Ship_{counter@Docked}}}*{value@L0M04.Ware2Needed}" min="1">
+										  <add_object_to_group group="{param@Cue}.{param@ID} L0M04_DockedShips" object="{param@Cue}.{param@ID} L0M04_Temp Docked Ship_{counter@Docked}"/>
 									  </do_when>
-									  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware3}.exists@{object@L0M04.Temp Docked Ship}}*{value@L0M04.Ware3Needed}" min="1">
-								           <add_object_to_group group="L0M04.DockedShips" object="L0M04.Temp Docked Ship"/>      										  
+									  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware3}.exists@{object@{param@Cue}.{param@ID} L0M04_Temp Docked Ship_{counter@Docked}}}*{value@L0M04.Ware3Needed}" min="1">
+										  <add_object_to_group group="{param@Cue}.{param@ID} L0M04_DockedShips" object="{param@Cue}.{param@ID} L0M04_Temp Docked Ship_{counter@Docked}"/>
 									  </do_when>
 								  </do_choose>
 							  </do_if>
 						  </do_all>
-					        <do_if value="{group.object.count@L0M04.DockedShips}" min="1">
-    						  <set_value name="L0M04.CheckDocked" exact="1"/>
+						  <do_if value="{group.object.count@{param@Cue}.{param@ID} L0M04_DockedShips}" min="1">
+							  <set_value name="{param@Cue}.{param@ID} L0M04_CheckDocked" exact="1"/>
 							</do_if>
 					  </do_all>
 				  </action>
 				  <cues>
 					  <cue name="L0M04.ResetCueDocked">
 						  <condition>
-							  <check_value value="{value@L0M04.CheckDocked}" exact="0"/>
+							  <check_value value="{value@{param@Cue}.{param@ID} L0M04_CheckDocked}" exact="0"/>
 						  </condition>
 						  <timing>
 							  <time min="10s" max="20s"/>
 						  </timing>
 						  <action>
 							  <do_all>
-          					    <remove_group group="L0M04.DockedShips"/>
+          					    <remove_group group="{param@Cue}.{param@ID} L0M04_DockedShips"/>
         						<reset_cue cue="L0M04 Player Docked"/>
-        						<reset_cue cue="L0M04 Brought Wares"/>
-								  
+        						<reset_cue cue="L0M04 Brought Wares"/>								  
 							  </do_all>
 						  </action>
 					  </cue>
@@ -383,36 +382,37 @@
 				  </condition>
 				  <action>
 					  <do_all>
-						  <set_value name="L0M04.CheckDocked" exact="0"/>
-						  <remove_group group="L0M04.DockedShips"/>
-						  <set_object name="L0M04.Temp Docked Ship" value="{player.ship}"/>
+						  <set_value name="{param@Cue}.{param@ID} L0M04_CheckDocked" exact="0"/>
+						  <remove_group group="{param@Cue}.{param@ID} L0M04_DockedShips"/>
+						  <set_object name="{param@Cue}.{param@ID} L0M04_Temp Docked Ship" value="{player.ship}"/>
 						  <do_choose>
-							  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware1}.exists@{object@L0M04.Temp Docked Ship}}*{value@L0M04.Ware1Needed}" min="1">
-								  <add_object_to_group group="L0M04.DockedShips" object="L0M04.Temp Docked Ship"/>
+							  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware1}.exists@{object@{param@Cue}.{param@ID} L0M04_Temp Docked Ship}}*{value@L0M04.Ware1Needed}" min="1">
+								  <add_object_to_group group="{param@Cue}.{param@ID} L0M04_DockedShips" object="{param@Cue}.{param@ID} L0M04_Temp Docked Ship"/>
 							  </do_when>
-							  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware2}.exists@{object@L0M04.Temp Docked Ship}}*{value@L0M04.Ware2Needed}" min="1">
-								  <add_object_to_group group="L0M04.DockedShips" object="L0M04.Temp Docked Ship"/>
+							  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware2}.exists@{object@{param@Cue}.{param@ID} L0M04_Temp Docked Ship}}*{value@L0M04.Ware2Needed}" min="1">
+								  <add_object_to_group group="{param@Cue}.{param@ID} L0M04_DockedShips" object="{param@Cue}.{param@ID} L0M04_Temp Docked Ship"/>
 							  </do_when>
-							  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware3}.exists@{object@L0M04.Temp Docked Ship}}*{value@L0M04.Ware3Needed}" min="1">
-								  <add_object_to_group group="L0M04.DockedShips" object="L0M04.Temp Docked Ship"/>
+							  <do_when value="{object.cargo.{value@{param@Cue}.{param@ID} L0M04Ware3}.exists@{object@{param@Cue}.{param@ID} L0M04_Temp Docked Ship}}*{value@L0M04.Ware3Needed}" min="1">
+								  <add_object_to_group group="{param@Cue}.{param@ID} L0M04_DockedShips" object="{param@Cue}.{param@ID} L0M04_Temp Docked Ship"/>
 							  </do_when>
 						  </do_choose>
-						  <do_if value="{group.object.count@L0M04.DockedShips}" min="1">
-							  <set_value name="L0M04.CheckDocked" exact="1"/>
+						  
+						  <do_if value="{group.object.count@{param@Cue}.{param@ID} L0M04_DockedShips}" min="1">
+							  <set_value name="{param@Cue}.{param@ID} L0M04_CheckDocked" exact="1"/>
 							</do_if>
 					  </do_all>
 				  </action>
 				  <cues>
 					  <cue name="L0M04.ResetCueClose">
 						  <condition>
-							  <check_value value="{value@L0M04.CheckDocked}" exact="0"/>
+							  <check_value value="{value@{param@Cue}.{param@ID} L0M04_CheckDocked}" exact="0"/>
 						  </condition>
 						  <timing>
 							  <time min="10s" max="20s"/>
 						  </timing>
 						  <action>
 							  <do_all>
-          					    <remove_group group="L0M04.DockedShips"/>
+          					    <remove_group group="{param@Cue}.{param@ID} L0M04_DockedShips"/>
         						<reset_cue cue="L0M04 Player Close"/>
         						<reset_cue cue="L0M04 Brought Wares"/>								  
 							  </do_all>
@@ -423,7 +423,7 @@
 			  <cue name="L0M04 Brought Wares" delay="2s">
               <condition>
 				  <check_all>
-					  <check_value value="{value@L0M04.CheckDocked}" exact="1"/>
+					  <check_value value="{value@{param@Cue}.{param@ID} L0M04_CheckDocked}" exact="1"/>
 				  </check_all>
               </condition>
               <timing>
@@ -435,20 +435,20 @@
                     <cue_completed cue="L0M04 Brought Wares"/>
                   </condition>
 					<action>
-       			        <set_value name="L0M04.CheckDocked" exact="0"/>			  
+       			        <set_value name="{param@Cue}.{param@ID} L0M04_CheckDocked" exact="0"/>			  
 					</action>
                   <cues>
                     <cue name="L0M04 Still Brought Wares" check="cancel" version="2">						
                       <condition>
                         <check_any>
-                            <any_object_is_docked dockobject="{object@{param@Cue}.{param@ID} L0M04Station}" group="L0M04.DockedShips"/>
+                            <any_object_is_docked dockobject="{object@{param@Cue}.{param@ID} L0M04Station}" group="{param@Cue}.{param@ID} L0M04_DockedShips"/>
                             <match_object object="{param@Cue}.{param@ID} L0M04Station" class="station" negate="1"/>
                         </check_any>
                       </condition>					  
                       <action>
                         <do_all>
-                        <do_all exact="{group.object.count@L0M04.DockedShips}" counter="Count">
-					        <set_object name="L0M04.Temp Docked Ship" value="{group.object.{counter@Count}@L0M04.DockedShips}"/>
+                        <do_all exact="{group.object.count@{param@Cue}.{param@ID} L0M04_DockedShips}" counter="Count">
+					        <set_object name="L0M04.Temp Docked Ship" value="{group.object.{counter@Count}@{param@Cue}.{param@ID} L0M04_DockedShips}"/>
                           <!--are these needed?-->
                           <set_value name="this.remove1" exact="0"/>
                           <set_value name="this.remove2" exact="0"/>
