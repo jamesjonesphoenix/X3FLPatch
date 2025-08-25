@@ -3,7 +3,7 @@
 <director name="test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="director.xsd">
   <documentation>
     <author name="Cycrow" alias="Cycrow" />
-    <content reference="patch" name="Unoffical Patch" description="Patch script for the Unoffical X3FL Patch" />
+    <content reference="patch" name="Unofficial Patch" description="Patch script for the Unofficial X3FL Patch" />
     <version number="1.0" date="2022/08/03" />
   </documentation>
   <cues>
