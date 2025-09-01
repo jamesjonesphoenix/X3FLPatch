@@ -188,7 +188,7 @@
 			<text> </text>
 			<text>script</text>
 			<text> </text>
-			<call>!move.returntocarrier.reboot</call>
+			<call>!move.dockingcomputer.reboot</call>
 			<text> </text>
 			<text>and</text>
 			<text> </text>
@@ -382,7 +382,7 @@
 					<sval type="int" val="1017" />
 					<sval type="int" val="131075" />
 					<sval type="int" val="1" />
-					<sval type="string" val="!move.returntocarrier.reboot" />
+					<sval type="string" val="!move.dockingcomputer.reboot" />
 					<sval type="int" val="4" />
 					<sval type="int" val="0" />
 					<sval type="int" val="4" />
