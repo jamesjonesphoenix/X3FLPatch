@@ -442,7 +442,7 @@ Added new script commands
 	Added "galaxy.all.initplayership" for custom galaxies
 	Added "Jobs.all" and "JobWings.all" for custom galaxyies
 	Added Events to sectors (SetOwner, Claimed, Activated, Deactived)
-	Added Dock and Secondary ware consumtion rate to patch_globals
+	Added Dock and Secondary ware consumption rate to patch_globals
 	Adjust SignalCreated to also run after initilisation (first argument is boolean for before and after init)
 	
 1.3.10:
