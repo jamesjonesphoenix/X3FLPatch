@@ -76,12 +76,13 @@
 			<text> </text>
 			<var>$activeWait</var>
 		</line>
-		<line linenr="014" indent="">
+		<line linenr="014" indent="" />
+		<line linenr="015" indent="">
 			<text>while</text>
 			<text> </text>
 			<var>[TRUE]</var>
 		</line>
-		<line linenr="015" indent="&#160;" interruptable="@">
+		<line linenr="016" indent="&#160;" interruptable="@">
 			<text>=</text>
 			<text> </text>
 			<text>wait</text>
@@ -90,7 +91,7 @@
 			<text> </text>
 			<text>ms</text>
 		</line>
-		<line linenr="016" indent="&#160;">
+		<line linenr="017" indent="&#160;">
 			<text>skip</text>
 			<text> </text>
 			<text>if</text>
@@ -100,10 +101,10 @@
 			<text> </text>
 			<text>exists</text>
 		</line>
-		<line linenr="017" indent="&#160;&#160;">
+		<line linenr="018" indent="&#160;&#160;">
 			<text>break</text>
 		</line>
-		<line linenr="018" indent="&#160;">
+		<line linenr="019" indent="&#160;">
 			<text>skip</text>
 			<text> </text>
 			<text>if</text>
@@ -121,10 +122,10 @@
 			<text> </text>
 			<var>[THIS]</var>
 		</line>
-		<line linenr="019" indent="&#160;&#160;">
+		<line linenr="020" indent="&#160;&#160;">
 			<text>break</text>
 		</line>
-		<line linenr="020" indent="&#160;">
+		<line linenr="021" indent="&#160;">
 			<text>skip</text>
 			<text> </text>
 			<text>if</text>
@@ -142,10 +143,10 @@
 			<text> </text>
 			<var>$targetstation</var>
 		</line>
-		<line linenr="021" indent="&#160;&#160;">
+		<line linenr="022" indent="&#160;&#160;">
 			<text>break</text>
 		</line>
-		<line linenr="022" indent="&#160;">
+		<line linenr="023" indent="&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
@@ -156,10 +157,10 @@
 			<text> </text>
 			<var>$targetstation</var>
 		</line>
-		<line linenr="023" indent="&#160;&#160;">
+		<line linenr="024" indent="&#160;&#160;">
 			<text>break</text>
 		</line>
-		<line linenr="024" indent="&#160;">
+		<line linenr="025" indent="&#160;">
 			<text>skip</text>
 			<text> </text>
 			<text>if</text>
@@ -183,13 +184,13 @@
 			<text>=</text>
 			<var>0</var>
 		</line>
-		<line linenr="025" indent="&#160;&#160;">
+		<line linenr="026" indent="&#160;&#160;">
 			<text>break</text>
 		</line>
-		<line linenr="026" indent="&#160;">
+		<line linenr="027" indent="&#160;">
 			<comment>* Drastically slow down frequency of loop while not in active sector</comment>
 		</line>
-		<line linenr="027" indent="&#160;">
+		<line linenr="028" indent="&#160;">
 			<text>if</text>
 			<text> </text>
 			<text>not</text>
@@ -205,17 +206,17 @@
 			<text> </text>
 			<text>sector</text>
 		</line>
-		<line linenr="028" indent="&#160;&#160;">
+		<line linenr="029" indent="&#160;&#160;">
 			<var>$wait</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>60000</var>
 		</line>
-		<line linenr="029" indent="&#160;&#160;">
+		<line linenr="030" indent="&#160;&#160;">
 			<text>continue</text>
 		</line>
-		<line linenr="030" indent="&#160;">
+		<line linenr="031" indent="&#160;">
 			<text>else</text>
 			<text> </text>
 			<text>if</text>
@@ -233,33 +234,33 @@
 			<text> </text>
 			<text>sector</text>
 		</line>
-		<line linenr="031" indent="&#160;&#160;">
+		<line linenr="032" indent="&#160;&#160;">
 			<var>$wait</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>60000</var>
 		</line>
-		<line linenr="032" indent="&#160;&#160;">
+		<line linenr="033" indent="&#160;&#160;">
 			<text>continue</text>
 		</line>
-		<line linenr="033" indent="&#160;">
+		<line linenr="034" indent="&#160;">
 			<text>else</text>
 		</line>
-		<line linenr="034" indent="&#160;&#160;">
+		<line linenr="035" indent="&#160;&#160;">
 			<var>$wait</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>$activeWait</var>
 		</line>
-		<line linenr="035" indent="&#160;">
+		<line linenr="036" indent="&#160;">
 			<text>end</text>
 		</line>
-		<line linenr="036" indent="&#160;">
+		<line linenr="037" indent="&#160;">
 			<comment>* we don't want to jolt the ship if it is running an interrupt that brings it to a halt.  </comment>
 		</line>
-		<line linenr="037" indent="&#160;">
+		<line linenr="038" indent="&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
@@ -283,10 +284,10 @@
 			<text>=</text>
 			<var>0</var>
 		</line>
-		<line linenr="038" indent="&#160;&#160;">
+		<line linenr="039" indent="&#160;&#160;">
 			<text>continue</text>
 		</line>
-		<line linenr="039" indent="&#160;">
+		<line linenr="040" indent="&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
@@ -310,16 +311,16 @@
 			<text>=</text>
 			<var>0</var>
 		</line>
-		<line linenr="040" indent="&#160;&#160;">
+		<line linenr="041" indent="&#160;&#160;">
 			<text>continue</text>
 		</line>
-		<line linenr="041" indent="&#160;">
+		<line linenr="042" indent="&#160;">
 			<text>gosub</text>
 			<text> </text>
 			<var>sub.Check.Motion</var>
 			<text>:</text>
 		</line>
-		<line linenr="042" indent="&#160;">
+		<line linenr="043" indent="&#160;">
 			<text>skip</text>
 			<text> </text>
 			<text>if</text>
@@ -330,25 +331,25 @@
 			<text> </text>
 			<var>[TRUE]</var>
 		</line>
-		<line linenr="043" indent="&#160;&#160;">
+		<line linenr="044" indent="&#160;&#160;">
 			<text>continue</text>
 		</line>
-		<line linenr="044" indent="&#160;">
+		<line linenr="045" indent="&#160;">
 			<comment>* Jolting over and over until we are moving or turning. Number of iterations is limited</comment>
 		</line>
-		<line linenr="045" indent="&#160;">
+		<line linenr="046" indent="&#160;">
 			<var>$i</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>30</var>
 		</line>
-		<line linenr="046" indent="&#160;">
+		<line linenr="047" indent="&#160;">
 			<text>while</text>
 			<text> </text>
 			<var>$i</var>
 		</line>
-		<line linenr="047" indent="&#160;&#160;">
+		<line linenr="048" indent="&#160;&#160;">
 			<var>[THIS]</var>
 			<text>-&gt;</text>
 			<text> </text>
@@ -362,7 +363,7 @@
 			<text> </text>
 			<var>$joltSpeed</var>
 		</line>
-		<line linenr="048" indent="&#160;&#160;" interruptable="@">
+		<line linenr="049" indent="&#160;&#160;" interruptable="@">
 			<text>=</text>
 			<text> </text>
 			<text>wait</text>
@@ -371,7 +372,7 @@
 			<text> </text>
 			<text>ms</text>
 		</line>
-		<line linenr="049" indent="&#160;&#160;">
+		<line linenr="050" indent="&#160;&#160;">
 			<var>$speed</var>
 			<text> </text>
 			<text>=</text>
@@ -385,7 +386,7 @@
 			<text> </text>
 			<text>speed</text>
 		</line>
-		<line linenr="050" indent="&#160;&#160;">
+		<line linenr="051" indent="&#160;&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
@@ -396,16 +397,16 @@
 			<text> </text>
 			<var>$joltSpeed</var>
 		</line>
-		<line linenr="051" indent="&#160;&#160;&#160;">
+		<line linenr="052" indent="&#160;&#160;&#160;">
 			<text>break</text>
 		</line>
-		<line linenr="052" indent="&#160;&#160;">
+		<line linenr="053" indent="&#160;&#160;">
 			<text>gosub</text>
 			<text> </text>
 			<var>sub.Check.Turning</var>
 			<text>:</text>
 		</line>
-		<line linenr="053" indent="&#160;&#160;">
+		<line linenr="054" indent="&#160;&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
@@ -416,66 +417,66 @@
 			<text> </text>
 			<var>[TRUE]</var>
 		</line>
-		<line linenr="054" indent="&#160;&#160;&#160;">
+		<line linenr="055" indent="&#160;&#160;&#160;">
 			<text>break</text>
 		</line>
-		<line linenr="055" indent="&#160;&#160;">
+		<line linenr="056" indent="&#160;&#160;">
 			<text>dec</text>
 			<text> </text>
 			<var>$i</var>
 		</line>
-		<line linenr="056" indent="&#160;">
+		<line linenr="057" indent="&#160;">
 			<text>end</text>
 		</line>
-		<line linenr="057" indent="&#160;">
+		<line linenr="058" indent="&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
 			<text> </text>
 			<var>$i</var>
 		</line>
-		<line linenr="058" indent="&#160;&#160;">
+		<line linenr="059" indent="&#160;&#160;">
 			<text>continue</text>
 		</line>
-		<line linenr="059" indent="&#160;">
+		<line linenr="060" indent="&#160;">
 			<comment>* If jolts didn't work then we try teleporting the ship a short distance.</comment>
 		</line>
-		<line linenr="060" indent="&#160;">
+		<line linenr="061" indent="&#160;">
 			<text>gosub</text>
 			<text> </text>
 			<var>sub.Teleport</var>
 			<text>:</text>
 		</line>
-		<line linenr="061" indent="">
+		<line linenr="062" indent="">
 			<text>end</text>
 		</line>
-		<line linenr="062" indent="" />
-		<line linenr="063" indent="">
+		<line linenr="063" indent="" />
+		<line linenr="064" indent="">
 			<text>return</text>
 			<text> </text>
 			<var>null</var>
 		</line>
-		<line linenr="064" indent="">
-			<comment>* ==================================================</comment>
-		</line>
 		<line linenr="065" indent="">
-			<comment>* sub.Check.Motion: Check if ship has stalled out by checking speed and orientation. </comment>
+			<comment>* ==================================================</comment>
 		</line>
 		<line linenr="066" indent="">
-			<comment>* ==================================================</comment>
+			<comment>* sub.Check.Motion: Check if ship has stalled out by checking speed and orientation. </comment>
 		</line>
 		<line linenr="067" indent="">
+			<comment>* ==================================================</comment>
+		</line>
+		<line linenr="068" indent="">
 			<var>sub.Check.Motion</var>
 			<text>:</text>
 		</line>
-		<line linenr="068" indent="&#160;">
+		<line linenr="069" indent="&#160;">
 			<var>$stalled</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>[FALSE]</var>
 		</line>
-		<line linenr="069" indent="&#160;">
+		<line linenr="070" indent="&#160;">
 			<var>$speed</var>
 			<text> </text>
 			<text>=</text>
@@ -489,17 +490,17 @@
 			<text> </text>
 			<text>speed</text>
 		</line>
-		<line linenr="070" indent="&#160;">
+		<line linenr="071" indent="&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
 			<text> </text>
 			<var>$speed</var>
 		</line>
-		<line linenr="071" indent="&#160;&#160;">
+		<line linenr="072" indent="&#160;&#160;">
 			<text>endsub</text>
 		</line>
-		<line linenr="072" indent="&#160;">
+		<line linenr="073" indent="&#160;">
 			<var>$rotAlphaOld</var>
 			<text> </text>
 			<text>=</text>
@@ -513,7 +514,7 @@
 			<text> </text>
 			<text>alpha</text>
 		</line>
-		<line linenr="073" indent="&#160;">
+		<line linenr="074" indent="&#160;">
 			<var>$rotBetaOld</var>
 			<text> </text>
 			<text>=</text>
@@ -527,7 +528,7 @@
 			<text> </text>
 			<text>beta</text>
 		</line>
-		<line linenr="074" indent="&#160;" interruptable="@">
+		<line linenr="075" indent="&#160;" interruptable="@">
 			<text>=</text>
 			<text> </text>
 			<text>wait</text>
@@ -536,7 +537,7 @@
 			<text> </text>
 			<text>ms</text>
 		</line>
-		<line linenr="075" indent="&#160;">
+		<line linenr="076" indent="&#160;">
 			<var>$speed</var>
 			<text> </text>
 			<text>=</text>
@@ -550,23 +551,23 @@
 			<text> </text>
 			<text>speed</text>
 		</line>
-		<line linenr="076" indent="&#160;">
+		<line linenr="077" indent="&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
 			<text> </text>
 			<var>$speed</var>
 		</line>
-		<line linenr="077" indent="&#160;&#160;">
+		<line linenr="078" indent="&#160;&#160;">
 			<text>endsub</text>
 		</line>
-		<line linenr="078" indent="&#160;">
+		<line linenr="079" indent="&#160;">
 			<text>gosub</text>
 			<text> </text>
 			<var>sub.Check.Turning</var>
 			<text>:</text>
 		</line>
-		<line linenr="079" indent="&#160;">
+		<line linenr="080" indent="&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
@@ -577,20 +578,20 @@
 			<text> </text>
 			<var>[TRUE]</var>
 		</line>
-		<line linenr="080" indent="&#160;&#160;">
+		<line linenr="081" indent="&#160;&#160;">
 			<text>endsub</text>
 		</line>
-		<line linenr="081" indent="&#160;">
+		<line linenr="082" indent="&#160;">
 			<comment>* Not moving or turning, time for a jolt</comment>
 		</line>
-		<line linenr="082" indent="&#160;">
+		<line linenr="083" indent="&#160;">
 			<text>if</text>
 			<text> </text>
 			<text>not</text>
 			<text> </text>
 			<var>$joltSpeed</var>
 		</line>
-		<line linenr="083" indent="&#160;&#160;">
+		<line linenr="084" indent="&#160;&#160;">
 			<var>$joltSpeed</var>
 			<text> </text>
 			<text>=</text>
@@ -606,7 +607,7 @@
 			<text> </text>
 			<text>speed</text>
 		</line>
-		<line linenr="084" indent="&#160;&#160;">
+		<line linenr="085" indent="&#160;&#160;">
 			<var>$joltSpeed</var>
 			<text> </text>
 			<text>=</text>
@@ -617,7 +618,7 @@
 			<text> </text>
 			<var>20</var>
 		</line>
-		<line linenr="085" indent="&#160;&#160;">
+		<line linenr="086" indent="&#160;&#160;">
 			<var>$joltSpeed</var>
 			<text> </text>
 			<text>=</text>
@@ -641,7 +642,7 @@
 			<text> </text>
 			<var>null</var>
 		</line>
-		<line linenr="086" indent="&#160;&#160;">
+		<line linenr="087" indent="&#160;&#160;">
 			<var>$joltSpeed</var>
 			<text> </text>
 			<text>=</text>
@@ -665,33 +666,33 @@
 			<text> </text>
 			<var>null</var>
 		</line>
-		<line linenr="087" indent="&#160;">
+		<line linenr="088" indent="&#160;">
 			<text>end</text>
 		</line>
-		<line linenr="088" indent="&#160;">
+		<line linenr="089" indent="&#160;">
 			<var>$stalled</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>[TRUE]</var>
 		</line>
-		<line linenr="089" indent="">
+		<line linenr="090" indent="">
 			<text>endsub</text>
 		</line>
-		<line linenr="090" indent="">
-			<comment>* =============================</comment>
-		</line>
 		<line linenr="091" indent="">
-			<comment>* sub.Check.Turning: Check if ship has rotated</comment>
+			<comment>* =============================</comment>
 		</line>
 		<line linenr="092" indent="">
-			<comment>* =============================</comment>
+			<comment>* sub.Check.Turning: Check if ship has rotated</comment>
 		</line>
 		<line linenr="093" indent="">
+			<comment>* =============================</comment>
+		</line>
+		<line linenr="094" indent="">
 			<var>sub.Check.Turning</var>
 			<text>:</text>
 		</line>
-		<line linenr="094" indent="&#160;">
+		<line linenr="095" indent="&#160;">
 			<var>$rotAlphaNew</var>
 			<text> </text>
 			<text>=</text>
@@ -705,7 +706,7 @@
 			<text> </text>
 			<text>alpha</text>
 		</line>
-		<line linenr="095" indent="&#160;">
+		<line linenr="096" indent="&#160;">
 			<var>$rotBetaNew</var>
 			<text> </text>
 			<text>=</text>
@@ -719,24 +720,24 @@
 			<text> </text>
 			<text>beta</text>
 		</line>
-		<line linenr="096" indent="&#160;">
+		<line linenr="097" indent="&#160;">
 			<comment>* 0 to 65536 for 360 degrees, so 200 corresponds to about 1 degree rotation.</comment>
 		</line>
-		<line linenr="097" indent="&#160;">
+		<line linenr="098" indent="&#160;">
 			<var>$rotBound</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>200</var>
 		</line>
-		<line linenr="098" indent="&#160;">
+		<line linenr="099" indent="&#160;">
 			<var>$turning</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>[FALSE]</var>
 		</line>
-		<line linenr="099" indent="&#160;">
+		<line linenr="100" indent="&#160;">
 			<text>do</text>
 			<text> </text>
 			<text>if</text>
@@ -795,44 +796,44 @@
 			<var>$rotBound</var>
 			<text>)</text>
 		</line>
-		<line linenr="100" indent="&#160;&#160;">
+		<line linenr="101" indent="&#160;&#160;">
 			<var>$turning</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>[TRUE]</var>
 		</line>
-		<line linenr="101" indent="&#160;">
+		<line linenr="102" indent="&#160;">
 			<var>$rotAlphaOld</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>$rotAlphaNew</var>
 		</line>
-		<line linenr="102" indent="&#160;">
+		<line linenr="103" indent="&#160;">
 			<var>$rotBetaOld</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>$rotBetaNew</var>
 		</line>
-		<line linenr="103" indent="">
+		<line linenr="104" indent="">
 			<text>endsub</text>
 		</line>
-		<line linenr="104" indent="">
-			<comment>* =============================</comment>
-		</line>
 		<line linenr="105" indent="">
-			<comment>* sub.Teleport: move ship a short distance from current position to try and wake it up</comment>
+			<comment>* =============================</comment>
 		</line>
 		<line linenr="106" indent="">
-			<comment>* =============================</comment>
+			<comment>* sub.Teleport: move ship a short distance from current position to try and wake it up</comment>
 		</line>
 		<line linenr="107" indent="">
+			<comment>* =============================</comment>
+		</line>
+		<line linenr="108" indent="">
 			<var>sub.Teleport</var>
 			<text>:</text>
 		</line>
-		<line linenr="108" indent="&#160;">
+		<line linenr="109" indent="&#160;">
 			<var>$pos</var>
 			<text> </text>
 			<text>=</text>
@@ -846,20 +847,20 @@
 			<text> </text>
 			<text>position</text>
 		</line>
-		<line linenr="109" indent="&#160;">
+		<line linenr="110" indent="&#160;">
 			<text>gosub</text>
 			<text> </text>
 			<var>sub.AdjustXYZ</var>
 			<text>:</text>
 		</line>
-		<line linenr="110" indent="&#160;">
+		<line linenr="111" indent="&#160;">
 			<var>$posX</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>$pos</var>
 		</line>
-		<line linenr="111" indent="&#160;">
+		<line linenr="112" indent="&#160;">
 			<var>$pos</var>
 			<text> </text>
 			<text>=</text>
@@ -873,20 +874,20 @@
 			<text> </text>
 			<text>position</text>
 		</line>
-		<line linenr="112" indent="&#160;">
+		<line linenr="113" indent="&#160;">
 			<text>gosub</text>
 			<text> </text>
 			<var>sub.AdjustXYZ</var>
 			<text>:</text>
 		</line>
-		<line linenr="113" indent="&#160;">
+		<line linenr="114" indent="&#160;">
 			<var>$posY</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>$pos</var>
 		</line>
-		<line linenr="114" indent="&#160;">
+		<line linenr="115" indent="&#160;">
 			<var>$pos</var>
 			<text> </text>
 			<text>=</text>
@@ -900,20 +901,20 @@
 			<text> </text>
 			<text>position</text>
 		</line>
-		<line linenr="115" indent="&#160;">
+		<line linenr="116" indent="&#160;">
 			<text>gosub</text>
 			<text> </text>
 			<var>sub.AdjustXYZ</var>
 			<text>:</text>
 		</line>
-		<line linenr="116" indent="&#160;">
+		<line linenr="117" indent="&#160;">
 			<var>$posZ</var>
 			<text> </text>
 			<text>=</text>
 			<text> </text>
 			<var>$pos</var>
 		</line>
-		<line linenr="117" indent="&#160;">
+		<line linenr="118" indent="&#160;">
 			<var>[THIS]</var>
 			<text>-&gt;</text>
 			<text> </text>
@@ -934,15 +935,15 @@
 			<text>=</text>
 			<var>$posZ</var>
 		</line>
-		<line linenr="118" indent="">
+		<line linenr="119" indent="">
 			<text>endsub</text>
 		</line>
-		<line linenr="119" indent="" />
-		<line linenr="120" indent="">
+		<line linenr="120" indent="" />
+		<line linenr="121" indent="">
 			<var>sub.AdjustXYZ</var>
 			<text>:</text>
 		</line>
-		<line linenr="121" indent="&#160;">
+		<line linenr="122" indent="&#160;">
 			<var>$rand</var>
 			<text> </text>
 			<text>=</text>
@@ -959,12 +960,12 @@
 			<text> </text>
 			<var>1</var>
 		</line>
-		<line linenr="122" indent="&#160;">
+		<line linenr="123" indent="&#160;">
 			<text>if</text>
 			<text> </text>
 			<var>$rand</var>
 		</line>
-		<line linenr="123" indent="&#160;&#160;">
+		<line linenr="124" indent="&#160;&#160;">
 			<var>$pos</var>
 			<text> </text>
 			<text>=</text>
@@ -975,10 +976,10 @@
 			<text> </text>
 			<var>20</var>
 		</line>
-		<line linenr="124" indent="&#160;">
+		<line linenr="125" indent="&#160;">
 			<text>else</text>
 		</line>
-		<line linenr="125" indent="&#160;&#160;">
+		<line linenr="126" indent="&#160;&#160;">
 			<var>$pos</var>
 			<text> </text>
 			<text>=</text>
@@ -989,13 +990,13 @@
 			<text> </text>
 			<var>20</var>
 		</line>
-		<line linenr="126" indent="&#160;">
+		<line linenr="127" indent="&#160;">
 			<text>end</text>
 		</line>
-		<line linenr="127" indent="">
+		<line linenr="128" indent="">
 			<text>endsub</text>
 		</line>
-		<line linenr="128" indent="" />
+		<line linenr="129" indent="" />
 	</sourcetext>
 	<codearray>
 		<sval type="array" size="10">
@@ -1820,7 +1821,7 @@
 					<sval type="string" val="" />
 				</sval>
 			</sval>
-			<sval type="array" size="45">
+			<sval type="array" size="46">
 				<sval type="array" size="3">
 					<sval type="int" val="0" />
 					<sval type="int" val="1" />
@@ -1852,6 +1853,10 @@
 				<sval type="array" size="2">
 					<sval type="int" val="6" />
 					<sval type="int" val="4" />
+				</sval>
+				<sval type="array" size="2">
+					<sval type="int" val="7" />
+					<sval type="int" val="2" />
 				</sval>
 				<sval type="array" size="2">
 					<sval type="int" val="11" />
