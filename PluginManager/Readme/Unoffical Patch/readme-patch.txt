@@ -576,3 +576,4 @@ Added new script commands
 	Fixed Return Wares mission
 	
 	Fixed getConnectedRace script command
+	Fixed getDialogRace script command
