@@ -571,3 +571,8 @@ Added new script commands
 	Added show_effect to MD
 	Added movie_finished event cue to MD
 	Added "reset" to alter_sector MD
+	
+1.3.20
+	Fixed Return Wares mission
+	
+	Fixed getConnectedRace script command

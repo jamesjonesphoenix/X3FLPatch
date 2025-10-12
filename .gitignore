@@ -20,3 +20,4 @@ scripts/setup.cycrow.library.xml
 /scripts/debug.*
 /BUILD/ZIP
 /BUILD/SPK
+*.bak
