@@ -9,7 +9,7 @@ Variable: $GAMEDIR $PATH/../..
 Variable: $SAVEDIR $PATH
 
 # The name of the script
-Name: Unoffical Patch
+Name: Unofficial Patch
 
 # The author of the script, ie, you
 Author: Cycrow
@@ -23,9 +23,9 @@ Date: 10/05/2025
 Version: 1.3.19
 
 # The description of the script, displays when installing
-Description: This is an unoffical patch for X3 Farnham's Legacy adding fixes and improvements to the base game
+Description: This is an Unofficial patch for X3 Farnham's Legacy adding fixes and improvements to the base game
 
-# Compatable games
+# Compatible games
 Game: X3FL 1.3
 
 # A direct link to the thread in the egosoft forum
@@ -150,7 +150,7 @@ ScriptPCK: GAME X3FL $GAMEDIR/addon2/Scripts/plugin.X2I.HephCorp.prepare.xml
 Script: GAME X3FL $GAMEDIR/addon2/Scripts/setup.cycrow.patch.xml
 Script: GAME X3FL $GAMEDIR/addon2/Scripts/plugin.patch.*
 Script: GAME X3FL $GAMEDIR/addon2/Scripts/lib.xml.*
-Readme: GAME X3FL $GAMEDIR/addon2/PluginManager/Readme/Unoffical Patch/readme-patch.txt
+Readme: GAME X3FL $GAMEDIR/addon2/PluginManager/Readme/Unofficial Patch/readme-patch.txt
 Mod: GAME X3FL $GAMEDIR/addon2/06.cat
 Mod: GAME X3FL $GAMEDIR/addon2/06.dat
 TextPCK: GAME X3FL $GAMEDIR/addon2/t/0002-L044.xml

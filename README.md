@@ -1,5 +1,5 @@
 # X3FLPatch
-Unoffical Patch for X3: Farnham's Legacy
+Unofficial Patch for X3: Farnham's Legacy
 
 # Current Version
 1.13.19
