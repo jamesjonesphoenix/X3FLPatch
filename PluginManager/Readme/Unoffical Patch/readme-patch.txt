@@ -575,6 +575,7 @@ Added new script commands
 1.3.20
 	Fixed Return Wares mission
 	Fixed hyperlink highlighting correct position due to word wrap
+	Added docking lockup fix to improve ships/drones docking at carriers
 	
 	Fixed getConnectedRace script command
 	Fixed getDialogRace script command
