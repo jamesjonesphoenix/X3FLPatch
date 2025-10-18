@@ -25,7 +25,7 @@
 2.009 Tutorials
 2.050 Farnhams Legacy Plot
 2.051 Terran Plot
-2.101 Generic Assasination
+2.101 Generic Assassination
 2.103 Generic Transport
 2.104 Generic Delivery
 2.105 Generic Return Ship

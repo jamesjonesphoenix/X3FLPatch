@@ -10,7 +10,7 @@
  <t id="17091">Darkspace Installation</t>
  <t id="17092">Darkspace is a mafia-like organisation based in the Terran outer sectors. They have quite a lot of influence in the United Space Command and together with their superficially legal appearance, bases like these can exist without having too many problems from the authorities.</t>
  <t id="40913">Pandora Tunings</t>
- <t id="40914">The Pandora project was a Terran initiative to essentially supercharge their owns ships to give them advantage during the Terran Conflict, the project was later scrapped but the tunings can still be found scattered around the universe.</t>
+ <t id="40914">The Pandora project was a Terran initiative to essentially supercharge their own ships to give them advantage during the Terran Conflict. The project was later scrapped but the tunings can still be found scattered around the universe.</t>
 </page>
 
 <page id="391904" title="Quickmenu strings" descr="0" voice="no">
@@ -34,22 +34,22 @@
  <t id="1104782">Ship under attack notification</t>
  <t id="1104783">Ship destroyed notification</t>
  <t id="1104784">Station under attack notification</t>
- <t id="1104785">Station destroyed notification</t> 
- <t id="1104786">Strip Ship</t> 
- <t id="1104787">\t</t> 
- <t id="1104788">News Count</t> 
- <t id="1104789">Hide ships managed by homebase</t> 
- <t id="1104790">Requirements</t> 
- <t id="1104791">Free Cargo</t> 
- <t id="1104792">Sensor Blackout</t> 
- <t id="1104793">Sellable</t> 
- <t id="1104794">Equipable</t> 
- <t id="1104795">Custom Starts</t> 
- <t id="1104796">Select the custom start to load</t> 
- <t id="1104797">Capital</t> 
- <t id="1104798">Additional Sector Information</t> 
- <t id="1104799">Cant use current ship as target</t> 
- <t id="1104800">Production Effects</t> 
+ <t id="1104785">Station destroyed notification</t>
+ <t id="1104786">Strip Ship</t>
+ <t id="1104787">\t</t>
+ <t id="1104788">News Count</t>
+ <t id="1104789">Hide ships managed by homebase</t>
+ <t id="1104790">Requirements</t>
+ <t id="1104791">Free Cargo</t>
+ <t id="1104792">Sensor Blackout</t>
+ <t id="1104793">Sellable</t>
+ <t id="1104794">Equipable</t>
+ <t id="1104795">Custom Starts</t>
+ <t id="1104796">Select the custom start to load</t>
+ <t id="1104797">Capital</t>
+ <t id="1104798">Additional Sector Information</t>
+ <t id="1104799">Cant use current ship as target</t>
+ <t id="1104800">Production Effects</t>
  <t id="1104801">Availability</t>
  <t id="1104802">Bought Equipment: %s</t>
 </page>
@@ -57,7 +57,7 @@
 <page id="390038" title="Custom Start Texts" descr="0" voice="no">
  <t id="59">Save current start</t>
  <t id="60">Load a saved start</t>
- <t id="108">All</t> 
+ <t id="108">All</t>
  <t id="213">Enter the name to save as</t>
  <t id="214">Enter the name to load</t>
 </page>
@@ -67,8 +67,8 @@
  <t id="136">Processed</t>
  <t id="137">Luxury</t>
  <t id="138">Increase Equipment Damage</t>
- <t id="10271">Darkspace is a relatively unknown and shadowy Terran organisation. They mainly specialise in mining operations in the dark space beyond the solar system, but its also believed they have ties to various pirate factions and often resort to illegal activities</t>
- <t id="1030142">Pilots who venture out to explore the systems that make up the galaxy, usually find their efforts well rewarded. Aside from the satisfaction of the discovery itself, there is the opportunity to earn more tangible rewards. Discovery Points will be granted for activities such as: visiting new systems, scanning asteroids, and using the Low Frequency Locator to discover Remote Systems Locations, floating crates or derelict ships. The rarer the findings, the more points are granted.\n\nAccumulated Discovery Points are shown in the Pilot Information Screen. Once sufficient points have been earned, they can be traded in at the Explorers Guild for valuable rewards.\n\nYou can turn in your explorer points to Explorers Guild Repsentatives found scrattered throughout the universe.  These will be able via comms at any docks, but they move around so they wont always be at the same docks.  You can usually find them easier on Captial Worlds.</t>
+ <t id="10271">Darkspace is a relatively unknown and shadowy Terran organisation. They mainly specialise in mining operations in the dark space beyond the solar system, but it's also believed they have ties to various pirate factions and often resort to illegal activities</t>
+ <t id="1030142">Pilots who venture out to explore the systems that make up the galaxy, usually find their efforts well rewarded. Aside from the satisfaction of the discovery itself, there is the opportunity to earn more tangible rewards. Discovery Points will be granted for activities such as: visiting new systems, scanning asteroids, and using the Low Frequency Locator to discover Remote Systems Locations, floating crates or derelict ships. The rarer the findings, the more points are granted.\n\nAccumulated Discovery Points are shown in the Pilot Information Screen. Once sufficient points have been earned, they can be traded in at the Explorers Guild for valuable rewards.\n\nYou can turn in your explorer points to Explorers Guild Representatives found scattered throughout the universe.  These will be available via comms at any docks, but they move around so don't expect them to stay in one place.  They're more commonly found on Capital Worlds.</t>
 </page>
 
 <page id="391000" title="Job names" descr="Races and job names" voice="yes">
@@ -76,8 +76,8 @@
 </page>
 
 <page id="392022" title="Command Info" descr="0" voice="no">
- <t id="1100">This command transfers money between the station account to your personal account.\nIf the station account falls below the minimum value, then money is transfered from your account into the stations accout.\nIf the station account goes over the maximum value, then money is transfered from the stations account into your personal account.\n{2022,99994}</t>
- <t id="100031">While this command is running, it will manage the wares at your station/complex. It will make use of any homebased ships, repairing and replacing them when needed.\n\nThe station manage will continue to run until you remove it from the command slot.  They will also require being paid and will take their wages from the stations account every 2 hours.  If no money is available they will eventually stop working until they get paid.\n\nWhile the station manager is using the homebased ships, they will take control over them which will prevent you from issuing orders.\n{2022,99994}</t>
+ <t id="1100">This command transfers money between the station account to your personal account.\nIf the station account falls below the minimum value, then money is transferred from your account into the stations account.\nIf the station account goes over the maximum value, then money is transferred from the stations account into your personal account.\n{2022,99994}</t>
+ <t id="100031">While this command is running, it will manage the wares at your station/complex. The station manager will continue to run until you remove it from the command slot.\n\nIt will make use of any homebased ships, repairing and replacing them when needed. They will also require being paid and will take their wages from the stations account every 2 hours.  If no money is available they will eventually stop working until they get paid.\n\nWhile the station manager is using the homebased ships, they will take control over them which will prevent you from issuing orders.\n{2022,99994}</t>
 </page>
 
 <page id="390840" title="Darkspace Ranks" descr="0" voice="no">
@@ -93,7 +93,7 @@
  <t id="104">Promising Agent</t>
  <t id="105">Agent</t>
  <t id="106">Professional</t>
- <t id="107">Specalist</t>
+ <t id="107">Specialist</t>
  <t id="108">Intelligence Officer</t>
  <t id="109">Commander</t>
  <t id="110">Member of Inner Circle</t>
@@ -167,18 +167,18 @@
  <t id="202">I need a pilot with a Passenger Transport to help me deliver some important documents. My usual pilot has fallen ill and I need to get these documents distributed as soon as possible.</t>
  <t id="203">I'm late for a very important meeting aboard {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest} and need a pilot with a passenger transport to get me there as soon as possible.</t>
  <t id="204">I want to pay a visit to {random.pilot.{value@L2M103.OfferRace}} aboard {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest}. I need a pilot with a passenger transport to take me there.</t>
- <t id="205">I need to get to {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest} and require a ship for hire. I will not tolerate sub-standard transportation, so only pilots of a passenger transport ship need apply.</t>
+ <t id="205">I need to get to {object.name@{param@Cue}.{param@ID} L0Dest} in {object.sector.name@{param@Cue}.{param@ID} L0Dest} and require a ship for hire. I will not tolerate substandard transportation, so only pilots of a passenger transport ship need apply.</t>
 </page>
 
-<page id="392600" title="Gametips" descr="Ingame tips for the player that are shown once an action is performed for the first time. The tips should be as short and precise as possible." voice="no">
- <t id="36">You have acquired the blueprint to the build a TOA kit in your HQ.</t>
- <t id="37">Built in Wares can not be transfered between your ships.</t>
+<page id="392600" title="Gametips" descr="In-game tips for the player that are shown once an action is performed for the first time. The tips should be as short and precise as possible." voice="no">
+ <t id="36">You have acquired the blueprint to build a TOA kit in your HQ.</t>
+ <t id="37">Built in Wares can not be transferred between your ships.</t>
  <t id="38">The crate contained a blueprint which is now unlocked in your HQ.</t>
  <t id="39">To activate a HSAP, use the context menu when within 3KM.</t>
- <t id="40">Looks like you damaged your ship.  You can eject and repair with your spacesuits repair laser.</t>
+ <t id="40">Looks like you damaged your ship.  You can eject and repair with your spacesuit's repair laser.</t>
  <t id="41">While you highlight a ship or station, you can view more info using the identify hotkey. $VK_IDENTIFY$</t>
  <t id="42">While you highlight a ware, you can view more info using the identify hotkey. $VK_IDENTIFY$</t>
- <t id="43">You have taken ownership of the Spacelab Headquarters, you now have fully control over it.</t>
+ <t id="43">You have taken ownership of the Spacelab Headquarters and now have full control over it.</t>
 </page>
 
 <page id="396020" title="Mine Minerals Script" descr="Input menu for ship command Mine Minerals" voice="no">
@@ -194,16 +194,16 @@
  <t id="7">Select Position to defend</t>
 </page>
 
-<page id="399998" title="Unoffical patch texts" descr="" voice="no">
+<page id="399998" title="Unofficial patch texts" descr="" voice="no">
  <t id="1">Disable SETA safety mechanisms</t>
  <t id="2">Please pack my station...</t>
- <t id="3">The station you have selected is not valid for packing.  Im unable to pack up mines on asteroids.</t>
- <t id="4">The station you have selected is not valid for packing.  Im unable to pack up the Xenon Hub.</t>
- <t id="5">The station you have selected is not valid for packing.  Im unable to pack up a factory thats currently upgrading.</t>
- <t id="6">The station you have selected is not valid for packing.  Im unable to pack up a factory that has an upgrade queued.</t>
+ <t id="3">The station you have selected is not valid for packing.  I'm unable to pack up mines on asteroids.</t>
+ <t id="4">The station you have selected is not valid for packing.  I'm unable to pack up the Xenon Hub.</t>
+ <t id="5">The station you have selected is not valid for packing.  I'm unable to pack up a factory that's currently upgrading.</t>
+ <t id="6">The station you have selected is not valid for packing.  I'm unable to pack up a factory that has an upgrade queued.</t>
  <t id="7">The station you have selected is not valid for packing.  My ship does not have enough storage capacity to fit the station and all its wares.</t>
  <t id="8">The station you have selected is not valid for packing.  My ship does not have enough room for the marines on the station.</t>
- <t id="9">The station you have selected is not valid for packing.  My ship cannot dock at your station and i dont have any freight drones on board.</t>
+ <t id="9">The station you have selected is not valid for packing.  My ship cannot dock at your station and I don't have any freight drones on board.</t>
  <t id="10">Preparing to pack up your station now.</t>
  <t id="11">Change Sector Music</t>
  <t id="12">Random Selection</t>
@@ -231,14 +231,14 @@
  <t id="34">All</t>
  <t id="35">Selected</t>
  <t id="36">Start Upgrading</t>
- <t id="37">Prefered buying location</t>
+ <t id="37">Preferred buying location</t>
  <t id="38">Nearest</t>
  <t id="39">Cheapest</t>
  <t id="40">Upgrading Factory: %s</t>
- <t id="41">Waiting: insufficent Funds</t>
+ <t id="41">Waiting: insufficient Funds</t>
  <t id="42">Applying Upgrade: %s</t>
  <t id="43">Waiting: no safe route to: %s</t>
- <t id="44">Waiting: notority too low</t>
+ <t id="44">Waiting: notoriety too low</t>
  <t id="45">Waiting: no safe routes available</t>
  <t id="46">Has Blueprint</t>
  <t id="100">Argon Capital - {7,1020402}</t>
@@ -263,13 +263,13 @@
  <t id="119">Pirates - {7,1021119}</t>
  <t id="120">Pirates - {7,1020707}</t>
  <t id="121">Kha'ak Sector</t>
- <t id="122">Terran Captial - {7,1020414}</t>
+ <t id="122">Terran Capital - {7,1020414}</t>
  <t id="123">Teladi - {7,1020820}</t>
  <t id="124">X3: Farnham's Legacy Theme</t>
  <t id="125">Duke's Buccaneers Theme</t>
  <t id="126">Boron - {7,1021503}</t>
  <t id="127">Argon - {7,1020714}</t>
- <t id="128">Goner Captial - {7,30007}</t>
+ <t id="128">Goner Capital - {7,30007}</t>
  <t id="129">Goner - {7,1023005}</t>
  <t id="130">Sector Music - 1</t>
  <t id="131">Sector Music - 2</t>
@@ -315,24 +315,24 @@
  <t id="402">Get within 3km of the HSAP and activate it via the context menu</t>
  <t id="403">Make Haste, leave the sector and return to the Void</t>
  <t id="500">Plot Assistance</t>
- <t id="501">Greetings \033B{player.name}\033X,\n\nAs this is your first time playing, i can offer my assistance to help guide you through some parts of the story.  This will make things easier for you and allow you to get to the rest of the universe quicker.\n\nYou can enable or disable this assistance at any time in the settings mean.\nWould you like to enable this now?  You can get all the help including new player guides, or just the plot hints if you already know the basics\n\n[center][select value='yes']Yes, i could use all the help have to offer[/select]\n[select value='hints']Yes, but i only want the plot hints[/select]\n[select value='no']No, i think i can figure things out on my own[/select][/center]</t>
- <t id="502">Excellant, i will send you messages as you go through the story, when you receive messages, you will notice the message icon in the bottom left of your HUD will flash.  This shows you have a new message, select it to view the new message.\n\nMy first advice is that you should primaraily focus on doing the plot missions, with my help, you shouldn't need to worry about anything else beyond that.  While you can go off and do other things, this area of space is very limited and unless you know what your doing, it could be difficult to make a living and progress further.</t>
- <t id="503">Greetings \033B{player.name}\033X,\n\nYou have your first mission guidance, notice you have yellow arrows on your HUD.  This is your current mission target, and is directing you where you need to go.  Not all missions will have this guidance, but it will help you find where you need to go.  When the guidance target is in a different sector to you, the guidance will instead point to the gate that you need to travel through.\n\nAlso notice that the highlighted target shows an icon of a book.  This indicates that they have a conversation for you, the book signifies its for the plot missions, so go ahead and comm the pilot to continue the plot.\n\nIf you need more information on your current mission, you can find a description in your My Missions interface, found in your Personal tab from the sidebar.</t>
+ <t id="501">Greetings \033B{player.name}\033X,\n\nAs this is your first time playing, I can offer my assistance to help guide you through some parts of the story.  This will make things easier for you and allow you to get to the rest of the universe quicker.\n\nYou can enable or disable this assistance at any time in the settings menu.\nWould you like to enable this now?  I can provide guides suitable for new players, or just plot hints if you already know the basics.\n\n[center][select value='yes']Yes, I could use all the help you have to offer[/select]\n\n[select value='hints']Yes, but I only want the plot hints[/select]\n\n[select value='no']No, I think I can figure things out on my own[/select][/center]</t>
+ <t id="502">Excellent, I will send you messages as you go through the story. When you receive messages you will notice the message icon in the bottom left of your HUD will flash.  This shows you have a new message, select it to view the new message.\n\nMy first advice is that you should primarily focus on doing the plot missions. With my help you shouldn't need to worry about anything else beyond that.  While you can go off and do other things, this area of space is very limited and unless you know what you're doing, it could be difficult to make a living and progress further.</t>
+ <t id="503">Greetings \033B{player.name}\033X,\n\nYou have your first mission guidance, notice you have yellow arrows on your HUD.  This is your current mission target directing you where you need to go.  When the guidance target is in a different sector to you, the guidance will instead point to the gate that you need to travel through. Not all missions will guide you to a particular location like this.\n\nIn this case the highlighted target shows an icon of a book.  This indicates that they have a conversation for you with the book signifying a plot mission, so go ahead and comm the pilot to continue the plot.\n\nIf you need more information on your current mission, you can find a description in your My Missions interface, found in your Personal tab from the sidebar.</t>
  <t id="504">Greetings \033B{player.name}\033X,\n\nYour next mission is to talk to \033Y{actor.name@L2M050.MissionGiver}\033X at \033B{object.name@L2M050.ResearchStation}\033X.  You can dock at the station to then use the comm option, or, if you prefer, you can just get within 25km of the station, which will allow you to comm without having to dock.\n\nDocking does have the advantage of saving your game if you have auto save on, so can be useful.</t>
- <t id="505">Greetings \033B{player.name}\033X,\n\nYou now need to scan parts of the Spacelab Headquarters.  To scan, you just have to get close enough to the target and the scan will start automatically.  Just remain close until the scan is complete.  There may be other scan type missions in the future, they will all work in the same way.</t>
- <t id="506">Greetings \033B{player.name}\033X,\n\nYou have been given a new upgrade to your ships, the Low Frequency Locator. This device will allow you to find different items around the universe.  You may have noticed that you have a new element in the centre of your HUD.  This is the LFL in action, and it showing you there is something to find within this sector.  To find the item, move your ship in the direction the arrow is pointing until the arrow disappears and replaced by a set of brackets.  This indicates the item is now roughly infront of you.  So travel toward its, the 3 bars the bottom show the distance from the item, when it gets to 3 filled bars, you are very close.\n\nThe scanner display will only show up when there is something to find.  Some items have a limited detection range so you may have to travel around the sector to trigger it.  But for now, all items for the plot have unlimited detection range, so if the LFL is not showing, it means there is nothing to be found.\n\nYou will need to move from sector to sector until you find what you are looking for.  Just follow the direction  of the LFL, and move to a different sector when its no longer detecting anything.  There are various useful items to be found so its worth search all sectors.</t>
- <t id="507">Greetings \033B{player.name}\033X,\n\nYou have found a new ship, congratulations.  This ship can become very useful later on in the plot, as it is a trading ship with a large freight bay.  It can be used to move large quantities of wares around, as well as utilised to make money trading wares.\n\nMost important however, check the ships freight bay and you will noticed a number of items available within, including some weapons.  These weapons can be sold at the Research Station to get you credits.</t>
- <t id="508">Greetings \033B{player.name}\033X,\n\nYou have now found the Hyperspace Access Point.  You will need to deploy relay beacons to unlock it.  These need to be placed close to the mission guidance position \(within at least 1km\).  If you havn't already, you can get the relay beacons from your Headquarters, there should be 3 available there you can transfer onto your ship.  You can also produce new ones there, but you wont need any more just yet.</t>
- <t id="509">Greetings \033B{player.name}\033X,\n\nYour next mission is to scan some asteroids.  To do this you will need the Mineral Scanner install on your ship, luckily, you have been given it already, so you are good to go.  To scan the asteroids, just fly close to the asteroid, and once you are within 8km, the scan option will be available on the context menu of the asteroid to scan.  Scanning asteroids can be useful to find out what resources are avaialble, which you can later try to mine.  For now, just focus on scanning the asteroids the mission tells you to.</t>
- <t id="510">Greetings \033B{player.name}\033X,\n\nYou now how 2 missions available.  One to find a TL, this is a large ship that you need to search for, it should be easy enough to spot when looking around each sector.  You can also find additional hints via the Blue Book icon to narrow down your search.  The second mission requires you to build a station.  To do this, you first need to create the station construction kit, this is done via your Headquarters.  You have been given the blueprint needs to product it, you also have most of the wares available as well.  You will need to get some credits and energy cells to start the production, the credits need to be transfered into the Headquarters account.  Once you have all the credits and wares on the HQ the production will start, you will need access to the TL before you can actually deploy it.\n\nTo get the energy cells, these can simply be bought at the local Solar Power Plants or sometimes from the Research station.  If there are not enough available, you just need to wait, more will be produced eventually.\nTo get enough credits you have a number of options.  You can go out and earn these via missions or trading.  However, the quickest way is to simply sell some of the wares you already have.  If you have found the Derelict TS ships, thier cargo bays have wares in them that you can sell, the weapons in perticular can be sold at the Research Station, and will easily cover all your credit needs.  You can also sell of some of the wares in your Headquarters, as you wont need them all, just check how many you actually need first so you dont sell too many.  Selling some of the Silicon Wafers using your Trader ship to the Tech factories would be a good idea.</t>
- <t id="511">Greetings \033B{player.name}\033X,\n\nYou need to get hold of a Scorpion, which is a Split Intercepter.  As you may be aware, there are no shipyards in the Void, so you cant just buy one.  Instead, you can product it at your Headquarters, similar to the Factory.  You have been given the blueprint for the scorpion, once you have built the ship, send it to the TL you found, once its in the same sector you can turn it over to continue the mission.</t>
- <t id="512">Greetings \033B{player.name}\033X,\n\nYou have now hired the TL to allow you to deploy the station.  To use hired ship, you will need to comm the ship to issue it orders, do that now to tell them to dock at your Headquarters where you can transfer the station once you have built it.  Hired ships will show up in your Property menu so you can comm them via that without having to fly near them.  To transfer the station over to the TL, once it is docked, select the hired TL via your Properties menu then you will find the option to Transfer Freight.  Then you will need the TL to undock, so comm it and tell it to move to where you wish to build the station, you can build it anywhere in the Void, the choice is yours.</t>
- <t id="513">Greetings \033B{player.name}\033X,\n\nYou have now acquired your first Agent and can start using the Diplomacy system.  The diplomacy menu is found in your sidebar, in the Personal tab.  To get started with diplomacy, you will need to send agents on tasks.  You have been given an agent to use, and your first tasks requires you to gain influence.  Influence is a currency that you can spent to other diplomatic tasks.  NOTE: the diplomacy system is currently in a limited state, all other actions are locked, so you can only do the one thing.  Once you have progressed futher, everything else will become available to you.</t>
- <t id="514">Greetings \033B{player.name}\033X,\n\nNow that you have gathered the needed influence, you can spend it on a diplomacy task.  For the plot, you will need to gain reputation with the Paranid, so use your agent to increase your race notority, and set the amount of influence you wish to spend, the more you spend, the more reputation you gain.  You wont be able to change the amount you spend in this instance, but in future you will be able to.</t>
+ <t id="505">Greetings \033B{player.name}\033X,\n\nYou now need to scan parts of the Spacelab Headquarters.  To scan, you just have to get close enough to the target and the scan will start automatically.  Just remain close until the scan is complete.  Future scan type missions will all work in the same way.</t>
+ <t id="506">Greetings \033B{player.name}\033X,\n\nYou have been given a new upgrade to your ships, the Low Frequency Locator. This device will allow you to find different items around the universe.  You may have noticed that you have a new element in the centre of your HUD.  This is the LFL in action, and it is showing you there is something to find within this sector.  To find the item, move your ship in the direction the arrow is pointing until the arrow is replaced by a set of brackets.  This indicates the item is now roughly in front of you. The 3 bars on the bottom show your distance from the item. Travel toward it and the bars will fill. 3 filled bars means you are very close.\n\nThe scanner display will only show up when there is something to find.  Some items have a limited detection range so you may have to travel around the sector to trigger it.  But for now, all items for the plot have unlimited detection range, so if the LFL is not showing it means there is nothing to be found.\n\nYou will need to move from sector to sector until you find what you are looking for.  Just follow the direction of the LFL and move to a different sector when it no longer detects anything.  There are various useful items to be found so it's worth search all sectors.</t>
+ <t id="507">Greetings \033B{player.name}\033X,\n\nYou have found a new ship, congratulations.  This ship can become very useful later on in the plot, as it is a trading ship with a large freight bay.  It can be used to transport large quantities of wares around, as well as utilised to make money trading wares.\n\nMost importantly however, check the ships freight bay, and you will notice a number of items available within, including some weapons.  These weapons can be sold at the Research Station to get you credits.</t>
+ <t id="508">Greetings \033B{player.name}\033X,\n\nYou have now found the Hyperspace Access Point.  You will need to deploy relay beacons to unlock it.  These need to be placed close to the mission guidance position \(within at least 1km\).  If you haven't already, you can get the relay beacons from your Headquarters, there should be 3 available there you can transfer onto your ship.  You can also produce new beacons there, but you won't need any more just yet.</t>
+ <t id="509">Greetings \033B{player.name}\033X,\n\nYour next mission is to scan some asteroids.  To do this you will need the Mineral Scanner install on your ship, luckily, you have been given it already, so you are good to go.  To scan the asteroids, just fly close to the asteroid, and once you are within 8km, the scan option will be available on the context menu of the asteroid to scan.  Scanning asteroids can be useful to find out what resources are available, which you can later try to mine.  For now, just focus on scanning the asteroids the mission tells you to.</t>
+ <t id="510">Greetings \033B{player.name}\033X,\n\nYou now have 2 missions available.  The first mission is to find a TL. This is a large transport ship which should be easy enough to spot when searching each sector. You can find additional hints via the Blue Book icon to narrow down your search.\n\nThe second mission requires you to build a station.  To do this you first need to create the station construction kit which is done via your Headquarters.  You have been given the blueprint needed to produce it and also have most of the wares available.  You will need to obtain some credits and energy cells to start the production. Once you have all the credits and wares in the HQ the production will start. To deploy it you will need access to the TL.\n\nThe energy cells can be bought at the local Solar Power Plants or sometimes from the Research station.  Cells are continually produced over time so worry not if there are not enough available immediately.\n\nYou’ll need to transfer credits to the Headquarters account.  To earn enough credits you have a number of options including missions or trading.  For now, the quickest way is to simply sell some of the wares you already have.  If you’ve found the derelict TS ships, their cargo bays have wares in them that you can sell, the weapons in particular can be sold at the Research Station, and will easily cover all your credit needs.  You can also sell surplus wares stored in your Headquarters, just make sure to check what you need to keep to build the station. Selling some of the Silicon Wafers to the Tech factories using your Trader ship would be a good idea.</t>
+ <t id="511">Greetings \033B{player.name}\033X,\n\nYou need to get hold of a Scorpion, which is a Split Interceptor.  As you may be aware, there are no shipyards in the Void, so you can't just buy one.  Instead, you can produce it at your Headquarters, similar to the Factory.  You have been given the blueprint for the scorpion.  Once you have built the ship, send it to the TL you found.  Once it's in the same sector you can turn it over to continue the mission.</t>
+ <t id="512">Greetings \033B{player.name}\033X,\n\nYou have now hired the TL to allow you to deploy the station.  To use a hired ship you will need to comm the ship to issue it orders. Tell them to dock at your Headquarters where you can transfer the station once you have built it.  Hired ships will show up in your Property menu where you can comm them without having to fly near them.  Once it is docked transfer the station over to the TL by selecting it in your Properties menu and choosing the option to Transfer Freight.  Then you will need the TL to undock, so comm it and tell it to move to where you wish to build the station. You can build it anywhere in the Void, the choice is yours.</t>
+ <t id="513">Greetings \033B{player.name}\033X,\n\nYou have now acquired your first Agent and can start using the Diplomacy system.  The diplomacy menu is found in your sidebar, in the Personal tab.  To get started with diplomacy, you will need to send agents on tasks.  You have been given an agent to use, and your first tasks require you to gain influence.  Influence is a currency that you can spend on other diplomatic tasks.\n\nNOTE: the diplomacy system is currently in a limited state, all other actions are locked, so you can only do the one thing.  Once you have progressed further, everything else will become available to you.</t>
+ <t id="514">Greetings \033B{player.name}\033X,\n\nNow that you have gathered the needed influence, you can spend it on a diplomacy task.  For the plot, you will need to gain reputation with the Paranid, so use your agent to increase your race notoriety. Usually you’ll be able to set the amount of influence you wish to spend, with a larger spend corresponding to a larger reputation gain. In this instance the amount set is fixed.</t>
  <t id="1000">Saving Game</t>
- <t id="1001">To save your progress, you either need to be docked at a station, or by using salvage insurance.  When you are docked, you can save without cost, and if you have autosave enabled, you will save everytime you dock using 1 of the 3 auto save slots.  Be aware that the auto save slots will get replaced in sequence each time you dock at a station.\n\nIf you prefer to save anytime, like when you are flying in space, then you need what is known as [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_TECH209']Salvage Insurance[/hyperlink].  Each save requires 1 insurance to be used and is consumed when you save, so you will have to keep stocked up if you wish to save alot.  You can also get hold of the [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_SALVAGECON']Salvage Insurance Contract[/hyperlink] instead, once you have this, you no longer need Salvage Insurance to save, instead you will just pay credits each time you save as long as you have enough available at the time.  Finally, you can get [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_UNLIMIT_SALVAGE']Unlimited Salvage Insurance[/hyperlink] upgrade, which gives you unlimited free saving anywhere.</t>
+ <t id="1001">To save your progress, you either need to be docked at a station, or use salvage insurance.  When you are docked, you can save without cost, and if you have autosave enabled, you will save every time you dock using 1 of the 3 auto save slots.  Be aware that the auto save slots will get replaced in sequence each time you dock at a station.\n\nIf you prefer to save anytime, like when you are flying in space, then you need what is known as [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_TECH209']Salvage Insurance[/hyperlink].  Each save requires 1 insurance to be used and is consumed when you save, so you will have to keep stocked up if you wish to save a lot.  You can also get hold of the [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_SALVAGECON']Salvage Insurance Contract[/hyperlink] instead, once you have this, you no longer need Salvage Insurance to save, instead you will just pay credits each time you save as long as you have enough available at the time.  Finally, you can get [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_UNLIMIT_SALVAGE']Unlimited Salvage Insurance[/hyperlink] upgrade, which gives you unlimited free saving anywhere.</t>
  <t id="1002">Repairing Ships</t>
- <t id="1003">Space can be a hazardeous place, and sometimes you may find your ships become damaged, either by collisions or by unfriendly attacks.  Your shields are useful to avoid hull damage which can be costly or time consuming to fix, so trying to keep your shields up can limit the amount of damage your ship suffers.  When your ships hull becomes damaged, it will effect the speed that you can travel, the more damage, the slower your ship will become.  Also whenever your ships hull takes damage, your ships equipment can be destroyed, requiring you to buy and reinstall them again, this can be prevented by installing [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_CARGOSHIELD']Cargo Bay Shielding[/hyperlink].  If your ships hull becomes damaged, there are numerous ways to repair it to bring the hull back upto 100%.  These can become costly and/or time consuming however.\n\nFor small ships, the easiest way to repair is to eject into your spacesuit that comes preinstalled with a Repair laser.  Simply get close enough to your ship and fire the repair beam to start repairing, the bigger the hull, the longer this will take, and is generally not practical for larger ships.  Just becareful about your limited oxygen supply in your space suit, as you dont want to run out of air.\n\nFor a quicker method, you can repair ships at any shipyard, however this can cost you alot, and the cost is proporational to the cost of the ship itself.  But this method will instally repair your ship and get it back in action straight away.\n\nWhen you have access to your personal headquarters you can also use it to repair, just dock the ship at your headquarters and add it to the repair queue \(you cannot repair the ship you are currently in\).  This requires resources and some credits to complete the repair, so make sure your headquarters is supplied and has enough credits in its account.  This is quicker than a repair laser and cheaper than a shipyard, but will costs and takes time to complete.\n\nFinally, you can get yourself a Drone Carrier \(M7D\) ship, and equip it with the special drones, these drones have repair lasers installed and can repair your ship similar to your space suit.  As you can use multiple drones, you can increase the speed it takes to repair, Boron drones are esspecially effective at repairs.</t>
+ <t id="1003">Space can be a hazardous place, and sometimes your ships will become damaged, either from collisions or by hostile attacks.  Hull damage reduces your ship’s maximum speed, the greater the damage the greater the reduction.  Additionally, whenever your ship’s hull takes damage, your equipment can be destroyed, requiring you to buy and reinstall it again.  You can prevent equipment loss by installing [hyperlink value='OpenEncyclopedia;Ware;SS_WARE_CARGOSHIELD']Cargo Bay Shielding[/hyperlink].\n\nShields are critical for avoiding hull damage, so keep your shields up and consider disengaging from fights when your shield runs low.  Purchasing additional shielding further reduces the likelihood of hull damage.\n\nThere are numerous methods to repair your damaged ships back up to 100%, each with its own pros and cons.  These tend to be costly or time-consuming or a compromise between the two.\n\n[green]\(1\)[/green] For small ships, the easiest repair method is to eject into your spacesuit which comes preinstalled with a [hyperlink value='OpenEncyclopedia;Ware;SS_LASER_REPAIR']Repair Laser[/hyperlink].  Simply get close enough to your ship and fire the repair beam. The larger the hull, the longer this will take, and is generally impractical for bigger ships.  Be cautious of your limited oxygen supply – you don’t want to run out of air while outside your ship.\n\n[green]\(2\)[/green] A faster method is to repair your ships at any shipyard. However, this can be expensive, with the cost being proportional to the cost of the ship itself.  But this method will instantly repair your ship and return it to service immediately.\n\n[green]\(3\)[/green] Once you gain access to your personal headquarters you can use it for repairs as well. Just dock the ship at your headquarters and add it to the repair queue \(you cannot repair the ship you are currently piloting\).  This requires resources and some credits to complete the repair, so make sure your headquarters is supplied and has enough credits in its account.  This method is quicker than a repair laser and cheaper than a shipyard.\n\n[green]\(4\)[/green] Finally, if you obtain a Drone Carrier \(M7D\) ship you can equip it with special drones fitted with repair lasers similar to that in your spacesuit. The more drones you deploy, the faster the repairs - far quicker than a spacesuit alone. Boron drones are especially effective at repairs.</t>
 </page>
 
 <page id="392003" title="Script Command Names" descr="0" voice="no">
@@ -358,13 +358,13 @@
  <t id="3161">%0 exponential interpolation: x1=%1, x2=%2, y1=%3, y2=%4, value=%5</t>
  <t id="3162">%0 logarithmic interpolation: x1=%1, x2=%2, y1=%3, y2=%4, value=%5</t>
  <t id="3163">%1%0 is race active</t>
- <t id="3164">%1%0 does race have enconomy</t>
+ <t id="3164">%1%0 does race have economy</t>
  <t id="3165">%1%0 is organised race</t>
  <t id="3166">%0 clear all race threats</t>
  <t id="3167">%1%0 is race piloted</t>
  <t id="3168">%1%0 is pirate race</t>
  <t id="3169">%1%0 can race have marines</t>
- <t id="3170">%1%0 is fixed notority race</t>
+ <t id="3170">%1%0 is fixed notoriety race</t>
  <t id="3171">%1%0 is XUniverse race</t>
  <t id="3172">%1%0 is terran race</t>
  <t id="3173">%1%0 is aggressive race</t>
@@ -372,7 +372,7 @@
  <t id="3175">%1%0 is race pilot sub race</t>
  <t id="3176">%1%0 is NPC race</t>
  <t id="3177">%1%0 is player race</t>
- <t id="3178">%1%0 is non talking race</t>
+ <t id="3178">%1%0 is non-talking race</t>
  <t id="3179">register god event script: script=%0, prio=%1</t>
  <t id="3180">unregister god event script: script=%0</t>
  <t id="3181">register god event script: scriptname=%0, prio=%1</t>
@@ -384,7 +384,7 @@
  <t id="3187">add custom upgrade: ware=%0, shiptype=%1</t>
  <t id="3188">add custom drone: ware=%0, shiptype=%1, default command=%2</t>
  <t id="3189">remove custom upgrade: ware=%0</t>
- <t id="3190">write to player logbook: type=%0, text=%1</t> 
+ <t id="3190">write to player logbook: type=%0, text=%1</t>
  <t id="3191">%1%0 get HQ blueprint time: ware=%2, only available=%3</t>
  <t id="3192">%1%0 get HQ blueprint product count: ware=%2</t>
  <t id="3193">%1%0 get HQ blueprint count: ware=%2</t>
@@ -392,10 +392,10 @@
  <t id="3195">%1%0 get HQ recyclable stations: include queued=%2</t>
  <t id="3196">%0 is race blacklist automatic</t>
  <t id="3197">%1%0get dock true products table</t>
- <t id="3198">%1%0get dock true resources table</t> 
- <t id="3199">%1%0get dock true tradeables table</t> 
- <t id="3200">%1%0get dock storage wares</t> 
- <t id="3201">%1%0get dock storage wares table</t> 
+ <t id="3198">%1%0get dock true resources table</t>
+ <t id="3199">%1%0get dock true tradeables table</t>
+ <t id="3200">%1%0get dock storage wares</t>
+ <t id="3201">%1%0get dock storage wares table</t>
  <t id="3202">%1%0is passenger a pilot</t>
  <t id="3203">%1%0get marine status: as string=%2</t>
  <t id="3204">%0 get fleet leader count</t>
@@ -483,7 +483,7 @@
  <t id="3286">%0remove production modifier: ware=%1</t>
  <t id="3287">%1%0get sector override race name</t>
  <t id="3288">%0set sector override race name: %1</t>
- <t id="3289">%0clear sector override race name</t> 
+ <t id="3289">%0clear sector override race name</t>
  <t id="3290">%1%0is passenger eject disabled</t>
  <t id="3291">%0set passenger eject disabled: %1</t>
  <t id="3292">%0get mod name display</t>
