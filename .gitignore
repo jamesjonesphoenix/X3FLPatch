@@ -1,6 +1,5 @@
 *.cat
 *.dat
-/L/*_dev.obj
 /loadscr
 /mov
 /mods
