@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<language id="34">
+
+<page id="1910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">Iniciar X3</t>
+ <t id="2">Cancelar</t>
+ <t id="106">X3 - Reunion</t>
+ <t id="1108">Restaurar</t>
+ <t id="1197">Resolución Gráfica</t>
+ <t id="1199">Dispositivo de Entrada</t>
+ <t id="1200">Logo de Jugador</t>
+ <t id="1201">Carpeta de imágenes de juego</t>
+ <t id="1216">X3 - Reunion\n Version Española 1.4\nPor: Ludis Games\n </t>
+ <t id="1217">Actualizaciones e información: WWW.LUDISGAMES.COM  y WWW.EGOSOFT.COM\n\nCopyright 2003-2006 EGOSOFT, Wuerselen, Germany.</t>
+ <t id="1218">Actualizaciones e información: WWW.LUDISGAMES.COM  y WWW.EGOSOFT.COM\n\nCopyright 2003-2006 EGOSOFT, Wuerselen, Germany.</t>
+ <t id="1235">Ejecutar como Benchmark</t>
+ <t id="1242">Seleccionar Paquete Mod.</t>
+ <t id="1249">Comprobar Actualizaciones</t>
+ <t id="10000">http://update.egosoft.com/update.php?game=X3&amp;ver=1.4&amp;lang=ES</t>
+ <t id="10001">http://update.egosoft.com/update.php?game=X3&amp;ver=1.3&amp;lang=ES</t>
+ <t id="10002">Alerta de versión</t>
+ <t id="10003">Detectada versión incorrecta el archivo EXE. Por favor asegúrese de que el contenido de su juego esta actualizado y que esta usando el archivo EXE mas nuevo disponible. La versión actual puede que no funcione correctamente. ¿Está seguro de que desea continuar?</t>
+</page>
+
+<page id="1912" title="Graphic Settings dialog" descr="" voice="no">
+ <t id="110">Configuración Gráfica</t>
+ <t id="1068">Calidad Automática </t>
+ <t id="1095">Ventana</t>
+ <t id="1096">Pantalla Completa</t>
+ <t id="1101">Restaurar</t>
+ <t id="1102">Aceptar</t>
+ <t id="1103">Cancelar</t>
+ <t id="1219">Dispositivo Direct 3D</t>
+ <t id="1220">Resolución Pantalla Completa</t>
+ <t id="1222">Antialias</t>
+ <t id="1237">Mapas de relieve</t>
+ <t id="1238">Sombras</t>
+ <t id="1241">Filtro de texturas A&amp;nisotrópico</t>
+ <t id="1242">&amp;Glow activo</t>
+ <t id="1247">Calidad de &amp;Shader</t>
+ <t id="1248">Calidad de &amp;Texturas</t>
+ <t id="1250">Dispositivo y Resolución</t>
+ <t id="1251">Calidad</t>
+ <t id="1252">Efectos</t>
+ <t id="1254">Fuentes de &amp;Luz más dinámicas</t>
+ <t id="1255">Variaciones en &amp;Color de nave</t>
+ <t id="1256">Desactivar optimización de &amp;Vértices</t>
+ <t id="1257">Resolución de Problemas</t>
+ <t id="1258">Usar Video &amp;Playback alternativo</t>
+ <t id="1259">&amp;Ver Distancia</t>
+ <t id="10000">Bajo</t>
+ <t id="10001">Medio</t>
+ <t id="10002">Alto</t>
+ <t id="10003">Muy Alto</t>
+ <t id="11000">2x</t>
+ <t id="11001">4x</t>
+ <t id="11002">6x</t>
+ <t id="11003">8x</t>
+ <t id="12000">2x</t>
+ <t id="12001">4x</t>
+ <t id="12002">8x</t>
+ <t id="12003">16x</t>
+ <t id="20000">Pantalla(or screen or monitor)</t>
+ <t id="20001">Sin bordes</t>
+ <t id="20002">Sincronizacion vertical</t>
+</page>
+
+<page id="1913" title="Capture Folder dialog" descr="" voice="no">
+ <t id="1">Aceptar</t>
+ <t id="2">Cancelar</t>
+ <t id="164">Carpeta de Capturas</t>
+ <t id="1221">Carpeta de Capturas</t>
+ <t id="10000">¡El Directorio no existe!\n¿Crear Directorio?</t>
+ <t id="10001">¡Atención!</t>
+ <t id="10010">¡Error al crear el Directorio!</t>
+ <t id="10011">¡Error!</t>
+</page>
+
+<page id="1914" title="Input Adjust dialog" descr="" voice="no">
+ <t id="1">Aceptar</t>
+ <t id="2">Cancelar</t>
+ <t id="144">Ajuste del Controlador</t>
+ <t id="1184">Intercambiar timón / dirección</t>
+ <t id="1185">Usar acelerador</t>
+ <t id="1186">Usar timón</t>
+ <t id="1187">Intercambiar timón / dirección</t>
+ <t id="1188">Usar POV para mirar alrededor</t>
+ <t id="1189">Invertir control de inclinación</t>
+ <t id="1190">Invertir control de inclinación</t>
+ <t id="1191">Invertir control de timón</t>
+ <t id="1223">Configuración del Joystick</t>
+ <t id="1224">Configuración del Ratón</t>
+ <t id="1225">Configuración de Forcefeedback:</t>
+ <t id="1226">Deadzone:</t>
+ <t id="1233">Configuración de Botón</t>
+ <t id="1239">Sensibilidad:</t>
+ <t id="1241">Configurar como Joypad</t>
+ <t id="1242">Mostrar diseño del controlador</t>
+ <t id="10000">Infantil</t>
+ <t id="10001">Adulto</t>
+ <t id="10002">Culturista</t>
+ <t id="20000">Fijar cursor a ventana de juego(or always lock cursor to game window)</t>
+ <t id="20001">Usar como controlador de Xbox</t>
+ <t id="20002">Reiniciar a controlador de Xbox</t>
+ <t id="20003">Mapear a:(map joystick axis to function like pitch/throttle)</t>
+ <t id="20004">Fuente del eje:(axis number that is mapped)</t>
+ <t id="20005">Escalar/Invertir:</t>
+ <t id="20006">Valor efectivo:(or current state of axis)</t>
+ <t id="20007">Desabilitar</t>
+ <t id="20008">Remapear botones</t>
+ <t id="20009">Reiniciar a por defecto</t>
+ <t id="20010">Botón:</t>
+ <t id="20011">Asignar(as in: assign button to function)</t>
+ <t id="20012">Presiona un boton del controlador para asignar,\nEscape para cancelar,\nDelete para desabilitar</t>
+ <t id="20013">Extra(followed by button number)</t>
+ <t id="20014">(dpad direction)Izquierda</t>
+ <t id="20015">(dpad direction)Derecha</t>
+ <t id="20016">(dpad direction)Arriba</t>
+ <t id="20017">(dpad direction)Abajo</t>
+ <t id="20018">(button name for pressing a controller analog stick)Pulsa</t>
+ <t id="20019">(joystick axis)Acelerador</t>
+ <t id="20020">(joystick axis)Timón</t>
+ <t id="20021">(xbox axis)Gatillo izquierdo</t>
+ <t id="20022">(xbox axis)Gatillo derecho</t>
+</page>
+
+<page id="1915" title="Player Logo dialog" descr="" voice="no">
+ <t id="1">Aceptar</t>
+ <t id="2">Cancelar</t>
+ <t id="147">Mi logo personal</t>
+ <t id="1197">Importar imagen</t>
+ <t id="1200">Imagen importada</t>
+ <t id="1227">Importar mi propio JPEG</t>
+</page>
+
+<page id="1916" title="Input remapping dialog" descr="" voice="no">
+ <t id="132">Controles</t>
+ <t id="1114">Laser / Aceptar</t>
+ <t id="1115">Misíl</t>
+ <t id="1117">Objetivo siguiente, Menú pág.anterior</t>
+ <t id="1118">Objetivo anterior, Menú pág.siguiente</t>
+ <t id="1119">Cambiar selección de monitor</t>
+ <t id="1122">Zoom</t>
+ <t id="1124">Modificador de Velocidad - mantener</t>
+ <t id="1126">Cambiar modo de Vista</t>
+ <t id="1161">M.S.A.T.</t>
+ <t id="1169">Aceptar</t>
+ <t id="1170">Cancelar</t>
+ <t id="1172">Motor de Maniobra</t>
+ <t id="1176">Menú Principal</t>
+ <t id="1188">Menú de Opciones</t>
+ <t id="1228">¡Sólo teclas especiales del teclado como return, ctrl y alt pueden reasignarse usando esta matriz!</t>
+ <t id="1229">Joystick</t>
+ <t id="1230">Teclado</t>
+ <t id="1231">Ratón</t>
+</page>
+
+<page id="1917" title="Keyboard input dialog" descr="" voice="no">
+ <t id="133">¡Pulse la tecla o botón que desea reconfigurar!</t>
+ <t id="10101">Botón 1</t>
+ <t id="10102">Botón 2</t>
+ <t id="10103">Botón 3</t>
+ <t id="10104">Botón 4</t>
+ <t id="10105">Botón 5</t>
+ <t id="10106">Botón 6</t>
+ <t id="10107">Botón 7</t>
+ <t id="10108">Botón 8</t>
+ <t id="10109">Botón 9</t>
+ <t id="10110">Botón 10</t>
+ <t id="10201">Espacio</t>
+ <t id="10202">Return</t>
+ <t id="10203">CtrlIzq</t>
+ <t id="10204">AltIzq</t>
+ <t id="10205">Alt Gr</t>
+ <t id="10206">CtrlDer</t>
+ <t id="10301">Izquierda</t>
+ <t id="10302">Derecha</t>
+ <t id="10303">Centro</t>
+ <t id="10304">Especial</t>
+ <t id="10305">Especial2</t>
+</page>
+
+<page id="1918" title="ModName setting" descr="Texts for use in ModName Dialog" voice="no">
+ <t id="1">OK</t>
+ <t id="2">Cancelar</t>
+ <t id="3">Original</t>
+ <t id="179">Selecciona Paquete Mod</t>
+</page>
+
+<page id="301902" title="Launcher page" descr=" " voice="no">
+ <t id="144">Configuración de Controles</t>
+ <t id="1188">Usar POV</t>
+ <t id="1223">Joystick</t>
+</page>
+
+<page id="301910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1241">Activar efectos de sonido EAX</t>
+</page>
+
+<page id="351910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">Jugar a X3:TC</t>
+ <t id="106">X3: Terran Conflict</t>
+ <t id="1216">X3: Terran Conflict\nVersion 2.0, 2008\n\nCopyright EGOSOFT 2008 todos los derechos reservados.</t>
+ <t id="1217">Actualizaciones e Información: http://www.egosoft.com\nEditado por Deep Silver, una division de KOCH Media\n\n\nAlgunas Porciones utilizan Microsoft Windows Media Technologies.  Copyright \(c\) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="1218">Updates and info: http://www.egosoft.com\nPublished by Enlight Software Ltd\n\n\nPortions utilize Microsoft Windows Media Technologies.  Copyright \(c\) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="10000">http://update.egosoft.com/update.php?game=X3TC&amp;ver=1.2&amp;lang=UK</t>
+ <t id="10001">http://update.egosoft.com/update.php?game=X3TC&amp;ver=1.2&amp;lang=US</t>
+</page>
+
+<page id="381910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">Comenzar X3:AP</t>
+ <t id="106">X3: Albion Prelude</t>
+ <t id="1216">X3: Albion Prelude\nVersion 1.0, 2011\n\nCopyright EGOSOFT 2011 all rights reserved.</t>
+ <t id="1217">Actualizaciones e info: http://www.egosoft.com\n\nPortions utiliza Microsoft Windows Media Technologies.  Copyright \(c\) 1999-2002 Microsoft Corporation. Todos los Derechos Reservados</t>
+ <t id="1218">Actualizaciones e info: http://www.egosoft.com\n\nPortions utiliza Microsoft Windows Media Technologies.  Copyright \(c\) 1999-2002 Microsoft Corporation. Todos los Derechos Reservados</t>
+ <t id="10000">http://update.egosoft.com/update.php?game=X3AP&amp;ver=1.0&amp;lang=UK</t>
+ <t id="10001">http://update.egosoft.com/update.php?game=X3AP&amp;ver=1.0&amp;lang=US</t>
+</page>
+
+<page id="391910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">Comenzar X3:FL</t>
+ <t id="106">X3: Farnham's Legacy</t>
+ <t id="1216">X3: Farnham's Legacy\nVersion 1.3, 2021\n\nCopyright EGOSOFT 2021 all rights reserved.</t>
+ <t id="10001">1.3</t>
+</page>
+</language>
