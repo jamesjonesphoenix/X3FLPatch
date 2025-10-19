@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<language id="81">
+
+<page id="1910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">X3をスタート</t>
+ <t id="2">キャンセル</t>
+ <t id="106">X3 - Reunion</t>
+ <t id="1108">前回の設定を無視してデフォルトでスタート</t>
+ <t id="1197">グラフィック設定</t>
+ <t id="1199">入力デバイス</t>
+ <t id="1200">プレイヤーロゴ</t>
+ <t id="1201">スクリーンショットフォルダ</t>
+ <t id="1216">X3 - Reunion\nVersion 1.4.03, Apr 2006\n\nCopyright EGOSOFT 2006 all rights reserved.</t>
+ <t id="1217">アップデートと情報:http://www.egosoft.com\nPublished by Deep Silver, a division of KOCH Media\n\n\nPortions utilize Microsoft Windows Media Technologies. Copyright (c) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="1218">アップデートと情報:http://www.egosoft.com\nPublished by Enlight Software Ltd\n\n\nPortions utilize Microsoft Windows Media Technologies. Copyright (c) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="1235">ベンチマークとして利用</t>
+ <t id="1242">MODパッケージを選択</t>
+ <t id="1249">アップデートを確認</t>
+ <t id="10000">http://update.egosoft.com/update.php?game=X3&amp;ver=1.4.03&amp;lang=UK</t>
+ <t id="10001">http://update.egosoft.com/update.php?game=X3&amp;ver=1.4.03&amp;lang=US</t>
+ <t id="10002">バージョン警告</t>
+ <t id="10003">誤ったバージョンのEXEファイルが検出されました。 ゲームコンテンツが最新であり、利用可能な最新のEXEファイルを使用していることを確認してください。 現在のバージョンでは正しく機能しない可能性があります。\n\n続行しますか？</t>
+</page>
+
+<page id="1912" title="Graphic Settings dialog" descr="" voice="no">
+ <t id="110">グラフィック設定</t>
+ <t id="1068">自動品質コントロール(&amp;Q)</t>
+ <t id="1095">ウィンドウ</t>
+ <t id="1096">フルスクリーン</t>
+ <t id="1101">デフォルトにリセット(&amp;E)</t>
+ <t id="1102">OK</t>
+ <t id="1103">キャンセル</t>
+ <t id="1219">Direct 3Dデバイス(&amp;D)</t>
+ <t id="1220">解像度(&amp;R)</t>
+ <t id="1222">アンチエイリアス(&amp;A)</t>
+ <t id="1237">バンプマップ</t>
+ <t id="1238">シャドウ</t>
+ <t id="1241">異方性テクスチャフィルタリング(&amp;N)</t>
+ <t id="1242">グロー有効(&amp;G)</t>
+ <t id="1247">シェーダ品質(&amp;S)</t>
+ <t id="1248">テクスチャ品質(&amp;T)</t>
+ <t id="1250">デバイスと解像度</t>
+ <t id="1251">品質</t>
+ <t id="1252">エフェクト</t>
+ <t id="1254">動的光源アップ(&amp;L)</t>
+ <t id="1255">艦船カラーバリエーション(&amp;C)</t>
+ <t id="1256">頂点サイズ最適化を無効(&amp;O)</t>
+ <t id="1257">トラブルシューティング</t>
+ <t id="1258">Use Alternative Video &amp;Playback</t>
+ <t id="1259">視界距離(&amp;V)</t>
+ <t id="10000">低</t>
+ <t id="10001">中</t>
+ <t id="10002">高</t>
+ <t id="10003">最高</t>
+ <t id="11000">2x</t>
+ <t id="11001">4x</t>
+ <t id="11002">6x</t>
+ <t id="11003">8x</t>
+ <t id="12000">2x</t>
+ <t id="12001">4x</t>
+ <t id="12002">8x</t>
+ <t id="12003">16x</t>
+ <t id="20000">Display(or Screen or Monitor)</t>
+ <t id="20001">Borderless</t>
+ <t id="20002">Vertical Sync(hronization)</t>
+</page>
+
+<page id="1913" title="Capture Folder dialog" descr="" voice="no">
+ <t id="1">OK</t>
+ <t id="2">キャンセル</t>
+ <t id="164">キャプチャフォルダ</t>
+ <t id="1221">キャプチャフォルダ</t>
+ <t id="10000">ディレクトリがありません！\nディレクトリを作りますか？</t>
+ <t id="10001">警告！</t>
+ <t id="10010">ディレクトリ作成に失敗しました！</t>
+ <t id="10011">エラー！</t>
+</page>
+
+<page id="1914" title="Input Adjust dialog" descr="" voice="no">
+ <t id="1">OK</t>
+ <t id="2">キャンセル</t>
+ <t id="144">コントローラー調整</t>
+ <t id="1184">ラダー/ステアリングを切替</t>
+ <t id="1185">スロットルを使用</t>
+ <t id="1186">ラダーを使用</t>
+ <t id="1187">ラダー/ステアリングを切替</t>
+ <t id="1188">POVハットを使用して周囲を見る</t>
+ <t id="1189">チルトコントロールを反転</t>
+ <t id="1190">チルトコントロールを反転</t>
+ <t id="1191">ラダーコントロールを反転</t>
+ <t id="1223">ジョイスティック設定</t>
+ <t id="1224">マウス設定</t>
+ <t id="1225">フォースフィードバック設定:</t>
+ <t id="1226">デッドゾーン:</t>
+ <t id="1233">ボタン割当</t>
+ <t id="1239">感度:</t>
+ <t id="1241">ジョイパッドとして設定</t>
+ <t id="1242">Display Controller Layout</t>
+ <t id="10000">子供</t>
+ <t id="10001">大人</t>
+ <t id="10002">ボディビルダー</t>
+ <t id="20000">Always grab cursor(or always lock cursor to game window)</t>
+ <t id="20001">Use as Xbox controller</t>
+ <t id="20002">Reset to Xbox controller</t>
+ <t id="20003">Map to:(map joystick axis to function like pitch/throttle)</t>
+ <t id="20004">Source axis:(axis number that is mapped)</t>
+ <t id="20005">Scale/Invert:</t>
+ <t id="20006">Effective value:(or current state of axis)</t>
+ <t id="20007">Disable</t>
+ <t id="20008">Remap buttons</t>
+ <t id="20009">Reset to Default</t>
+ <t id="20010">Button:</t>
+ <t id="20011">Assign(as in: assign button to function)</t>
+ <t id="20012">Press controller button to assign,\nEscape to cancel,\nDelete to disable</t>
+ <t id="20013">Extra(followed by button number)</t>
+ <t id="20014">(dpad direction)Left</t>
+ <t id="20015">(dpad direction)Right</t>
+ <t id="20016">(dpad direction)Up</t>
+ <t id="20017">(dpad direction)Down</t>
+ <t id="20018">(button name for pressing a controller analog stick)Press</t>
+ <t id="20019">(joystick axis)Throttle</t>
+ <t id="20020">(joystick axis)Rudder</t>
+ <t id="20021">(xbox axis)Left Trigger</t>
+ <t id="20022">(xbox axis)Right Trigger</t>
+</page>
+
+<page id="1915" title="Player Logo dialog" descr="" voice="no">
+ <t id="1">OK</t>
+ <t id="2">キャンセル</t>
+ <t id="147">個人ロゴ</t>
+ <t id="1197">ピクチャをインポート</t>
+ <t id="1200">インポート済み画像</t>
+ <t id="1227">自分のJPEGをインポート</t>
+</page>
+
+<page id="1916" title="Input remapping dialog" descr="" voice="no">
+ <t id="132">コントロール</t>
+ <t id="1114">レーザー/OK</t>
+ <t id="1115">ロケット</t>
+ <t id="1117">次をターゲット、メニューページアップ</t>
+ <t id="1118">前をターゲット、メニューページダウン</t>
+ <t id="1119">モニタ選択を変更</t>
+ <t id="1122">ズーム</t>
+ <t id="1124">速度変更 - ホールド</t>
+ <t id="1126">ビューモードを変更</t>
+ <t id="1161">S.E.T.A. </t>
+ <t id="1169">OK</t>
+ <t id="1170">キャンセル</t>
+ <t id="1172">平行移動航行</t>
+ <t id="1176">メインメニュー</t>
+ <t id="1188">オプションメニュー</t>
+ <t id="1228">このマトリクスを使ってリマップできるのは、Return、Ctrl、Altのような特殊キーのみです！</t>
+ <t id="1229">ジョイスティック</t>
+ <t id="1230">キーボード</t>
+ <t id="1231">マウス</t>
+</page>
+
+<page id="1917" title="Keyboard input dialog" descr="" voice="no">
+ <t id="133">関連づけたいキーまたはボタンを押してください！</t>
+ <t id="10101">ボタン1</t>
+ <t id="10102">ボタン2</t>
+ <t id="10103">ボタン3</t>
+ <t id="10104">ボタン4</t>
+ <t id="10105">ボタン5</t>
+ <t id="10106">ボタン6</t>
+ <t id="10107">ボタン7</t>
+ <t id="10108">ボタン8</t>
+ <t id="10109">ボタン9</t>
+ <t id="10110">ボタン10</t>
+ <t id="10201">Space</t>
+ <t id="10202">Return</t>
+ <t id="10203">左Ctrl</t>
+ <t id="10204">左Alt</t>
+ <t id="10205">右Alt</t>
+ <t id="10206">右Ctrl</t>
+ <t id="10301">左</t>
+ <t id="10302">右</t>
+ <t id="10303">中央</t>
+ <t id="10304">特殊</t>
+ <t id="10305">特殊2</t>
+</page>
+
+<page id="1918" title="ModName setting" descr="Texts for use in ModName Dialog" voice="no">
+ <t id="1">OK</t>
+ <t id="2">Cancel</t>
+ <t id="3">Original</t>
+ <t id="179">Select Mod Package</t>
+</page>
+
+<page id="301902" title="Launcher page" descr=" " voice="no">
+ <t id="144">コントローラー設定</t>
+ <t id="1188">POVハットを使用</t>
+ <t id="1223">ジョイスティック機器</t>
+</page>
+
+<page id="301910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1241">EAXサウンドエフェクトを有効</t>
+</page>
+
+<page id="351910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">X3:TCをスタート</t>
+ <t id="106">X3: Terran Conflict</t>
+ <t id="1216">X3: Terran Conflict\nVersion 3.3, 2012\n\nCopyright EGOSOFT 2012 all rights reserved.</t>
+ <t id="1217">アップデートと情報:http://www.egosoft.com\nPublished by Deep Silver, a division of KOCH Media\n\n\nPortions utilize Microsoft Windows Media Technologies. Copyright \(c\) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="1218">Updates and info: http://www.egosoft.com\nPublished by Enlight Software Ltd\n\n\nPortions utilize Microsoft Windows Media Technologies.  Copyright \(c\) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="10000">http://update.egosoft.com/update.php? game=X3TC&amp;ver=3.3&amp;lang=UK</t>
+ <t id="10001">http://update.egosoft.com/update.php? game=X3TC&amp;ver=3.3&amp;lang=US</t>
+</page>
+
+<page id="381910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">X3:APをスタート</t>
+ <t id="106">X3: Albion Prelude</t>
+ <t id="1216">X3: Albion Prelude\nVersion 2.1, 2012\n\nCopyright EGOSOFT 2012 all rights reserved.</t>
+ <t id="1217">アップデートと情報：http://www.egosoft.com\n\nPortions utilize Microsoft Windows Media Technologies. Copyright \(c\) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="1218">アップデートと情報：http://www.egosoft.com\n\nPortions utilize Microsoft Windows Media Technologies. Copyright \(c\) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="10000">http://update.egosoft.com/update.php? game=X3AP&amp;ver=2.1&amp;lang=UK</t>
+ <t id="10001">http://update.egosoft.com/update.php? game=X3AP&amp;ver=2.1&amp;lang=US</t>
+</page>
+
+<page id="391910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">X3:FLをスタート</t>
+ <t id="106">X3: Farnham's Legacy</t>
+ <t id="1216">X3: Farnham's Legacy\nVersion 1.3, 2021\n\nCopyright EGOSOFT 2021 all rights reserved.</t>
+ <t id="10001">1.3</t>
+</page>
+</language>
