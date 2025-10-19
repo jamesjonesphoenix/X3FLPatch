@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<language id="48">
+
+<page id="1910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">Uruchom X3:KT</t>
+ <t id="2">Anuluj</t>
+ <t id="106">X3: Konflikt Terrański</t>
+ <t id="1108">Zignoruj ostatnie ustawienia i rozpocznij grę z ustawieniami domyślnymi</t>
+ <t id="1197">Ustawienia grafiki</t>
+ <t id="1199">Urządzenie wejściowe</t>
+ <t id="1200">Logo gracza</t>
+ <t id="1201">Katalog ze zrzutami ekranu</t>
+ <t id="1216">X3: Konflikt Terrański\nWersja 1.3, 2008\n\nCopyright EGOSOFT 2008 wszelkie prawa zastrzeżone.</t>
+ <t id="1217">Aktualizacje i informacje: http://www.egosoft.com\nWydane przez Deep Silver, oddział KOCH Media\nWykorzystano technologię Microsoft Windows Media.  Copyright (c) 1999-2002 Microsoft Corporation. Wszelkie prawa zastrzeżone.</t>
+ <t id="1218">Aktualizacje i informacje: http://www.egosoft.com\nWydane przez Enlight Software Ltd\n\n\nWykorzystano technologię Microsoft Windows Media.  Copyright /(c/) 1999-2002 Microsoft Corporation. Wszelkie prawa zastrzeżone.</t>
+ <t id="1235">Uruchom jako benchmark</t>
+ <t id="1241">Włącz efekty dźwiękowe EAX</t>
+ <t id="1242">Wybierz pakiet modyfikacji</t>
+ <t id="1249">Sprawdź aktualizację</t>
+ <t id="10000">http://update.egosoft.com/update.php?game=X3TC&amp;ver=1.3&amp;lang=PL</t>
+ <t id="10001">http://update.egosoft.com/update.php?game=X3&amp;ver=1.4.03&amp;lang=PL</t>
+ <t id="10002">Ostrzeżenie o błędnej wersji</t>
+ <t id="10003">Wykryto nieprawidłową wersję pliku EXE. Prosimy upewnij się, że zawartość gry została zaktualizowana i czy używasz najnowszego pliku EXE. Obecna wersja może nie działać poprawnie.\n\nCzy na pewno chcesz kontynuować?</t>
+</page>
+
+<page id="1912" title="Graphic Settings dialog" descr="" voice="no">
+ <t id="110">Ustawienia grafiki</t>
+ <t id="1068">Automatyczna kontrola &amp;jakości</t>
+ <t id="1095">Okno</t>
+ <t id="1096">Pełny ekran</t>
+ <t id="1101">Dom&amp;yślne</t>
+ <t id="1102">OK</t>
+ <t id="1103">Anuluj</t>
+ <t id="1219">&amp;Urządzenie Direct 3D</t>
+ <t id="1220">&amp;Rozdzielczość</t>
+ <t id="1222">&amp;Antyaliasing</t>
+ <t id="1237">Mapy nierówności (bumpmaps)</t>
+ <t id="1238">Dynamiczne cienie</t>
+ <t id="1241">A&amp;nizotropowe filtrowanie tekstur</t>
+ <t id="1242">Włącz efekt poś&amp;wiaty</t>
+ <t id="1247">Jakość &amp;shadera</t>
+ <t id="1248">Jakość &amp;tekstur</t>
+ <t id="1250">Urządzenie i rozdzielczość</t>
+ <t id="1251">Jakość</t>
+ <t id="1252">Efekty</t>
+ <t id="1254">Dynamiczne źródła &amp;światła</t>
+ <t id="1255">Wariacje &amp;kolorystyczne statków</t>
+ <t id="1256">Wyłącz &amp;optymalizację wierzchołków</t>
+ <t id="1257">Rozwiązywanie problemów</t>
+ <t id="1258">Użyj a&amp;lternatywnego odtwarzania wideo</t>
+ <t id="1259">&amp;Zasięg widoczności</t>
+ <t id="10000">Niska</t>
+ <t id="10001">Średnia</t>
+ <t id="10002">Wysoka</t>
+ <t id="10003">Bardzo wysoki</t>
+ <t id="11000">2x</t>
+ <t id="11001">4x</t>
+ <t id="11002">6x</t>
+ <t id="11003">8x</t>
+ <t id="12000">2x</t>
+ <t id="12001">4x</t>
+ <t id="12002">8x</t>
+ <t id="12003">16x</t>
+ <t id="20000">Monitor</t>
+ <t id="20001">Bez ramki</t>
+ <t id="20002">Synchronizacja pionowa</t>
+</page>
+
+<page id="1913" title="Capture Folder dialog" descr="" voice="no">
+ <t id="1">OK</t>
+ <t id="2">Anuluj</t>
+ <t id="164">Przechwyć-Folder</t>
+ <t id="1221">Przechwyć-Folder</t>
+ <t id="10000">Folder nie istnieje!\nUtworzyć folder?</t>
+ <t id="10001">Uwaga!</t>
+ <t id="10010">Nie udało się utworzyć folderu!</t>
+ <t id="10011">Błąd!</t>
+</page>
+
+<page id="1914" title="Input Adjust dialog" descr="" voice="no">
+ <t id="1">OK</t>
+ <t id="2">Anuluj</t>
+ <t id="144">Dostosowanie kontrolera</t>
+ <t id="1184">Zamień pedały / sterowanie</t>
+ <t id="1185">Użyj przepustnicy</t>
+ <t id="1186">Użyj pedałów</t>
+ <t id="1187">Zamień pedały / sterowanie</t>
+ <t id="1188">Użyj grzybka do rozglądania</t>
+ <t id="1189">Odwróć kontrolę steru</t>
+ <t id="1190">Odwróć kontrolę steru</t>
+ <t id="1191">Odwróć kontrolę pedałów</t>
+ <t id="1223">Ustawienia joysticka</t>
+ <t id="1224">Ustawienia myszy</t>
+ <t id="1225">Ustawienia forcefeedback:</t>
+ <t id="1226">Martwa strefa:</t>
+ <t id="1233">Przypisanie przycisków</t>
+ <t id="1239">Czułość:</t>
+ <t id="1241">Skonfiguruj jako joypad</t>
+ <t id="1242">Wyświetl układ Kontrolera</t>
+ <t id="10000">Dziecko</t>
+ <t id="10001">Dorosły</t>
+ <t id="10002">Kulturysta</t>
+ <t id="20000">Blokada myszki(or always lock cursor to game window)</t>
+ <t id="20001">Używaj jako kontroler Xbox</t>
+ <t id="20002">Zresetuj do domyślnych dla Xbox</t>
+ <t id="20003">Jako:(map joystick axis to function like pitch/throttle)</t>
+ <t id="20004">Oś źródłowa:(axis number that is mapped)</t>
+ <t id="20005">Skala/Odwrócenie:</t>
+ <t id="20006">Efektywna wartość:(or current state of axis)</t>
+ <t id="20007">Wyłącz</t>
+ <t id="20008">Zmień przyciski</t>
+ <t id="20009">Zresetuj do domyślnych</t>
+ <t id="20010">Przycisk:</t>
+ <t id="20011">Ustaw(as in: assign button to function)</t>
+ <t id="20012">Naciśnij przycisk kontrolera żeby go ustawić,\nNaciśnij Escape żeby anulować,\nNaciśnij Delete żeby wyłączyć</t>
+ <t id="20013">Ekstra(followed by button number)</t>
+ <t id="20014">(dpad direction)Lewo</t>
+ <t id="20015">(dpad direction)Prawo</t>
+ <t id="20016">(dpad direction)Góra</t>
+ <t id="20017">(dpad direction)Dół</t>
+ <t id="20018">(button name for pressing a controller analog stick)Wciśnięty</t>
+ <t id="20019">(joystick axis)Przepustnica</t>
+ <t id="20020">(joystick axis)Obrót</t>
+ <t id="20021">(xbox axis)Lewy spust</t>
+ <t id="20022">(xbox axis)Prawy spust</t>
+</page>
+
+<page id="1915" title="Player Logo dialog" descr="" voice="no">
+ <t id="1">OK</t>
+ <t id="2">Anuluj</t>
+ <t id="147">Moje osobiste logo</t>
+ <t id="1197">Importuj obraz</t>
+ <t id="1200">Zaimportowany obraz</t>
+ <t id="1227">Zaimportuj własny obraz JPEG</t>
+</page>
+
+<page id="1916" title="Input remapping dialog" descr="" voice="no">
+ <t id="132">Sterowanie</t>
+ <t id="1114">Laser / OK</t>
+ <t id="1115">Rakieta</t>
+ <t id="1117">Następny cel, Menu do góry</t>
+ <t id="1118">Poprzedni cel, Menu do dołu</t>
+ <t id="1119">Zmiana monitora</t>
+ <t id="1122">Przybliżenie</t>
+ <t id="1124">Regulator prędkości - przytrzymanie</t>
+ <t id="1126">Zmiana trybu widoku</t>
+ <t id="1161">S.E.T.A.</t>
+ <t id="1169">OK</t>
+ <t id="1170">Anuluj</t>
+ <t id="1172">Napęd boczny</t>
+ <t id="1176">Menu główne</t>
+ <t id="1188">Menu opcji</t>
+ <t id="1228">Korzystając z tej matrycy można zmienić przypisanie tylko klawiszy specjalnych, takich jak Enter, Ctrl i Alt!</t>
+ <t id="1229">Joystick</t>
+ <t id="1230">Klawiatura</t>
+ <t id="1231">Mysz</t>
+</page>
+
+<page id="1917" title="Keyboard input dialog" descr="" voice="no">
+ <t id="133">Naciśnij przycisk lub klawisz, który chcesz przypisać!</t>
+ <t id="10101">Przycisk 1</t>
+ <t id="10102">Przycisk 2</t>
+ <t id="10103">Przycisk 3</t>
+ <t id="10104">Przycisk 4</t>
+ <t id="10105">Przycisk 5</t>
+ <t id="10106">Przycisk 6</t>
+ <t id="10107">Przycisk 7</t>
+ <t id="10108">Przycisk 8</t>
+ <t id="10109">Przycisk 9</t>
+ <t id="10110">Przycisk 10</t>
+ <t id="10201">Spacja</t>
+ <t id="10202">Enter</t>
+ <t id="10203">LCtrl</t>
+ <t id="10204">LAlt</t>
+ <t id="10205">PAlt</t>
+ <t id="10206">PCtrl</t>
+ <t id="10301">Lewy</t>
+ <t id="10302">Prawy</t>
+ <t id="10303">Środkowy</t>
+ <t id="10304">Specjalny</t>
+ <t id="10305">Specjalny 2</t>
+</page>
+
+<page id="1918" title="ModName setting" descr="Texts for use in ModName Dialog" voice="no">
+ <t id="1">OK</t>
+ <t id="2">Anuluj</t>
+ <t id="3">Oryginalny</t>
+ <t id="179">Select Mod Package</t>
+</page>
+
+<page id="301902" title="Launcher page" descr=" " voice="no">
+ <t id="144">Konfiguracja urządzenia sterującego</t>
+ <t id="1188">Użyj "grzybka"</t>
+ <t id="1223">Joystick</t>
+</page>
+
+<page id="301910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1241">Włącz efekty dźwiękowe EAX</t>
+</page>
+
+<page id="351910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">Start X3:KT</t>
+ <t id="106">X3: Konflikt Terrański</t>
+ <t id="1216">X3: Konflikt Terrański\nVersion 1.2, 2008\n\nCopyright EGOSOFT 2008 all rights reserved.</t>
+ <t id="1217">Updates and info: http://www.egosoft.com\nPublished by Deep Silver, a division of KOCH Media\n\n\nPortions utilize Microsoft Windows Media Technologies.  Copyright \(c\) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="1218">Updates and info: http://www.egosoft.com\nPublished by Enlight Software Ltd\n\n\nPortions utilize Microsoft Windows Media Technologies.  Copyright \(c\) 1999-2002 Microsoft Corporation. All Rights Reserved</t>
+ <t id="10000">http://update.egosoft.com/update.php?game=X3TC&amp;ver=1.2&amp;lang=UK</t>
+ <t id="10001">http://update.egosoft.com/update.php?game=X3TC&amp;ver=1.2&amp;lang=US</t>
+</page>
+
+<page id="381910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">Start X3:AP</t>
+ <t id="106">X3: Albion Prelude</t>
+ <t id="1216">X3: Albion Prelude\nVersion 1.0, 2011\n\nCopyright EGOSOFT 2011 all rights reserved.</t>
+ <t id="1217">Aktualizacje i informacje: http://www.egosoft.com\n\nWykorzystano technologię Microsoft Windows Media.  Copyright \(c\) 1999-2002 Microsoft Corporation. Wszelkie prawa zastrzeżone.</t>
+ <t id="1218">Aktualizacje i informacje: http://www.egosoft.com\n\nWykorzystano technologię Microsoft Windows Media.  Copyright \(c\) 1999-2002 Microsoft Corporation. Wszelkie prawa zastrzeżone.</t>
+ <t id="10000">http://update.egosoft.com/update.php?game=X3AP&amp;ver=1.0&amp;lang=UK</t>
+ <t id="10001">http://update.egosoft.com/update.php?game=X3AP&amp;ver=1.0&amp;lang=US</t>
+</page>
+
+<page id="391910" title="About Dialogue" descr="First dialogue before start of game - About" voice="no">
+ <t id="1">Start X3:FL</t>
+ <t id="106">X3: Farnham's Legacy</t>
+ <t id="1216">X3: Farnham's Legacy\nVersion 1.3, 2021\n\nCopyright EGOSOFT 2021 all rights reserved.</t>
+ <t id="10001">1.3</t>
+</page>
+</language>

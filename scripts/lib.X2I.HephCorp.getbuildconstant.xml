@@ -32,7 +32,7 @@
       inc $line = 
       
       do if $line mod 50
-@       = wait 0 ms
+@       = wait 1 ms
       
       $comment = get substring of $line.data offset=0 length=2
       do if $comment == '//'
@@ -104,7 +104,7 @@
 <line indent="&#160;&#160;"><text>inc&#160;</text><var>$line&#160;=&#160;</var></line>
 <line indent="&#160;&#160;"></line>
 <line indent="&#160;&#160;"><var>do&#160;if&#160;</var><var>$line</var><text>&#160;</text><var>mod</var><text>&#160;</text><var>50</var></line>
-<line interruptable="@" indent="&#160;&#160;&#160;"><var>=&#160;</var><text>wait&#160;</text><var>0</var><text>&#160;ms</text></line>
+<line interruptable="@" indent="&#160;&#160;&#160;"><var>=&#160;</var><text>wait&#160;</text><var>1</var><text>&#160;ms</text></line>
 <line indent="&#160;&#160;"></line>
 <line indent="&#160;&#160;"><var>$comment&#160;=&#160;</var><text>get&#160;substring&#160;of&#160;</text><var>$line.data</var><text>&#160;offset=</text><var>0</var><text>&#160;length=</text><var>2</var></line>
 <line indent="&#160;&#160;"><var>do&#160;if&#160;</var><var>$comment</var><text>&#160;</text><var>==</var><text>&#160;</text><var>'//'</var></line>
@@ -282,7 +282,7 @@
       <sval type="int" val="105"/>
       <sval type="int" val="-2147483647"/>
       <sval type="int" val="4"/>
-      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
     </sval>
     <sval type="array" size="8">
       <sval type="int" val="1077"/>
@@ -682,5 +682,5 @@
 </sval>
 
 </codearray>
-<nosignature>9376</nosignature>
+<nosignature>3546</nosignature>
 </script>

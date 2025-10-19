@@ -1,5 +1,5 @@
 =============================================
-Script:		Unoffical Patch
+Script:		Unofficial Patch
 Created:	16/04/2023
 Version:	1.3.6
 Author:		Cycrow
@@ -13,7 +13,7 @@ Install via the Plugin Manager
 
 Introduction:
 
-This is an unoffical patch that adds a number fixes and improvements to the base game
+This is an Unofficial patch that adds a number fixes and improvements to the base game
 
 
 Fixes:
@@ -32,13 +32,13 @@ Fixed drone spawning position when ejecting drones
 Fixed Fleet commands showing correctly
 Fixed memory leak in dead agents
 Fixed Asteroid in Complex Planner that no longer exist
-Fixed Sneaky Acheivement
+Fixed Sneaky Achievement
 Fixed illegal Scans
 Fixed DockTrader job moving between sectors correctly
 Fixed corporations loosing main race licences
 Fixed Discovery points text display in player info menu
-Fixed pirate bases relocating to inaccessable sectors
-Fixed scavenger ships trying to goto inaccessable pirate bases
+Fixed pirate bases relocating to inaccessible sectors
+Fixed scavenger ships trying to goto inaccessible pirate bases
 Fixed disbanding of wings
 Fixed jumps display in factory trade menu
 Fixed Station Manager when home sector is blacklisted
@@ -54,16 +54,16 @@ Fixed move through gate command while docked
 Fixed HEPT showing up in Station section (Freight Exchange)
 Fixed text error in Flight School Tutorial
 Fixed station manager attempting to get resources above HQ Maximum settings
-Fixed missing relay becon blueprint on Pirate Courior start
+Fixed missing relay beacon blueprint on Pirate Courior start
 Fixed owner check in auto mining script
 Fixed Mission Built Solar Powerplants primary/secondary resource
 Fixed wares with no price showing in Networth Menu
-Fixed Networth displaying deployable wares (Satellites, Lasertowers, etc)
+Fixed Net worth displaying deployable wares (Satellites, Lasertowers, etc)
 Fixed Sell at Station menu option for Best Sells menu
 Fixed Trade Reports showing weapon
 Fixed Trade report showing correct value when equipping multiple ships
 Fixed Terran TS ship selection for missions (Hayabusa, Mercator)
-Fixed assination missions for Darkspace
+Fixed assignation missions for Darkspace
 Fixed removing ships from repair queue
 Fixed HQ Repair from removing some ship settings
 Fixed HQ Loadouts for Resupply Fuel
@@ -105,10 +105,10 @@ Improved spawning location for corporation ships
 Improved LT/UT global blacklist handling
 Improved station manager handling of blacklisted sectors
 Improved extending of existing complex (Build MK3)
-Improved enemy race selection for assination missions
+Improved enemy race selection for assassination missions
 Improved ship type selection for missions
 Increased respawn timer for Xenon Incursions
-Adjusted Discovery/Special Discvoery/Journal to show no price
+Adjusted Discovery/Special Discovery/Journal to show no price
 Adjusted production count of various weapons
 Added Transporter device to Dukes HQ
 Added Transfer Freight menu to player stations (Split from Adjust Station Parameters)
@@ -121,7 +121,7 @@ Added Notification - Station Killed
 Added setting to disable HQ Notifications
 Added setting to disable factory colouring
 Added Hotkey: Toggle Turbo Booster
-Added notority bar to factory encyclopedia page
+Added notoriety bar to factory encyclopedia page
 Added Cargo bay full text in trade menu
 Added Payment/Honour for releasing passengers at Goner Temple
 Added "Has Blueprint" to station/ship info
@@ -142,7 +142,7 @@ Added Collect ware from flying ware context menu
 Added Build station missions to corporations
 Added station defence missions available to Darkspace Corporation
 Added list of requirements on mission briefings
-Added pirate docks avaialble for sale at pirate shipyards
+Added pirate docks available for sale at pirate shipyards
 Added jumping out animation to MD warp objects
 Added Autopilot: Collect, to astronauts/marines
 Added Plot Assistance (Plot Guide for new players)
@@ -150,18 +150,18 @@ Added additional help items to Encyclopedia
 Added switch tab hotkey (default: Tab)
 Added Buy/sell/equip filter to trade menu in Docks
 Removed price display for some wares (Quantum Processor/Focus Crystal)
-Allowed removing homebase in Trade Distrubution Run
+Allowed removing homebase in Trade Distribution Run
 
 EXPERIMENTAL: Adjusted notoriety levels
 
 Additions:
 New Game Start - ATF Enforcer
-New Game Start - OTAS Technitian
+New Game Start - OTAS Technician
 New Game Start - Pirate Courier
 New Race - Darkspace
 New Sector - Terran Unknown Sector (Darkspace)
 Sector Music Control - Change the music track of claimed sectors
-New Ship Command -  Upgrade factories (TL)
+New Ship Command - Upgrade factories (TL)
 
 Scripting/Modding:
 Fixed custom ship commands displaying info correctly
@@ -346,7 +346,7 @@ Added station defence missions available to Darkspace Corporation
 Added list of requirements on mission briefings
 Added pirate docks avaialble for sale at pirate shipyards
 Adjusted Discovery/Special Discvoery/Journal to show no price
-Improved enemy race selection for assination missions
+Improved enemy race selection for assassination missions
 Improved ship type selection for missions
 Fixed station manager attempting to get resources above HQ Maximum settings
 Fixed missing relay becon blueprint on Pirate Courior start
@@ -358,7 +358,7 @@ Fixed Sell at Station menu option for Best Sells menu
 Fixed Trade Reports showing weapon
 Fixed Trade report showing correct value when equipping multiple ships
 Fixed Terran TS ship selection for missions (Hayabusa, Mercator)
-Fixed assination missions for Darkspace
+Fixed assassination missions for Darkspace
 Fixed removing ships from repair queue
 Fixed HQ Repair from removing some ship settings
 Fixed HQ Loadouts for Resupply Fuel
@@ -442,7 +442,7 @@ Added new script commands
 	Added "galaxy.all.initplayership" for custom galaxies
 	Added "Jobs.all" and "JobWings.all" for custom galaxyies
 	Added Events to sectors (SetOwner, Claimed, Activated, Deactived)
-	Added Dock and Secondary ware consumtion rate to patch_globals
+	Added Dock and Secondary ware consumption rate to patch_globals
 	Adjust SignalCreated to also run after initilisation (first argument is boolean for before and after init)
 	
 1.3.10:
@@ -548,7 +548,7 @@ Added new script commands
 	Fixed MK3 Trader installing jumpdrive kits
 	Fixed Mission Director to use any minerals (create asteroid)
 	Fixed dormant jobs
-	Added numeric seperators to Transaction log (Buying/Selling)
+	Added numeric separators to Transaction log (Buying/Selling)
 	Added audio verbose description in galaxy map (sector description)
 	Added face display to custom Comms	
 	Prevented station rebuild in sectors with ownership change
@@ -557,7 +557,7 @@ Added new script commands
 	Fixed Activate Turbo Booster Hotkey
 	Fixed displaying of pilots in my property (when scrolling)
 	Fixed default weapon masks for ships (Khaak)
-	Fixed repairing ship in headquarter losing some settings	
+	Fixed repairing ship in headquarters losing some settings
 	Fixed sector selection (core/border) in MD
 	Fixed crash in applying loadouts via carrier management
 	Improved assassination mission jumping out claimed ships
@@ -571,3 +571,11 @@ Added new script commands
 	Added show_effect to MD
 	Added movie_finished event cue to MD
 	Added "reset" to alter_sector MD
+	
+1.3.20
+	Fixed Return Wares mission
+	Fixed hyperlink highlighting correct position due to word wrap
+	Added docking lockup fix to improve ships/drones docking at carriers
+	
+	Fixed getConnectedRace script command
+	Fixed getDialogRace script command
