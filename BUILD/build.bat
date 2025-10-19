@@ -1,5 +1,6 @@
 @Echo off
 catpck -a ../types/*.txt ../06.cat::addon2/types/
+catpck -a ../types/*.xml ../06.cat::addon2/types/
 catpck -a ../maps/*.xml ../06.cat::addon2/maps/
 catpck -a ../cutscenes/*.xml ../06.cat::addon2/cutscenes/
 catpck -a ../cutscenes/*.xsd ../06.cat::addon2/cutscenes/
