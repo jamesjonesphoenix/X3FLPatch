@@ -576,6 +576,7 @@ Added new script commands
 	Fixed Return Wares mission
 	Fixed hyperlink highlighting correct position due to word wrap
 	Added docking lockup fix to improve ships/drones docking at carriers
+	Improved freight drone docking. Drone can now use "Dock at" command. Drones transfer wares to target ship or space when docking
 	
 	Fixed getConnectedRace script command
 	Fixed getDialogRace script command

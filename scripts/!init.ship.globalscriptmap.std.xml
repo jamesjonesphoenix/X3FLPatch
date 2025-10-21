@@ -2,8 +2,8 @@
 <?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
 <script>
 <name>!init.ship.globalscriptmap.std</name>
-<version>14</version>
-<engineversion>69</engineversion>
+<version>15</version>
+<engineversion>73</engineversion>
 <description>Initialisation for all ships with any race</description>
 <arguments>
 </arguments>
@@ -19,6 +19,7 @@
   global script map: set: key=COMMAND_STAY, class=Ship, race=$race, script=!ship.cmd.stay.std, prio=0
   global script map: set: key=COMMAND_IDLE, class=Ship, race=$race, script=!ship.cmd.idle.std, prio=0
   global script map: set: key=COMMAND_DOCKAT, class=Ship, race=$race, script=!ship.cmd.movestation.std, prio=0
+  global script map: set: key=COMMAND_DOCKAT, class=Drone, race=$race, script=!ship.cmd.movestation.drone.std, prio=0
   global script map: set: key=COMMAND_FOLLOW, class=Ship, race=$race, script=!ship.cmd.follow.std, prio=0
   global script map: set: key=COMMAND_MOVE_SECTOR, class=Ship, race=$race, script=!ship.cmd.movesector.std, prio=0
   global script map: set: key=COMMAND_MOVE_POS, class=Ship, race=$race, script=!ship.cmd.moveposition.std, prio=0
@@ -135,7 +136,7 @@
   * - Drone Carrier commands -----------------
   global script map: set: key=COMMAND_DRONE_COLLECTWARE, class=M7D, race=$race, script=!ship.cmd.collectware.drones, prio=0
   global script map: set: key=COMMAND_DRONE_REPAIRSHIPS, class=M7D, race=$race, script=!ship.cmd.repairships.drone, prio=0
-  global script map: set: key=COMMAND_DRONE_REPAIR_STATION, class=M7D, race=$race, script=!ship.cmd.repairstation.std, prio=0
+  global script map: set: key=COMMAND_DRONE_REPAIR_OBJECT, class=M7D, race=$race, script=!ship.cmd.repairstation.std, prio=0
   global script map: set: key=COMMAND_DRONE_SCANASTEROID, class=M7D, race=$race, script=!ship.cmd.drone.scanasteriod.std, prio=0
   global script map: set: key=COMMAND_DRONE_SUPPLYSHIPS, class=M7D, race=$race, script=!ship.cmd.drone.supply, prio=0
   global script map: set: key=COMMAND_DRONE_SCANSHIPS, class=M7D, race=$race, script=!ship.cmd.drone.scanships, prio=0
@@ -226,6 +227,7 @@
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_STAY</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.stay.std</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_IDLE</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.idle.std</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DOCKAT</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.movestation.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DOCKAT</var><text>,&#160;class=</text><var>Drone</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.movestation.drone.std</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_FOLLOW</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.follow.std</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_MOVE_SECTOR</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.movesector.std</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_MOVE_POS</var><text>,&#160;class=</text><var>Ship</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.moveposition.std</call><text>,&#160;prio=</text><var>0</var></line>
@@ -342,7 +344,7 @@
 <line indent=""><comment><text>*&#160;</text><var>-&#160;Drone&#160;Carrier&#160;commands&#160;-----------------</var></comment></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DRONE_COLLECTWARE</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.collectware.drones</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DRONE_REPAIRSHIPS</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.repairships.drone</call><text>,&#160;prio=</text><var>0</var></line>
-<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DRONE_REPAIR_STATION</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.repairstation.std</call><text>,&#160;prio=</text><var>0</var></line>
+<line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DRONE_REPAIR_OBJECT</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.repairstation.std</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DRONE_SCANASTEROID</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.drone.scanasteriod.std</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DRONE_SUPPLYSHIPS</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.drone.supply</call><text>,&#160;prio=</text><var>0</var></line>
 <line indent=""><text>global&#160;script&#160;map:&#160;set:&#160;key=</text><var>COMMAND_DRONE_SCANSHIPS</var><text>,&#160;class=</text><var>M7D</var><text>,&#160;race=</text><var>$race</var><text>,&#160;script=</text><call>!ship.cmd.drone.scanships</call><text>,&#160;prio=</text><var>0</var></line>
@@ -425,14 +427,14 @@
 
 <sval type="array" size="10">
   <sval type="string" val="!init.ship.globalscriptmap.std"/>
-  <sval type="int" val="69"/>
+  <sval type="int" val="73"/>
   <sval type="string" val="Initialisation for all ships with any race"/>
-  <sval type="int" val="14"/>
+  <sval type="int" val="15"/>
   <sval type="int" val="0"/>
   <sval type="array" size="1">
     <sval type="string" val="race"/>
   </sval>
-  <sval type="array" size="157">
+  <sval type="array" size="158">
     <sval type="array" size="7">
       <sval type="int" val="104"/>
       <sval type="int" val="0"/>
@@ -475,6 +477,18 @@
       <sval type="int" val="0"/>
       <sval type="int" val="12"/>
       <sval type="int" val="2004"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="10">
+      <sval type="int" val="118"/>
+      <sval type="int" val="18"/>
+      <sval type="int" val="7"/>
+      <sval type="string" val="!ship.cmd.movestation.drone.std"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="12"/>
+      <sval type="int" val="2061"/>
       <sval type="int" val="131074"/>
       <sval type="int" val="0"/>
     </sval>
@@ -2335,182 +2349,182 @@
       <sval type="string" val="Navigation Commands"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="22"/>
+      <sval type="int" val="23"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="22"/>
+      <sval type="int" val="23"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Trade Commands"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="36"/>
+      <sval type="int" val="37"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="37"/>
+      <sval type="int" val="38"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="37"/>
+      <sval type="int" val="38"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Fight Commands"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="60"/>
+      <sval type="int" val="61"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="60"/>
+      <sval type="int" val="61"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Special Commands"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="73"/>
+      <sval type="int" val="74"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="73"/>
+      <sval type="int" val="74"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Mining Commands"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="77"/>
+      <sval type="int" val="78"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="77"/>
+      <sval type="int" val="78"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Explorer Commands"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="81"/>
+      <sval type="int" val="82"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="81"/>
+      <sval type="int" val="82"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Supply Commands"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="85"/>
+      <sval type="int" val="86"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="85"/>
+      <sval type="int" val="86"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Fight/Patrol Jobs"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="91"/>
+      <sval type="int" val="92"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="93"/>
+      <sval type="int" val="94"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="93"/>
+      <sval type="int" val="94"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="93"/>
+      <sval type="int" val="94"/>
       <sval type="int" val="1"/>
       <sval type="string" val="- Carrier commands -----------------"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="97"/>
+      <sval type="int" val="98"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="97"/>
+      <sval type="int" val="98"/>
       <sval type="int" val="1"/>
       <sval type="string" val="- Drone Carrier commands -----------------"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="108"/>
+      <sval type="int" val="109"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="108"/>
+      <sval type="int" val="109"/>
       <sval type="int" val="1"/>
       <sval type="string" val="- Drone software commands -----------------"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="110"/>
+      <sval type="int" val="111"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="110"/>
+      <sval type="int" val="111"/>
       <sval type="int" val="1"/>
       <sval type="string" val="- Fleet commands -----------------"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="119"/>
+      <sval type="int" val="120"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="119"/>
+      <sval type="int" val="120"/>
       <sval type="int" val="1"/>
       <sval type="string" val="War Commands --------------------------------"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="121"/>
+      <sval type="int" val="122"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="121"/>
+      <sval type="int" val="122"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Speicl Commands --------------------------------"/>
-    </sval>
-    <sval type="array" size="2">
-      <sval type="int" val="126"/>
-      <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
       <sval type="int" val="127"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="129"/>
+      <sval type="int" val="128"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="130"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="129"/>
+      <sval type="int" val="130"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Turret Commands ......................................."/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="129"/>
+      <sval type="int" val="130"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="132"/>
+      <sval type="int" val="133"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="136"/>
+      <sval type="int" val="137"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="139"/>
+      <sval type="int" val="140"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="3">
-      <sval type="int" val="139"/>
+      <sval type="int" val="140"/>
       <sval type="int" val="1"/>
       <sval type="string" val="Signals ..................................."/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="139"/>
+      <sval type="int" val="140"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="146"/>
+      <sval type="int" val="147"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="154"/>
+      <sval type="int" val="155"/>
       <sval type="int" val="2"/>
     </sval>
   </sval>
@@ -2518,5 +2532,5 @@
 </sval>
 
 </codearray>
-<nosignature>1210</nosignature>
+<nosignature>4215</nosignature>
 </script>
