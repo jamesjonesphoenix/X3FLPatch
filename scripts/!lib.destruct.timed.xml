@@ -1,0 +1,87 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!lib.destruct.timed</name>
+<version>1</version>
+<engineversion>72</engineversion>
+<description>Destructs an object after delay.</description>
+<arguments>
+<argument index="1" name="wait" type="Var/Number" desc="" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  do if $wait
+@   = wait $wait ms
+  do if [THIS] -> exists
+    [THIS] ->destroy object: killer=null, show no explosion=[TRUE]
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>do&#160;if&#160;</var><var>$wait</var></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><text>wait&#160;</text><var>$wait</var><text>&#160;ms</text></line>
+<line indent=""><var>do&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;exists</text></line>
+<line indent="&#160;"><var>[THIS]&#160;-&gt;</var><text>destroy&#160;object:&#160;killer=</text><var>null</var><text>,&#160;show&#160;no&#160;explosion=</text><var>[TRUE]</var></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!lib.destruct.timed"/>
+  <sval type="int" val="72"/>
+  <sval type="string" val="Destructs an object after delay."/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="1">
+    <sval type="string" val="wait"/>
+  </sval>
+  <sval type="array" size="5">
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610612216"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="105"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="706"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1610611704"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="1341"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="array" size="1">
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val=""/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>1275</nosignature>
+</script>
