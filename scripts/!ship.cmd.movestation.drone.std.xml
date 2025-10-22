@@ -1,12 +1,12 @@
 <?xml version="1.0" standalone="yes" ?>
 <?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
 <script>
-<name>!ship.cmd.movestation.std</name>
+<name>!ship.cmd.movestation.drone.std</name>
 <version>4</version>
-<engineversion>72</engineversion>
+<engineversion>73</engineversion>
 <description>Ship Standard COMMAND DOCKAT</description>
 <arguments>
-<argument index="1" name="object" type="Var/Station/Carrier to dock at" desc="object to land on" />
+<argument index="1" name="object" type="Var/Ship/Station" desc="object to land on" />
 </arguments>
 <sourceplaintext>
 <![CDATA[
@@ -14,10 +14,8 @@
 @ skip if [THIS] -> call script !lib.player.checkvalidroute :  Destination Sector=$sector  Allow Target=[TRUE]  Command Rejected Sound=[TRUE]
     return FLRET_NOPATH
   
-  if [THIS] -> is of class Drone
-@   skip if [THIS] -> call script !lib.drone.check.is.space.docktarget :  =$object
-      return FLRET_NOCARGO
-  end
+@ skip if [THIS] -> call script !lib.drone.check.is.space.docktarget :  =$object
+    return FLRET_NOCARGO
   
   [THIS] ->set command: COMMAND_DOCKAT  target=$object target2=null par1=null par2=null
   
@@ -37,10 +35,8 @@
 <line interruptable="@" indent=""><var>skip&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!lib.player.checkvalidroute</call><text>&#160;:&#160;</text><text>&#160;Destination&#160;Sector=</text><var>$sector</var><text>&#160;</text><text>&#160;Allow&#160;Target=</text><var>[TRUE]</var><text>&#160;</text><text>&#160;Command&#160;Rejected&#160;Sound=</text><var>[TRUE]</var></line>
 <line indent="&#160;"><text>return&#160;</text><var>FLRET_NOPATH</var></line>
 <line indent=""></line>
-<line indent=""><var>if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;is&#160;of&#160;class&#160;</text><var>Drone</var></line>
-<line interruptable="@" indent="&#160;"><var>skip&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!lib.drone.check.is.space.docktarget</call><text>&#160;:&#160;</text><text>&#160;=</text><var>$object</var></line>
-<line indent="&#160;&#160;"><text>return&#160;</text><var>FLRET_NOCARGO</var></line>
-<line indent=""><text>end</text></line>
+<line interruptable="@" indent=""><var>skip&#160;if&#160;</var><var>[THIS]&#160;-&gt;</var><text>&#160;call&#160;script&#160;</text><call>!lib.drone.check.is.space.docktarget</call><text>&#160;:&#160;</text><text>&#160;=</text><var>$object</var></line>
+<line indent="&#160;"><text>return&#160;</text><var>FLRET_NOCARGO</var></line>
 <line indent=""></line>
 <line indent=""><var>[THIS]&#160;-&gt;</var><text>set&#160;command:&#160;</text><var>COMMAND_DOCKAT</var><text>&#160;&#160;target=</text><var>$object</var><text>&#160;target2=</text><var>null</var><text>&#160;par1=</text><var>null</var><text>&#160;par2=</text><var>null</var></line>
 <line indent=""></line>
@@ -57,8 +53,8 @@
 <codearray>
 
 <sval type="array" size="10">
-  <sval type="string" val="!ship.cmd.movestation.std"/>
-  <sval type="int" val="72"/>
+  <sval type="string" val="!ship.cmd.movestation.drone.std"/>
+  <sval type="int" val="73"/>
   <sval type="string" val="Ship Standard COMMAND DOCKAT"/>
   <sval type="int" val="4"/>
   <sval type="int" val="0"/>
@@ -67,7 +63,7 @@
     <sval type="string" val="sector"/>
     <sval type="string" val="ret"/>
   </sval>
-  <sval type="array" size="14">
+  <sval type="array" size="13">
     <sval type="array" size="4">
       <sval type="int" val="703"/>
       <sval type="int" val="131074"/>
@@ -93,18 +89,10 @@
       <sval type="int" val="19"/>
       <sval type="int" val="13"/>
     </sval>
-    <sval type="array" size="6">
-      <sval type="int" val="705"/>
-      <sval type="int" val="131075"/>
-      <sval type="int" val="1"/>
-      <sval type="int" val="-1610611197"/>
-      <sval type="int" val="12"/>
-      <sval type="int" val="2061"/>
-    </sval>
     <sval type="array" size="8">
       <sval type="int" val="102"/>
       <sval type="string" val="!lib.drone.check.is.space.docktarget"/>
-      <sval type="int" val="-536869369"/>
+      <sval type="int" val="-536869625"/>
       <sval type="int" val="131075"/>
       <sval type="int" val="1"/>
       <sval type="int" val="1"/>
@@ -150,7 +138,7 @@
     </sval>
     <sval type="array" size="13">
       <sval type="int" val="104"/>
-      <sval type="int" val="-1610609661"/>
+      <sval type="int" val="-1610609917"/>
       <sval type="int" val="3"/>
       <sval type="int" val="131074"/>
       <sval type="int" val="2"/>
@@ -194,33 +182,29 @@
   </sval>
   <sval type="array" size="1">
     <sval type="array" size="2">
-      <sval type="int" val="41"/>
+      <sval type="int" val="22"/>
       <sval type="string" val="object to land on"/>
     </sval>
   </sval>
-  <sval type="array" size="6">
+  <sval type="array" size="5">
     <sval type="array" size="2">
       <sval type="int" val="3"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="6"/>
-      <sval type="int" val="4"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
       <sval type="int" val="6"/>
       <sval type="int" val="2"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="7"/>
-      <sval type="int" val="2"/>
-    </sval>
-    <sval type="array" size="2">
-      <sval type="int" val="12"/>
+      <sval type="int" val="11"/>
       <sval type="int" val="4"/>
     </sval>
     <sval type="array" size="2">
-      <sval type="int" val="12"/>
+      <sval type="int" val="11"/>
       <sval type="int" val="2"/>
     </sval>
   </sval>
@@ -228,5 +212,5 @@
 </sval>
 
 </codearray>
-<nosignature>3367</nosignature>
+<nosignature>8118</nosignature>
 </script>

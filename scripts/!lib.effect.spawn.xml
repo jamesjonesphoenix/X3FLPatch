@@ -1,0 +1,174 @@
+<?xml version="1.0" standalone="yes" ?>
+<?xml-stylesheet href="x2script.xsl" type="text/xsl" ?>
+<script>
+<name>!lib.effect.spawn</name>
+<version>1</version>
+<engineversion>73</engineversion>
+<description>Spawn marker, display effect on marker, then destruct marker</description>
+<arguments>
+<argument index="1" name="effect" type="Var/Number" desc="" />
+<argument index="2" name="x" type="Var/Number" desc="" />
+<argument index="3" name="y" type="Var/Number" desc="" />
+<argument index="4" name="z" type="Var/Number" desc="" />
+<argument index="5" name="duration" type="Var/Number" desc="" />
+</arguments>
+<sourceplaintext>
+<![CDATA[
+  $obj = get ware from subtype name 'SS_SPECIAL_INVMARKER'
+  $obj = get subtype of ware $obj
+  
+  $sector = [PLAYERSHIP] -> get sector
+  $obj = create special: type=$obj addto=$sector x=$x y=$y z=$z
+  $obj ->set hidden flag: [TRUE]
+  $obj ->show effect: id=$effect
+  
+  do if $duration
+@   = wait $duration ms
+  $obj ->destruct: show no explosion=[TRUE]
+  return null
+]]>
+</sourceplaintext>
+<sourcetext>
+<line indent=""><var>$obj&#160;=&#160;</var><text>get&#160;ware&#160;from&#160;subtype&#160;name&#160;</text><var>'SS_SPECIAL_INVMARKER'</var></line>
+<line indent=""><var>$obj&#160;=&#160;</var><text>get&#160;subtype&#160;of&#160;ware&#160;</text><var>$obj</var></line>
+<line indent=""></line>
+<line indent=""><var>$sector&#160;=&#160;</var><var>[PLAYERSHIP]&#160;-&gt;</var><text>&#160;get&#160;sector</text></line>
+<line indent=""><var>$obj&#160;=&#160;</var><text>create&#160;special:&#160;type=</text><var>$obj</var><text>&#160;addto=</text><var>$sector</var><text>&#160;x=</text><var>$x</var><text>&#160;y=</text><var>$y</var><text>&#160;z=</text><var>$z</var></line>
+<line indent=""><var>$obj&#160;-&gt;</var><text>set&#160;hidden&#160;flag:&#160;</text><var>[TRUE]</var></line>
+<line indent=""><var>$obj&#160;-&gt;</var><text>show&#160;effect:&#160;id=</text><var>$effect</var></line>
+<line indent=""></line>
+<line indent=""><var>do&#160;if&#160;</var><var>$duration</var></line>
+<line interruptable="@" indent="&#160;"><var>=&#160;</var><text>wait&#160;</text><var>$duration</var><text>&#160;ms</text></line>
+<line indent=""><var>$obj&#160;-&gt;</var><text>destruct:&#160;show&#160;no&#160;explosion=</text><var>[TRUE]</var></line>
+<line indent=""><text>return&#160;</text><var>null</var></line>
+</sourcetext>
+<codearray>
+
+<sval type="array" size="10">
+  <sval type="string" val="!lib.effect.spawn"/>
+  <sval type="int" val="73"/>
+  <sval type="string" val="Spawn marker, display effect on marker, then destruct marker"/>
+  <sval type="int" val="1"/>
+  <sval type="int" val="0"/>
+  <sval type="array" size="7">
+    <sval type="string" val="effect"/>
+    <sval type="string" val="x"/>
+    <sval type="string" val="y"/>
+    <sval type="string" val="z"/>
+    <sval type="string" val="duration"/>
+    <sval type="string" val="obj"/>
+    <sval type="string" val="sector"/>
+  </sval>
+  <sval type="array" size="10">
+    <sval type="array" size="4">
+      <sval type="int" val="1669"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="5"/>
+      <sval type="string" val="SS_SPECIAL_INVMARKER"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="656"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="703"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="3"/>
+      <sval type="int" val="6"/>
+    </sval>
+    <sval type="array" size="12">
+      <sval type="int" val="756"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="6"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="2"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="3"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="1947"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="2767"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="0"/>
+    </sval>
+    <sval type="array" size="7">
+      <sval type="int" val="104"/>
+      <sval type="int" val="-1610610680"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+      <sval type="int" val="1"/>
+      <sval type="int" val="-1"/>
+    </sval>
+    <sval type="array" size="4">
+      <sval type="int" val="105"/>
+      <sval type="int" val="-2147483647"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="4"/>
+    </sval>
+    <sval type="array" size="5">
+      <sval type="int" val="765"/>
+      <sval type="int" val="131074"/>
+      <sval type="int" val="5"/>
+      <sval type="int" val="131075"/>
+      <sval type="int" val="10"/>
+    </sval>
+    <sval type="array" size="3">
+      <sval type="int" val="103"/>
+      <sval type="int" val="0"/>
+      <sval type="int" val="0"/>
+    </sval>
+  </sval>
+  <sval type="array" size="5">
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val=""/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val=""/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val=""/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val=""/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="10"/>
+      <sval type="string" val=""/>
+    </sval>
+  </sval>
+  <sval type="array" size="2">
+    <sval type="array" size="2">
+      <sval type="int" val="2"/>
+      <sval type="int" val="2"/>
+    </sval>
+    <sval type="array" size="2">
+      <sval type="int" val="6"/>
+      <sval type="int" val="2"/>
+    </sval>
+  </sval>
+  <sval type="int" val="0"/>
+</sval>
+
+</codearray>
+<nosignature>9302</nosignature>
+</script>
