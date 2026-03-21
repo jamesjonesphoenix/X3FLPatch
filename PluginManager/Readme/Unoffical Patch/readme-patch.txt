@@ -1,7 +1,7 @@
 =============================================
 Script:		Unofficial Patch
-Created:	14/03/2026
-Version:	1.3.20
+Created:	21/03/2026
+Version:	1.3.21
 Author:		Cycrow
 Game:		X3: Farnham's Legacy 1.3
 =============================================
@@ -655,3 +655,6 @@ Changelog:
 	Added Fire lasers ahead script command
 	Added Reset S/M/L shipyard state script command
 	Increased max number of lasers per turret to 80
+
+1.3.21:
+	Fixed dock at my target context menu command for drones (Allowing docking at any ship)
