@@ -196,7 +196,7 @@
               <create_briefing cue="{param@Cue}">
 				  <requirements>
 					  <requirement type="equipment" value="SS_WARE_TECH276"/>
-					  <requirement type="equipment" value="{value@L0M33 B.BriefingLicence}}" visible="{value@L0M33 B.BriefingLicence}"/>
+					  <requirement type="equipment" value="{value@L0M33 B.BriefingLicence}" visible="{value@L0M33 B.BriefingLicence}"/>
 				  </requirements>
 				  <objectives>
                   <objective step="{value@L0M33 B.Step}">
@@ -209,7 +209,7 @@
               <create_briefing cue="{param@Cue}">
 				  <requirements>
 					  <requirement type="equipment" value="SS_WARE_TECH276"/>
-					  <requirement type="equipment" value="{value@L0M33 B.BriefingLicence}}" visible="{value@L0M33 B.BriefingLicence}"/>
+					  <requirement type="equipment" value="{value@L0M33 B.BriefingLicence}" visible="{value@L0M33 B.BriefingLicence}"/>
 				  </requirements>
 				  <objectives>
                   <objective step="{value@L0M33 B.Step}">
