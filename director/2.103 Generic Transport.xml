@@ -136,7 +136,7 @@
 				</do_if>
 				<!--do we need enemy race?-->
 				<do_choose>
-					<do_when value="{lookup.race.mask.pirategroup@{value@this.OfferRace}">
+					<do_when value="{lookup.race.mask.pirategroup@{value@this.OfferRace}}">
 						<set_value name="this.EnemyRace" exact="{lookup.race@argon}" chance="10"/>
 						<set_value name="this.EnemyRace" exact="{lookup.race@terran}" chance="10"/>
 						<set_value name="this.EnemyRace" exact="{lookup.race@split}" chance="10"/>
@@ -144,7 +144,7 @@
 						<set_value name="this.EnemyRace" exact="{lookup.race@boron}" chance="10"/>
 						<set_value name="this.EnemyRace" exact="{lookup.race@yaki}" chance="50"/>
 					</do_when>
-					<do_when value="{lookup.race.mask.yaki@{value@this.OfferRace}">
+					<do_when value="{lookup.race.mask.yaki@{value@this.OfferRace}}">
 						<set_value name="this.EnemyRace" exact="{lookup.race@argon}" chance="10"/>
 						<set_value name="this.EnemyRace" exact="{lookup.race@terran}" chance="10"/>
 						<set_value name="this.EnemyRace" exact="{lookup.race@split}" chance="10"/>
