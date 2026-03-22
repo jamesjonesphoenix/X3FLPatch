@@ -82,7 +82,7 @@ Fixed loading of additional conversations files
 Fixed script command, remove all wrecks
 Fixed height of comm window
 Fixed SIGNAL_ATTACKED from repeating
-Fixed mission ships fleeing	
+Fixed mission ships fleeing
 Fixed Autopilot: Collect on astronauts
 Fixed Argon stations in Split space
 Fixed blank message in station building service
@@ -186,7 +186,7 @@ Added number of marines per boarding pod to patch_global
 Added new constants, RaceFlg.Inactive, MEvent.TradeFull, MEvent.TradeEmpty, PlotFlags
 Added force docking flag to MD
 Added always allowing comms to MD (even if enemy)
-Added setting attacked reponse in MD
+Added setting attacked response in MD
 Added client state ("nojumpdrive") to MD
 Added key id to register hotkey commands (for fixed position hotkeys)
 Added custom start file selection when loading
@@ -250,10 +250,10 @@ Added new script commands:
 	<RetVar=> <HQ-> get HQ recyclable stations: include queued=<Var/Boolean>
 	<RetVar=> is race blacklist automatic
 	<RetVar=> <Station-> get dock true products table
-	<RetVar=> <Station-> get dock true resources table 
-	<RetVar=> <Station-> get dock true tradeables table 
-	<RetVar=> <Station-> get dock storage wares 
-	<RetVar=> <Station-> get dock storage wares table 
+	<RetVar=> <Station-> get dock true resources table
+	<RetVar=> <Station-> get dock true tradeables table
+	<RetVar=> <Station-> get dock storage wares
+	<RetVar=> <Station-> get dock storage wares table
 	<RetVar=> <Passenger-> is passenger a pilot
 	<RetVar=> <Passenger-> get marine status: as string=<Var/String>
 	<RetVar=> get fleet leader count
@@ -335,14 +335,14 @@ Changelog:
 
 1.3.3:
 	Fixed freeze in Best Buy/Sells menu
-	Fixed ships with large ships docked from traveling through gates
+	Fixed ships with large ships docked from travelling through gates
 	Fixed Factory colour toggle
 	Fixed passenger status when ejecting/recollecting
 	Fixed space suits trying to go to enemy stations (ie Xenon Stations)
 	Removed debug from station manager
 	Removed price display for some wares (Quantum Processor/Focus Crystal)
 	Added Hotkey: Toggle Turbo Booster
-	Added notority bar to station encyclopedia page
+	Added notoriety bar to station encyclopedia page
 	Added Cargo bay full text in trade menu
 	Added Payment/Honour for releasing passengers at Goner Temple
 	Added Unfocussed Jumpdrive
@@ -358,7 +358,7 @@ Changelog:
 	Added patch_global file for adjustable patch settings
 	Added number of marines per boarding pod to patch_global
 	Added "Has Blueprint" to station/ship info
-	Added Save game count statastic
+	Added Save game count statistic
 	Added additional game tips
 	Added Strip Ship option in HQ Docked ship control
 	Added stripping of ship when recycling or reverse engineering
@@ -372,24 +372,24 @@ Changelog:
 	Added Property menu filter: Ships managed by homebase
 	Added External factories/complexes in complex planner
 	Improved extending of existing complexes (Build MK3)
-	Allowed removing homebase in Trade Distrubution Run
+	Allowed removing homebase in Trade Distribution Run
 
 1.3.5:
 	Added headquarters queue options to ship context menu while docked
-	Added stations to recycleable list in HQ info menu
+	Added stations to recyclable list in HQ info menu
 	Added Jumpdrive from gate/beacon context menu
 	Added Collect ware from flying ware context menu
 	Added Build station missions to corporations
 	Added station defence missions available to Darkspace Corporation
 	Added list of requirements on mission briefings
-	Added pirate docks avaialble for sale at pirate shipyards
+	Added pirate docks available for sale at pirate shipyards
 	Adjusted Discovery/Special Discvoery/Journal to show no price
 	Improved enemy race selection for assassination missions
 	Improved ship type selection for missions
 	Fixed station manager attempting to get resources above HQ Maximum settings
-	Fixed missing relay becon blueprint on Pirate Courior start
+	Fixed missing relay beacon blueprint on Pirate Courior start
 	Fixed owner check in auto mining script
-	Fixed Mission Built Solar Powerplants primary/secondary resource
+	Fixed Mission Built Solar Power Plants primary/secondary resource
 	Fixed wares with no price showing in Networth Menu
 	Fixed Networth displaying deployable wares (Satellites, Lasertowers, etc)
 	Fixed Sell at Station menu option for Best Sells menu
@@ -409,7 +409,7 @@ Changelog:
 	Fixed clicking tabs in script editor menu
 	Fixed Xtreme tour of a life time mission
 	Fixed local trader range selection display
-	
+
 	Scripting/Modding
 	Added new constants, RaceFlg.Inactive, MEvent.TradeFull, MEvent.TradeEmpty, PlotFlags
 	Fixed command, destroy object: killer
@@ -424,11 +424,11 @@ Changelog:
 	Fixed mission ships attempting to repair off course
 	Added Sector Colour to property owned menu
 	Added additional script commands
-	
+
 1.3.7:
 	Added force docking flag to MD
 	Added always allowing comms to MD (even if enemy)
-	Added setting attacked reponse in MD
+	Added setting attacked response in MD
 	Added client state ("nojumpdrive") to MD
 	Added jumping out animation to MD warp object command
 	Added SG_SCRIPT_EDITOR to patch_global (for automatically enabling script editor)
@@ -443,7 +443,7 @@ Changelog:
 	Fixed script command, remove all wrecks
 	Fixed height of comm window
 	Fixed SIGNAL_ATTACKED from repeating
-	Fixed mission ships fleeing	
+	Fixed mission ships fleeing
 
 1.3.8:
 	Fixed Autopilot: Collect on astronauts
@@ -459,7 +459,7 @@ Changelog:
 	Added key id to register hotkey commands (for fixed position hotkeys)
 	Added Buy/sell/equip filter to trade menu in Docks
 	Added custom start file selection when loading
-	
+
 1.3.9:
 	Fixed Salvage Insurance showing in Freight Bay
 	Fixed Station Manager repairing ships at HQ
@@ -468,23 +468,23 @@ Changelog:
 	Added Hyperlinks to Mission Briefing requirements
 	Added more missions to corporations & pirates
 	Added requirements/details to more mission briefings
-	Added Captial Worlds status
+	Added Capital Worlds status
 	Added additional info for Discovery Points
 	Adjusted Trade missions to work with any ship
 	Improved command info text for Station Manager and Account Transfer
-	
+
 	Scripting/Modding:
 	Fixed Merge/Clone table script commands
 	Added control over race faces
 	Added Collision Warn ship signal
 	Added "galaxy.all.initplayership" for custom galaxies
-	Added "Jobs.all" and "JobWings.all" for custom galaxyies
-	Added Events to sectors (SetOwner, Claimed, Activated, Deactived)
+	Added "Jobs.all" and "JobWings.all" for custom galaxies
+	Added Events to sectors (SetOwner, Claimed, Activated, Deactivated)
 	Added Dock and Secondary ware consumption rate to patch_globals
-	Adjust SignalCreated to also run after initilisation (first argument is boolean for before and after init)
-	
+	Adjust SignalCreated to also run after initialisation (first argument is boolean for before and after init)
+
 1.3.10:
-	Fixed Captial world status (Argon Prime + Earth)
+	Fixed Capital world status (Argon Prime + Earth)
 	Fixed Cargo delivery missions
 	Fixed shields in starting mine (Nividium Miner)
 	Fixed resupply amount display (Additional Resupply)
@@ -494,20 +494,20 @@ Changelog:
 	Improved Purging old mission actors
 	EXPERIMENTAL: Adjusted notoriety levels
 	Adjusted Darkspace Rank names
-	
+
 	Scripting/Modding:
 	Adjusted get ship base cost to include price variation
-	
+
 1.3.11:
 	Fixed get tasks commands to adjust the correct task number (task - 1)
-	Fixed pirate base price	
+	Fixed pirate base price
 	Fixed cycle tab in sector menu
-	Fixed Frieght Transfer via Drones, target and source ship being the same
+	Fixed Freight Transfer via Drones, target and source ship being the same
 	Fixed mouse scrolling in some menus
 	Fixed selection of homebase in Fetch/Deliver commands
 	Fixed Defend Station fleet command menu
 	Fixed explorer points being added to sectors
-	Improved display of custom mneu hyperlinked info text
+	Improved display of custom menu hyperlinked info text
 	Improved Wing Command: Protect, input menu
 	Added Resources/Products to docks
 	Added Homebase setting to Huge Ships
@@ -515,18 +515,18 @@ Changelog:
 	Added additional ship types to custom start (Kogarasu Maru)
 	Added additional sector info script commands
 	Added additional object info to work with ships
-	Added race restrictions to laser compatibility	
+	Added race restrictions to laser compatibility
 	Added playership docking on NPC carriers
 	Added delay to scripted comm's question
 	Added patch_global to suppress modified message
-	
+
 1.3.12:
-	Fixed target race display in mission breifings
+	Fixed target race display in mission briefings
 	Fixed custom menu info lines, colours split across lines
 	Fixed custom menu formatted info line columns
 	Fixed notoriety between races
-	Added dynamic race corpoation modifier
-	
+	Added dynamic race corporation modifier
+
 1.3.13:
 	Fixed requirements display in deliver ship missions
 	Fixed requirements display in build station missions
@@ -536,16 +536,16 @@ Changelog:
 1.3.14:
 	Fixed Terran Orbital Laser/Fusion beam factory in complex building placement
 	Fixed station manager going to wrong supply stations
-	Added Fighter Drone MK2 to more docks	
-	
+	Added Fighter Drone MK2 to more docks
+
 	Added lasermasks to patch_globals (for default loadouts)
 	Added override controls for race limited weapons
 	Fixed Race limited weapons in loadouts
 	Improved display of race limited weapons in ship info
-	
+
 1.3.15:
 	Fixed "No Pilot" in neutral ships
-	Fixed some hardcoded texts	
+	Fixed some hardcoded texts
 	Limited factory serial to omega
 
 	Added no energy jump flag to jump command
@@ -558,12 +558,12 @@ Changelog:
 	Fixed Dukes being enemy with NMMC
 	Saved open status in encyclopedia
 	Added Autopilot: Fly to command to asteroid context menu
-	Added per unit price on account transaction for trades
-	
+	Added per-unit price on account transaction for trades
+
 	Fixed Displaying of enemy ships when opening sector map from scripts
 	Added generic beacon/satellite class
 	Added Fighter/Freight classes to MD shiptype class
-	
+
 1.3.17:
 	Fixed docking slot of newly bought ship
 	Fixed shipyard display for stations in ships cargo
@@ -573,11 +573,11 @@ Changelog:
 	Fixed encyclopedia new status when viewing page
 	Fixed fly through gate command on spacesuits
 	Added item counts to encyclopedia sub groups
-	
+
 	Fixed HasFreeDockPort script command
 	Fixed hyperlinked info line displaying twice
 	Added HullShield ware to patch globals
-	
+
 1.3.18:
 	Fixed some commands showing correctly in context menu (ie Use Jumpdrive)
 	Fixed some script commands (laser/bullet stats)
@@ -588,19 +588,19 @@ Changelog:
 	Fixed dormant jobs
 	Added numeric separators to Transaction log (Buying/Selling)
 	Added audio verbose description in galaxy map (sector description)
-	Added face display to custom Comms	
+	Added face display to custom Comms
 	Prevented station rebuild in sectors with ownership change
 
 1.3.19:
 	Fixed Activate Turbo Booster Hotkey
 	Fixed displaying of pilots in my property (when scrolling)
-	Fixed default weapon masks for ships (Khaak)
+	Fixed default weapon masks for ships (Kha'ak)
 	Fixed repairing ship in headquarters losing some settings
 	Fixed sector selection (core/border) in MD
 	Fixed crash in applying loadouts via carrier management
 	Improved assassination mission jumping out claimed ships
 	Remove Goner Aran from unfocussed sector
-	
+
 	Fixed script command, Get Faces
 	Fixed custom upgrades for certain ship types
 	Added custom sidebar entries for different submenus
@@ -609,7 +609,7 @@ Changelog:
 	Added show_effect to MD
 	Added movie_finished event cue to MD
 	Added "reset" to alter_sector MD
-	
+
 1.3.20:
 	Fixed Return Wares mission
 	Fixed hyperlink highlighting correct position due to word wrap
@@ -637,16 +637,16 @@ Changelog:
 	Fixed Face/Voice mismatch for speakers
 	Fixed creating some missions for Goners
 	Fixed player owned mercenary stations
-	Fixed indestructable ships (on game load)
+	Fixed indestructible ships (on game load)
 	Fixed main view from Condor that hull fragments were no longer displayed
 	Improved freight drone docking. Drone can now use "Dock at" command. Drones transfer wares to target ship or space when docking
-	Added ship Ugrades to missing Corporation Docks
-	Added docking lockup fix to improve ships/drones docking at carriers	
+	Added ship upgrades to missing Corporation Docks
+	Added docking lockup fix to improve ships/drones docking at carriers
 	Improved random music generator
 	Improved paranid reputation diplomacy during FL plot
 	Removed Build Command Software MK1 from Pirate Bases
 	Fixed NPCs never launching fight drones when attacked
-	
+
 	Fixed getConnectedRace script command
 	Fixed getDialogRace script command
 	Fixed is docking allowed command to work with freight drones on larger ships.
