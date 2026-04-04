@@ -339,7 +339,7 @@
 		  </condition>
 		  <action>
 			  <do_if value="{player.sector.fixedmusic}" exact="0">
-				  <alter_sector sector="{player.sector}" music="0"/>
+				  <alter_sector sector="{player.sector}" music="1"/>
 			  </do_if>
 		  </action>
 	  </cue>
