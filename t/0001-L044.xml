@@ -40903,6 +40903,10 @@
  <t id="3304">add sidebar custom entry, personal: id=%0, icon=%1, pageid=%2, textid=%3, submenu=%4, scriptname=%5</t>
  <t id="3305">add black market ware: %0, chance=%1</t>
  <t id="3306">%0force destruct: show no explosion=%1</t>
+ <t id="3307">%1%0get actors</t>
+ <t id="3308">%0remove actor: %1</t>
+ <t id="3309">%1%0does actor have mission</t>
+ <t id="3310">%1%0does actor have objectives</t>
 </page>
 
 <page id="392005" title="Script Command Menu" descr="0" voice="no">
